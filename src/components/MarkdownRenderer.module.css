@@ -1,0 +1,294 @@
+.markdown {
+  color: var(--text);
+  font-size: 1rem;
+  line-height: 1.85;
+  max-width: 100%;
+}
+
+/* ── Headings ── */
+.markdown h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+  margin-top: 0;
+  line-height: 1.2;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--border);
+}
+
+.markdown h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--text);
+  margin-top: 3rem;
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+  line-height: 1.35;
+}
+
+.markdown h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-top: 2rem;
+  margin-bottom: 0.55rem;
+  line-height: 1.4;
+}
+
+.markdown h4 {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+
+/* ── Paragraphs & text ── */
+.markdown p {
+  margin-bottom: 1.1rem;
+  color: var(--text);
+}
+
+.markdown > p:first-of-type {
+  font-size: 1.06rem;
+  color: var(--muted);
+  line-height: 1.9;
+}
+
+.markdown strong {
+  font-weight: 700;
+  color: var(--text);
+}
+
+.markdown em {
+  font-style: italic;
+  color: var(--muted);
+}
+
+/* ── Links ── */
+.markdown a {
+  color: var(--accent2);
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.markdown a:hover {
+  color: var(--accent2-dark);
+  border-bottom-color: var(--accent2);
+}
+
+/* ── Lists ── */
+.markdown ul,
+.markdown ol {
+  padding-left: 1.6rem;
+  margin-bottom: 1.1rem;
+}
+
+.markdown li {
+  margin-bottom: 0.4rem;
+  color: var(--text);
+  line-height: 1.7;
+}
+
+.markdown ul li {
+  list-style-type: disc;
+}
+
+/* ── Code ── */
+.markdown code {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.845em;
+  background: #f0f2ff;
+  color: #1e34c7;
+  padding: 0.15em 0.45em;
+  border-radius: 5px;
+  border: 1px solid #d8dcf8;
+  white-space: nowrap;
+}
+
+.markdown pre {
+  background: #0f1623;
+  border: 1px solid #232e45;
+  border-radius: var(--radius);
+  padding: 0;
+  overflow: hidden;
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  box-shadow: 0 4px 16px rgba(0,0,0,.12);
+}
+
+/* code block wrapper — handles margin and positions copy button */
+.codeWrapper {
+  position: relative;
+  margin: 1.5rem 0;
+}
+
+.copyBtn {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  z-index: 10;
+  background: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.6);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 5px;
+  padding: 0 0.65rem;
+  height: 24px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s, color 0.15s;
+  display: flex;
+  align-items: center;
+  line-height: 1;
+}
+
+.copyBtn:hover {
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+}
+
+.copied {
+  color: #a6e3a1 !important;
+  background: rgba(166,227,161,.15) !important;
+  border-color: rgba(166,227,161,.3) !important;
+}
+
+/* fake terminal header */
+.markdown pre::before {
+  content: '';
+  display: block;
+  height: 36px;
+  background: rgba(255,255,255,0.05);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.markdown pre code {
+  display: block;
+  background: none;
+  color: #cdd6f4;
+  padding: 1.25rem 1.5rem;
+  font-size: inherit;
+  border-radius: 0;
+  border: none;
+  white-space: pre;
+  overflow-x: auto;
+  line-height: inherit;
+}
+
+/* Override highlight.js for dark bg */
+.markdown pre .hljs { background: transparent; padding: 0; }
+.markdown pre .hljs-keyword { color: #cba6f7; }
+.markdown pre .hljs-string  { color: #a6e3a1; }
+.markdown pre .hljs-comment { color: #6c7086; font-style: italic; }
+.markdown pre .hljs-built_in { color: #89dceb; }
+.markdown pre .hljs-title   { color: #89b4fa; }
+.markdown pre .hljs-number  { color: #fab387; }
+.markdown pre .hljs-literal { color: #f38ba8; }
+.markdown pre .hljs-attr    { color: #f9e2af; }
+.markdown pre .hljs-variable { color: #cdd6f4; }
+
+/* ── Blockquotes ── */
+.markdown blockquote {
+  border-left: 3px solid var(--accent2);
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  background: var(--accent2-light);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.markdown blockquote p {
+  color: var(--text);
+  font-style: normal;
+  margin-bottom: 0;
+  font-size: 0.95rem;
+}
+
+/* ── Tables ── */
+.markdown table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.75rem 0;
+  font-size: 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: block;
+  overflow-x: auto;
+}
+
+.markdown thead {
+  background: var(--surface2);
+}
+
+.markdown th {
+  text-align: left;
+  padding: 0.75rem 1.1rem;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.markdown td {
+  padding: 0.85rem 1.1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  vertical-align: top;
+  line-height: 1.55;
+}
+
+.markdown tr:last-child td {
+  border-bottom: none;
+}
+
+.markdown tr:hover td {
+  background: var(--surface);
+}
+
+/* ── Horizontal rule ── */
+.markdown hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2rem 0;
+}
+
+/* ── Images ── */
+.img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+}
+
+/* ── Details / Summary ── */
+.markdown details {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  margin: 1rem 0;
+}
+
+.markdown summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--text);
+  user-select: none;
+}
+
+.markdown details[open] summary {
+  margin-bottom: 0.75rem;
+}

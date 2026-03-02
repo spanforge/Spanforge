@@ -1,0 +1,41 @@
+.btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 200;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--accent2);
+  color: #fff;
+  border: none;
+  font-size: 1.15rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(61,90,241,.35);
+  transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+  animation: fadeIn 0.25s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(61,90,241,.45);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* In docs, bump up so it doesn't overlap the sidebar toggle */
+@media (max-width: 640px) {
+  .btn {
+    bottom: 5.5rem;
+    right: 1.25rem;
+    width: 38px;
+    height: 38px;
+  }
+}
