@@ -98,7 +98,7 @@ export default function Nav() {
 
       {menuOpen && (
         <div className={styles.mobileMenu}>
-          {!isLlmDiff && !isSchema && !isStandard && !isTutorials && (
+          {!isLlmDiff && !isStandard && !isTutorials && (
             <>
               <a href="#mission" onClick={closeMenu}>Why Here</a>
               <a href="#tools" onClick={closeMenu}>Tools</a>
