@@ -167,6 +167,12 @@ export default function Home() {
               </Link>
             </p>
             <p style={{ marginTop: '0.5rem' }}>
+              <strong>🧪 New tutorial:</strong>{' '}
+              <Link to="/agentobs-debug/docs/tutorial">
+                AgentOBS Debug Tutorial
+              </Link>
+            </p>
+            <p style={{ marginTop: '0.5rem' }}>
               More parts covering distributed tracing, metrics, structured logging, the Collector,
               and end-to-end agentic AI observability are coming soon.
             </p>
