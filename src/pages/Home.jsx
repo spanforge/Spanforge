@@ -4,49 +4,42 @@ import Footer from '../components/Footer.jsx'
 import { usePageTitle } from '../hooks/usePageTitle.js'
 import styles from './Home.module.css'
 
-const tools = [
+const outcomes = [
   {
-    id: 'llm-diff',
-    name: 'llm-diff',
-    tagline: 'The evaluation layer.',
-    description:
-      'Diffs LLM outputs across model versions, prompt changes, or time — so you can see exactly how your outputs shifted and whether quality improved or regressed.',
-    features: [
-      'Side-by-side output comparison with word-level diffs',
-      'Regression detection across prompt versions',
-      'Per-call USD cost tracking',
-      'LLM-as-a-Judge scoring',
-      'Multi-model (3–4 model) parallel comparison',
-      'CI/CD gate via --fail-under with structured events',
-    ],
-    badge: 'done',
-    badgeText: '✅ Available',
-    pkg: 'pip install llm-diff',
-    link: '/llm-diff',
-    docsLink: '/llm-diff/docs/getting-started',
-    ghLink: 'https://github.com/veerarag1973/llmdiff',
-    accentColor: '#0d9f75',
-    accentBg: '#f0fdf8',
+    metric: '40-70%',
+    title: 'Faster Incident Triage',
+    body: 'Move from raw logs to trace-first debugging so teams isolate failure steps in minutes instead of hours.',
   },
   {
-    id: 'promptlock',
-    name: 'promptlock',
-    tagline: 'The prompt governance layer.',
-    description:
-      'Version control and enterprise governance for prompts — so every prompt change is tracked, auditable, and reversible. Designed for teams managing prompts at scale.',
-    features: [
-      'Full version history for every prompt',
-      'Diff and rollback across prompt versions',
-      'Approval workflows and access controls for enterprise teams',
-      'Integrates with llm-diff to surface quality regressions',
-      'Emits structured observability events for full audit trail',
-    ],
-    badge: 'dev',
-    badgeText: '🔧 Under Development',
-    link: null,
-    ghLink: 'https://github.com/veerarag1973/promptlock',
-    accentColor: '#3d5af1',
-    accentBg: '#f0f3ff',
+    metric: 'Lower $/Run',
+    title: 'Cost Visibility by Step',
+    body: 'Track token and latency hotspots across model calls and tool usage, then optimize the expensive path first.',
+  },
+  {
+    metric: 'Release Safety',
+    title: 'Regression Gates in CI',
+    body: 'Use evaluation thresholds and structured events to block low-quality prompt/model changes before deployment.',
+  },
+]
+
+const adoptionPaths = [
+  {
+    title: 'Platform Teams',
+    body: 'Standardize telemetry contracts with AgentOBS and enforce compatibility checks in CI/CD.',
+    cta: '/sdk',
+    ctaLabel: 'Explore The SDK',
+  },
+  {
+    title: 'Applied AI Teams',
+    body: 'Evaluate quality drift with llm-diff and monitor cost/performance changes across model versions.',
+    cta: '/llm-diff',
+    ctaLabel: 'Explore llm-diff',
+  },
+  {
+    title: 'Builders Learning OTEL',
+    body: 'Follow practical tutorials focused on agentic systems, not generic distributed systems examples.',
+    cta: '/learn/otel-python/part1',
+    ctaLabel: 'Start Learning',
   },
 ]
 
@@ -183,109 +176,38 @@ export default function Home() {
 
       <hr className="divider" />
 
-      {/* ── TOOLKIT TABLE ── */}
+      {/* ── IMPACT ── */}
       <section className={styles.section}>
         <div className="container">
-          <p className="section-label">The Toolkit</p>
-          <h2 className={styles.sectionTitle}>Tools at a glance</h2>
-          <div className={styles.tableWrap}>
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th>Tool</th>
-                  <th>Purpose</th>
-                  <th>Status</th>
-                  <th>Package</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><Link to="/llm-diff" className={styles.toolLink}>llm-diff</Link></td>
-                  <td className={styles.tdMuted}>LLM output quality comparison and evaluation</td>
-                  <td><span className="badge badge-done">✅ Available</span></td>
-                  <td><span className="pkg">pip install llm-diff</span></td>
-                </tr>
-                <tr>
-                  <td>
-                    <a href="https://github.com/veerarag1973/promptlock" target="_blank" rel="noopener" className={styles.toolLink}>
-                      promptlock
-                    </a>
-                  </td>
-                  <td className={styles.tdMuted}>Prompt version control and enterprise governance</td>
-                  <td><span className="badge badge-dev">🔧 Under Development</span></td>
-                  <td><span style={{ color: 'var(--muted)', fontSize: '0.82rem' }}>—</span></td>
-                </tr>
-              </tbody>
-            </table>
+          <p className="section-label">Impact</p>
+          <h2 className={styles.sectionTitle}>What changes when teams adopt Spanforge</h2>
+          <div className={styles.impactGrid}>
+            {outcomes.map(item => (
+              <article key={item.title} className={styles.impactCard}>
+                <div className={styles.impactMetric}>{item.metric}</div>
+                <h3 className={styles.impactTitle}>{item.title}</h3>
+                <p>{item.body}</p>
+              </article>
+            ))}
           </div>
         </div>
       </section>
 
       <hr className="divider" />
 
-      {/* ── TOOLS DEEP DIVE ── */}
+      {/* ── ADOPTION PATHS ── */}
       <section id="tools" className={styles.sectionAlt}>
         <div className="container">
-          <p className="section-label">Tools</p>
-          <h2 className={styles.sectionTitle}>Deep dive</h2>
+          <p className="section-label">Start Here</p>
+          <h2 className={styles.sectionTitle}>Choose your fastest path to value</h2>
 
-          <div className={styles.toolCards}>
-            {tools.map(tool => (
-              <div key={tool.id} className={styles.toolCard}>
-                <div
-                  className={styles.toolCardTop}
-                  style={{ background: `linear-gradient(90deg, ${tool.accentColor}, transparent)` }}
-                />
-                <div className={styles.toolCardInner}>
-                  <div className={styles.toolCardHeader}>
-                    <div>
-                      <h3 className={styles.toolName}>{tool.name}</h3>
-                      <p className={styles.toolTagline}>{tool.tagline}</p>
-                    </div>
-                    <span className={`badge badge-${tool.badge}`}>{tool.badgeText}</span>
-                  </div>
-
-                  <p className={styles.toolDesc}>{tool.description}</p>
-
-                  <ul className={styles.toolFeatures}>
-                    {tool.features.map(f => <li key={f}>{f}</li>)}
-                  </ul>
-
-                  {tool.badge === 'dev' && (
-                    <div className={styles.wipNote}>
-                      Under development. Follow along or contribute on GitHub.
-                    </div>
-                  )}
-
-                  <div className={styles.toolActions}>
-                    {tool.link ? (
-                      <>
-                        <Link to={tool.link} className="btn btn-primary">
-                          Learn more →
-                        </Link>
-                        <Link to={tool.docsLink} className="btn btn-secondary">
-                          View Docs
-                        </Link>
-                      </>
-                    ) : (
-                      <a
-                        href={tool.ghLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn btn-secondary"
-                      >
-                        Follow on GitHub ↗
-                      </a>
-                    )}
-                    {tool.pkg && (
-                      <span className="pkg">
-                        <span style={{ userSelect: 'none', color: 'var(--muted)' }}>$</span>
-                        {tool.pkg}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
+          <div className={styles.journeyGrid}>
+            {adoptionPaths.map(path => (
+              <article key={path.title} className={styles.journeyCard}>
+                <h3 className={styles.journeyTitle}>{path.title}</h3>
+                <p>{path.body}</p>
+                <Link to={path.cta} className="btn btn-secondary">{path.ctaLabel} →</Link>
+              </article>
             ))}
           </div>
         </div>
