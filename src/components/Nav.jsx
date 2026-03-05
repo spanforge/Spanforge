@@ -12,6 +12,7 @@ export default function Nav() {
   const isLlmDiff = location.pathname.startsWith('/llm-diff')
   const isStandard = location.pathname.startsWith('/standard')
   const isTutorials = location.pathname.startsWith('/learn')
+  const isSdk = location.pathname.startsWith('/sdk')
 
   const closeMenu = () => setMenuOpen(false)
 
@@ -40,11 +41,12 @@ export default function Nav() {
           </Link>
 
           <ul className={styles.links}>
-            {!isLlmDiff && !isStandard && !isTutorials && (
+            {!isLlmDiff && !isStandard && !isTutorials && !isSdk && (
               <>
                 <li><a href="#mission">Why Here</a></li>
                 <li><a href="#tools">Tools</a></li>
                 <li><Link to="/standard">The Standard</Link></li>
+                <li><Link to="/sdk">The SDK</Link></li>
                 <li><a href="#learn">Education</a></li>
                 <li><a href="#community">Community</a></li>
               </>
@@ -66,6 +68,14 @@ export default function Nav() {
                 <li><Link to="/llm-diff/docs/getting-started">Docs</Link></li>
               </>
             )}
+            {isSdk && (
+              <>
+                <li><Link to="/sdk">Overview</Link></li>
+                <li><Link to="/sdk/docs/quickstart">Quickstart</Link></li>
+                <li><Link to="/sdk/docs/api-index">API Reference</Link></li>
+                <li><Link to="/sdk/docs/ns-index">Namespaces</Link></li>
+              </>
+            )}
             <li>
               <a
                 href="https://github.com/veerarag1973"
@@ -78,11 +88,12 @@ export default function Nav() {
             </li>
           </ul>
 
-          {(isLlmDiff || isStandard || isTutorials) && (
+          {(isLlmDiff || isStandard || isTutorials || isSdk) && (
             <div className={styles.productBadge}>
               {isLlmDiff && <span className={styles.productName}>llm-diff</span>}
               {isStandard && <span className={styles.productName}>The Standard</span>}
               {isTutorials && <span className={styles.productName}>Learn</span>}
+              {isSdk && <span className={styles.productName}>AgentOBS</span>}
             </div>
           )}
 
@@ -98,11 +109,12 @@ export default function Nav() {
 
       {menuOpen && (
         <div className={styles.mobileMenu}>
-          {!isLlmDiff && !isStandard && !isTutorials && (
+          {!isLlmDiff && !isStandard && !isTutorials && !isSdk && (
             <>
               <a href="#mission" onClick={closeMenu}>Why Here</a>
               <a href="#tools" onClick={closeMenu}>Tools</a>
               <Link to="/standard" onClick={closeMenu}>The Standard</Link>
+              <Link to="/sdk" onClick={closeMenu}>The SDK</Link>
               <a href="#learn" onClick={closeMenu}>Education</a>
               <a href="#community" onClick={closeMenu}>Community</a>
             </>
@@ -122,6 +134,14 @@ export default function Nav() {
             <>
               <Link to="/llm-diff" onClick={closeMenu}>Overview</Link>
               <Link to="/llm-diff/docs/getting-started" onClick={closeMenu}>Docs</Link>
+            </>
+          )}
+          {isSdk && (
+            <>
+              <Link to="/sdk" onClick={closeMenu}>Overview</Link>
+              <Link to="/sdk/docs/quickstart" onClick={closeMenu}>Quickstart</Link>
+              <Link to="/sdk/docs/api-index" onClick={closeMenu}>API Reference</Link>
+              <Link to="/sdk/docs/ns-index" onClick={closeMenu}>Namespaces</Link>
             </>
           )}
           <a

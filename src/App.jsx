@@ -8,6 +8,8 @@ import StandardHome from './pages/StandardHome.jsx'
 import StandardSpec from './pages/StandardSpec.jsx'
 import Feedback from './pages/Feedback.jsx'
 import TutorialsDocs from './pages/TutorialsDocs.jsx'
+import AgentObsHome from './pages/AgentObsHome.jsx'
+import AgentObsDocs from './pages/AgentObsDocs.jsx'
 import NotFound from './pages/NotFound.jsx'
 
 function AppRoutes() {
@@ -24,6 +26,9 @@ function AppRoutes() {
         <Route path="/standard/feedback" element={<Feedback />} />
         <Route path="/learn" element={<TutorialsDocs />} />
         <Route path="/learn/*" element={<TutorialsDocs />} />
+        <Route path="/sdk" element={<AgentObsHome />} />
+        <Route path="/sdk/docs" element={<AgentObsDocs />} />
+        <Route path="/sdk/docs/*" element={<AgentObsDocs />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
