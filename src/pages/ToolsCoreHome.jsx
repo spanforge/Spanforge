@@ -54,7 +54,7 @@ const tools = [
       'Developer tools for inspecting, replaying, and visualising AgentOBS traces.'
     ),
     to: '/agentobs-debug',
-    docsTo: '/agentobs-debug/docs/api-reference',
+    docsTo: '/agentobs-debug/docs/python-api',
   },
 ]
 

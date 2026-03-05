@@ -70,9 +70,9 @@ export default function AgentObsDebugHome() {
         </div>
 
         <div className={styles.heroActions}>
-          <Link to="/agentobs-debug/docs/api-reference" className="btn btn-primary">API Reference →</Link>
+          <Link to="/agentobs-debug/docs/python-api" className="btn btn-primary">Python API →</Link>
           <Link to="/agentobs-debug/docs/tutorial" className="btn btn-secondary">Tutorial</Link>
-          <a href="https://github.com/veerarag1973/agentobs-debug" target="_blank" rel="noopener noreferrer" className="btn btn-secondary">GitHub ↗</a>
+          <a href="https://github.com/veerarag1973/agentobsdebug" target="_blank" rel="noopener noreferrer" className="btn btn-secondary">GitHub ↗</a>
         </div>
 
         <div className={styles.installBox}>
@@ -83,6 +83,44 @@ export default function AgentObsDebugHome() {
           </div>
         </div>
       </header>
+
+      <hr className="divider" />
+
+      <section className={styles.section}>
+        <div className="container">
+          <p className="section-label">Overview</p>
+          <h2 className={styles.sectionTitle}>What is AgentOBSDebug?</h2>
+          <div className={styles.providerGrid}>
+            <article className={styles.providerCard}>
+              <div className={styles.providerName}>What It Is</div>
+              <div className={styles.providerModels} style={{ fontFamily: 'inherit', lineHeight: 1.7 }}>
+                AgentOBSDebug is a trace-debugging toolkit built for AgentOBS event streams. It turns
+                raw JSONL telemetry into readable views such as replay, tree, timeline, tools,
+                decisions, and cost attribution.
+              </div>
+            </article>
+            <article className={styles.providerCard}>
+              <div className={styles.providerName}>What Problem It Solves</div>
+              <div className={styles.providerModels} style={{ fontFamily: 'inherit', lineHeight: 1.7 }}>
+                When agents fail, become slow, or produce unexpected tool behavior, raw trace lines are
+                hard to reason about. AgentOBSDebug makes those traces actionable so teams can quickly
+                pinpoint where and why a run regressed.
+              </div>
+            </article>
+            <article className={styles.providerCard}>
+              <div className={styles.providerName}>Start Here</div>
+              <div className={styles.providerModels} style={{ fontFamily: 'inherit', lineHeight: 1.7 }}>
+                Use the Python API for programmatic analysis or the tutorial for guided debugging flows.
+                <br />
+                <br />
+                <Link to="/agentobs-debug/docs/python-api" style={{ color: 'var(--accent2)', fontWeight: 700, textDecoration: 'none' }}>
+                  Open Python API →
+                </Link>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
 
       <hr className="divider" />
 

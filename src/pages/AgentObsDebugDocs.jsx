@@ -11,14 +11,16 @@ import tutorialIndexMd from '../../AgentOBSDebug/docs/tutorial/index.md?raw'
 
 const DOC_MAP = {
   'overview': { content: readmeMd, source: 'README.md' },
+  'python-api': { content: apiReferenceMd, source: 'docs/api-reference.md' },
   'api-reference': { content: apiReferenceMd, source: 'docs/api-reference.md' },
   'tutorial': { content: tutorialIndexMd, source: 'docs/tutorial/index.md' },
 }
 
 const SOURCE_TO_PAGE = {
   'README.md': 'overview',
-  'docs/api-reference.md': 'api-reference',
+  'docs/api-reference.md': 'python-api',
   'docs/tutorial/index.md': 'tutorial',
+  'docs/README.md': 'overview',
 }
 
 function normalizePath(path) {
@@ -44,6 +46,8 @@ function resolveRelativePath(fromFile, relativePath) {
   return normalizePath(raw)
 }
 
+const AGENTOBSDEBUG_GITHUB_BASE = 'https://github.com/veerarag1973/agentobsdebug/blob/main'
+
 const SIDEBAR = [
   {
     title: null,
@@ -52,7 +56,7 @@ const SIDEBAR = [
   {
     title: 'Documentation',
     items: [
-      { path: 'api-reference', label: 'API Reference' },
+      { path: 'python-api', label: 'Python API' },
       { path: 'tutorial', label: 'Tutorial' },
     ],
   },
@@ -60,7 +64,7 @@ const SIDEBAR = [
 
 export default function AgentObsDebugDocs() {
   const params = useParams()
-  const currentPage = params['*'] || 'api-reference'
+  const currentPage = params['*'] || 'python-api'
   const currentDoc = DOC_MAP[currentPage]
   const content = currentDoc?.content
 
@@ -89,11 +93,15 @@ export default function AgentObsDebugDocs() {
       return `/agentobs-debug/docs/${page}${hashSuffix}`
     }
 
+    if (normalized.endsWith('.md') || normalized.endsWith('.json')) {
+      return `${AGENTOBSDEBUG_GITHUB_BASE}/${normalized}${hashSuffix}`
+    }
+
     return href
   }
 
   if (!content) {
-    return <Navigate to="/agentobs-debug/docs/api-reference" replace />
+    return <Navigate to="/agentobs-debug/docs/python-api" replace />
   }
 
   return (

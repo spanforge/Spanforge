@@ -43,20 +43,28 @@ export default function Nav() {
           </Link>
 
           <ul className={styles.links}>
-            <li className={styles.dropdown}>
-              <button type="button" className={styles.dropdownToggle}>The Tools</button>
-              <div className={styles.submenu}>
-                <Link to="/tools/core">Core</Link>
-              </div>
-            </li>
             {!isLlmDiff && !isStandard && !isTutorials && !isSdk && !isTools && !isAgentObsDebug && (
               <>
                 <li><a href="#mission">Why Here</a></li>
                 <li><Link to="/standard">The Standard</Link></li>
                 <li><Link to="/sdk">The SDK</Link></li>
+                <li className={styles.dropdown}>
+                  <button type="button" className={styles.dropdownToggle}>The Tools</button>
+                  <div className={styles.submenu}>
+                    <Link to="/tools/core">Core</Link>
+                  </div>
+                </li>
                 <li><a href="#learn">Education</a></li>
                 <li><a href="#community">Community</a></li>
               </>
+            )}
+            {(isLlmDiff || isStandard || isTutorials || isSdk || isTools || isAgentObsDebug) && (
+              <li className={styles.dropdown}>
+                <button type="button" className={styles.dropdownToggle}>The Tools</button>
+                <div className={styles.submenu}>
+                  <Link to="/tools/core">Core</Link>
+                </div>
+              </li>
             )}
             {isTools && (
               <>
@@ -92,7 +100,7 @@ export default function Nav() {
             {isAgentObsDebug && (
               <>
                 <li><Link to="/agentobs-debug">Overview</Link></li>
-                <li><Link to="/agentobs-debug/docs/api-reference">API Reference</Link></li>
+                <li><Link to="/agentobs-debug/docs/python-api">Python API</Link></li>
                 <li><Link to="/agentobs-debug/docs/tutorial">Tutorial</Link></li>
               </>
             )}
@@ -131,15 +139,21 @@ export default function Nav() {
 
       {menuOpen && (
         <div className={styles.mobileMenu}>
-          <Link to="/tools/core" onClick={closeMenu}>The Tools</Link>
-          <Link to="/tools/core" onClick={closeMenu} className={styles.mobileSubLink}>Core</Link>
           {!isLlmDiff && !isStandard && !isTutorials && !isSdk && !isTools && !isAgentObsDebug && (
             <>
               <a href="#mission" onClick={closeMenu}>Why Here</a>
               <Link to="/standard" onClick={closeMenu}>The Standard</Link>
               <Link to="/sdk" onClick={closeMenu}>The SDK</Link>
+              <Link to="/tools/core" onClick={closeMenu}>The Tools</Link>
+              <Link to="/tools/core" onClick={closeMenu} className={styles.mobileSubLink}>Core</Link>
               <a href="#learn" onClick={closeMenu}>Education</a>
               <a href="#community" onClick={closeMenu}>Community</a>
+            </>
+          )}
+          {(isLlmDiff || isStandard || isTutorials || isSdk || isTools || isAgentObsDebug) && (
+            <>
+              <Link to="/tools/core" onClick={closeMenu}>The Tools</Link>
+              <Link to="/tools/core" onClick={closeMenu} className={styles.mobileSubLink}>Core</Link>
             </>
           )}
           {isTools && (
@@ -176,7 +190,7 @@ export default function Nav() {
           {isAgentObsDebug && (
             <>
               <Link to="/agentobs-debug" onClick={closeMenu}>Overview</Link>
-              <Link to="/agentobs-debug/docs/api-reference" onClick={closeMenu}>API Reference</Link>
+              <Link to="/agentobs-debug/docs/python-api" onClick={closeMenu}>Python API</Link>
               <Link to="/agentobs-debug/docs/tutorial" onClick={closeMenu}>Tutorial</Link>
             </>
           )}

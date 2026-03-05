@@ -30,29 +30,59 @@ import tut10Md from '../../llmdiff/docs/tutorials/10-python-api.md?raw'
 import tut11Md from '../../llmdiff/docs/tutorials/11-schema-events.md?raw'
 
 const DOC_MAP = {
-  'overview': readmeMd,
-  'getting-started': gettingStartedMd,
-  'cli-reference': cliReferenceMd,
-  'api': apiMd,
-  'schema-events': schemaEventsMd,
-  'configuration': configurationMd,
-  'providers': providersMd,
-  'html-reports': htmlReportsMd,
-  'ci-cd': ciCdMd,
-  'tutorials/README': tutorialsReadmeMd,
-  'tutorials/00-introduction': tut00Md,
-  'tutorials/01-first-comparison': tut01Md,
-  'tutorials/02-semantic-scoring': tut02Md,
-  'tutorials/03-prompt-engineering': tut03Md,
-  'tutorials/04-batch-evaluation': tut04Md,
-  'tutorials/05-ci-cd-regression-gate': tut05Md,
-  'tutorials/06-llm-as-a-judge': tut06Md,
-  'tutorials/07-multi-model-comparison': tut07Md,
-  'tutorials/08-cost-tracking': tut08Md,
-  'tutorials/09-json-struct-diff': tut09Md,
-  'tutorials/10-python-api': tut10Md,
-  'tutorials/11-schema-events': tut11Md,
+  'overview': { content: readmeMd, source: 'README.md' },
+  'getting-started': { content: gettingStartedMd, source: 'docs/getting-started.md' },
+  'cli-reference': { content: cliReferenceMd, source: 'docs/cli-reference.md' },
+  'api': { content: apiMd, source: 'docs/api.md' },
+  'schema-events': { content: schemaEventsMd, source: 'docs/schema-events.md' },
+  'configuration': { content: configurationMd, source: 'docs/configuration.md' },
+  'providers': { content: providersMd, source: 'docs/providers.md' },
+  'html-reports': { content: htmlReportsMd, source: 'docs/html-reports.md' },
+  'ci-cd': { content: ciCdMd, source: 'docs/ci-cd.md' },
+  'tutorials/README': { content: tutorialsReadmeMd, source: 'docs/tutorials/README.md' },
+  'tutorials/00-introduction': { content: tut00Md, source: 'docs/tutorials/00-introduction.md' },
+  'tutorials/01-first-comparison': { content: tut01Md, source: 'docs/tutorials/01-first-comparison.md' },
+  'tutorials/02-semantic-scoring': { content: tut02Md, source: 'docs/tutorials/02-semantic-scoring.md' },
+  'tutorials/03-prompt-engineering': { content: tut03Md, source: 'docs/tutorials/03-prompt-engineering.md' },
+  'tutorials/04-batch-evaluation': { content: tut04Md, source: 'docs/tutorials/04-batch-evaluation.md' },
+  'tutorials/05-ci-cd-regression-gate': { content: tut05Md, source: 'docs/tutorials/05-ci-cd-regression-gate.md' },
+  'tutorials/06-llm-as-a-judge': { content: tut06Md, source: 'docs/tutorials/06-llm-as-a-judge.md' },
+  'tutorials/07-multi-model-comparison': { content: tut07Md, source: 'docs/tutorials/07-multi-model-comparison.md' },
+  'tutorials/08-cost-tracking': { content: tut08Md, source: 'docs/tutorials/08-cost-tracking.md' },
+  'tutorials/09-json-struct-diff': { content: tut09Md, source: 'docs/tutorials/09-json-struct-diff.md' },
+  'tutorials/10-python-api': { content: tut10Md, source: 'docs/tutorials/10-python-api.md' },
+  'tutorials/11-schema-events': { content: tut11Md, source: 'docs/tutorials/11-schema-events.md' },
 }
+
+const SOURCE_TO_PAGE = Object.entries(DOC_MAP).reduce((acc, [page, doc]) => {
+  acc[doc.source] = page
+  return acc
+}, {
+  'docs/README.md': 'overview',
+})
+
+function normalizePath(path) {
+  const parts = path.split('/').filter(Boolean)
+  const out = []
+  for (const p of parts) {
+    if (p === '.') continue
+    if (p === '..') {
+      if (out.length) out.pop()
+      continue
+    }
+    out.push(p)
+  }
+  return out.join('/')
+}
+
+function resolveRelativePath(fromFile, relativePath) {
+  const fromParts = fromFile.split('/').filter(Boolean)
+  const fromDir = fromParts.slice(0, -1).join('/')
+  const base = fromDir ? `${fromDir}/${relativePath}` : relativePath
+  return normalizePath(base)
+}
+
+const LLMDIFF_GITHUB_BASE = 'https://github.com/veerarag1973/llmdiff/blob/main'
 
 const SIDEBAR = [
   {
@@ -98,9 +128,37 @@ export default function LlmDiffDocs() {
   const params = useParams()
   const currentPage = params['*'] || 'getting-started'
 
-  const content = DOC_MAP[currentPage]
+  const currentDoc = DOC_MAP[currentPage]
+  const content = currentDoc?.content
   const pageLabel = SIDEBAR.flatMap(s => s.items).find(i => i.path === currentPage)?.label || 'Docs'
   usePageTitle(`${pageLabel} · llm-diff Docs · Spanforge`)
+
+  const resolveDocLink = (href) => {
+    if (!href || !currentDoc?.source) return href
+    if (href.startsWith('#')) return href
+    if (href.startsWith('http://') || href.startsWith('https://') || href.startsWith('//')) return href
+    if (href.startsWith('mailto:') || href.startsWith('tel:')) return href
+
+    const [rawPath, hash] = href.split('#')
+    const hashSuffix = hash ? `#${hash}` : ''
+
+    if (!rawPath) return hashSuffix || href
+
+    const normalized = rawPath.startsWith('/')
+      ? normalizePath(rawPath)
+      : resolveRelativePath(currentDoc.source, rawPath)
+
+    const page = SOURCE_TO_PAGE[normalized]
+    if (page) {
+      return `/llm-diff/docs/${page}${hashSuffix}`
+    }
+
+    if (normalized.endsWith('.md') || normalized.endsWith('.json')) {
+      return `${LLMDIFF_GITHUB_BASE}/${normalized}${hashSuffix}`
+    }
+
+    return href
+  }
 
   if (!content) {
     return <Navigate to="/llm-diff/docs/getting-started" replace />
@@ -110,7 +168,7 @@ export default function LlmDiffDocs() {
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <Nav />
       <DocLayout basePath="/llm-diff/docs" sidebar={SIDEBAR}>
-        <MarkdownRenderer content={content} />
+        <MarkdownRenderer content={content} resolveLink={resolveDocLink} />
       </DocLayout>
       <Footer />
     </div>
