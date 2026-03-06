@@ -74,7 +74,7 @@ export default function AgentObsHome() {
         </p>
 
         <div className={styles.heroStats}>
-          <div className={styles.stat}><span>v1.0.4</span>Latest</div>
+          <div className={styles.stat}><span>1.0.5</span>Latest</div>
           <div className={styles.statDivider} />
           <div className={styles.stat}><span>1,837</span>Tests</div>
           <div className={styles.statDivider} />
