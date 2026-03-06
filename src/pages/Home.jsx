@@ -7,19 +7,19 @@ import styles from './Home.module.css'
 
 const proofBadges = [
   {
-    alt: 'GitHub stars',
-    href: 'https://github.com/veerarag1973',
-    src: 'https://img.shields.io/github/stars/veerarag1973/llmdiff?style=flat&label=llm-diff%20stars&color=0d9f75',
-  },
-  {
-    alt: 'llm-diff PyPI version',
-    href: 'https://pypi.org/project/llm-diff/',
-    src: 'https://img.shields.io/pypi/v/llm-diff?style=flat&label=llm-diff%20PyPI&color=3d5af1',
+    alt: 'AgentOBS GitHub stars',
+    href: 'https://github.com/veerarag1973/agentobs',
+    src: 'https://img.shields.io/github/stars/veerarag1973/agentobs?style=flat&label=agentobs%20stars&color=0d9f75',
   },
   {
     alt: 'AgentOBS PyPI version',
     href: 'https://pypi.org/project/agentobs/',
     src: 'https://img.shields.io/pypi/v/agentobs?style=flat&label=agentobs%20PyPI&color=0d9f75',
+  },
+  {
+    alt: 'AGENTOBS RFC-0001',
+    href: '/standard',
+    src: 'https://img.shields.io/badge/standard-AGENTOBS_RFC--0001-3d5af1?style=flat',
   },
   {
     alt: 'License MIT',
@@ -121,8 +121,8 @@ export default function Home() {
             standardized telemetry contracts, eval gates, and trace-first debugging.
           </p>
           <div className={styles.heroActions}>
-            <Link to="/sdk/docs/quickstart" className="btn btn-primary">Start in 10 Minutes</Link>
-            <Link to="/llm-diff" className="btn btn-secondary">Explore llm-diff</Link>
+            <Link to="/sdk/docs/quickstart" className="btn btn-primary">Start AgentOBS in 10 Minutes</Link>
+            <Link to="/sdk" className="btn btn-secondary">Explore AgentOBS SDK</Link>
             <a href="#learn" className={styles.heroTextLink}>Read the guides</a>
           </div>
 
