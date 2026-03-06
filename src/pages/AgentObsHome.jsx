@@ -14,33 +14,33 @@ const features = [
 ]
 
 const modules = [
-  { name: 'tracium.event', desc: 'The core Event envelope', who: 'Everyone' },
-  { name: 'tracium.types', desc: 'All built-in event type strings', who: 'Everyone' },
-  { name: 'tracium.config', desc: 'configure() and get_config()', who: 'Everyone' },
-  { name: 'tracium._span', desc: 'Span, AgentRun, AgentStep context managers', who: 'App developers' },
-  { name: 'tracium._cli', desc: '8 CLI sub-commands', who: 'DevOps / CI' },
-  { name: 'tracium.redact', desc: 'PII detection, sensitivity levels, redaction policies', who: 'Data privacy / GDPR' },
-  { name: 'tracium.signing', desc: 'HMAC-SHA256 signing and tamper-evident audit chains', who: 'Security / compliance' },
-  { name: 'tracium.compliance', desc: 'Programmatic v2.0 compatibility checks', who: 'Platform / DevOps' },
-  { name: 'tracium.export', desc: 'JSONL, Webhook, OTLP, Datadog, Grafana Loki', who: 'Infra / observability' },
-  { name: 'tracium.stream', desc: 'Fan-out router + Kafka source', who: 'Platform engineers' },
-  { name: 'tracium.integrations', desc: 'LangChain, LlamaIndex, OpenAI, Anthropic, Groq, Ollama', who: 'App developers' },
-  { name: 'tracium.namespaces', desc: 'Typed payload dataclasses for all 10 namespaces', who: 'Tool authors' },
-  { name: 'tracium.governance', desc: 'Policy-based event gating', who: 'Platform / compliance' },
+  { name: 'agentobs.event', desc: 'Event envelope, serialisation, to_dict / from_dict', who: 'Everyone' },
+  { name: 'agentobs.types', desc: 'EventType enum and all built-in event type strings', who: 'Everyone' },
+  { name: 'agentobs.signing', desc: 'HMAC-SHA256 signing, AuditStream, chain verification', who: 'Security / compliance' },
+  { name: 'agentobs.redact', desc: 'Redactable types, five sensitivity levels, RedactionPolicy', who: 'Data privacy / GDPR' },
+  { name: 'agentobs.compliance', desc: 'Programmatic v1.0 compatibility and chain integrity checks', who: 'Platform / DevOps' },
+  { name: 'agentobs.export', desc: 'JSONL, Webhook, OTLP, Datadog, Grafana Loki backends', who: 'Infra / observability' },
+  { name: 'agentobs.stream', desc: 'EventStream fan-out router with Kafka source', who: 'Platform engineers' },
+  { name: 'agentobs.validate', desc: 'JSON Schema validation helpers', who: 'Everyone' },
+  { name: 'agentobs.migrate', desc: 'v1→v2 migration roadmap, SunsetPolicy, DeprecationRecord', who: 'Platform / DevOps' },
+  { name: 'agentobs.consumer', desc: 'ConsumerRegistry, consumer compatibility checks', who: 'Platform / DevOps' },
+  { name: 'agentobs.governance', desc: 'Policy-based event gating, GovernanceViolationError', who: 'Platform / compliance' },
+  { name: 'agentobs.integrations', desc: 'LangChain callback handler, LlamaIndex event handler', who: 'App developers' },
+  { name: 'agentobs.namespaces', desc: 'Typed payload dataclasses for all 11 namespaces', who: 'Tool authors' },
 ]
 
 const namespaces = [
-  { prefix: 'llm.trace.*', cls: 'SpanPayload', desc: 'Model calls, agent runs, reasoning steps (frozen v2)' },
-  { prefix: 'llm.cost.*', cls: 'CostPayload', desc: 'Per-call cost in USD with category breakdowns' },
-  { prefix: 'llm.cache.*', cls: 'CachePayload', desc: 'Cache hit/miss, backend, TTL, key hash' },
-  { prefix: 'llm.eval.*', cls: 'EvalScenarioPayload', desc: 'Quality scores, labels, evaluator identity' },
+  { prefix: 'llm.trace.*', cls: 'SpanPayload', desc: 'Model calls, agent runs, reasoning steps' },
+  { prefix: 'llm.cost.*', cls: 'CostTokenRecordedPayload', desc: 'Per-call and per-session cost in USD with category breakdowns' },
+  { prefix: 'llm.cache.*', cls: 'CacheHitPayload', desc: 'Cache hit/miss, backend, TTL, key hash' },
+  { prefix: 'llm.eval.*', cls: 'EvalScoreRecordedPayload', desc: 'Quality scores, labels, evaluator identity' },
   { prefix: 'llm.guard.*', cls: 'GuardPayload', desc: 'Safety classifier output, block decisions' },
-  { prefix: 'llm.fence.*', cls: 'FencePayload', desc: 'Topic constraints, allow/block lists, retry loops' },
-  { prefix: 'llm.prompt.*', cls: 'PromptPayload', desc: 'Prompt template version, rendered text' },
-  { prefix: 'llm.redact.*', cls: 'RedactPayload', desc: 'PII audit record — what was found and removed' },
-  { prefix: 'llm.diff.*', cls: 'DiffPayload', desc: 'Prompt/response delta between two events' },
-  { prefix: 'llm.template.*', cls: 'TemplatePayload', desc: 'Template registry metadata, variable bindings' },
-  { prefix: 'llm.audit.*', cls: 'AuditPayload', desc: 'HMAC audit chain events, key rotation' },
+  { prefix: 'llm.fence.*', cls: 'FenceValidatedPayload', desc: 'Topic constraints, allow/block lists, retry loops' },
+  { prefix: 'llm.prompt.*', cls: 'PromptRenderedPayload', desc: 'Prompt template version, rendered text' },
+  { prefix: 'llm.redact.*', cls: 'RedactAppliedPayload', desc: 'PII audit record — what was found and removed' },
+  { prefix: 'llm.diff.*', cls: 'DiffComputedPayload', desc: 'Prompt/response delta between two events' },
+  { prefix: 'llm.template.*', cls: 'TemplateRegisteredPayload', desc: 'Template registry metadata, variable bindings' },
+  { prefix: 'llm.audit.*', cls: 'AuditChainVerifiedPayload', desc: 'HMAC audit chain events, key rotation' },
 ]
 
 const profiles = [
@@ -93,7 +93,7 @@ export default function AgentObsHome() {
         </div>
 
         <div className={styles.installBox}>
-          <span className={styles.installComment}># Install from PyPI (import name: tracium)</span>
+          <span className={styles.installComment}># Install from PyPI (distribution: agentobs, import: agentobs)</span>
           <div className={styles.installLine}>
             <span className={styles.installPrompt}>$</span>
             <span className={styles.installCmd}>pip install agentobs</span>
@@ -140,15 +140,28 @@ export default function AgentObsHome() {
               <span className={styles.codeTitle}>python</span>
               <div className={styles.codeDots}><span /><span /><span /></div>
             </div>
-            <pre className={styles.codePre}><code>{`import tracium
+            <pre className={styles.codePre}><code>{`from agentobs import Event, EventType
+from agentobs.namespaces.trace import (
+    SpanPayload, TokenUsage, ModelInfo, GenAISystem
+)
 
-tracium.configure(exporter="console", service_name="my-agent")
+token_usage = TokenUsage(input_tokens=512, output_tokens=128, total_tokens=640)
+model_info  = ModelInfo(system=GenAISystem.OPENAI, name="gpt-4o")
 
-with tracium.span("call-llm") as span:
-    span.set_model(model="gpt-4o", system="openai")
-    result = call_llm(prompt)
-    span.set_token_usage(input=512, output=128, total=640)
-    span.set_status("ok")`}</code></pre>
+payload = SpanPayload(
+    span_name="chat_completion",
+    status="ok",
+    duration_ms=250.0,
+    token_usage=token_usage.to_dict(),
+    model_info=model_info.to_dict(),
+)
+
+event = Event(
+    event_type=EventType.TRACE_SPAN_COMPLETED,
+    source="my-agent@1.0.0",
+    payload=payload.to_dict(),
+)
+print(event.to_json())`}</code></pre>
           </div>
         </div>
       </section>
@@ -206,7 +219,7 @@ with tracium.span("call-llm") as span:
       <section className={styles.section}>
         <div className="container">
           <p className="section-label">Event Namespaces</p>
-          <h2 className={styles.sectionTitle}>11 built-in namespaces cover the full lifecycle</h2>
+          <h2 className={styles.sectionTitle}>11 built-in namespaces cover the full AI lifecycle</h2>
           <p style={{ color: 'var(--muted)', maxWidth: 620, marginBottom: '2rem' }}>
             Every event carries a typed payload whose shape is defined by its namespace.
             All standard event types follow <code>llm.&lt;namespace&gt;.&lt;entity&gt;.&lt;action&gt;</code>.
@@ -253,7 +266,7 @@ with tracium.span("call-llm") as span:
               { path: 'user-guide-migration', label: 'Migration Guide', desc: 'v2 migration roadmap, deprecation records, v1_to_v2() scaffold' },
               { path: 'api-index', label: 'API Reference', desc: 'Full API reference for every module' },
               { path: 'ns-index', label: 'Namespace Catalogue', desc: 'Typed payload dataclasses for all 11 namespaces' },
-              { path: 'cli', label: 'CLI Reference', desc: '8 tracium sub-commands — validate, audit, inspect, stats' },
+              { path: 'cli', label: 'CLI Reference', desc: '8 agentobs sub-commands — validate, audit, inspect, stats' },
               { path: 'schema', label: 'JSON Schema', desc: 'The canonical AGENTOBS event envelope schema v1.0' },
             ].map(d => (
               <Link key={d.path} to={`/sdk/docs/${d.path}`} className={styles.docCard}>
