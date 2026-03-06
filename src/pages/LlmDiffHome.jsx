@@ -43,12 +43,17 @@ const features = [
   {
     icon: '🚦',
     title: 'CI/CD gate',
-    body: 'Use --fail-under to gate pipelines on similarity threshold. Emits structured schema events for audit.',
+    body: 'Use --fail-under to gate pipelines on similarity threshold. Regression failures emit AGENTOBS-standard events for a full audit trail.',
   },
   {
     icon: '📋',
     title: 'HTML reports',
     body: 'Self-contained HTML reports for sharing results with your team.',
+  },
+  {
+    icon: '🔭',
+    title: 'AGENTOBS standard',
+    body: 'Every model call, diff, cost record, and judge evaluation emits a validated AGENTOBS (RFC-0001) event. The agentobs SDK is bundled — no extra install required.',
   },
 ]
 
@@ -81,13 +86,25 @@ export default function LlmDiffHome() {
         <p className={styles.heroTagline}>The evaluation layer.</p>
         <p className={styles.heroSub}>
           A CLI tool and Python library for comparing LLM outputs — semantically,
-          visually, and at scale. Diffs model versions, prompt changes, or time in seconds.
+          visually, and at scale. Diffs model versions, prompt changes, or time in
+          seconds. Adheres to the{' '}
+          <a
+            href="https://www.getspanforge.com/standard"
+            className={styles.heroSubLink}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            AGENTOBS standard (RFC-0001)
+          </a>{' '}
+          — every operation emits a validated observability event.
         </p>
 
         <div className={styles.heroStats}>
           <div className={styles.stat}><span>v1.3.0</span>Latest</div>
           <div className={styles.statDivider} />
           <div className={styles.stat}><span>Python 3.9+</span>Requirement</div>
+          <div className={styles.statDivider} />
+          <div className={styles.stat}><span>AGENTOBS</span>RFC-0001</div>
           <div className={styles.statDivider} />
           <div className={styles.stat}><span>MIT</span>License</div>
         </div>
@@ -110,7 +127,7 @@ export default function LlmDiffHome() {
         </div>
 
         <div className={styles.installBox}>
-          <span className={styles.installComment}># Install with semantic scoring support</span>
+          <span className={styles.installComment}># agentobs SDK included — AGENTOBS RFC-0001 compliant</span>
           <div className={styles.installLine}>
             <span className={styles.installPrompt}>$</span>
             <span className={styles.installCmd}>pip install "llm-diff[semantic]"</span>
@@ -133,7 +150,10 @@ export default function LlmDiffHome() {
                 <span /><span /><span />
               </div>
             </div>
-            <pre className={styles.codePre}><code>{`# Compare two models on the same prompt
+            <pre className={styles.codePre}><code>{`# agentobs SDK is bundled — no separate install needed
+pip install "llm-diff[semantic]"
+
+# Compare two models on the same prompt
 llm-diff "Explain recursion in one sentence." -a gpt-4o -b gpt-4o-mini --semantic
 
 # Save a self-contained HTML report
@@ -198,7 +218,7 @@ llm-diff --batch prompts.yml -a gpt-4o -b gpt-4o-mini --semantic --fail-under 0.
               { path: 'getting-started', label: 'Getting Started', desc: 'Installation, API keys, first diff' },
               { path: 'cli-reference', label: 'CLI Reference', desc: 'All flags, option groups, exit codes, YAML format' },
               { path: 'api', label: 'Python API', desc: 'All public functions, dataclasses, and field descriptions' },
-              { path: 'schema-events', label: 'Schema Events', desc: 'Observability events emitted by llm-diff' },
+              { path: 'schema-events', label: 'Schema Events', desc: 'AGENTOBS-standard (RFC-0001) observability events emitted by llm-diff' },
               { path: 'configuration', label: 'Configuration', desc: '.llmdiff TOML schema, env vars, config priority' },
               { path: 'providers', label: 'Provider Setup', desc: 'OpenAI, Groq, Mistral, Ollama, LM Studio, Anthropic' },
               { path: 'html-reports', label: 'HTML Reports', desc: 'Report anatomy, batch reports, judge card, cost table' },

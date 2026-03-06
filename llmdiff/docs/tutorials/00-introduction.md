@@ -247,13 +247,14 @@ llm-diff 'Return JSON: {"name": "...", "age": ...}' \
 ### Schema events & observability
 
 Every comparison, model call, cache lookup, cost estimate, judge evaluation, and
-`--fail-under` regression failure automatically emits a structured
-[llm-toolkit-schema](https://pypi.org/project/llm-toolkit-schema/)
-event.  Attach any exporter to ship events to JSONL, a database, or a custom
-observability backend with one line of configuration:
+`--fail-under` regression failure automatically emits a fully-validated
+[AGENTOBS-standard (RFC-0001)](https://www.getspanforge.com/standard)
+event via the built-in `agentobs` SDK (a declared runtime dependency — no extra
+install needed).  Attach any exporter to ship events to JSONL, a database, or a
+custom observability backend with one line of configuration:
 
 ```python
-from llm_toolkit_schema.export.jsonl import JSONLExporter
+from agentobs.export.jsonl import JSONLExporter
 from llm_diff.schema_events import configure_emitter
 
 configure_emitter(exporter=JSONLExporter("events.jsonl"))
@@ -294,6 +295,9 @@ pip install "llm-diff[semantic]"
 The `[semantic]` extra installs `sentence-transformers`, which is required for
 tutorials 02–10.  The default model (`all-MiniLM-L6-v2`, ~80 MB) downloads
 automatically on first use.
+
+> The `agentobs` SDK (AGENTOBS standard implementation) is bundled automatically
+> as a runtime dependency of `llm-diff`.  No separate install is needed.
 
 Set your API key:
 

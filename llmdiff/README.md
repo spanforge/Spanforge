@@ -7,15 +7,16 @@
 [![Coverage](https://codecov.io/gh/veerarag1973/llmdiff/branch/main/graph/badge.svg)](https://codecov.io/gh/veerarag1973/llmdiff)
 [![Python](https://img.shields.io/pypi/pyversions/llm-diff)](https://pypi.org/project/llm-diff/)
 [![License](https://img.shields.io/pypi/l/llm-diff)](LICENSE)
+[![AGENTOBS](https://img.shields.io/badge/standard-AGENTOBS_RFC--0001-4c8cbf)](https://www.getspanforge.com/standard)
 
 ---
 
 `llm-diff` calls two LLM models in parallel, diffs their responses word-by-word,
 scores them semantically, and renders results in the terminal or as a
 self-contained HTML report.  It scales to batch workloads, caches API responses,
-gates CI pipelines via `--fail-under`, and emits structured
-[llm-toolkit-schema](https://pypi.org/project/llm-toolkit-schema/) events for
-observability tooling.
+gates CI pipelines via `--fail-under`, and adheres to the
+[AGENTOBS standard (RFC-0001)](https://www.getspanforge.com/standard) — emitting
+fully-validated, structured observability events via the built-in `agentobs` SDK.
 
 ## What is llm-diff?
 
@@ -33,16 +34,16 @@ threshold — making it a first-class citizen in CI/CD pipelines.
 Version 1.2 adds LLM-as-a-Judge scoring, per-call USD cost tracking,
 multi-model (3–4 model) comparison, and structured JSON diff.
 
-Version 1.3.0 adds `EVAL_REGRESSION_FAILED` schema event emission — `--fail-under`
-gate failures now emit a structured `llm.eval.regression.failed` event (via
+Version 1.3.0 adds `EVAL_REGRESSION_DETECTED` schema event emission — `--fail-under`
+gate failures now emit a structured `llm.eval.regression.detected` event (via
 `make_eval_regression_event()`) in addition to returning exit code 1,
 providing a full audit trail for CI regression gates.
 
-Version 1.2.2 integrates [llm-toolkit-schema](https://pypi.org/project/llm-toolkit-schema/)
-as a built-in observability layer: every comparison, model call, cache lookup,
-cost record, judge evaluation, and `--fail-under` regression failure now emits a
-validated schema event that can be collected in memory, exported to JSONL, or
-forwarded to any custom backend.
+Version 1.3.0 also marks `llm-diff` as fully **AGENTOBS-standard-compliant**
+(RFC-0001): the `agentobs` SDK is now a declared runtime dependency.  Every
+comparison, model call, cache lookup, cost record, judge evaluation, and
+`--fail-under` regression failure emits a fully-validated AGENTOBS event that
+can be collected in memory, exported to JSONL, or forwarded to any backend.
 
 ## Documentation
 
@@ -52,7 +53,7 @@ forwarded to any custom backend.
 | [Tutorials](docs/tutorials/README.md) | Step-by-step learning path from first run to Python API (12 tutorials) |
 | [CLI Reference](docs/cli-reference.md) | All flags, option groups, exit codes, YAML format |
 | [Python API](docs/api.md) | All public functions, dataclasses, and field descriptions |
-| [Schema Events](docs/schema-events.md) | Observability integration with llm-toolkit-schema |
+| [Schema Events](docs/schema-events.md) | Observability integration with AgentOBS |
 | [Configuration](docs/configuration.md) | `.llmdiff` TOML schema, env vars, config priority |
 | [Provider Setup](docs/providers.md) | OpenAI, Groq, Mistral, Ollama, LM Studio, Anthropic |
 | [HTML Reports](docs/html-reports.md) | Report anatomy, batch reports, judge card, cost table |
@@ -61,11 +62,8 @@ forwarded to any custom backend.
 ## Quick Start
 
 ```bash
-# Install with semantic scoring support
+# Install with semantic scoring support (agentobs SDK is included automatically)
 pip install "llm-diff[semantic]"
-
-# Install with schema-events observability
-pip install "llm-diff[semantic]" llm-toolkit-schema
 
 # Set an API key
 export OPENAI_API_KEY="sk-..."

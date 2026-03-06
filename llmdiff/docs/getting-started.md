@@ -29,6 +29,13 @@ pip install "llm-diff[semantic]"
 The `[semantic]` extra installs `sentence-transformers`.  The default model
 (`all-MiniLM-L6-v2`, ~80 MB) downloads automatically on first use.
 
+> **Observability included:** `llm-diff` adheres to the
+> [AGENTOBS standard (RFC-0001)](https://www.getspanforge.com/standard) and ships
+> with the `agentobs` SDK as a required dependency.  Every model call, diff, cost
+> record, and CI regression failure automatically emits a structured, validated
+> AGENTOBS event.  No extra install needed.  See [Schema Events](schema-events.md)
+> to start collecting them.
+
 ### Development install
 
 ```bash
