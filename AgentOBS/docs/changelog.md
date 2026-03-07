@@ -6,7 +6,284 @@ this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
-## 1.0.5 (current) — 2026-03-06
+## 1.0.6 — 2026-03-07
+
+**Architect Review — Developer Experience & Reliability Improvements**
+
+All changes are backward-compatible; no existing public API was removed.
+
+### Added
+
+- **`agentobs/testing.py`** — first-class test utilities: `MockExporter`,
+  `capture_events()` context manager, `assert_event_schema_valid()`, and
+  `trace_store()` isolated store context manager.  Write unit tests for your
+  AI pipeline without real exporters.
+- **`agentobs/auto.py`** \u2014 integration auto-discovery.  Call
+  `agentobs.auto.setup()` to auto-patch every installed LLM integration
+  (OpenAI, Anthropic, Ollama, Groq, Together AI).  `setup()` must be called
+  explicitly \u2014 `import agentobs.auto` alone does not patch anything.
+  `agentobs.auto.teardown()` cleanly unpatches all.
+- **Async hooks** (`agentobs._hooks`) — `AsyncHookFn` type alias and four new
+  async registration methods on `HookRegistry`: `on_agent_start_async()`,
+  `on_agent_end_async()`, `on_llm_call_async()`, `on_tool_call_async()`.
+  Async hooks are fired via `asyncio.ensure_future()` on the running loop;
+  silently skipped when no loop is running.
+- **`agentobs check` CLI** — new `agentobs check` sub-command performs a
+  five-step end-to-end health check (config → event creation → schema
+  validation → export pipeline → trace store) and exits 0/1.
+- **`trace_store()` context manager** (`agentobs.trace_store`) — installs a
+  fresh, isolated `TraceStore` for the duration of a `with` block and restores
+  the previous singleton on exit.  Exported at package level.
+- **Export retry with back-off** (`agentobs._stream`) — the dispatch pipeline
+  now retries failed exports up to `export_max_retries` times (default: 3)
+  with exponential back-off (0.5 s, 1 s, 2 s …).  Configurable via
+  `agentobs.configure(export_max_retries=N)`.
+- **Structured export logging** — `logging.getLogger("agentobs.export")` now
+  emits `WARNING`-level messages on every export error and `DEBUG`-level
+  messages on each retry attempt.
+- **Export error counter** — `agentobs._stream.get_export_error_count()`
+  returns the cumulative count of export errors since process start; useful
+  for health-check endpoints.
+- **`unpatch()` / `is_patched()`** for all three callback-based integrations
+  (`crewai`, `langchain`, `llamaindex`) — consistent unpatch API across every
+  integration module.
+- **`NotImplementedWarning`** (`agentobs.migrate`) — `v1_to_v2()` now emits a
+  `NotImplementedWarning` via `warnings.warn()` before raising
+  `NotImplementedError` so tools that filter warnings still see the signal.
+  `v1_to_v2` is removed from `agentobs.__all__`.
+- **`assert_no_sunset_reached()`** (`agentobs.assert_no_sunset_reached`) — CI
+  helper that raises `AssertionError` listing any `SunsetPolicy` records whose
+  `sunset` version is ≤ the current SDK version.
+- **Frozen payload dataclasses** — `SpanPayload`, `AgentStepPayload`, and
+  `AgentRunPayload` are now `@dataclass(frozen=True)`; attempts to mutate a
+  completed span record now raise `FrozenInstanceError` immediately.
+- **Custom exporter tutorial** — new doc at
+  `docs/user_guide/custom_exporters.md` covering the `SyncExporter` protocol,
+  HTTP + batching examples, error handling, and test patterns.
+
+### Changed
+
+- `agentobs.__version__` bumped from `"1.0.5"` to `"1.0.6"`.
+- `HookRegistry.__repr__` now includes both sync and async hook counts.
+- `agentobs.__all__` updated: added `AsyncHookFn`, `assert_no_sunset_reached`,
+  `NotImplementedWarning`, `trace_store`, `testing`, `auto`; removed
+  `v1_to_v2`.
+
+---
+
+## 2.0.0 (previous) — 2026-03-07
+
+**Phases 1–5 — Core Foundation, Observability, Developer Experience, Production Analytics, Ecosystem Expansion**
+
+This release is a comprehensive upgrade of the SDK runtime. All changes are
+backward-compatible unless noted; no existing public API was removed.
+
+### Added — Phase 1: Core Foundation
+
+- **`contextvars`-based context propagation** — the three internal stacks
+  (`_span_stack_var`, `_run_stack_var`) are now `contextvars.ContextVar` tuples
+  instead of `threading.local` lists. Context flows correctly across `asyncio`
+  tasks, `loop.run_in_executor` thread pools, and `concurrent.futures` workers.
+  Sync code is unaffected.
+- **`copy_context()`** (`agentobs.copy_context`) — returns a shallow copy of
+  the current `contextvars.Context` for manually spawned threads or executor
+  tasks. Re-exported at the top-level `agentobs` package.
+- **Async context-manager support** — `SpanContextManager`,
+  `AgentRunContextManager`, and `AgentStepContextManager` now implement
+  `__aenter__` / `__aexit__` so `async with tracer.span(...)`,
+  `async with tracer.agent_run(...)`, and `async with tracer.agent_step(...)`
+  all work without any API change.
+- **`Trace` class** (`agentobs.Trace`) — a first-class object returned by
+  `start_trace()` that holds a reference to the root span and accumulates all
+  child spans.  Convenience methods: `llm_call()`, `tool_call()`, `end()`,
+  `to_json()`, `save()`, `print_tree()`, `summary()`.
+  Supports `with start_trace(...) as trace:` and `async with start_trace(...) as trace:`.
+- **`start_trace(agent_name, **attributes)`** (`agentobs.start_trace`) — opens
+  a new trace, pushes a root `AgentRunContextManager` onto the context stack,
+  and returns a `Trace` object that acts as the root context for all child
+  spans.  Re-exported at the top-level `agentobs` package.
+
+### Added — Phase 2: Observability Completeness
+
+- **`SpanEvent` dataclass** (`agentobs.namespaces.trace.SpanEvent`) — a
+  named, timestamped event (nanosecond resolution) with an open-ended
+  `metadata: dict` field.  Participates in `to_dict()` / `from_dict()`
+  round-trips.
+- **`Span.add_event(name, metadata=None)`** — append a `SpanEvent` to the
+  active span at any point during its lifetime.
+- **`SpanErrorCategory` type alias** (`agentobs.types.SpanErrorCategory`) —
+  typed `Literal` for `"agent_error"`, `"llm_error"`, `"tool_error"`,
+  `"timeout_error"`, `"unknown_error"`. Built-in exception types
+  (`TimeoutError`, `asyncio.TimeoutError`) are auto-mapped to
+  `"timeout_error"` by `Span.record_error()`.
+- **`Span.record_error(exc, category=...)`** — enhanced to accept an optional
+  `category: SpanErrorCategory`; stores `error_category` on the span and
+  in `SpanPayload.error_category`.
+- **`Span.set_timeout_deadline(seconds)`** — schedules a background timer that
+  sets `status = "timeout"` and `error_category = "timeout_error"` if the
+  span is not closed within the deadline.
+- **LLM span schema extensions** — `SpanPayload` gains three optional fields:
+  `temperature: float | None`, `top_p: float | None`,
+  `max_tokens: int | None`. All existing calls that do not set these fields
+  are unaffected.
+- **Tool span schema extensions** — `ToolCall` gains:
+  - `arguments_raw: str | None` — raw tool arguments (populated only when
+    `AgentOBSConfig.include_raw_tool_io = True`; redaction policy is applied
+    before storage).
+  - `result_raw: str | None` — raw tool result (same opt-in flag).
+  - `retry_count: int | None` — zero-based retry counter.
+  - `external_api: str | None` — identifier for the external service called.
+- **`AgentOBSConfig.include_raw_tool_io`** (`bool`, default `False`) — opt-in
+  flag that controls whether `arguments_raw` / `result_raw` are stored. When a
+  `RedactionPolicy` is configured, raw values are passed through
+  `redact.redact_value()` before storage.
+
+### Added — Phase 3: Developer Experience
+
+- **`agentobs.debug`** module — standalone debug utilities (also available as
+  methods on `Trace`):
+  - **`print_tree(spans, *, file=None)`** — pretty-prints a hierarchical span
+    tree with Unicode box-drawing characters, duration, token counts, and
+    costs. Respects the `NO_COLOR` environment variable.
+  - **`summary(spans) -> dict`** — returns an aggregated statistics
+    dictionary: `trace_id`, `agent_name`, `total_duration_ms`, `span_count`,
+    `llm_calls`, `tool_calls`, `total_input_tokens`, `total_output_tokens`,
+    `total_cost_usd`, `errors`.
+  - **`visualize(spans, output="html", *, path=None) -> str`** — generates a
+    self-contained HTML Gantt-timeline string (no external dependencies).
+    Pass `path="trace.html"` to write directly to a file.
+- `print_tree`, `summary`, `visualize` re-exported from the top-level
+  `agentobs` package.
+- **Sampling controls** added to `AgentOBSConfig`:
+  - `sample_rate: float = 1.0` — fraction of traces to emit (0.0–1.0).
+    Decision is made per `trace_id` (deterministic SHA-256 hash) so all
+    spans of a trace are always sampled together.
+  - `always_sample_errors: bool = True` — spans/traces with
+    `status = "error"` or `"timeout"` are always emitted regardless of
+    `sample_rate`.
+  - `trace_filters: list[Callable[[Event], bool]]` — custom per-event predicates
+    evaluated after the probabilistic gate.
+- **`AGENTOBS_SAMPLE_RATE`** environment variable — overrides
+  `sample_rate` at startup.
+
+### Added — Phase 4: Production Analytics
+
+- **`agentobs.metrics`** module:
+  - **`aggregate(events) -> MetricsSummary`** — single-call aggregation
+    over any `Iterable[Event]` (file, in-memory list, or `TraceStore`).
+  - **`MetricsSummary`** dataclass — `trace_count`, `span_count`,
+    `agent_success_rate`, `avg_trace_duration_ms`, `p50_trace_duration_ms`,
+    `p95_trace_duration_ms`, `total_input_tokens`, `total_output_tokens`,
+    `total_cost_usd`, `llm_latency_ms` (`LatencyStats`),
+    `tool_failure_rate`, `token_usage_by_model`, `cost_by_model`.
+  - **`agent_success_rate(events)`**, **`llm_latency(events)`**,
+    **`tool_failure_rate(events)`**, **`token_usage(events)`** — focused
+    single-metric helpers.
+  - Re-exported as `import agentobs; agentobs.metrics.aggregate(events)`.
+- **`agentobs._store.TraceStore`** — in-memory ring buffer (bounded to
+  `AgentOBSConfig.trace_store_size`, default 100) that retains the last N
+  traces for programmatic access:
+  - `get_trace(trace_id)` → `list[Event] | None`
+  - `get_last_agent_run()` → `list[Event] | None`
+  - `list_tool_calls(trace_id)` → `list[SpanPayload]`
+  - `list_llm_calls(trace_id)` → `list[SpanPayload]`
+  - `clear()`
+- **Module-level convenience functions** re-exported from `agentobs`:
+  `get_trace()`, `get_last_agent_run()`, `list_tool_calls()`,
+  `list_llm_calls()`.
+- **`AgentOBSConfig.enable_trace_store`** (`bool`, default `False`) — enables
+  the `TraceStore` ring buffer. When a `RedactionPolicy` is configured, events
+  are redacted before storage.
+- **`AgentOBSConfig.trace_store_size`** (`int`, default `100`) — maximum
+  number of traces retained in the ring buffer.
+- **`AGENTOBS_ENABLE_TRACE_STORE=1`** environment variable override.
+
+### Added — Phase 5: Ecosystem Expansion
+
+- **`agentobs._hooks.HookRegistry`** — callback registry for global span
+  lifecycle hooks with decorator API:
+  - `@hooks.on_agent_start` / `@hooks.on_agent_end`
+  - `@hooks.on_llm_call`
+  - `@hooks.on_tool_call`
+  - `hooks.clear()` — unregister all hooks (useful in tests)
+  - Thread-safe via `threading.RLock`.
+- **`agentobs.hooks`** — module-level singleton `HookRegistry`. Re-exported
+  from the top-level `agentobs` package.
+  ```python
+  @agentobs.hooks.on_llm_call
+  def my_hook(span):
+      print(f"LLM called: {span.model}")
+  ```
+- **`agentobs.integrations.crewai`** — CrewAI event handler:
+  - `AgentOBSCrewAIHandler` — callback handler that emits `llm.trace.*`
+    events for agent actions, task lifecycle, and tool calls. Follows the
+    same pattern as `LLMSchemaCallbackHandler`.
+  - `patch()` — convenience function that registers the handler into CrewAI
+    globally (guards with `importlib.util.find_spec("crewai")` so the module
+    is safely importable without CrewAI installed).
+
+### Changed
+
+- `agentobs.__version__`: `1.0.6` → `2.0.0`
+
+---
+
+## 1.0.6 — 2026-03-07
+
+**Phase 6 — OpenAI Auto-Instrumentation**
+
+### Added
+
+- **`agentobs.integrations.openai`** — zero-boilerplate OpenAI tracing.
+  Calling `patch()` monkey-patches both `openai.resources.chat.completions.Completions.create`
+  (sync) and `AsyncCompletions.create` (async) so every chat completion
+  automatically populates the active `agentobs` span with token usage, model
+  info, and a computed cost breakdown.
+  - `patch()` / `unpatch()` — idempotent lifecycle; safe to call multiple
+    times; `unpatch()` fully restores original methods.
+  - `is_patched()` — returns `True` after `patch()`, `False` if OpenAI is not
+    installed or `unpatch()` has been called.
+  - `normalize_response(response) -> (TokenUsage, ModelInfo, CostBreakdown)` —
+    extracts all available token counts (input, output, total, cached,
+    reasoning) and computes USD cost from the static pricing table.
+  - `_auto_populate_span(response)` — updates the active span if one is
+    present; silently skips if no span is active or if the span already has
+    `token_usage` set; swallows all instrumentation errors so they never
+    surface in user code.
+- **`agentobs.integrations._pricing`** — static OpenAI pricing table (USD / 1 M
+  tokens) covering GPT-4o, GPT-4o-mini, GPT-4 Turbo, GPT-4, GPT-3.5 Turbo,
+  o1, o1-mini, o1-preview, o3-mini, o3, and the text-embedding-3-* / ada-002
+  families.  Prices reflect OpenAI's published rates as of `2026-03-04`.
+  - `get_pricing(model)` — exact lookup with automatic date-suffix stripping
+    fallback (e.g. `"gpt-4o-2024-11-20"` → `"gpt-4o"`).
+  - `list_models()` — sorted list of all known model names.
+  - `PRICING_DATE = "2026-03-04"` — snapshot date attached to every
+    `CostBreakdown` for auditability.
+- **68 new tests** in `tests/test_phase6_openai_integration.py` covering
+  pricing table correctness, `normalize_response` field mapping, all
+  `_compute_cost` branches (cached discount, o1/o3 reasoning rate, non-negative
+  clamp, pricing-date attachment), `_auto_populate_span` (including the
+  `except Exception: pass` instrumentation-error-swallow branch), patch
+  lifecycle, async wrapper, and end-to-end tracer integration.
+
+### Fixed
+
+- **`openai.py` — `_PATCH_FLAG` consistency**: `patch()` and `unpatch()` now
+  use `setattr` / `delattr` with the `_PATCH_FLAG` constant instead of
+  hardcoding the string `"_agentobs_patched"`, eliminating a silent mismatch
+  risk if the constant is ever renamed.
+- **`openai.py` docstring**: usage example corrected from `agentobs.span()`
+  to `agentobs.tracer.span()`.
+
+### Coverage
+
+- `agentobs/integrations/openai.py`: **100 %** (was 99 %)
+- `agentobs/integrations/_pricing.py`: **100 %**
+- Total suite: **2 407 tests**, **97.00 % coverage**
+
+---
+
+## 1.0.5 — 2026-03-06
 
 **Version bump**
 

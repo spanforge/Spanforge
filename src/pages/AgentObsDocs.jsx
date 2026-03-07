@@ -22,6 +22,10 @@ import ugComplianceMd from '../../AgentOBS/docs/user_guide/compliance.md?raw'
 import ugExportMd from '../../AgentOBS/docs/user_guide/export.md?raw'
 import ugGovernanceMd from '../../AgentOBS/docs/user_guide/governance.md?raw'
 import ugMigrationMd from '../../AgentOBS/docs/user_guide/migration.md?raw'
+import ugTracingMd from '../../AgentOBS/docs/user_guide/tracing.md?raw'
+import ugDebuggingMd from '../../AgentOBS/docs/user_guide/debugging.md?raw'
+import ugMetricsMd from '../../AgentOBS/docs/user_guide/metrics.md?raw'
+import ugCustomExportersMd from '../../AgentOBS/docs/user_guide/custom_exporters.md?raw'
 
 // API Reference
 import apiIndexMd from '../../AgentOBS/docs/api/index.md?raw'
@@ -41,6 +45,11 @@ import apiIntegrationsMd from '../../AgentOBS/docs/api/integrations.md?raw'
 import apiUlidMd from '../../AgentOBS/docs/api/ulid.md?raw'
 import apiExceptionsMd from '../../AgentOBS/docs/api/exceptions.md?raw'
 import apiModelsMd from '../../AgentOBS/docs/api/models.md?raw'
+import apiDebugMd from '../../AgentOBS/docs/api/debug.md?raw'
+import apiHooksMd from '../../AgentOBS/docs/api/hooks.md?raw'
+import apiMetricsMd from '../../AgentOBS/docs/api/metrics.md?raw'
+import apiStoreMd from '../../AgentOBS/docs/api/store.md?raw'
+import apiTraceMd from '../../AgentOBS/docs/api/trace.md?raw'
 
 // Namespace Catalogue
 import nsIndexMd from '../../AgentOBS/docs/namespaces/index.md?raw'
@@ -75,6 +84,10 @@ const DOC_MAP = {
   'user-guide-export': { content: ugExportMd, source: 'user_guide/export.md' },
   'user-guide-governance': { content: ugGovernanceMd, source: 'user_guide/governance.md' },
   'user-guide-migration': { content: ugMigrationMd, source: 'user_guide/migration.md' },
+  'user-guide-tracing': { content: ugTracingMd, source: 'user_guide/tracing.md' },
+  'user-guide-debugging': { content: ugDebuggingMd, source: 'user_guide/debugging.md' },
+  'user-guide-metrics': { content: ugMetricsMd, source: 'user_guide/metrics.md' },
+  'user-guide-custom-exporters': { content: ugCustomExportersMd, source: 'user_guide/custom_exporters.md' },
   // API Reference
   'api-index': { content: apiIndexMd, source: 'api/index.md' },
   'api-event': { content: apiEventMd, source: 'api/event.md' },
@@ -93,6 +106,11 @@ const DOC_MAP = {
   'api-ulid': { content: apiUlidMd, source: 'api/ulid.md' },
   'api-exceptions': { content: apiExceptionsMd, source: 'api/exceptions.md' },
   'api-models': { content: apiModelsMd, source: 'api/models.md' },
+  'api-debug': { content: apiDebugMd, source: 'api/debug.md' },
+  'api-hooks': { content: apiHooksMd, source: 'api/hooks.md' },
+  'api-metrics': { content: apiMetricsMd, source: 'api/metrics.md' },
+  'api-store': { content: apiStoreMd, source: 'api/store.md' },
+  'api-trace': { content: apiTraceMd, source: 'api/trace.md' },
   // Namespace Catalogue
   'ns-index': { content: nsIndexMd, source: 'namespaces/index.md' },
   'ns-trace': { content: nsTraceMd, source: 'namespaces/trace.md' },
@@ -164,6 +182,10 @@ const SIDEBAR = [
       { path: 'user-guide-export', label: 'Export Backends' },
       { path: 'user-guide-governance', label: 'Governance' },
       { path: 'user-guide-migration', label: 'Migration Guide' },
+      { path: 'user-guide-tracing', label: 'Tracing' },
+      { path: 'user-guide-debugging', label: 'Debugging' },
+      { path: 'user-guide-metrics', label: 'Metrics' },
+      { path: 'user-guide-custom-exporters', label: 'Custom Exporters' },
     ]
   },
   {
@@ -186,6 +208,11 @@ const SIDEBAR = [
       { path: 'api-ulid', label: 'ulid' },
       { path: 'api-exceptions', label: 'exceptions' },
       { path: 'api-models', label: 'models' },
+      { path: 'api-debug', label: 'debug' },
+      { path: 'api-hooks', label: '_hooks' },
+      { path: 'api-metrics', label: 'metrics' },
+      { path: 'api-store', label: '_store' },
+      { path: 'api-trace', label: '_trace' },
     ]
   },
   {

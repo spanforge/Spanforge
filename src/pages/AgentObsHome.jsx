@@ -18,15 +18,17 @@ const modules = [
   { name: 'agentobs.types', desc: 'EventType enum and all built-in event type strings', who: 'Everyone' },
   { name: 'agentobs.signing', desc: 'HMAC-SHA256 signing, AuditStream, chain verification', who: 'Security / compliance' },
   { name: 'agentobs.redact', desc: 'Redactable types, five sensitivity levels, RedactionPolicy', who: 'Data privacy / GDPR' },
-  { name: 'agentobs.compliance', desc: 'Programmatic v1.0 compatibility and chain integrity checks', who: 'Platform / DevOps' },
+  { name: 'agentobs.compliance', desc: 'Programmatic v2.0 compatibility and chain integrity checks', who: 'Platform / DevOps' },
   { name: 'agentobs.export', desc: 'JSONL, Webhook, OTLP, Datadog, Grafana Loki backends', who: 'Infra / observability' },
   { name: 'agentobs.stream', desc: 'EventStream fan-out router with Kafka source', who: 'Platform engineers' },
   { name: 'agentobs.validate', desc: 'JSON Schema validation helpers', who: 'Everyone' },
   { name: 'agentobs.migrate', desc: 'v1→v2 migration roadmap, SunsetPolicy, DeprecationRecord', who: 'Platform / DevOps' },
   { name: 'agentobs.consumer', desc: 'ConsumerRegistry, consumer compatibility checks', who: 'Platform / DevOps' },
   { name: 'agentobs.governance', desc: 'Policy-based event gating, GovernanceViolationError', who: 'Platform / compliance' },
-  { name: 'agentobs.integrations', desc: 'LangChain callback handler, LlamaIndex event handler', who: 'App developers' },
+  { name: 'agentobs.integrations', desc: 'OpenAI, LangChain, LlamaIndex, Anthropic, Groq, Ollama, Together, CrewAI adapters', who: 'App developers' },
   { name: 'agentobs.namespaces', desc: 'Typed payload dataclasses for all 11 namespaces', who: 'Tool authors' },
+  { name: 'agentobs.testing', desc: 'MockExporter, capture_events(), assert_event_schema_valid(), trace_store() — unit test helpers', who: 'Everyone' },
+  { name: 'agentobs.auto', desc: 'Auto-discover and patch every installed LLM integration with one setup() call', who: 'App developers' },
 ]
 
 const namespaces = [
@@ -74,11 +76,11 @@ export default function AgentObsHome() {
         </p>
 
         <div className={styles.heroStats}>
-          <div className={styles.stat}><span>1.0.5</span>Latest</div>
+          <div className={styles.stat}><span>1.0.6</span>Latest</div>
           <div className={styles.statDivider} />
-          <div className={styles.stat}><span>1,837</span>Tests</div>
+          <div className={styles.stat}><span>2,407</span>Tests</div>
           <div className={styles.statDivider} />
-          <div className={styles.stat}><span>96%</span>Coverage</div>
+          <div className={styles.stat}><span>97%</span>Coverage</div>
           <div className={styles.statDivider} />
           <div className={styles.stat}><span>Zero</span>Dependencies</div>
           <div className={styles.statDivider} />
@@ -109,7 +111,7 @@ export default function AgentObsHome() {
           <p className="section-label">What is AgentOBS?</p>
           <h2 className={styles.sectionTitle}>Understand the standard in one page</h2>
           <p style={{ color: 'var(--muted)', maxWidth: 720, marginBottom: '2rem', lineHeight: 1.8 }}>
-            <strong style={{ color: 'var(--text)' }}>AgentOBS</strong> (<code>tracium</code>) is the reference implementation of{' '}
+            <strong style={{ color: 'var(--text)' }}>AgentOBS</strong> (<code>agentobs</code>) is the reference implementation of{' '}
             <Link to="/standard" style={{ color: 'var(--accent)', fontWeight: 600 }}>RFC-0001 AGENTOBS</Link> — the open event-schema standard for
             observability of agentic AI systems. Every time your app calls a language model, makes a decision,
             redacts private data, or checks a guardrail, this library gives that action a consistent,
@@ -262,12 +264,16 @@ print(event.to_json())`}</code></pre>
               { path: 'user-guide-signing', label: 'User Guide: Signing', desc: 'Sign events, build tamper-evident chains, detect tampering' },
               { path: 'user-guide-redaction', label: 'User Guide: Redaction', desc: 'Sensitivity levels, redaction policies, PII detection' },
               { path: 'user-guide-export', label: 'User Guide: Export', desc: 'JSONL, Webhook, OTLP, Datadog, Grafana Loki' },
+              { path: 'user-guide-tracing', label: 'User Guide: Tracing', desc: 'Span API, Trace object, async context propagation' },
+              { path: 'user-guide-debugging', label: 'User Guide: Debugging', desc: 'print_tree(), visualize(), HTML Gantt timeline' },
+              { path: 'user-guide-metrics', label: 'User Guide: Metrics', desc: 'aggregate(), MetricsSummary, latency percentiles, cost' },
               { path: 'user-guide-governance', label: 'User Guide: Governance', desc: 'Block/warn event types, consumer registry, deprecations' },
               { path: 'user-guide-migration', label: 'Migration Guide', desc: 'v2 migration roadmap, deprecation records, v1_to_v2() scaffold' },
+              { path: 'user-guide-custom-exporters', label: 'Custom Exporters', desc: 'SyncExporter protocol, HTTP exporter, testing patterns' },
               { path: 'api-index', label: 'API Reference', desc: 'Full API reference for every module' },
               { path: 'ns-index', label: 'Namespace Catalogue', desc: 'Typed payload dataclasses for all 11 namespaces' },
-              { path: 'cli', label: 'CLI Reference', desc: '8 agentobs sub-commands — validate, audit, inspect, stats' },
-              { path: 'schema', label: 'JSON Schema', desc: 'The canonical AGENTOBS event envelope schema v1.0' },
+              { path: 'cli', label: 'CLI Reference', desc: '9 agentobs sub-commands — validate, audit, inspect, stats, check' },
+              { path: 'schema', label: 'JSON Schema', desc: 'The canonical AGENTOBS event envelope schema v2.0' },
             ].map(d => (
               <Link key={d.path} to={`/sdk/docs/${d.path}`} className={styles.docCard}>
                 <div className={styles.docCardLabel}>{d.label} →</div>

@@ -80,7 +80,7 @@ export default function AgentObsDebugHome() {
           <div className={styles.statDivider} />
           <div className={styles.stat}><span>Python 3.10+</span>Requirement</div>
           <div className={styles.statDivider} />
-          <div className={styles.stat}><span>agentobs &gt;= 1.0.5</span>Dependency</div>
+          <div className={styles.stat}><span>agentobs &gt;= 1.0.6</span>Dependency</div>
           <div className={styles.statDivider} />
           <div className={styles.stat}><span>10 Views</span>CLI + API</div>
         </div>
@@ -93,7 +93,7 @@ export default function AgentObsDebugHome() {
         </div>
 
         <div className={styles.installBox}>
-          <span className={styles.installComment}># Install from PyPI (requires agentobs &gt;= 1.0.5)</span>
+          <span className={styles.installComment}># Install from PyPI (requires agentobs &gt;= 1.0.6)</span>
           <div className={styles.installLine}>
             <span className={styles.installPrompt}>$</span>
             <span className={styles.installCmd}>pip install agentobs-debug</span>
