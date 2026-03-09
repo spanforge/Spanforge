@@ -13,9 +13,9 @@
   <img src="https://img.shields.io/badge/python-3.9%2B-4c8cbf?logo=python&logoColor=white" alt="Python 3.9+"/>
   <a href="https://pypi.org/project/agentobs/"><img src="https://img.shields.io/pypi/v/agentobs?color=4c8cbf&logo=pypi&logoColor=white" alt="PyPI"/></a>
   <a href="https://www.getspanforge.com/standard"><img src="https://img.shields.io/badge/standard-AGENTOBS_RFC--0001-4c8cbf" alt="AGENTOBS RFC-0001"/></a>
-  <img src="https://img.shields.io/badge/coverage-97%25-brightgreen" alt="97% test coverage"/>
-  <img src="https://img.shields.io/badge/tests-2407%20passing-brightgreen" alt="2407 tests"/>
-  <img src="https://img.shields.io/badge/version-1.0.6-4c8cbf" alt="Version 1.0.6"/>
+  <img src="https://img.shields.io/badge/coverage-93%25-brightgreen" alt="93% test coverage"/>
+  <img src="https://img.shields.io/badge/tests-3032%20passing-brightgreen" alt="3032 tests"/>
+  <img src="https://img.shields.io/badge/version-1.0.8-4c8cbf" alt="Version 1.0.8"/>
   <img src="https://img.shields.io/badge/dependencies-zero-brightgreen" alt="Zero dependencies"/>
   <a href="docs/index.md"><img src="https://img.shields.io/badge/docs-local-4c8cbf" alt="Documentation"/></a>
   <img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT license"/>
@@ -282,7 +282,7 @@ await stream.drain(GrafanaLokiExporter(
 # Fan-out: guard-blocked events -> Slack webhook
 await stream.route(
     WebhookExporter("https://hooks.slack.com/your-webhook"),
-    predicate=lambda e: e.event_type == "llm.guard.blocked",
+  predicate=lambda e: e.event_type == "llm.guard.output.blocked",
 )
 ```
 
@@ -367,9 +367,65 @@ html = visualize(trace.spans, path="trace.html")
 
 ---
 
-### 8 — Check compliance and inspect events from the command line
+### 8a — Semantic cache — skip redundant LLM calls
+
+```python
+from agentobs.cache import SemanticCache, InMemoryBackend
+
+cache = SemanticCache(
+    backend=InMemoryBackend(max_size=1024),
+    similarity_threshold=0.92,   # cosine similarity cutoff
+    ttl_seconds=3600,
+    namespace="responses",
+    emit_events=True,            # emits llm.cache.hit/miss/written events
+)
+
+# Or use the @cached decorator on any async function
+from agentobs.cache import cached
+
+@cached(threshold=0.92, ttl=3600, emit_events=True)
+async def call_llm(prompt: str) -> str:
+    # ... real LLM call only on cache miss
+    return response
+
+reply = await call_llm("Summarise the AGENTOBS RFC in one sentence.")
+# Second call with a semantically identical prompt → instant cache hit, zero tokens spent
+reply2 = await call_llm("Give me a one-sentence summary of the AGENTOBS RFC.")
+```
+
+---
+
+### 8b — Lint your instrumentation in CI
+
+```python
+from agentobs.lint import run_checks
+
+source = open("myapp/pipeline.py").read()
+errors = run_checks(source, filename="myapp/pipeline.py")
+
+for err in errors:
+    print(f"{err.filename}:{err.line}:{err.col}: {err.code} {err.message}")
+# myapp/pipeline.py:42:12: AO002 actor_id receives a bare str; wrap with Redactable()
+```
+
+Or run the CLI against a whole directory:
 
 ```bash
+python -m agentobs.lint myapp/
+# AO001  Event() missing required field 'payload'     myapp/pipeline.py:17
+# AO004  LLM call outside tracer span context         myapp/pipeline.py:53
+# 2 errors in 1 file.
+
+# Plug into flake8 / ruff automatically (entry-point registered in pyproject.toml):
+flake8 myapp/
+```
+
+---
+
+### 9 — Check compliance and inspect events from the command line
+
+```bash
+agentobs check                           # end-to-end health check (config → export → trace store)
 agentobs check-compat events.json        # v2.0 compatibility checklist
 agentobs validate events.jsonl           # JSON Schema validation per event
 agentobs audit-chain events.jsonl        # verify HMAC signing chain integrity
@@ -441,12 +497,12 @@ Drop any of these into your CI pipeline to catch schema drift, signing failures,
 </tr>
 <tr>
   <td><code>agentobs._hooks</code></td>
-  <td><code>HookRegistry</code> / <code>hooks</code> — global span lifecycle hooks: <code>@hooks.on_llm_call</code>, <code>@hooks.on_tool_call</code>, <code>@hooks.on_agent_start</code>, <code>@hooks.on_agent_end</code></td>
+  <td><code>HookRegistry</code> / <code>hooks</code> — global span lifecycle hooks: <code>@hooks.on_llm_call</code>, <code>@hooks.on_tool_call</code>, <code>@hooks.on_agent_start</code>, <code>@hooks.on_agent_end</code>. Async variants: <code>@hooks.on_llm_call_async</code>, <code>@hooks.on_tool_call_async</code>, <code>@hooks.on_agent_start_async</code>, <code>@hooks.on_agent_end_async</code> — fired via <code>asyncio.ensure_future()</code>.</td>
   <td>App developers / platform</td>
 </tr>
 <tr>
   <td><code>agentobs._cli</code></td>
-  <td>8 CLI sub-commands: <code>check-compat</code>, <code>validate</code>, <code>audit-chain</code>, <code>inspect</code>, <code>stats</code>, <code>list-deprecated</code>, <code>migration-roadmap</code>, <code>check-consumers</code></td>
+  <td>9 CLI sub-commands: <code>check</code>, <code>check-compat</code>, <code>validate</code>, <code>audit-chain</code>, <code>inspect</code>, <code>stats</code>, <code>list-deprecated</code>, <code>migration-roadmap</code>, <code>check-consumers</code></td>
   <td>DevOps / CI teams</td>
 </tr>
 <tr>
@@ -500,6 +556,16 @@ Drop any of these into your CI pipeline to catch schema drift, signing failures,
   <td>Library maintainers</td>
 </tr>
 <tr>
+  <td><code>agentobs.testing</code></td>
+  <td>Test utilities: <code>MockExporter</code>, <code>capture_events()</code> context manager, <code>assert_event_schema_valid()</code>, and <code>trace_store()</code> isolated store context manager. Write unit tests for your AI pipeline without real exporters.</td>
+  <td>App developers / test authors</td>
+</tr>
+<tr>
+  <td><code>agentobs.auto</code></td>
+  <td>Integration auto-discovery: <code>agentobs.auto.setup()</code> auto-patches every installed LLM integration (OpenAI, Anthropic, Ollama, Groq, Together AI). <code>setup()</code> must be called explicitly; <code>agentobs.auto.teardown()</code> cleanly unpatches all.</td>
+  <td>App developers</td>
+</tr>
+<tr>
   <td><code>agentobs.integrations</code></td>
   <td>Plug-in adapters for OpenAI (auto-instrumentation via <code>patch()</code>), LangChain, LlamaIndex, Anthropic, Groq, Ollama, Together, and <strong>CrewAI</strong> (<code>AgentOBSCrewAIHandler</code> + <code>patch()</code>). <code>agentobs.integrations._pricing</code> ships a static USD/1M-token pricing table for all current OpenAI models.</td>
   <td>App developers</td>
@@ -513,6 +579,41 @@ Drop any of these into your CI pipeline to catch schema drift, signing failures,
   <td><code>agentobs.models</code></td>
   <td>Optional Pydantic v2 models for teams that prefer validated schemas</td>
   <td>API / backend teams</td>
+</tr>
+<tr>
+  <td><code>agentobs.trace</code></td>
+  <td><code>@trace()</code> decorator — wraps sync/async functions, auto-emits span start/end events with timing and error capture. <code>agentobs.export.otlp_bridge</code> converts spans to OTLP proto dicts.</td>
+  <td>App developers</td>
+</tr>
+<tr>
+  <td><code>agentobs.cost</code></td>
+  <td><code>CostTracker</code>, <code>BudgetMonitor</code>, <code>@budget_alert</code>, <code>emit_cost_event()</code>, <code>cost_summary()</code> — track and alert on token spend across a session</td>
+  <td>App developers / FinOps</td>
+</tr>
+<tr>
+  <td><code>agentobs.inspect</code></td>
+  <td><code>InspectorSession</code> context manager + <code>inspect_trace()</code> — intercept and record tool call arguments, results, latency, and errors within a trace</td>
+  <td>Platform / debugging</td>
+</tr>
+<tr>
+  <td><code>agentobs.toolsmith</code></td>
+  <td><code>@tool</code> decorator + <code>ToolRegistry</code> — register functions as typed tools; <code>build_openai_schema()</code> / <code>build_anthropic_schema()</code> render JSON schemas for function-calling APIs</td>
+  <td>App developers</td>
+</tr>
+<tr>
+  <td><code>agentobs.retry</code></td>
+  <td><code>@retry</code> with exponential back-off, <code>FallbackChain</code>, <code>CircuitBreaker</code>, <code>CostAwareRouter</code> — resilient LLM provider routing with observability events at each step</td>
+  <td>App developers / SREs</td>
+</tr>
+<tr>
+  <td><code>agentobs.cache</code></td>
+  <td><code>SemanticCache</code> + <code>@cached</code> decorator — deduplicate LLM calls via cosine-similarity matching; pluggable backends: <code>InMemoryBackend</code>, <code>SQLiteBackend</code>, <code>RedisBackend</code>; emits <code>llm.cache.*</code> events</td>
+  <td>App developers / FinOps</td>
+</tr>
+<tr>
+  <td><code>agentobs.lint</code></td>
+  <td><code>run_checks(source, filename)</code> — AST-based instrumentation linter; five AO-codes (AO001–AO005); flake8 plugin; <code>python -m agentobs.lint</code> CLI</td>
+  <td>All teams / CI pipelines</td>
 </tr>
 </tbody>
 </table>
@@ -560,13 +661,15 @@ event = Event(
 
 ## Quality standards
 
-- **2 407 tests** — unit, integration, property-based (Hypothesis), and performance benchmarks
-- **97 % line and branch coverage** — measured with ``pytest-cov``
+- **3 032 tests** (2 990 passing, 42 skipped) — unit, integration, property-based (Hypothesis), and performance benchmarks
+- **≥ 92.84 % line and branch coverage** — measured with ``pytest-cov``; 90 % minimum enforced in CI
 - **Zero required dependencies** — the entire core runs on Python's standard library alone
 - **Typed** — full ``py.typed`` marker; works with mypy and pyright out of the box
 - **Frozen v2 trace schema** — ``llm.trace.*`` payload fields will never break between minor releases
 - **async-safe context propagation** — `contextvars`-based span stacks work correctly across `asyncio` tasks, thread pools, and executors
+- **Version 1.0.7** adds: `@trace()` decorator, OTLP bridge, `CostTracker` / `BudgetMonitor`, `InspectorSession`, `ToolRegistry` / `@tool`, `@retry` / `FallbackChain` / `CircuitBreaker`, `SemanticCache` / `@cached`, and `agentobs.lint` (AO001–AO005, flake8 plugin, CLI)
 - **Version 2.0.0** adds: `Trace` / `start_trace()`, `async with`, `span.add_event()`, `print_tree()` / `summary()` / `visualize()`, sampling controls, `metrics.aggregate()`, `TraceStore`, `HookRegistry`, CrewAI integration
+- **Version 1.0.6** adds: `agentobs.testing`, `agentobs.auto`, async lifecycle hooks, `agentobs check` CLI, export retry with back-off, `unpatch()` / `is_patched()` for all integrations, frozen payload dataclasses, `assert_no_sunset_reached()`
 
 ---
 
@@ -588,7 +691,22 @@ agentobs/
 ├── _stream.py        <- Internal dispatch: sample → redact → sign → export
 ├── _store.py         <- TraceStore ring buffer                [NEW in 2.0]
 ├── _hooks.py         <- HookRegistry singleton (hooks)        [NEW in 2.0]
-├── _cli.py           <- CLI entry-point (8 sub-commands)
+├── _cli.py           <- CLI entry-point (9 sub-commands: check, check-compat, …)
+├── trace.py          <- @trace() decorator + SpanOTLPBridge   [NEW in 1.0.7]
+├── cost.py           <- CostTracker, BudgetMonitor, @budget_alert [NEW in 1.0.7]
+├── inspect.py        <- InspectorSession, inspect_trace()     [NEW in 1.0.7]
+├── toolsmith.py      <- @tool, ToolRegistry, build_openai_schema() [NEW in 1.0.7]
+├── retry.py          <- @retry, FallbackChain, CircuitBreaker [NEW in 1.0.7]
+├── cache.py          <- SemanticCache, @cached, *Backend      [NEW in 1.0.7]
+├── lint/             <- run_checks(), AO001-AO005, flake8 plugin, CLI [NEW in 1.0.7]
+│   ├── __init__.py
+│   ├── _visitor.py
+│   ├── _checks.py
+│   ├── _flake8.py
+│   └── __main__.py
+├── testing.py        <- MockExporter, capture_events(), assert_event_schema_valid(),
+│                        trace_store() — test utilities without real exporters [1.0.6]
+├── auto.py           <- Integration auto-discovery; setup() / teardown()        [1.0.6]
 ├── debug.py          <- print_tree, summary, visualize        [NEW in 2.0]
 ├── metrics.py        <- aggregate(), MetricsSummary, etc.     [NEW in 2.0]
 ├── signing.py        <- HMAC signing & audit chains
@@ -642,7 +760,7 @@ python -m venv .venv
 # source .venv/bin/activate     # macOS / Linux
 
 pip install -e ".[dev]"
-pytest                          # run all 2 407 tests
+pytest                          # run all 3 032 tests
 ```
 
 <details>

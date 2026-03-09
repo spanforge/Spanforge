@@ -10,39 +10,58 @@ const features = [
   { icon: '🔐', title: 'HMAC Audit Chains', body: 'Tamper-evident, compliance-grade event integrity using HMAC-SHA256 signing with prev_id linkage — detects modification, deletion, insertion, and reordering.' },
   { icon: '🛡️', title: 'PII Redaction Framework', body: 'Field-level privacy annotations with five sensitivity levels (LOW → PHI) and threshold-based redaction policies enforced before any data reaches a backend.' },
   { icon: '📡', title: 'OTel-Compatible Export', body: 'Vendor-neutral export to OTLP, Datadog, Grafana Loki, webhooks, and JSONL — with direct mapping to OpenTelemetry gen_ai.* semantic conventions.' },
-  { icon: '🔗', title: 'Framework Integrations', body: 'First-class adapters for LangChain, LlamaIndex, OpenAI, Anthropic, Groq, Ollama, and Together — plug in with one line of code.' },
+  { icon: '🔗', title: 'Framework Integrations', body: 'First-class adapters for LangChain, LlamaIndex, OpenAI, Anthropic, Groq, Ollama, Together, and CrewAI — plug in with one line of code.' },
+  { icon: '🔭', title: 'High-Level Trace API', body: 'start_trace() and the Trace object give you a concise, async-safe entry point — accumulate child spans, inspect the tree, and render a self-contained HTML Gantt timeline with no extra setup.' },
+  { icon: '💰', title: 'Cost & Cache Intelligence', body: 'SemanticCache deduplicates redundant LLM calls via cosine-similarity matching; CostTracker and BudgetMonitor alert on spend before it escalates — with full observability events at every step.' },
 ]
 
 const modules = [
-  { name: 'agentobs.event', desc: 'Event envelope, serialisation, to_dict / from_dict', who: 'Everyone' },
+  { name: 'agentobs.event', desc: 'The core Event envelope — the one structure all tools share', who: 'Everyone' },
   { name: 'agentobs.types', desc: 'EventType enum and all built-in event type strings', who: 'Everyone' },
-  { name: 'agentobs.signing', desc: 'HMAC-SHA256 signing, AuditStream, chain verification', who: 'Security / compliance' },
-  { name: 'agentobs.redact', desc: 'Redactable types, five sensitivity levels, RedactionPolicy', who: 'Data privacy / GDPR' },
-  { name: 'agentobs.compliance', desc: 'Programmatic v2.0 compatibility and chain integrity checks', who: 'Platform / DevOps' },
-  { name: 'agentobs.export', desc: 'JSONL, Webhook, OTLP, Datadog, Grafana Loki backends', who: 'Infra / observability' },
-  { name: 'agentobs.stream', desc: 'EventStream fan-out router with Kafka source', who: 'Platform engineers' },
-  { name: 'agentobs.validate', desc: 'JSON Schema validation helpers', who: 'Everyone' },
+  { name: 'agentobs.config', desc: 'configure() and get_config() — global SDK configuration', who: 'Everyone' },
+  { name: 'agentobs._span', desc: 'Span, AgentRun, AgentStep context managers — async with, add_event(), set_timeout_deadline(); contextvars-based async/thread safety', who: 'App developers' },
+  { name: 'agentobs._trace', desc: 'Trace object and start_trace() — high-level tracing entry point; accumulates all child spans', who: 'App developers' },
+  { name: 'agentobs.debug', desc: 'print_tree(), summary(), visualize() — terminal tree, stats dict, and self-contained HTML Gantt timeline', who: 'App developers' },
+  { name: 'agentobs.metrics', desc: 'aggregate() and MetricsSummary — compute success rates, latency percentiles, token totals, and cost breakdowns from any Iterable[Event]', who: 'Data / analytics' },
+  { name: 'agentobs._store', desc: 'TraceStore — in-memory ring buffer; get_trace(), list_tool_calls(), list_llm_calls()', who: 'Platform / tooling' },
+  { name: 'agentobs._hooks', desc: 'HookRegistry / hooks — global span lifecycle hooks: @on_llm_call, @on_tool_call, @on_agent_start, @on_agent_end (sync and async variants)', who: 'App developers' },
+  { name: 'agentobs._cli', desc: '9 CLI sub-commands: check, check-compat, validate, audit-chain, inspect, stats, list-deprecated, migration-roadmap, check-consumers', who: 'DevOps / CI' },
+  { name: 'agentobs.signing', desc: 'HMAC-SHA256 event signing, AuditStream, and tamper-evident chain verification', who: 'Security / compliance' },
+  { name: 'agentobs.redact', desc: 'Redactable types, five sensitivity levels, RedactionPolicy — PII redaction before export', who: 'Data privacy / GDPR' },
+  { name: 'agentobs.compliance', desc: 'Programmatic v2.0 compatibility checks — no pytest required', who: 'Platform / DevOps' },
+  { name: 'agentobs.export', desc: 'Async export backends: JSONL, Webhook, OTLP, Datadog APM, Grafana Loki', who: 'Infra / observability' },
+  { name: 'agentobs.exporters', desc: 'Sync exporters — SyncJSONLExporter and SyncConsoleExporter for non-async code', who: 'App developers' },
+  { name: 'agentobs.stream', desc: 'EventStream fan-out router — one drain() reaches multiple backends; Kafka source via from_kafka()', who: 'Platform engineers' },
+  { name: 'agentobs.validate', desc: 'JSON Schema validation against the published v2.0 schema', who: 'Everyone' },
   { name: 'agentobs.migrate', desc: 'v1→v2 migration roadmap, SunsetPolicy, DeprecationRecord', who: 'Platform / DevOps' },
-  { name: 'agentobs.consumer', desc: 'ConsumerRegistry, consumer compatibility checks', who: 'Platform / DevOps' },
+  { name: 'agentobs.consumer', desc: 'ConsumerRegistry — declare schema-namespace dependencies and fail fast at startup if version requirements are not met', who: 'Platform / DevOps' },
   { name: 'agentobs.governance', desc: 'Policy-based event gating, GovernanceViolationError', who: 'Platform / compliance' },
-  { name: 'agentobs.integrations', desc: 'OpenAI, LangChain, LlamaIndex, Anthropic, Groq, Ollama, Together, CrewAI adapters', who: 'App developers' },
-  { name: 'agentobs.namespaces', desc: 'Typed payload dataclasses for all 11 namespaces', who: 'Tool authors' },
-  { name: 'agentobs.testing', desc: 'MockExporter, capture_events(), assert_event_schema_valid(), trace_store() — unit test helpers', who: 'Everyone' },
-  { name: 'agentobs.auto', desc: 'Auto-discover and patch every installed LLM integration with one setup() call', who: 'App developers' },
+  { name: 'agentobs.integrations', desc: 'Adapters for OpenAI, LangChain, LlamaIndex, Anthropic, Groq, Ollama, Together, and CrewAI (AgentOBSCrewAIHandler + patch())', who: 'App developers' },
+  { name: 'agentobs.namespaces', desc: 'Typed payload dataclasses for all 11 built-in event namespaces', who: 'Tool authors' },
+  { name: 'agentobs.testing', desc: 'MockExporter, capture_events(), assert_event_schema_valid(), trace_store() — unit test helpers without real exporters', who: 'Everyone' },
+  { name: 'agentobs.auto', desc: 'Integration auto-discovery: setup() auto-patches every installed LLM integration; teardown() cleanly unpatches all', who: 'App developers' },
+  { name: 'agentobs.trace', desc: '@trace() decorator + SpanOTLPBridge — wraps sync/async functions, auto-emits span start/end events with timing and error capture', who: 'App developers' },
+  { name: 'agentobs.cost', desc: 'CostTracker, BudgetMonitor, @budget_alert, emit_cost_event(), cost_summary() — track and alert on token spend across a session', who: 'App developers / FinOps' },
+  { name: 'agentobs.inspect', desc: 'InspectorSession context manager + inspect_trace() — intercept and record tool call arguments, results, latency and errors within a trace', who: 'Platform / debugging' },
+  { name: 'agentobs.toolsmith', desc: '@tool decorator + ToolRegistry — register functions as typed tools; build_openai_schema() / build_anthropic_schema() render JSON schemas', who: 'App developers' },
+  { name: 'agentobs.retry', desc: '@retry with exponential back-off, FallbackChain, CircuitBreaker, CostAwareRouter — resilient LLM provider routing with observability events', who: 'App developers / SREs' },
+  { name: 'agentobs.cache', desc: 'SemanticCache + @cached decorator — deduplicate LLM calls via cosine-similarity; InMemoryBackend, SQLiteBackend, RedisBackend; emits llm.cache.* events', who: 'App developers / FinOps' },
+  { name: 'agentobs.lint', desc: 'run_checks() — AST-based instrumentation linter; five AO-codes (AO001–AO005); flake8 plugin; python -m agentobs.lint CLI', who: 'All teams / CI' },
+  { name: 'agentobs.models', desc: 'Optional Pydantic v2 models for teams that prefer validated schemas', who: 'API / backend teams' },
 ]
 
 const namespaces = [
-  { prefix: 'llm.trace.*', cls: 'SpanPayload', desc: 'Model calls, agent runs, reasoning steps' },
-  { prefix: 'llm.cost.*', cls: 'CostTokenRecordedPayload', desc: 'Per-call and per-session cost in USD with category breakdowns' },
-  { prefix: 'llm.cache.*', cls: 'CacheHitPayload', desc: 'Cache hit/miss, backend, TTL, key hash' },
-  { prefix: 'llm.eval.*', cls: 'EvalScoreRecordedPayload', desc: 'Quality scores, labels, evaluator identity' },
+  { prefix: 'llm.trace.*', cls: 'SpanPayload, AgentRunPayload', desc: 'Model calls, agent runs, reasoning steps (frozen v2 schema)' },
+  { prefix: 'llm.cost.*', cls: 'CostPayload', desc: 'Per-call and per-session cost in USD with category breakdowns' },
+  { prefix: 'llm.cache.*', cls: 'CachePayload', desc: 'Cache hit/miss, backend, TTL, key hash' },
+  { prefix: 'llm.eval.*', cls: 'EvalScenarioPayload', desc: 'Quality scores, labels, evaluator identity' },
   { prefix: 'llm.guard.*', cls: 'GuardPayload', desc: 'Safety classifier output, block decisions' },
-  { prefix: 'llm.fence.*', cls: 'FenceValidatedPayload', desc: 'Topic constraints, allow/block lists, retry loops' },
-  { prefix: 'llm.prompt.*', cls: 'PromptRenderedPayload', desc: 'Prompt template version, rendered text' },
-  { prefix: 'llm.redact.*', cls: 'RedactAppliedPayload', desc: 'PII audit record — what was found and removed' },
-  { prefix: 'llm.diff.*', cls: 'DiffComputedPayload', desc: 'Prompt/response delta between two events' },
-  { prefix: 'llm.template.*', cls: 'TemplateRegisteredPayload', desc: 'Template registry metadata, variable bindings' },
-  { prefix: 'llm.audit.*', cls: 'AuditChainVerifiedPayload', desc: 'HMAC audit chain events, key rotation' },
+  { prefix: 'llm.fence.*', cls: 'FencePayload', desc: 'Topic constraints, allow/block lists, retry loops' },
+  { prefix: 'llm.prompt.*', cls: 'PromptPayload', desc: 'Prompt template version, rendered text' },
+  { prefix: 'llm.redact.*', cls: 'RedactPayload', desc: 'PII audit record — what was found and removed' },
+  { prefix: 'llm.diff.*', cls: 'DiffPayload', desc: 'Prompt/response delta between two events' },
+  { prefix: 'llm.template.*', cls: 'TemplatePayload', desc: 'Template registry metadata, variable bindings' },
+  { prefix: 'llm.audit.*', cls: 'AuditPayload', desc: 'HMAC audit chain events, key rotation records' },
 ]
 
 const profiles = [
@@ -53,7 +72,7 @@ const profiles = [
 ]
 
 export default function AgentObsHome() {
-  usePageTitle('AgentOBS — Reference SDK for AGENTOBS RFC-0001 · Spanforge')
+  usePageTitle('AgentOBS 1.0.8 — Reference SDK for AGENTOBS RFC-0001 · Spanforge')
   return (
     <div className={styles.page}>
       <Nav />
@@ -76,11 +95,11 @@ export default function AgentObsHome() {
         </p>
 
         <div className={styles.heroStats}>
-          <div className={styles.stat}><span>1.0.6</span>Latest</div>
+          <div className={styles.stat}><span>1.0.8</span>Latest</div>
           <div className={styles.statDivider} />
-          <div className={styles.stat}><span>2,407</span>Tests</div>
+          <div className={styles.stat}><span>3,032</span>Tests</div>
           <div className={styles.statDivider} />
-          <div className={styles.stat}><span>97%</span>Coverage</div>
+          <div className={styles.stat}><span>93%</span>Coverage</div>
           <div className={styles.statDivider} />
           <div className={styles.stat}><span>Zero</span>Dependencies</div>
           <div className={styles.statDivider} />
@@ -136,34 +155,35 @@ export default function AgentObsHome() {
       <section className={styles.sectionAlt}>
         <div className="container">
           <p className="section-label">Quick Start</p>
-          <h2 className={styles.sectionTitle}>Emit your first compliant span event in minutes</h2>
+          <h2 className={styles.sectionTitle}>Trace your first agent run in minutes</h2>
           <div className={styles.codeBlock}>
             <div className={styles.codeHeader}>
               <span className={styles.codeTitle}>python</span>
               <div className={styles.codeDots}><span /><span /><span /></div>
             </div>
-            <pre className={styles.codePre}><code>{`from agentobs import Event, EventType
-from agentobs.namespaces.trace import (
-    SpanPayload, TokenUsage, ModelInfo, GenAISystem
-)
+            <pre className={styles.codePre}><code>{`import agentobs
 
-token_usage = TokenUsage(input_tokens=512, output_tokens=128, total_tokens=640)
-model_info  = ModelInfo(system=GenAISystem.OPENAI, name="gpt-4o")
+agentobs.configure(exporter="console", service_name="my-agent")
 
-payload = SpanPayload(
-    span_name="chat_completion",
-    status="ok",
-    duration_ms=250.0,
-    token_usage=token_usage.to_dict(),
-    model_info=model_info.to_dict(),
-)
+with agentobs.start_trace("research-agent") as trace:
+    with trace.llm_call("gpt-4o", temperature=0.7) as span:
+        result = call_llm(prompt)
+        span.set_token_usage(input=512, output=200, total=712)
+        span.set_status("ok")
+        span.add_event("tool_selected", {"name": "web_search"})
 
-event = Event(
-    event_type=EventType.TRACE_SPAN_COMPLETED,
-    source="my-agent@1.0.0",
-    payload=payload.to_dict(),
-)
-print(event.to_json())`}</code></pre>
+    with trace.tool_call("web_search") as span:
+        output = run_search(query)
+        span.set_status("ok")
+
+# Print an ASCII span tree
+trace.print_tree()
+# ─ Agent Run: research-agent  [1.2s]
+#  ├─ LLM Call: gpt-4o  [0.8s]  in=512 out=200 tokens  $0.0034
+#  └─ Tool Call: web_search  [0.4s]  ok
+
+print(trace.summary())
+# {'trace_id': '...', 'agent_name': 'research-agent', 'span_count': 3, ...}`}</code></pre>
           </div>
         </div>
       </section>
@@ -258,22 +278,24 @@ print(event.to_json())`}</code></pre>
           <h2 className={styles.sectionTitle}>Go from quickstart to governance without context switching</h2>
           <div className={styles.docGrid}>
             {[
-              { path: 'quickstart', label: 'Quickstart', desc: 'Create your first event, sign a chain, and export — in 5 minutes' },
+              { path: 'quickstart', label: 'Quickstart', desc: 'Trace your first agent run, sign a chain, and export — in 5 minutes' },
               { path: 'installation', label: 'Installation', desc: 'Install from PyPI, optional extras, and dev setup' },
               { path: 'user-guide-events', label: 'User Guide: Events', desc: 'Event envelope, event types, serialisation, validation, ULIDs' },
+              { path: 'user-guide-tracing', label: 'User Guide: Tracing', desc: 'Span API, Trace object, start_trace(), async context propagation' },
+              { path: 'user-guide-debugging', label: 'User Guide: Debugging', desc: 'print_tree(), visualize(), self-contained HTML Gantt timeline' },
+              { path: 'user-guide-metrics', label: 'User Guide: Metrics', desc: 'aggregate(), MetricsSummary, latency percentiles, cost breakdowns' },
               { path: 'user-guide-signing', label: 'User Guide: Signing', desc: 'Sign events, build tamper-evident chains, detect tampering' },
               { path: 'user-guide-redaction', label: 'User Guide: Redaction', desc: 'Sensitivity levels, redaction policies, PII detection' },
               { path: 'user-guide-export', label: 'User Guide: Export', desc: 'JSONL, Webhook, OTLP, Datadog, Grafana Loki' },
-              { path: 'user-guide-tracing', label: 'User Guide: Tracing', desc: 'Span API, Trace object, async context propagation' },
-              { path: 'user-guide-debugging', label: 'User Guide: Debugging', desc: 'print_tree(), visualize(), HTML Gantt timeline' },
-              { path: 'user-guide-metrics', label: 'User Guide: Metrics', desc: 'aggregate(), MetricsSummary, latency percentiles, cost' },
               { path: 'user-guide-governance', label: 'User Guide: Governance', desc: 'Block/warn event types, consumer registry, deprecations' },
+              { path: 'user-guide-compliance', label: 'User Guide: Compliance', desc: 'Programmatic v2.0 compatibility checks and chain integrity' },
               { path: 'user-guide-migration', label: 'Migration Guide', desc: 'v2 migration roadmap, deprecation records, v1_to_v2() scaffold' },
               { path: 'user-guide-custom-exporters', label: 'Custom Exporters', desc: 'SyncExporter protocol, HTTP exporter, testing patterns' },
               { path: 'api-index', label: 'API Reference', desc: 'Full API reference for every module' },
               { path: 'ns-index', label: 'Namespace Catalogue', desc: 'Typed payload dataclasses for all 11 namespaces' },
-              { path: 'cli', label: 'CLI Reference', desc: '9 agentobs sub-commands — validate, audit, inspect, stats, check' },
+              { path: 'cli', label: 'CLI Reference', desc: '9 agentobs sub-commands — validate, audit-chain, inspect, stats, check' },
               { path: 'schema', label: 'JSON Schema', desc: 'The canonical AGENTOBS event envelope schema v2.0' },
+              { path: 'changelog', label: 'Changelog', desc: 'Full version history — 1.0.5 through 1.0.8 and 2.0.0' },
             ].map(d => (
               <Link key={d.path} to={`/sdk/docs/${d.path}`} className={styles.docCard}>
                 <div className={styles.docCardLabel}>{d.label} →</div>

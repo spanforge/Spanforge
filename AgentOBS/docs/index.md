@@ -1,7 +1,7 @@
 # Documentation Index
 
 > **AgentOBS** (`agentobs`) — The reference implementation of the [AGENTOBS Standard](https://www.getspanforge.com/standard) (RFC-0001), the open event-schema standard for observability of agentic AI systems.  
-> Current release: **2.0.0** — [Changelog](changelog.md) · [![PyPI](https://img.shields.io/pypi/v/agentobs?color=4c8cbf&logo=pypi&logoColor=white)](https://pypi.org/project/agentobs/)
+> Current release: **1.0.8** — [Changelog](changelog.md) · [![PyPI](https://img.shields.io/pypi/v/agentobs?color=4c8cbf&logo=pypi&logoColor=white)](https://pypi.org/project/agentobs/)
 
 This index links to every documentation page in this folder.
 
@@ -31,6 +31,8 @@ This index links to every documentation page in this folder.
 | [Migration Guide](user_guide/migration.md) | v2 migration roadmap, deprecation records, `v1_to_v2()` scaffold |
 | [Debugging & Visualization](user_guide/debugging.md) | `print_tree()`, `summary()`, `visualize()`, and sampling controls |
 | [Metrics & Analytics](user_guide/metrics.md) | `metrics.aggregate()`, `MetricsSummary`, `TraceStore`, `get_trace()` |
+| [Semantic Cache](user_guide/cache.md) | `SemanticCache`, `@cached` decorator, `InMemoryBackend`, `SQLiteBackend`, `RedisBackend` |
+| [Linting & Static Analysis](user_guide/linting.md) | `run_checks()`, AO001–AO005 error codes, flake8 plugin, CI integration |
 
 ---
 
@@ -56,10 +58,14 @@ This index links to every documentation page in this folder.
 | [debug](api/debug.md) | `agentobs.debug` — `print_tree()`, `summary()`, `visualize()` |
 | [metrics](api/metrics.md) | `agentobs.metrics` — `aggregate()`, `MetricsSummary`, `LatencyStats` |
 | [store](api/store.md) | `agentobs._store` — `TraceStore` and MCP trace access functions |
-| [hooks](api/hooks.md) | `agentobs._hooks` — `HookRegistry`, `hooks` singleton |
+| [hooks](api/hooks.md) | `agentobs._hooks` — `HookRegistry`, `hooks` singleton, sync and async lifecycle hooks |
+| [testing](api/testing.md) | `agentobs.testing` — `MockExporter`, `capture_events()`, `assert_event_schema_valid()`, `trace_store()` |
+| [auto](api/auto.md) | `agentobs.auto` — `setup()` / `teardown()` integration auto-discovery |
 | [ulid](api/ulid.md) | `agentobs.ulid` — ULID generation and helpers |
 | [exceptions](api/exceptions.md) | `agentobs.exceptions` — Exception hierarchy |
 | [models](api/models.md) | `agentobs.models` — Pydantic v2 model layer |
+| [cache](api/cache.md) | `agentobs.cache` — `SemanticCache`, `@cached`, backends, `CacheEntry`, `CacheBackendError` |
+| [lint](api/lint.md) | `agentobs.lint` — `run_checks()`, `LintError`, AO001–AO005, flake8 plugin, CLI |
 
 ---
 
