@@ -14,6 +14,8 @@ export default async function SignInPage({ searchParams }) {
 
   const callbackUrl = searchParams?.callbackUrl || '/platform'
   const error = searchParams?.error
+  const hasGoogleAuth = Boolean(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET)
+  const hasGitHubAuth = Boolean(process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET)
 
   return (
     <main className={styles.main}>
@@ -35,30 +37,40 @@ export default async function SignInPage({ searchParams }) {
         )}
 
         <div className={styles.providers}>
-          <form
-            action={async () => {
-              'use server'
-              await signIn('google', { redirectTo: callbackUrl })
-            }}
-          >
-            <button type="submit" className={styles.providerBtn}>
-              <GoogleIcon />
-              Continue with Google
-            </button>
-          </form>
+          {hasGoogleAuth && (
+            <form
+              action={async () => {
+                'use server'
+                await signIn('google', { redirectTo: callbackUrl })
+              }}
+            >
+              <button type="submit" className={styles.providerBtn}>
+                <GoogleIcon />
+                Continue with Google
+              </button>
+            </form>
+          )}
 
-          <form
-            action={async () => {
-              'use server'
-              await signIn('github', { redirectTo: callbackUrl })
-            }}
-          >
-            <button type="submit" className={styles.providerBtn}>
-              <GitHubIcon />
-              Continue with GitHub
-            </button>
-          </form>
+          {hasGitHubAuth && (
+            <form
+              action={async () => {
+                'use server'
+                await signIn('github', { redirectTo: callbackUrl })
+              }}
+            >
+              <button type="submit" className={styles.providerBtn}>
+                <GitHubIcon />
+                Continue with GitHub
+              </button>
+            </form>
+          )}
         </div>
+
+        {!hasGoogleAuth && !hasGitHubAuth && (
+          <div className={styles.error} role="alert">
+            Social sign-in is temporarily unavailable due to incomplete server configuration.
+          </div>
+        )}
 
         <p className={styles.legal}>
           By signing in you agree to our{' '}
