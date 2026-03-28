@@ -1,5 +1,6 @@
 import { createHash } from 'crypto'
 import { NextResponse } from 'next/server'
+import { prisma } from '@/lib/prisma'
 
 export const dynamic = 'force-dynamic'
 
@@ -39,6 +40,28 @@ function listMatchingEnvKeys(prefix) {
 
 export async function GET(request) {
   const headers = request.headers
+  let database
+
+  try {
+    const [userCount, accountCount, sessionCount] = await Promise.all([
+      prisma.user.count(),
+      prisma.account.count(),
+      prisma.session.count(),
+    ])
+
+    database = {
+      ok: true,
+      userCount,
+      accountCount,
+      sessionCount,
+    }
+  } catch (error) {
+    database = {
+      ok: false,
+      errorName: error?.name ?? 'UnknownError',
+      errorMessage: error?.message ?? 'Unknown database error',
+    }
+  }
 
   return NextResponse.json(
     {
@@ -75,6 +98,7 @@ export async function GET(request) {
           clientSecret: summarizeSecret(process.env.GITHUB_CLIENT_SECRET),
         },
       },
+      database,
     },
     {
       headers: {
