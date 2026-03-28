@@ -4,6 +4,7 @@ import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
+import AuthSessionProvider from '@/components/AuthSessionProvider'
 import '../styles/globals.css'
 import '../styles/animations.css'
 
@@ -69,9 +70,11 @@ export default function RootLayout({ children }) {
       className={`${playfair.variable} ${dmSans.variable} ${dmMono.variable}`}
     >
       <body>
-        <Nav />
-        <main id="main-content">{children}</main>
-        <Footer />
+        <AuthSessionProvider>
+          <Nav />
+          <main id="main-content">{children}</main>
+          <Footer />
+        </AuthSessionProvider>
 
         {/* Plausible Analytics — privacy-first, no cookies */}
         <Script
