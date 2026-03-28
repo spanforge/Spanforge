@@ -31,6 +31,12 @@ function summarizeSecret(value) {
   }
 }
 
+function listMatchingEnvKeys(prefix) {
+  return Object.keys(process.env)
+    .filter((key) => key.includes(prefix))
+    .sort()
+}
+
 export async function GET(request) {
   const headers = request.headers
 
@@ -48,6 +54,16 @@ export async function GET(request) {
         authUrl: process.env.AUTH_URL ?? null,
         nextAuthUrl: process.env.NEXTAUTH_URL ?? null,
         authSecret: summarizeSecret(process.env.AUTH_SECRET),
+      },
+      envKeys: {
+        google: listMatchingEnvKeys('GOOGLE'),
+        github: listMatchingEnvKeys('GITHUB'),
+        exact: {
+          googleClientId: Object.prototype.hasOwnProperty.call(process.env, 'GOOGLE_CLIENT_ID'),
+          googleClientSecret: Object.prototype.hasOwnProperty.call(process.env, 'GOOGLE_CLIENT_SECRET'),
+          githubClientId: Object.prototype.hasOwnProperty.call(process.env, 'GITHUB_CLIENT_ID'),
+          githubClientSecret: Object.prototype.hasOwnProperty.call(process.env, 'GITHUB_CLIENT_SECRET'),
+        },
       },
       providers: {
         google: {
