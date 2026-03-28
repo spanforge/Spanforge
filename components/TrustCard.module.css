@@ -1,0 +1,65 @@
+/* TrustCard.module.css */
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.header {
+  background: var(--surface-2);
+  padding: 0.875rem 1.25rem;
+  border-bottom: 1px solid var(--rule);
+}
+.headerLabel {
+  font-family: var(--font-dm-mono, monospace);
+  font-size: 0.72rem;
+  color: var(--mid);
+}
+
+.body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.letter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: var(--red);
+  color: var(--white);
+  font-family: var(--font-playfair, 'Playfair Display', serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.content { flex: 1; }
+
+.word {
+  display: block;
+  font-family: var(--font-dm-sans, sans-serif);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--light);
+  margin-bottom: 0.2rem;
+}
+
+.desc {
+  font-family: var(--font-dm-sans, sans-serif);
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.55;
+}

@@ -1,0 +1,258 @@
+/* Hero */
+.hero {
+  padding: 140px 0 80px;
+  background: var(--dark);
+}
+
+.h1 {
+  font-family: var(--font-playfair);
+  font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+  font-weight: 900;
+  line-height: 1.1;
+  color: var(--white);
+  margin-top: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.redAccent {
+  color: var(--red);
+}
+
+.heroSub {
+  font-size: 1.05rem;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 600px;
+  margin-bottom: 1rem;
+}
+
+.heroTagline {
+  font-family: var(--font-dm-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  color: var(--red);
+  text-transform: uppercase;
+}
+
+/* Phases section */
+.phasesSection {
+  padding: 80px 0 100px;
+  background: var(--charcoal);
+  border-top: 1px solid var(--rule);
+}
+
+.sectionH2 {
+  font-family: var(--font-playfair);
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.2;
+  margin-top: 0.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.phaseCards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.phaseCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1.75rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s, transform 0.15s;
+}
+
+.phaseCard:hover {
+  background: var(--surface-2);
+  border-color: var(--mid);
+  transform: translateY(-2px);
+}
+
+.phaseCardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+
+.phaseCardNum {
+  font-family: var(--font-playfair);
+  font-size: 2.2rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.phaseCardArrow {
+  color: var(--mid);
+  font-size: 1.1rem;
+  transition: transform 0.15s, color 0.15s;
+}
+
+.phaseCard:hover .phaseCardArrow {
+  transform: translateX(4px);
+  color: var(--light);
+}
+
+.phaseCardLabel {
+  font-family: var(--font-dm-mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.phaseCardTag {
+  font-size: 0.8rem;
+  color: var(--mid);
+  font-style: italic;
+  margin: 0;
+}
+
+.phaseCardTagline {
+  font-size: 0.95rem;
+  color: var(--light);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* T.R.U.S.T. section */
+.trustSection {
+  padding: 100px 0;
+  background: var(--dark);
+  border-top: 1px solid var(--rule);
+}
+
+.trustCard {
+  display: grid;
+  grid-template-columns: 1fr 480px;
+  gap: 5rem;
+  align-items: start;
+  background: var(--charcoal);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 3rem;
+}
+
+.trustCardLeft {
+  display: flex;
+  flex-direction: column;
+}
+
+.trustH2 {
+  font-family: var(--font-playfair);
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.2;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.trustCopy {
+  font-size: 1rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.trustDimensions {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.trustRow {
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.trustRow:last-child {
+  border-bottom: none;
+}
+
+.trustLetter {
+  font-family: var(--font-playfair);
+  font-size: 1.75rem;
+  font-weight: 900;
+  color: var(--red);
+  width: 1.75rem;
+  flex-shrink: 0;
+  line-height: 1;
+  padding-top: 2px;
+}
+
+.trustWord {
+  font-family: var(--font-dm-mono);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--light);
+  margin: 0 0 0.2rem;
+}
+
+.trustDesc {
+  font-size: 0.875rem;
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* CTA section */
+.cta {
+  padding: 100px 0;
+  background: var(--dark);
+  border-top: 1px solid var(--rule);
+}
+
+.ctaInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.25rem;
+}
+
+.ctaH2 {
+  font-family: var(--font-playfair);
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.2;
+}
+
+.ctaSub {
+  font-size: 1rem;
+  color: var(--muted);
+  max-width: 480px;
+  line-height: 1.7;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .phaseCards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .trustCard {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .hero { padding: 100px 0 60px; }
+  .phaseCards {
+    grid-template-columns: 1fr;
+  }
+  .trustCard {
+    padding: 2rem;
+  }
+}

@@ -1,0 +1,104 @@
+---
+title: "Why 85% of Enterprise AI Projects Never Reach Production"
+date: "2026-02-24"
+phase: "govern"
+excerpt: "The failure is not in the model. It is in the missing operating system around it. Here are the five root causes — and what the data actually shows."
+readingTime: "10 min read"
+author: "SpanForge"
+---
+
+## The statistic that defines an industry's problem
+
+85%. That is the figure Gartner has cited for the proportion of AI projects that fail to deliver on their intended objectives — a prediction first published in 2019 that subsequent research has consistently supported. McKinsey's analysis puts the failure rate somewhere between 70% and 80%. IBM's research found that less than one in three AI proofs-of-concept successfully scales.
+
+Different methodologies, different populations, different years. The numbers converge around the same cold truth: **the majority of enterprise AI investment never produces operating value**.
+
+This is not a technology failure. The models work. The engineering is real. The failure is organisational, methodological, and systemic.
+
+This article examines the five root causes.
+
+---
+
+## Root cause 1: No governance framework at the start
+
+The most common failure mode is the one nobody talks about at the start of a project: there is no governance framework.
+
+A team is assembled, a use case is identified, a model is built. Then someone asks the question that should have been asked before line one of code was written:
+
+*"Who is accountable for the decisions this system makes?"*
+
+In a regulated enterprise environment, this question has a specific legal meaning. In financial services, AI decisions affecting customer outcomes are subject to Senior Manager accountability rules in the UK, and equivalent frameworks in the EU and US. In healthcare, clinical decision support systems must satisfy Medical Device Regulations. In legal services, AI that produces advice falls under professional indemnity frameworks.
+
+These are not compliance checkboxes. They are the conditions under which a deployment is lawful. When they are not addressed before build begins, the answer when you finally surface the question is: *"Stop the project until we have answers."*
+
+That stop — often six to twelve months into a build cycle — is where a large proportion of enterprise AI projects die.
+
+**The fix:** Governance is a Phase 0 activity, not a post-build review. Before the first design decision is made, accountability must be assigned, the regulatory framework must be clear, and the audit model must be designed.
+
+---
+
+## Root cause 2: No observability tooling
+
+Models drift. Not because anyone did anything wrong. Because the world changes, the inputs change, and the model's calibration — which was correct when it was trained and tested — gradually becomes misaligned with reality.
+
+Production observability for AI is not the same as application monitoring. A service that returns HTTP 200 can still be silently wrong. A model that is confidently producing outputs can be producing outputs that are increasingly incorrect. Standard infrastructure monitoring cannot see this. Only specialist AI observability tooling can.
+
+Most enterprise AI projects have no AI observability layer. They have application monitoring. They have error logging. They do not have the instrumentation to detect when a model's behaviour is drifting.
+
+The practical consequence: by the time a problem is surfaced through user complaints or audit findings, it has typically been present for weeks or months. The data trail is fragmented. The investigation is difficult. The remediation is expensive.
+
+This is the problem AgentOBS — part of the SpanForge platform — is built to solve: continuous monitoring of AI agent behaviour in production, with consent verification, confidence scoring, and drift detection running on every output.
+
+**The fix:** Deploy observability tooling before go-live. Define the baseline. Set alert thresholds. Build the audit trail from day one.
+
+---
+
+## Root cause 3: No standards for what "done" means
+
+In traditional software engineering, there is a definition of done. Tests pass. Code review is complete. The security checklist is signed. The release process is followed.
+
+Enterprise AI projects frequently have no equivalent. The model performs well on a test set, and that is considered sufficient. There is no documented standard for what constitutes a production-ready AI artefact.
+
+This creates a dangerous ambiguity at the point of deployment decision. Without a formal quality gate, the deployment decision becomes entirely a matter of subjective judgment. When things go wrong — and in complex systems, things go wrong — there is no documented baseline to return to, no audit trail of what was assessed and approved.
+
+SpanForge is publishing the AgentOBS standard schema as an open specification. A structured, version-controlled definition of what every production AI artefact must document and satisfy before deployment. Not a vendor lock-in. A community standard.
+
+**The fix:** Define your quality gates before you build. What tests must pass? What documentation must exist? What sign-offs are required? Codify these as formal criteria, not informal agreements.
+
+---
+
+## Root cause 4: No integration with enterprise change management
+
+AI systems are not stand-alone objects. They are components within enterprise architectures. They consume data from enterprise systems. They produce outputs that feed into enterprise processes. They require service accounts, network access, data governance approvals, and change management review.
+
+Most enterprise AI projects are built by technical teams who are excellent at model engineering but who have limited experience navigating enterprise change management. The result: a fully functional system that cannot obtain the change management approvals required for production deployment, because the integration considerations were not designed before build.
+
+This is particularly acute in organisations with mature ITIL or equivalent frameworks. Change management reviewers asking standard questions — *"What is the rollback procedure?"*, *"What is the impact if this fails?"*, *"What monitoring is in place?"* — find that the AI project cannot answer these questions in the structured way that the framework requires.
+
+**The fix:** Involve your change management and enterprise architecture teams at the design phase. Build your architecture to answer their questions. Design the rollback procedure before you design the feature.
+
+---
+
+## Root cause 5: Underestimating the cost of explainability
+
+Explainability is not a feature. It is a foundational requirement for any AI system that affects consequential decisions.
+
+GDPR's right to explanation. The EU AI Act's requirements for high-risk AI systems. The FCA's model risk management guidance. These require that when an AI system makes a decision that affects a person, that decision can be explained in terms that person can understand.
+
+Black-box models can produce extraordinary outputs. They can also produce extraordinary liability. In regulated environments, a model that nobody can explain is a model that cannot be deployed — regardless of how well it performs on a test set.
+
+Enterprise AI teams frequently discover this late. The model is built. The performance is strong. Then explainability review finds that the model is fundamentally opaque, and the project either returns to design (expensive) or is abandoned (typical).
+
+**The fix:** Choose explainability-compatible architectures from the start. Design the explanation model before the prediction model. Test your explanations with the compliance and legal teams who will need to use them.
+
+---
+
+## What success actually looks like
+
+The teams that do get AI to production share common characteristics. They plan governance before they write code. They instrument observability from go-live, not as an afterthought. They define quality gates explicitly. They integrate change management and enterprise architecture from the design phase. They build for explainability, not around it.
+
+These are disciplines. They are learnable. They become faster with practice, better tooling, and established standards.
+
+That is what SpanForge is building: the methodology, the tooling, and the standards to make these disciplines repeatable across every enterprise AI project.
+
+The platform is live. [Explore SpanForge](https://www.getspanforge.com) and see what a complete AI lifecycle looks like in practice.

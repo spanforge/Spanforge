@@ -1,0 +1,747 @@
+/* ── Home page styles ───────────────────────────────────────── */
+
+/* 1. HERO */
+.hero {
+  padding: 140px 0 100px;
+  background: var(--dark);
+  background-image:
+    radial-gradient(ellipse 800px 600px at 60% 40%, rgba(192,57,43,0.06) 0%, transparent 70%);
+}
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 5rem;
+  align-items: center;
+}
+
+.heroLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.heroEyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.liveDot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--red);
+  animation: pulseRed 2s infinite;
+  flex-shrink: 0;
+}
+
+.heroH1 {
+  font-family: var(--font-playfair);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 900;
+  line-height: 1.1;
+  color: var(--white);
+}
+
+.heroItalic {
+  font-style: italic;
+  font-weight: 400;
+}
+
+.heroRed {
+  color: var(--red);
+}
+
+.heroCopy {
+  font-size: 1.05rem;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 540px;
+}
+
+.heroCtas {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.heroTagline {
+  font-family: var(--font-dm-mono);
+  font-size: 0.78rem;
+  color: var(--mid);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 0.5rem;
+}
+
+/* Hero card */
+.heroCard {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.heroCardEyebrow {
+  font-family: var(--font-dm-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--mid);
+}
+
+.heroStats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.heroStat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.heroStatValue {
+  font-family: var(--font-playfair);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1;
+}
+
+.heroStatLabel {
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.3;
+}
+
+.heroCardDivider {
+  height: 1px;
+  background: var(--rule);
+}
+
+.heroCardPhaseLabel {
+  font-family: var(--font-dm-mono);
+  font-size: 0.72rem;
+  color: var(--mid);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.heroPhaseStrip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.heroPhasePill {
+  font-family: var(--font-dm-mono);
+  font-size: 0.68rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* 2. AGENTOBS STRIP */
+.agentobsStrip {
+  background: var(--charcoal);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: 1.25rem 0;
+}
+
+.agentobsStripInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.agentobsStripLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.agentobsTag {
+  font-family: var(--font-dm-mono);
+  font-size: 0.68rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  background: rgba(192,57,43,0.2);
+  color: var(--red);
+  padding: 0.25rem 0.65rem;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.agentobsStripText {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.agentobsStripCta {
+  flex-shrink: 0;
+  height: 36px;
+  font-size: 0.85rem;
+  padding: 0 1rem;
+}
+
+/* 3. PROBLEM STRIP */
+.problemStrip {
+  padding: 100px 0;
+  background: var(--dark);
+}
+
+.problemInner {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 800px;
+}
+
+.problemH2 {
+  font-family: var(--font-playfair);
+  font-size: clamp(1.8rem, 3.5vw, 2.75rem);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.2;
+}
+
+.problemSub {
+  font-size: 1.05rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.problemStats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--rule);
+}
+
+.problemStat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.problemStatValue {
+  font-family: var(--font-playfair);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--red);
+  line-height: 1;
+}
+
+.problemStatLabel {
+  font-size: 0.875rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* 4. WHAT IS SPANFORGE */
+.whatIs {
+  padding: 100px 0;
+  background: var(--charcoal);
+}
+
+.whatIsGrid {
+  display: grid;
+  grid-template-columns: 1fr 480px;
+  gap: 6rem;
+  align-items: start;
+}
+
+.whatIsLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.whatIsH2 {
+  font-family: var(--font-playfair);
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.2;
+}
+
+.whatIsCopy {
+  font-size: 1rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.whatIsRight {
+  position: sticky;
+  top: 80px;
+}
+
+/* 5. LIFECYCLE */
+.lifecycle {
+  padding: 100px 0;
+  background: var(--dark);
+}
+
+.lifecycleH2 {
+  font-family: var(--font-playfair);
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
+}
+
+.lifecycleSub {
+  font-size: 1rem;
+  color: var(--muted);
+  margin-bottom: 2.5rem;
+  max-width: 520px;
+}
+
+.phaseRows {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* 6. TOOLS PREVIEW */
+.toolsPreview {
+  padding: 100px 0;
+  background: var(--charcoal);
+}
+
+.toolsPreviewHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.toolsPreviewH2 {
+  font-family: var(--font-playfair);
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.2;
+  margin-top: 0.5rem;
+}
+
+.toolsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+/* Phase teaser tiles — replace tool cards on homepage */
+.phaseTeaserGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+}
+
+.phaseTeaserCard {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 1.5rem 1.25rem 1.25rem;
+  text-decoration: none;
+  transition: border-color 0.2s, background 0.2s;
+  position: relative;
+}
+
+.phaseTeaserCard:hover {
+  background: var(--charcoal);
+  border-color: var(--mid);
+}
+
+.phaseTeaserAccent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+}
+
+.phaseTeaserTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.25rem;
+}
+
+.phaseTeaserName {
+  font-family: var(--font-dm-mono, monospace);
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.phaseTeaserCount {
+  font-family: var(--font-playfair, 'Playfair Display', serif);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1;
+}
+
+.phaseTeaserSub {
+  font-size: 0.7rem;
+  color: var(--mid);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.75rem;
+}
+
+.phaseTeaserTypes {
+  font-size: 0.75rem;
+  color: var(--muted);
+  line-height: 1.5;
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--rule);
+}
+
+@media (max-width: 900px) {
+  .phaseTeaserGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .phaseTeaserGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.toolsMore {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--mid);
+}
+
+.toolsMoreLink {
+  color: var(--red);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.toolsMoreLink:hover {
+  color: var(--red-light, #E8574A);
+}
+
+/* 7. CI/CD PIPELINE */
+.pipeline {
+  padding: 100px 0;
+  background: var(--dark);
+}
+
+.pipelineH2 {
+  font-family: var(--font-playfair);
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
+}
+
+.pipelineSub {
+  font-size: 1rem;
+  color: var(--muted);
+  margin-bottom: 2.5rem;
+  max-width: 540px;
+}
+
+.pipelineTable {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.pipelineStage {
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  gap: 1.5rem;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--rule);
+  transition: background 0.15s;
+  position: relative;
+}
+
+.pipelineStage:last-child {
+  border-bottom: none;
+}
+
+.pipelineStage:hover {
+  background: var(--surface);
+}
+
+.stageNum {
+  font-family: var(--font-dm-mono);
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--red);
+  flex-shrink: 0;
+}
+
+.stageContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.stageLabel {
+  font-family: var(--font-dm-mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--light);
+}
+
+.stageNote {
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.stageTools {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.stageTool {
+  font-family: var(--font-dm-mono);
+  font-size: 0.7rem;
+  background: var(--surface-2);
+  color: var(--muted);
+  padding: 0.2rem 0.55rem;
+  border-radius: 3px;
+}
+
+/* 8. AGENTOBS FEATURE */
+.agentobsFeature {
+  padding: 100px 0;
+  background: var(--charcoal);
+}
+
+.agentobsFeatureGrid {
+  display: grid;
+  grid-template-columns: 1fr 480px;
+  gap: 5rem;
+  align-items: start;
+}
+
+.agentobsLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.agentobsH2 {
+  font-family: var(--font-playfair);
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.2;
+}
+
+.agentobsRed {
+  color: var(--red);
+}
+
+.agentobsCopy {
+  font-size: 1rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.agentobsFeatures {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 0.5rem;
+}
+
+.featureItem {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.featureIcon {
+  font-size: 1.1rem;
+  color: var(--red);
+  flex-shrink: 0;
+  width: 24px;
+  text-align: center;
+  margin-top: 2px;
+}
+
+.featureTitle {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--light);
+  margin-bottom: 0.2rem;
+}
+
+.featureDesc {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.agentobsRight {
+  position: sticky;
+  top: 88px;
+}
+
+/* 9. WAITLIST CTA */
+.waitlistCta {
+  padding: 120px 0;
+  background: var(--dark);
+  background-image:
+    radial-gradient(ellipse 600px 400px at 50% 50%, rgba(192,57,43,0.05) 0%, transparent 70%);
+}
+
+.waitlistInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.5rem;
+}
+
+.waitlistH2 {
+  font-family: var(--font-playfair);
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.15;
+}
+
+.waitlistSub {
+  font-size: 1.05rem;
+  color: var(--muted);
+  max-width: 520px;
+  line-height: 1.7;
+}
+
+.waitlistStats {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 1rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--rule);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.waitlistStat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.waitlistStatValue {
+  font-family: var(--font-playfair);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.waitlistStatLabel {
+  font-size: 0.8rem;
+  color: var(--mid);
+}
+
+.waitlistStatDivider {
+  width: 1px;
+  height: 40px;
+  background: var(--rule);
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .heroGrid,
+  .whatIsGrid,
+  .agentobsFeatureGrid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .heroCard {
+    max-width: 480px;
+  }
+
+  .whatIsRight,
+  .agentobsRight {
+    position: static;
+  }
+}
+
+@media (max-width: 700px) {
+  .hero { padding: 100px 0 72px; }
+
+  .problemStats {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .toolsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .pipelineStage {
+    grid-template-columns: 48px 1fr;
+    gap: 1rem;
+  }
+
+  .stageTools {
+    grid-column: 2;
+    justify-content: flex-start;
+  }
+
+  .waitlistStats {
+    gap: 1.25rem;
+  }
+
+  .waitlistStatDivider {
+    display: none;
+  }
+}
+
+@media (min-width: 701px) and (max-width: 1024px) {
+  .toolsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

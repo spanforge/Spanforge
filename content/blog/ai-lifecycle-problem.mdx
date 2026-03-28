@@ -1,0 +1,91 @@
+---
+title: "The Enterprise AI Lifecycle Problem Nobody Is Solving"
+date: "2026-02-10"
+phase: "discover"
+excerpt: "73% of enterprise AI projects never reach production. Not because the models don't work. Because the organisation, the process, and the tooling are wrong."
+readingTime: "8 min read"
+author: "SpanForge"
+---
+
+## The real problem with enterprise AI
+
+Every week, another report confirms the same finding: the vast majority of enterprise AI projects fail to reach production. Gartner put it at 85%. McKinsey's data suggests 70%. The exact number varies, but the direction does not.
+
+The conventional explanation is that the models are wrong, that the data is inadequate, or that the use cases are poorly chosen. These are real problems. But they are not why most enterprise AI projects fail.
+
+Most enterprise AI projects fail because **the organisation, the process, and the tooling are not designed for production**.
+
+---
+
+## What production actually requires
+
+Building a model that works in a notebook is an engineering problem. Deploying that model safely and sustainably into a regulated enterprise environment is a systems problem — and it requires answers to questions that most AI teams are not asking before they build.
+
+**Governance questions:**  
+Who is accountable when this agent makes a wrong decision? What is the escalation path? How do you audit a decision made by a language model? What happens when a regulator asks for an explanation?
+
+**Observability questions:**  
+How do you know when the model's behaviour drifts from its baseline? How do you detect the moment outputs start changing in ways that matter? How do you trace a specific decision back to the inputs that caused it?
+
+**Process questions:**  
+What are the mandatory gates before an AI artefact reaches production? Who signs off? What documentation exists? How do you version a prompt?
+
+These are not nice-to-have questions. In regulated industries — financial services, healthcare, legal, government — they are the questions that determine whether a deployment is lawful.
+
+---
+
+## The gap between prototype and production
+
+The prototype is the easy part. You have a model that works in a demo. Stakeholders are excited. There is budget. There is momentum.
+
+Then the questions start.
+
+*"How do we govern this?"*  
+*"How do we audit it?"*  
+*"What do we do when it fails?"*  
+*"Has legal reviewed the consent model?"*  
+*"Can we explain this decision to a customer?"*
+
+These are the questions that kill projects. Not because they cannot be answered, but because the team is not structured to answer them, the tooling does not exist, and the methodology has never been defined.
+
+---
+
+## What is missing
+
+What is missing is **a structured methodology for the complete AI lifecycle** — not just the model development part, but the discovery, design, governance, and operational parts too.
+
+The software engineering industry solved this problem decades ago with things like SDLC frameworks, CI/CD pipelines, code review standards, and operational monitoring. Enterprise AI has not yet had its ITIL moment.
+
+SpanForge is building that methodology. Five phases. Clear entry and exit conditions. Tools and frameworks at every gate.
+
+The five phases are:
+
+1. **Discover** — Is AI right for this problem? What is the business case? What does the data look like?
+2. **Design** — What architecture? What model? What deployment model?
+3. **Build** — Build it properly, with standards, security, and testability from the first line of code.
+4. **Govern** — Make it accountable. Consent models. Audit trails. Explainability.
+5. **Scale** — Run it in production. Observe it. Respond when things drift.
+
+---
+
+## The T.R.U.S.T. Framework
+
+At the centre of SpanForge governance is the T.R.U.S.T. Framework — five dimensions that every production AI system must satisfy:
+
+- **T — Transparency**: Can the system explain what it is doing and why?
+- **R — Reliability**: Does it behave consistently, measurably, and traceably?
+- **U — Understandability**: Can non-technical stakeholders understand the system's decisions?
+- **S — Security**: Is the system protected against prompt injection, data exfiltration, and consent violations?
+- **T — Traceability**: Can every decision be traced back to its inputs, model version, and evaluation criteria?
+
+These are not aspirational goals. They are testable properties. SpanForge builds the tooling to measure them.
+
+---
+
+## What happens next
+
+SpanForge is building the platform, the tools, and the standards in public. Everything is transparent, versioned, and available.
+
+If your team is currently in the prototype stage — excited about what AI can do, but uncertain about what production actually requires — this is for you.
+
+The platform is live. [Explore SpanForge](https://www.getspanforge.com) and start building AI systems that reach production.

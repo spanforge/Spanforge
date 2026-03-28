@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://getspanforge.com/sitemap.xml
+Sitemap: https://www.getspanforge.com/sitemap.xml

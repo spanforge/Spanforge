@@ -1,0 +1,442 @@
+/* Breadcrumb */
+.breadcrumb {
+  padding: 1.25rem 0 0;
+  background: var(--dark);
+}
+
+.breadcrumbLink {
+  font-family: var(--font-dm-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  color: var(--mid);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.breadcrumbLink:hover {
+  color: var(--light);
+}
+
+.breadcrumbSep {
+  color: var(--rule);
+  margin: 0 0.5rem;
+}
+
+.breadcrumbCurrent {
+  font-family: var(--font-dm-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+/* Hero */
+.hero {
+  padding: 60px 0 80px;
+  background: var(--dark);
+}
+
+.phaseRow {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-end;
+  margin-bottom: 1.25rem;
+}
+
+.phaseNum {
+  font-family: var(--font-playfair);
+  font-size: 5rem;
+  font-weight: 900;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.phaseLabel {
+  font-family: var(--font-dm-mono);
+  font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  padding-bottom: 0.4rem;
+}
+
+.h1 {
+  font-family: var(--font-playfair);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.25;
+  margin-bottom: 0;
+  max-width: 680px;
+}
+
+/* Trust hero (no phase row) */
+.trustHeroH1 {
+  font-family: var(--font-playfair);
+  font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+  font-weight: 900;
+  color: var(--white);
+  line-height: 1.1;
+  margin-top: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.trustHeroSub {
+  font-size: 1.05rem;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 600px;
+}
+
+/* Summary */
+.contentSection {
+  padding: 60px 0;
+  background: var(--charcoal);
+  border-top: 1px solid var(--rule);
+}
+
+.contentInner {
+  max-width: 760px;
+}
+
+.summaryPara {
+  font-size: 1.05rem;
+  color: var(--muted);
+  line-height: 1.8;
+  margin-bottom: 1.25rem;
+}
+
+.summaryPara:last-child {
+  margin-bottom: 0;
+}
+
+/* Gate box */
+.gateSection {
+  padding: 60px 0;
+  background: var(--dark);
+  border-top: 1px solid var(--rule);
+}
+
+.gateInner {
+  max-width: 760px;
+}
+
+.gateBox {
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 1.5rem 1.75rem;
+  background: var(--surface);
+  margin-top: 1rem;
+}
+
+.gateEyebrow {
+  font-family: var(--font-dm-mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--mid);
+  display: block;
+  margin-bottom: 0.6rem;
+}
+
+.gateText {
+  font-size: 1rem;
+  color: var(--light);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Pipeline section (Build only) */
+.pipelineSection {
+  padding: 80px 0;
+  background: var(--charcoal);
+  border-top: 1px solid var(--rule);
+}
+
+.pipelineH2 {
+  font-family: var(--font-playfair);
+  font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.2;
+  margin-top: 0.4rem;
+  margin-bottom: 0.6rem;
+}
+
+.pipelineSub {
+  font-size: 1rem;
+  color: var(--muted);
+  margin-bottom: 2.5rem;
+  max-width: 500px;
+}
+
+.pipelineList {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  overflow: hidden;
+  max-width: 760px;
+}
+
+.pipelineItem {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 1.5rem;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.pipelineItem:last-child {
+  border-bottom: none;
+}
+
+.pipelineItemNum {
+  font-family: var(--font-dm-mono);
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--red);
+}
+
+.pipelineItemLabel {
+  font-family: var(--font-dm-mono);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--light);
+  margin-bottom: 0.25rem;
+}
+
+.pipelineItemNote {
+  font-size: 0.875rem;
+  color: var(--muted);
+  margin: 0;
+}
+
+/* AgentOBS callout (Scale only) */
+.agentCallout {
+  padding: 60px 0;
+  background: var(--charcoal);
+  border-top: 1px solid var(--rule);
+}
+
+.agentCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 2rem 2.5rem;
+  gap: 2rem;
+  max-width: 760px;
+}
+
+.agentCardText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.agentCardLabel {
+  font-family: var(--font-dm-mono);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--mid);
+}
+
+.agentCardTitle {
+  font-family: var(--font-playfair);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--white);
+  margin: 0;
+}
+
+.agentCardDesc {
+  font-size: 0.95rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Prev/next nav */
+.phaseNav {
+  padding: 60px 0;
+  background: var(--dark);
+  border-top: 1px solid var(--rule);
+}
+
+.phaseNavInner {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.phaseNavLink {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  text-decoration: none;
+  min-width: 220px;
+  flex: 1;
+  max-width: 360px;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.phaseNavLink:hover {
+  background: var(--surface-2);
+  border-color: var(--mid);
+}
+
+.phaseNavRight {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.phaseNavDir {
+  font-family: var(--font-dm-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--mid);
+}
+
+.phaseNavLabel {
+  font-family: var(--font-dm-mono);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--light);
+}
+
+.phaseNavTag {
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* T.R.U.S.T. dimensions section */
+.trustDimensions {
+  padding: 80px 0;
+  background: var(--charcoal);
+  border-top: 1px solid var(--rule);
+}
+
+.dimensionList {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  max-width: 760px;
+}
+
+.dimensionRow {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.dimensionLetter {
+  font-family: var(--font-playfair);
+  font-size: 4rem;
+  font-weight: 900;
+  color: var(--red);
+  line-height: 1;
+  flex-shrink: 0;
+  width: 3rem;
+  text-align: center;
+}
+
+.dimensionWord {
+  font-family: var(--font-dm-mono);
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--white);
+  margin: 0 0 0.5rem;
+}
+
+.dimensionDesc {
+  font-size: 1rem;
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* Trust page CTA */
+.trustCta {
+  padding: 80px 0;
+  background: var(--dark);
+  border-top: 1px solid var(--rule);
+}
+
+.trustCtaInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.25rem;
+}
+
+.trustCtaH2 {
+  font-family: var(--font-playfair);
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.2;
+}
+
+.trustCtaSub {
+  font-size: 1rem;
+  color: var(--muted);
+  max-width: 480px;
+  line-height: 1.7;
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+  .hero { padding: 40px 0 60px; }
+
+  .phaseRow {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+
+  .phaseNum {
+    font-size: 3rem;
+  }
+
+  .agentCard {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.5rem;
+  }
+
+  .phaseNavInner {
+    flex-direction: column;
+  }
+
+  .phaseNavLink {
+    max-width: 100%;
+  }
+
+  .phaseNavRight {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .dimensionRow {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .dimensionLetter {
+    font-size: 2.5rem;
+    width: auto;
+    text-align: left;
+  }
+}

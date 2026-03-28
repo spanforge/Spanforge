@@ -1,0 +1,57 @@
+.hero {
+  padding: 140px 0 72px;
+  background: var(--dark);
+}
+
+.h1 {
+  font-family: var(--font-playfair);
+  font-size: clamp(2.2rem, 4.5vw, 3.25rem);
+  font-weight: 900;
+  line-height: 1.1;
+  color: var(--white);
+  margin-top: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.heroSub {
+  font-size: 1.05rem;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 540px;
+}
+
+.posts {
+  padding: 60px 0 100px;
+  background: var(--dark);
+  border-top: 1px solid var(--rule);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.empty {
+  padding: 4rem 0;
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+.empty a {
+  color: var(--red);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

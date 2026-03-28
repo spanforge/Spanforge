@@ -1,0 +1,117 @@
+.row {
+  display: grid;
+  grid-template-columns: 280px 1fr 28px;
+  gap: 2rem;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  text-decoration: none;
+  transition: transform 0.2s, border-color 0.2s, background 0.2s;
+  cursor: pointer;
+}
+
+.row:hover {
+  transform: translateX(4px);
+  border-color: var(--red);
+  background: var(--surface);
+}
+
+/* Left panel */
+.left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding-right: 2rem;
+  border-right: 1px solid var(--rule);
+}
+
+.num {
+  font-family: var(--font-dm-mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+}
+
+.label {
+  font-family: var(--font-dm-mono);
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--phase-color, var(--light));
+  letter-spacing: 0.05em;
+}
+
+.tag {
+  font-family: var(--font-dm-sans);
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* Right panel */
+.right {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.tagline {
+  font-family: var(--font-dm-sans);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--light);
+  line-height: 1.4;
+}
+
+.summary {
+  font-size: 0.875rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.gate {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 0.25rem;
+}
+
+.gateLabel {
+  font-family: var(--font-dm-mono);
+  color: var(--mid);
+  font-size: 0.72rem;
+}
+
+/* Arrow icon */
+.arrow {
+  color: var(--mid);
+  flex-shrink: 0;
+  transition: color 0.2s;
+}
+
+.row:hover .arrow {
+  color: var(--red);
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+  .row {
+    grid-template-columns: 1fr 24px;
+    padding: 1.25rem 1.25rem;
+    gap: 1rem;
+  }
+
+  .left {
+    grid-column: 1 / -1;
+    border-right: none;
+    border-bottom: 1px solid var(--rule);
+    padding-right: 0;
+    padding-bottom: 0.75rem;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .tag {
+    display: none;
+  }
+}

@@ -1,0 +1,76 @@
+/* ToolCard.module.css */
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 1.5rem;
+  transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  position: relative;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--red);
+  opacity: 0;
+  border-radius: 4px 4px 0 0;
+  transition: opacity 0.2s;
+}
+.card:hover {
+  background: var(--surface-2);
+  border-color: var(--rule);
+}
+.card:hover::before {
+  opacity: 1;
+}
+
+.badge { align-self: flex-start; }
+
+.name {
+  font-family: var(--font-dm-mono, monospace);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--light);
+}
+.name code {
+  font-family: inherit;
+  font-size: inherit;
+  color: var(--light);
+}
+
+.desc {
+  font-family: var(--font-dm-sans, sans-serif);
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.6;
+  flex: 1;
+}
+
+/* Locked state */
+.locked {
+  align-items: center;
+  justify-content: center;
+  min-height: 110px;
+  opacity: 0.35;
+  cursor: not-allowed;
+  user-select: none;
+}
+.locked:hover { background: var(--surface); }
+.locked:hover::before { opacity: 0; }
+
+.lockIcon { color: var(--mid); }
+.lockedText {
+  font-family: var(--font-dm-mono, monospace);
+  font-size: 0.8rem;
+  color: var(--mid);
+}
+.lockedSub {
+  font-family: var(--font-dm-sans, sans-serif);
+  font-size: 0.72rem;
+  color: var(--mid);
+}

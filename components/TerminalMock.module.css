@@ -1,0 +1,98 @@
+.wrap {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  overflow: hidden;
+  font-family: var(--font-dm-mono);
+}
+
+/* Tab row */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--rule);
+  background: var(--dark);
+}
+
+.tab {
+  font-family: var(--font-dm-mono);
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--muted);
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  border-right: 1px solid var(--rule);
+  transition: color 0.15s, background 0.15s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.tab:hover {
+  color: var(--light);
+  background: var(--surface-2);
+}
+
+.tabActive {
+  color: var(--white);
+  background: var(--surface);
+  border-bottom: 1px solid var(--surface);
+  margin-bottom: -1px;
+}
+
+/* Terminal chrome bar */
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--surface-2);
+  padding: 0.55rem 1rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.barLabel {
+  font-family: var(--font-dm-mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-left: 0.5rem;
+}
+
+/* Terminal body */
+.body {
+  padding: 1.5rem;
+  min-height: 220px;
+}
+
+.line {
+  font-size: 0.78rem;
+  line-height: 1.7;
+  white-space: pre;
+}
+
+.lbl {
+  display: inline-block;
+  min-width: 120px;
+}
+
+.sep {
+  color: var(--rule);
+}
+
+.divider {
+  height: 1px;
+  background: var(--rule);
+  margin: 0.75rem 0;
+}
+
+.comment {
+  color: var(--muted);
+  opacity: 0.45;
+  font-size: 0.75rem;
+  display: block;
+  margin-top: 0.5rem;
+}

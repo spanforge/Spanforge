@@ -1,0 +1,127 @@
+---
+title: "Six Questions Every Enterprise AI Project Must Answer Before Kick-Off"
+date: "2026-03-03"
+phase: "discover"
+excerpt: "Most enterprise AI projects fail before they begin — because nobody asked the right questions before the first line of code was written."
+readingTime: "9 min read"
+author: "SpanForge"
+---
+
+## Before you build anything
+
+The most important work in any enterprise AI project happens before the first design decision. It happens in the discovery conversations — the honest, uncomfortable ones that surface whether the project is viable, who owns the risk, and what production actually requires.
+
+Most teams skip these conversations, or have them too late, or have them without the right people in the room. This article gives you the six questions that cannot be skipped.
+
+These are not theoretical questions. They are the questions that decide whether your project reaches production or dies in the governance review.
+
+---
+
+## Question 1: Should this be AI?
+
+This sounds obvious. It is not.
+
+"AI" has become a default answer to a wide range of problems, many of which have better solutions. A deterministic rule engine, a well-designed workflow, a better-structured database query — these are often faster to build, easier to audit, less expensive to operate, and significantly simpler to explain to a regulator.
+
+The right question is not *"Can AI solve this?"* but *"Is AI the right tool for this, relative to the alternatives?"*
+
+AI is the right answer when the problem is genuinely complex and difficult to specify completely as rules. When the input space is too large for a deterministic system to handle. When the value of a good approximation substantially exceeds the cost of the occasional wrong answer.
+
+AI is the wrong answer when you have a clear, specifiable process that a well-engineered conventional system can handle. When explainability is legally required and the model family you need cannot provide it. When the cost of errors — regulatory, reputational, financial — substantially exceeds the benefit.
+
+**Document it.** The answer to *"Should this be AI?"* should be in a decision record, reviewed by the project sponsor, before any further investment is made.
+
+---
+
+## Question 2: What data do we actually have?
+
+Not the data you plan to collect. Not the data you hope exists. The data you have, today, in the state it is actually in.
+
+Data quality failures are one of the most common causes of enterprise AI project failure. Teams build against assumptions about data availability and quality, and discover the reality at integration or pre-production review.
+
+The honest data assessment covers:
+
+- **Volume**: Is there enough labelled or relevant data to train or fine-tune to the required standard? If you are working with foundation models, is there enough context data to ground the model in your domain?
+- **Quality**: What are the known data quality issues — gaps, inconsistencies, duplicates, formatting problems? What is the remediation path?
+- **Access**: Who owns the data? What data governance approvals are required to use it for AI training or inference? Are there cross-border data transfer implications?
+- **Currency**: How current is the data? How does it need to be updated in production?
+- **Bias**: Does the data represent the population it needs to represent? Are there known historical biases that would produce discriminatory outputs?
+
+This assessment should be documented. It should include a data governance sign-off before any model training begins.
+
+---
+
+## Question 3: Who governs this, and how?
+
+Governance accountability must be assigned before design begins.
+
+In a regulated enterprise, AI governance involves multiple roles:
+
+- **Business owner**: Accountable for the business outcomes the AI is intended to deliver. Signs off the business case. Owns the escalation path.
+- **Technical owner**: Accountable for the system's technical architecture, performance, and integrity. Responsible for the model card and technical documentation.
+- **Risk owner**: Reviews and accepts the risk profile of the system. Defines the risk tolerance. Escalates material risks.
+- **Compliance and legal**: Reviews the regulatory framework. Assesses legal risk. Signs off the consent model and the explainability approach.
+- **Data protection**: Reviews the DPA, the consent model, and the retention policies. Signs off the privacy impact assessment.
+
+These roles need to be named individuals, not departments. And the governance model — who reviews what, at what frequency, with what authority — must be documented before the project proceeds.
+
+**The T.R.U.S.T. Framework** provides a structured model for defining this. Transparency, Reliability, Understandability, Security, Traceability — each dimension has governance implications, and each must have an owner.
+
+---
+
+## Question 4: How do we know when it drifts?
+
+Models drift. This is not a failure of engineering. It is the nature of systems that have learned statistical patterns from historical data and are now operating in a world that is continuously changing.
+
+The question is not *"Will it drift?"* — it will. The question is *"How will we detect it, how quickly, and what will we do?"*
+
+Answering this question before go-live requires:
+
+- **A defined baseline.** What does correct behaviour look like? How is it measured? What metrics define it?
+- **Observability instrumentation.** What tooling will monitor the model's behaviour in production? How are metrics collected, aggregated, and compared to baseline?
+- **Alert thresholds.** At what point does drift trigger an alert? Who receives the alert? What is the initial response protocol?
+- **A documented response procedure.** When drift is detected, what happens? Is the model quarantined? Is a rollback triggered? Who decides?
+- **A retraining and re-evaluation process.** When a model needs to be updated, what does the process look like? What quality gates apply to the updated model?
+
+AgentOBS addresses this problem directly — providing the observability layer that monitors agent behaviour, confidence, and consent compliance in real time. But the process decisions are yours to make, and they need to be made before you deploy.
+
+---
+
+## Question 5: What is the rollback plan?
+
+Every enterprise production system has a rollback procedure. Enterprise AI systems are not exempt.
+
+The rollback question has additional complexity compared to conventional software:
+
+- **Model versioning**: Can you revert to the previous model version if the new one fails? Are model versions stored, tracked, and retrievable? Is the evaluation data and test results for each version stored?
+- **Prompt versioning**: For systems that use foundation models with prompt engineering, are prompt versions stored and tracked? Can you revert a prompt change?
+- **Downstream impact**: If this AI system produces outputs that feed into downstream processes, what is the impact of a rollback on those processes? Can they handle the reversion?
+- **Data consistency**: If the AI system has written to any data stores during its operation, what is the state of those data stores post-rollback? Are the writes reversible?
+
+The rollback plan should be documented, tested in a staging environment, and sign-off should be part of the go-live checklist.
+
+---
+
+## Question 6: How do we audit a decision made by this system?
+
+Auditability is the governance requirement that most commonly forces enterprise AI projects back to design.
+
+When a regulator, an internal audit team, or a customer asks *"Why did this AI system make this decision?"*, the answer must be:
+
+1. **Retrievable.** The relevant data — the inputs, the model version, the output, the timestamp — must be stored and searchable.
+2. **Intelligible.** The explanation must be comprehensible to non-technical reviewers — the compliance officer, the auditor, the customer.
+3. **Sufficient.** The explanation must satisfy the regulatory framework that applies. GDPR, the EU AI Act, financial services model risk management guidance — each has specific requirements.
+
+Building audit capability as a post-deployment activity is almost always too late and too expensive. The storage model for audit data, the format of explanations, and the tooling to retrieve and present audit records must be designed before build begins.
+
+---
+
+## The Discovery Phase of SpanForge
+
+These six questions are the core of SpanForge's Discover phase — the first of five phases in the enterprise AI lifecycle.
+
+The Discover phase is not a box-ticking exercise. It is the investment in clarity that makes production viable. Teams that invest properly in discovery build less, build faster, and deploy more successfully. Teams that skip it build the wrong thing, discover it late, and either rebuild or abandon.
+
+The SpanForge platform provides the methodology, the documentation standards, and the tooling to run a proper Discover phase — including a structured decision record framework, a data assessment template, a governance assignment model, and an observability design toolkit.
+
+The platform is live. [Explore SpanForge](https://www.getspanforge.com) to access the full Discover phase toolkit.
