@@ -263,11 +263,112 @@
   text-decoration: none;
 }
 .mobileLinkIndent:hover { color: var(--white); }
+
+/* Mobile auth row */
+.mobileAuthRow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  margin-top: 2rem;
+}
+.mobileSignIn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  font-family: var(--font-dm-sans, sans-serif);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--light);
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s;
+}
+.mobileSignIn:hover { background: var(--surface); border-color: var(--mid); }
+.mobileSignOut {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  font-family: var(--font-dm-sans, sans-serif);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--muted);
+  background: none;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.mobileSignOut:hover { background: var(--surface); color: var(--light); }
 .mobileCta {
   width: 100%;
-  margin-top: 2rem;
   justify-content: center;
 }
+
+/* Desktop auth */
+.signInBtn {
+  display: none;
+  align-items: center;
+  padding: 0 1rem;
+  height: 34px;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  font-family: var(--font-dm-sans, sans-serif);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--muted);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: border-color 0.15s, color 0.15s;
+}
+.signInBtn:hover { border-color: var(--mid); color: var(--white); }
+@media (min-width: 900px) {
+  .signInBtn { display: inline-flex; }
+}
+
+.userWrap {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+}
+@media (min-width: 900px) {
+  .userWrap { display: flex; }
+}
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--red-dim);
+  color: var(--white);
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.signOutBtn {
+  font-family: var(--font-dm-sans, sans-serif);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 0.25rem;
+  transition: color 0.15s;
+}
+.signOutBtn:hover { color: var(--white); }
 
 /* 56px on small phones */
 @media (max-width: 600px) {

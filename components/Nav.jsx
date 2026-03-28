@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useSession, signOut } from 'next-auth/react'
 import styles from './Nav.module.css'
 
 const phaseLinks = [
@@ -86,6 +87,7 @@ export default function Nav() {
     return () => { document.body.style.overflow = '' }
   }, [mobileOpen])
 
+  const { data: session } = useSession()
   const isActive = (href) => pathname === href || pathname.startsWith(href + '/')
 
   return (
@@ -209,8 +211,26 @@ export default function Nav() {
             <Link href="/blog"     className={`${styles.link} ${isActive('/blog')     ? styles.active : ''}`}>Blog</Link>
           </div>
 
-          {/* ── Right: CTA + hamburger ── */}
+          {/* ── Right: auth + CTA + hamburger ── */}
           <div className={styles.right}>
+            {session ? (
+              <div className={styles.userWrap}>
+                <span className={styles.avatar} aria-label={session.user?.name || 'Account'}>
+                  {session.user?.image
+                    ? <img src={session.user.image} alt={session.user.name || ''} width={28} height={28} referrerPolicy="no-referrer" />
+                    : (session.user?.name?.[0] ?? session.user?.email?.[0] ?? 'U').toUpperCase()
+                  }
+                </span>
+                <button
+                  className={styles.signOutBtn}
+                  onClick={() => signOut({ callbackUrl: '/' })}
+                >
+                  Sign out
+                </button>
+              </div>
+            ) : (
+              <Link href="/signin" className={styles.signInBtn}>Sign In</Link>
+            )}
             <Link href="/platform" className={`btn-primary ${styles.cta}`}>
               Get Started
             </Link>
@@ -253,9 +273,21 @@ export default function Nav() {
             <Link href="/blog"     className={styles.mobileLink}>Blog</Link>
           </nav>
 
-          <Link href="/platform" className={`btn-primary ${styles.mobileCta}`}>
-            Get Started
-          </Link>
+          <div className={styles.mobileAuthRow}>
+            {session ? (
+              <button
+                className={styles.mobileSignOut}
+                onClick={() => signOut({ callbackUrl: '/' })}
+              >
+                Sign out
+              </button>
+            ) : (
+              <Link href="/signin" className={styles.mobileSignIn}>Sign In</Link>
+            )}
+            <Link href="/platform" className={`btn-primary ${styles.mobileCta}`}>
+              Get Started
+            </Link>
+          </div>
         </div>
       )}
     </>
