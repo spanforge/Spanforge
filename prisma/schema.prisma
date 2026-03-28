@@ -1,16 +1,14 @@
-// SpanForge — Prisma Schema
+// SpanForge Prisma Schema (Prisma 5)
 // Auth.js v5 required models + SpanForge workspace/tooling models
 
 generator client {
-  provider = "prisma-client"
-  output   = "../lib/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
-
-// ── Auth.js required models ──────────────────────────────────────────────────
 
 model User {
   id            String    @id @default(cuid())
@@ -66,8 +64,6 @@ model VerificationToken {
 
   @@id([identifier, token])
 }
-
-// ── SpanForge custom models ────────────────────────────────────────────────────
 
 model Workspace {
   id        String   @id @default(cuid())

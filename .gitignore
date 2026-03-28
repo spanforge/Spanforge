@@ -5,9 +5,6 @@ out/
 dist/
 .vercel/
 
-# Prisma generated client (rebuilt on install)
-lib/generated/
-
 # Build outputs & caches
 .cache/
 .turbo/
