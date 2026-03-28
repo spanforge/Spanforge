@@ -237,7 +237,7 @@ export default function Home() {
                   </span>
                   <span className={styles.phaseTeaserCount}>{info.total}</span>
                 </div>
-                <p className={styles.phaseTeaserSub}>tools planned</p>
+                <p className={styles.phaseTeaserSub}>tools in catalog</p>
                 <p className={styles.phaseTeaserTypes}>{info.types}</p>
               </Link>
             ))}
