@@ -5,7 +5,7 @@ type: "research-paper"
 excerpt: "Why 94% of enterprises fail to scale AI — and what the successful ones do differently. A diagnostic and capital allocation framework for enterprise AI production readiness, built from analysis of real deployment outcomes."
 author: "SpanForge"
 pageCount: "32 pages"
-downloadUrl: "/downloads/enterprise-ai-execution-playbook.pdf"
+downloadUrl: "/downloads/Enterprise_AI_Execution_Playbook.pdf"
 fileSize: "PDF"
 tags: ["enterprise", "strategy", "governance", "capital-allocation", "production"]
 ---
@@ -55,4 +55,4 @@ This paper is written for senior leaders and programme owners who are responsibl
 
 ## Download
 
-[Download the free PDF](/downloads/enterprise-ai-execution-playbook.pdf) — no sign-in required.
+[Download the free PDF](/downloads/Enterprise_AI_Execution_Playbook.pdf) — no sign-in required.

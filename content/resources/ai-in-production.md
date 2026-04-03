@@ -5,7 +5,7 @@ type: "mini-book"
 excerpt: "A practitioner's guide to shipping, governing, and scaling reliable AI systems. Covers the full arc from prototype to production — observability, governance, failure modes, and the operational disciplines that determine whether AI delivers value."
 author: "SpanForge"
 pageCount: "24 pages"
-downloadUrl: "/downloads/ai-in-production.pdf"
+downloadUrl: "/downloads/AI_in_Production.pdf"
 fileSize: "PDF"
 tags: ["production", "observability", "governance", "operations"]
 ---
@@ -42,4 +42,4 @@ If you are accountable for an AI system and you need it to be reliable, observab
 
 ## Download
 
-[Download the free PDF](/downloads/ai-in-production.pdf) — no sign-in required.
+[Download the free PDF](/downloads/AI_in_Production.pdf) — no sign-in required.
