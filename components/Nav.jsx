@@ -206,7 +206,8 @@ export default function Nav() {
                 </div>
               )}
             </div>
-            <Link href="/tools"    className={`${styles.link} ${isActive('/tools')    ? styles.active : ''}`}>Tools</Link>
+            <Link href="/tools"     className={`${styles.link} ${isActive('/tools')     ? styles.active : ''}`}>Tools</Link>
+            <Link href="/resources" className={`${styles.link} ${isActive('/resources') ? styles.active : ''}`}>Library</Link>
             <Link href="/about"    className={`${styles.link} ${isActive('/about')    ? styles.active : ''}`}>About</Link>
             <Link href="/blog"     className={`${styles.link} ${isActive('/blog')     ? styles.active : ''}`}>Blog</Link>
           </div>
@@ -268,7 +269,8 @@ export default function Nav() {
             <Link href="/agentobs/sdk" className={styles.mobileLinkIndent}>Python SDK</Link>
             <Link href="/agentobs/debug" className={styles.mobileLinkIndent}>AgentOBSDebug</Link>
             <Link href="/agentobs/validate" className={styles.mobileLinkIndent}>AgentOBSValidate</Link>
-            <Link href="/tools"    className={styles.mobileLink}>Tools</Link>
+            <Link href="/tools"     className={styles.mobileLink}>Tools</Link>
+            <Link href="/resources" className={styles.mobileLink}>Library</Link>
             <Link href="/about"    className={styles.mobileLink}>About</Link>
             <Link href="/blog"     className={styles.mobileLink}>Blog</Link>
           </nav>

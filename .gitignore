@@ -31,10 +31,13 @@ Desktop.ini
 _legacy-src/
 vite.config.js
 
-# Office documents (working files, not source)
+# Office documents & PDFs (working files, not source)
 *.docx
 *.xlsx
 *.pptx
+*.pdf
+# Allow PDFs that are intentionally served from public/
+!public/**/*.pdf
 
 # ── Python (retained from template) ──────────────────────────────────────────
 # Byte-compiled / optimized / DLL files
