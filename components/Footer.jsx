@@ -32,7 +32,7 @@ export default function Footer() {
             <span className={styles.brandForge}>Forge</span>
             <span className={styles.brandSub}>AI Lifecycle Platform</span>
           </Link>
-          <p className={styles.brandTagline}>The operating system for enterprise AI.</p>
+          <p className={styles.brandTagline}>Where Enterprise AI Goes to Production.</p>
           <p className={styles.brandUrl}>getspanforge.com</p>
         </div>
 
