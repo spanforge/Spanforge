@@ -2,8 +2,8 @@
 
 ```
 AGENTOBS Community Draft                                     S. Sriram
-Document: RFC-0001                                          llm-toolkit
-Category: Specification Draft                               March 4, 2026
+Document: RFC-0001                                          SpanForge
+Category: Specification Draft                               April 3, 2026
 Status: Public Review
 ```
 
@@ -18,17 +18,17 @@ Distribution of this memo is unlimited.
 This is a **Draft Specification**. This document is the product of open
 community collaboration. Please send feedback, objections, and
 implementation reports to the Issues tracker at
-[https://github.com/llm-toolkit/llm-toolkit-schema](https://github.com/llm-toolkit/llm-toolkit-schema).
+[https://github.com/veerarag1973/Spanforge/issues](https://github.com/veerarag1973/Spanforge/issues).
 
 This document is **not** an IETF RFC and is not published by the IETF.
 The term "RFC" in this repository denotes an open request-for-comments
-process operated by the llm-toolkit community.
+process operated by the SpanForge community.
 
 ---
 
 ## Copyright Notice
 
-Copyright (c) 2026 llm-toolkit contributors. All Rights Reserved.
+Copyright (c) 2026 SpanForge. All Rights Reserved.
 
 This document and translations of it may be copied and furnished to
 others, and derivative works that comment on or otherwise explain it or
@@ -80,7 +80,7 @@ observability of agentic AI systems. AGENTOBS specifies:
    that allow incremental adoption — from basic standardised AI spans to
    full compliance-grade audit and governance.
 
-An open reference implementation exists in the llm-toolkit project
+An open reference implementation exists in the SpanForge project
 (Python), and independent implementations in other languages are
 encouraged.
 
@@ -154,7 +154,7 @@ primitives, and export abstractions. It does not mandate a specific
 transport protocol beyond requiring compatibility with OTLP/HTTP. It does
 not mandate a specific storage backend. It does not mandate a specific
 programming language for implementations, though a Python reference
-implementation (`llm-toolkit-schema`) is provided.
+implementation (`agentobs`) is provided.
 
 ### 1.3 Out of Scope
 
@@ -1717,6 +1717,13 @@ normative, language-neutral definition of the Event Envelope. Any
 implementation that validates events against this schema is
 interoperable with any other conformant implementation.
 
+The schema file path intentionally uses the `v1.0/` directory. The
+`v1.0/` schema is the stable normative artifact and validates events
+across all AGENTOBS releases, including this v2.0 data model revision.
+A separate `v2.0/` schema path will not be created; the `v1.0/` schema
+will be updated in place under its existing path when breaking schema
+changes are ratified.
+
 ### 21.3 Backward Compatibility Policy
 
 - **Patch releases** — bug fixes only; no API changes.
@@ -1763,9 +1770,8 @@ major release.
   Portability and Accountability Act", 1996.
 - [EU-AI-Act] European Parliament, "Artificial Intelligence Act",
   Regulation (EU) 2024/1689.
-- [llm-toolkit-schema] Reference implementation, v1.1.2.
-  https://pypi.org/project/llm-toolkit-schema/
-  https://github.com/llm-toolkit/llm-toolkit-schema
+- [agentobs] SpanForge reference implementation, v2.0.0.
+  https://github.com/veerarag1973/Spanforge
 
 ---
 
@@ -1913,9 +1919,9 @@ are subject to update during ratification.
 
 ```
 Sriram
-llm-toolkit project
-GitHub: https://github.com/llm-toolkit/llm-toolkit-schema
-Issues: https://github.com/llm-toolkit/llm-toolkit-schema/issues
+SpanForge
+GitHub: https://github.com/veerarag1973/Spanforge
+Issues: https://github.com/veerarag1973/Spanforge/issues
 ```
 
 Contributions, objections, and implementation reports are welcome via the
