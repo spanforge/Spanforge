@@ -14,8 +14,8 @@ export const metadata = {
 
 const HERO_STATS = [
   { value: '5',    label: 'Lifecycle phases'         },
-  { value: '100+', label: 'Tools & frameworks'       },
-  { value: '40+',  label: 'Standards & templates'    },
+  { value: '101',  label: 'Tools & frameworks'       },
+  { value: '85',   label: 'CLI utilities planned'    },
   { value: '1',    label: 'Production-ready platform' },
 ]
 

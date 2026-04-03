@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { phaseSummary } from '@/lib/tools-data'
+import { phaseSummary, needAreas, NEED_TOTAL } from '@/lib/tools-data'
 import styles from './page.module.css'
 
 export const metadata = {
@@ -10,13 +10,22 @@ export const metadata = {
 
 // Breakdown of planned tool types
 const TOOL_TYPES = [
-  { count: '20+', label: 'CLI tools',                  note: 'Build and Scale phase automation' },
+  { count: '85',  label: 'CLI utilities',              note: 'Rust-native, single binary, zero dependencies' },
   { count: '20+', label: 'Web applications',           note: 'Interactive tools across Discover and Govern' },
   { count: '40+', label: 'Standards documents',        note: 'RFC-level templates and specifications' },
   { count: '5+',  label: 'Frameworks',                 note: 'Governance, methodology, and build standards' },
   { count: '6',   label: 'CI/CD pipeline templates',  note: 'Six-stage pipeline integrated into your build process' },
   { count: '1',   label: 'AgentOBS platform',         note: 'Production observability for autonomous AI agents' },
 ]
+
+function PriorityPip({ count, label, color }) {
+  if (!count) return null
+  return (
+    <span className={styles.priorityPip} style={{ background: color }}>
+      {label}×{count}
+    </span>
+  )
+}
 
 export default function ToolsPage() {
   const totalPlanned = Object.values(phaseSummary).reduce((sum, p) => sum + p.total, 0)
@@ -58,6 +67,53 @@ export default function ToolsPage() {
                 </div>
                 <span className={styles.countLabel}>tools planned</span>
                 <span className={styles.countTypes}>{info.types}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Need areas — 85 CLI utilities by production gap */}
+      <section className={styles.needSection} aria-labelledby="need-heading">
+        <div className="container">
+          <div className={styles.needHeader}>
+            <div>
+              <span className="eyebrow">CLI utility layer</span>
+              <h2 id="need-heading" className={styles.needH2}>
+                {NEED_TOTAL} utilities. 10 production gaps closed.
+              </h2>
+              <p className={styles.needDesc}>
+                The ainternals utility layer ships {NEED_TOTAL} Rust CLI tools — single compiled
+                binaries, zero dependencies — organised by the exact production gap each one
+                closes. Every tool targets a real failure mode in enterprise AI delivery.
+              </p>
+            </div>
+            <div className={styles.needLegend} aria-label="Priority key">
+              <span className={styles.needLegendLabel}>Priority key</span>
+              <span className={`${styles.legendPip} ${styles.p1}`}>P1 Critical</span>
+              <span className={`${styles.legendPip} ${styles.p2}`}>P2 High</span>
+              <span className={`${styles.legendPip} ${styles.p3}`}>P3 Medium</span>
+              <span className={`${styles.legendPip} ${styles.p4}`}>P4 Low</span>
+            </div>
+          </div>
+
+          <div className={styles.needGrid}>
+            {needAreas.map((area, i) => (
+              <div key={area.id} className={styles.needCard}>
+                <div className={styles.needCardTop}>
+                  <span className={styles.needNum}>
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <span className={styles.needCount}>{area.count}</span>
+                </div>
+                <p className={styles.needLabel}>{area.label}</p>
+                <p className={styles.needGap}>{area.gap}</p>
+                <div className={styles.needPriorities}>
+                  <PriorityPip count={area.p1} label="P1" color="var(--red)" />
+                  <PriorityPip count={area.p2} label="P2" color="#e07b00" />
+                  <PriorityPip count={area.p3} label="P3" color="#6b7280" />
+                  <PriorityPip count={area.p4} label="P4" color="#374151" />
+                </div>
               </div>
             ))}
           </div>
