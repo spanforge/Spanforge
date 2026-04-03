@@ -1,7 +1,7 @@
 ---
 title: "The AI Execution Gap: Enterprise AI Execution Playbook"
 date: "2026-04-01"
-type: "research-paper"
+type: "report"
 excerpt: "Why 94% of enterprises fail to scale AI — and what the successful ones do differently. A diagnostic and capital allocation framework for enterprise AI production readiness, built from analysis of real deployment outcomes."
 author: "SpanForge"
 pageCount: "32 pages"
