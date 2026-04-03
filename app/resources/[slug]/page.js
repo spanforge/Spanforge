@@ -26,12 +26,12 @@ export async function generateMetadata({ params }) {
 }
 
 const TYPE_META = {
-  whitepaper:       { label: 'Whitepaper',      color: '#5DADE2', bg: 'rgba(26,82,118,0.25)' },
-  'research-paper': { label: 'Research Paper',  color: '#AF7AC5', bg: 'rgba(74,35,90,0.25)'  },
-  'mini-book':      { label: 'Mini Book',        color: '#58D68D', bg: 'rgba(20,90,50,0.25)'  },
-  guide:            { label: 'Guide',            color: '#F0A500', bg: 'rgba(120,66,18,0.25)' },
-  spec:             { label: 'Spec',             color: '#EC7063', bg: 'rgba(123,34,24,0.25)' },
-  report:           { label: 'Report',           color: '#94A3B8', bg: 'rgba(42,49,69,0.5)'   },
+  whitepaper:       { label: 'Whitepaper',     color: '#1565C0', bg: 'rgba(21,101,192,0.1)'  },
+  'research-paper': { label: 'Research Paper', color: '#6A1B9A', bg: 'rgba(106,27,154,0.1)' },
+  'mini-book':      { label: 'Mini Book',      color: '#1B5E20', bg: 'rgba(27,94,32,0.1)'   },
+  guide:            { label: 'Guide',          color: '#E65100', bg: 'rgba(230,81,0,0.1)'   },
+  spec:             { label: 'Spec',           color: '#B71C1C', bg: 'rgba(183,28,28,0.1)'  },
+  report:           { label: 'Report',         color: '#37474F', bg: 'rgba(55,71,79,0.1)'   },
 }
 
 function formatDate(dateStr) {
