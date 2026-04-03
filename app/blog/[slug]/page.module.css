@@ -166,8 +166,8 @@
 }
 
 .prose :global(pre) {
-  background: var(--surface);
-  border: 1px solid var(--rule);
+  background: #1A1F2E;
+  border: 1px solid #2A3145;
   border-radius: 4px;
   padding: 1.25rem;
   overflow-x: auto;
@@ -175,6 +175,7 @@
   font-size: 0.82rem;
   line-height: 1.6;
   margin: 1.5rem 0;
+  color: #E2E8F0;
 }
 
 .prose :global(code) {
@@ -183,13 +184,16 @@
   background: var(--surface);
   padding: 0.15em 0.4em;
   border-radius: 3px;
-  color: var(--light);
+  color: var(--red);
+  border: 1px solid var(--rule);
 }
 
 .prose :global(pre > code) {
   background: none;
   padding: 0;
   font-size: inherit;
+  color: #E2E8F0;
+  border: none;
 }
 
 .prose :global(hr) {

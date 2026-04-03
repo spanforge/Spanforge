@@ -33,7 +33,7 @@
   padding: 56px 0 80px;
   background: var(--dark);
   background-image:
-    radial-gradient(ellipse 700px 400px at 75% 40%, rgba(192,57,43,0.06) 0%, transparent 70%);
+    radial-gradient(ellipse 700px 400px at 75% 40%, rgba(26,111,219,0.07) 0%, transparent 70%);
 }
 
 .heroLabel {
@@ -107,8 +107,8 @@
 
 /* ── Install block ──────────────────────────── */
 .installBlock {
-  background: var(--surface);
-  border: 1px solid var(--rule);
+  background: #1A1F2E;
+  border: 1px solid #2A3145;
   border-radius: 6px;
   padding: 1.25rem 1.5rem;
   margin: 1.5rem 0;
@@ -120,16 +120,16 @@
 .installCmd {
   font-family: var(--font-dm-mono);
   font-size: 0.95rem;
-  color: var(--white);
+  color: #E2E8F0;
   flex: 1;
 }
 
-.installCmd span { color: var(--red); }
+.installCmd span { color: #F87171; }
 
 /* ── Code block ─────────────────────────────── */
 .codeBlock {
-  background: var(--surface);
-  border: 1px solid var(--rule);
+  background: #1A1F2E;
+  border: 1px solid #2A3145;
   border-radius: 6px;
   overflow-x: auto;
   margin: 1.5rem 0;
@@ -140,8 +140,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 0.5rem 1rem;
-  border-bottom: 1px solid var(--rule);
-  background: rgba(0,0,0,0.2);
+  border-bottom: 1px solid #2A3145;
+  background: rgba(0,0,0,0.25);
 }
 
 .codeBlockLang {
@@ -149,7 +149,7 @@
   font-size: 0.68rem;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: var(--mid);
+  color: #64748B;
 }
 
 .codeBlockBody {
@@ -157,15 +157,15 @@
   font-family: var(--font-dm-mono);
   font-size: 0.82rem;
   line-height: 1.7;
-  color: var(--light);
+  color: #E2E8F0;
   white-space: pre;
 }
 
-.codeBlockBody .kw  { color: #C0392B; }          /* keyword */
+.codeBlockBody .kw  { color: #F87171; }          /* keyword */
 .codeBlockBody .fn  { color: #7EB8F7; }          /* function */
-.codeBlockBody .str { color: #A8D8A8; }          /* string */
-.codeBlockBody .cm  { color: var(--mid); }       /* comment */
-.codeBlockBody .py  { color: var(--muted); }     /* punctuation */
+.codeBlockBody .str { color: #86EFAC; }          /* string */
+.codeBlockBody .cm  { color: #64748B; }          /* comment */
+.codeBlockBody .py  { color: #94A3B8; }          /* punctuation */
 
 /* ── Table ──────────────────────────────────── */
 .tableWrap {
@@ -190,7 +190,7 @@
   text-align: left;
   padding: 0.7rem 1rem;
   border-bottom: 1px solid var(--rule);
-  background: rgba(0,0,0,0.15);
+  background: var(--surface-2);
   white-space: nowrap;
 }
 
@@ -292,7 +292,7 @@
 .inlineCode {
   font-family: var(--font-dm-mono);
   font-size: 0.82em;
-  color: var(--light);
+  color: var(--red);
   background: var(--surface);
   padding: 0.1em 0.4em;
   border-radius: 3px;

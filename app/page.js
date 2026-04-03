@@ -116,7 +116,7 @@ export default function Home() {
                 <span
                   key={p.id}
                   className={styles.heroPhasePill}
-                  style={{ background: `var(${p.colorVar})`, color: 'var(--light)' }}
+                  style={{ background: `var(${p.colorVar})`, color: '#FFFFFF' }}
                 >
                   {p.label}
                 </span>

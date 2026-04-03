@@ -1,4 +1,4 @@
-import { Playfair_Display, DM_Sans, DM_Mono } from 'next/font/google'
+import { Nunito, Inter, JetBrains_Mono } from 'next/font/google'
 import Script from 'next/script'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
@@ -8,24 +8,24 @@ import AuthSessionProvider from '@/components/AuthSessionProvider'
 import '../styles/globals.css'
 import '../styles/animations.css'
 
-const playfair = Playfair_Display({
+const nunito = Nunito({
   subsets: ['latin'],
-  weight: ['400', '700', '900'],
-  variable: '--font-playfair',
+  weight: ['400', '600', '700', '800'],
+  variable: '--font-playfair',   /* keeps existing CSS var name */
   display: 'swap',
 })
 
-const dmSans = DM_Sans({
+const inter = Inter({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600'],
-  variable: '--font-dm-sans',
+  weight: ['400', '500', '600'],
+  variable: '--font-dm-sans',    /* keeps existing CSS var name */
   display: 'swap',
 })
 
-const dmMono = DM_Mono({
+const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   weight: ['400', '500'],
-  variable: '--font-dm-mono',
+  variable: '--font-dm-mono',    /* keeps existing CSS var name */
   display: 'swap',
 })
 
@@ -67,7 +67,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${playfair.variable} ${dmSans.variable} ${dmMono.variable}`}
+      className={`${nunito.variable} ${inter.variable} ${jetbrainsMono.variable}`}
     >
       <body>
         <AuthSessionProvider>

@@ -10,10 +10,11 @@
   border-bottom: 1px solid transparent;
 }
 .scrolled {
-  background: rgba(17, 19, 24, 0.92);
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom-color: var(--rule);
+  box-shadow: 0 1px 0 var(--rule);
 }
 
 .inner {
@@ -102,13 +103,13 @@
 .dropWrap { position: relative; }
 .dropdown {
   position: absolute;
-  top: calc(100% + 2px);
+  top: 100%;
   left: 0;
   min-width: 230px;
-  background: var(--charcoal);
+  background: #FFFFFF;
   border: 1px solid var(--rule);
-  border-radius: 4px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
   padding: 0.6rem;
   z-index: 200;
   display: flex;
@@ -219,21 +220,22 @@
   position: fixed;
   inset: 0;
   z-index: 500;
-  background: var(--charcoal);
+  background: #FFFFFF;
   display: flex;
   flex-direction: column;
   padding: 1.5rem var(--side-padding);
+  box-shadow: 0 0 0 1px var(--rule);
 }
 .closeBtn {
   align-self: flex-end;
   background: none;
   border: none;
-  color: var(--muted);
+  color: var(--mid);
   cursor: pointer;
   padding: 0.4rem;
   transition: color 0.2s;
 }
-.closeBtn:hover { color: var(--white); }
+.closeBtn:hover { color: var(--light); }
 .mobileLinks {
   display: flex;
   flex-direction: column;
@@ -251,7 +253,7 @@
   transition: color 0.2s;
   text-decoration: none;
 }
-.mobileLink:hover { color: var(--white); }
+.mobileLink:hover { color: var(--light); }
 .mobileLinkIndent {
   font-family: var(--font-dm-sans, sans-serif);
   font-size: 0.95rem;
@@ -262,7 +264,7 @@
   transition: color 0.2s;
   text-decoration: none;
 }
-.mobileLinkIndent:hover { color: var(--white); }
+.mobileLinkIndent:hover { color: var(--light); }
 
 /* Mobile auth row */
 .mobileAuthRow {
@@ -342,8 +344,8 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: var(--red-dim);
-  color: var(--white);
+  background: var(--red);
+  color: #FFFFFF;
   font-size: 0.75rem;
   font-weight: 600;
   display: inline-flex;

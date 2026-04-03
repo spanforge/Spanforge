@@ -1,6 +1,7 @@
+/* TerminalMock stays dark regardless of theme — terminals are dark by convention */
 .wrap {
-  background: var(--surface);
-  border: 1px solid var(--rule);
+  background: #1A1F2E;
+  border: 1px solid #2A3145;
   border-radius: 6px;
   overflow: hidden;
   font-family: var(--font-dm-mono);
@@ -9,32 +10,32 @@
 /* Tab row */
 .tabs {
   display: flex;
-  border-bottom: 1px solid var(--rule);
-  background: var(--dark);
+  border-bottom: 1px solid #2A3145;
+  background: #111318;
 }
 
 .tab {
   font-family: var(--font-dm-mono);
   font-size: 0.72rem;
   font-weight: 400;
-  color: var(--muted);
+  color: #94A3B8;
   padding: 0.6rem 1rem;
   cursor: pointer;
-  border-right: 1px solid var(--rule);
+  border-right: 1px solid #2A3145;
   transition: color 0.15s, background 0.15s;
   white-space: nowrap;
   flex-shrink: 0;
 }
 
 .tab:hover {
-  color: var(--light);
-  background: var(--surface-2);
+  color: #F1F5F9;
+  background: #252B3A;
 }
 
 .tabActive {
-  color: var(--white);
-  background: var(--surface);
-  border-bottom: 1px solid var(--surface);
+  color: #FFFFFF;
+  background: #1A1F2E;
+  border-bottom: 1px solid #1A1F2E;
   margin-bottom: -1px;
 }
 
@@ -43,9 +44,9 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  background: var(--surface-2);
+  background: #252B3A;
   padding: 0.55rem 1rem;
-  border-bottom: 1px solid var(--rule);
+  border-bottom: 1px solid #2A3145;
 }
 
 .dot {
@@ -58,7 +59,7 @@
 .barLabel {
   font-family: var(--font-dm-mono);
   font-size: 0.72rem;
-  color: var(--muted);
+  color: #94A3B8;
   margin-left: 0.5rem;
 }
 
@@ -66,6 +67,7 @@
 .body {
   padding: 1.5rem;
   min-height: 220px;
+  color: #E2E8F0;
 }
 
 .line {
@@ -80,18 +82,18 @@
 }
 
 .sep {
-  color: var(--rule);
+  color: #2A3145;
 }
 
 .divider {
   height: 1px;
-  background: var(--rule);
+  background: #2A3145;
   margin: 0.75rem 0;
 }
 
 .comment {
-  color: var(--muted);
-  opacity: 0.45;
+  color: #94A3B8;
+  opacity: 0.6;
   font-size: 0.75rem;
   display: block;
   margin-top: 0.5rem;

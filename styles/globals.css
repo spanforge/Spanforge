@@ -4,26 +4,30 @@
 
 /* ─── 1. Design Tokens ─── */
 :root {
-  /* Brand colours */
-  --red:       #C0392B;
-  --red-light: #E8574A;
-  --red-dim:   #7B2218;
-  --charcoal:  #1A1F2E;
-  --dark:      #111318;
-  --surface:   #1E2330;
-  --surface-2: #252B3A;
-  --mid:       #64748B;
-  --muted:     #94A3B8;
-  --rule:      #2A3145;
-  --light:     #F1F5F9;
-  --white:     #FFFFFF;
+  /* Brand colour — ocean blue (replaces red) */
+  --red:       #1A6FDB;   /* primary blue  — used everywhere --red was */
+  --red-light: #4589E8;   /* lighter blue  */
+  --red-dim:   #E0EEFF;   /* pastel blue tint */
 
-  /* Phase accent colours */
-  --discover: #1A5276;
-  --design:   #145A32;
-  --build:    #784212;
-  --govern:   #4A235A;
-  --scale:    #7B2218;
+  /* Surfaces */
+  --charcoal:  #F0F6FF;   /* light section background */
+  --dark:      #FFFFFF;   /* page background */
+  --surface:   #F4F8FF;   /* card / widget background */
+  --surface-2: #E7EFFC;   /* active / hovered card */
+
+  /* Text */
+  --mid:       #5A7AA8;   /* labels, placeholders */
+  --muted:     #2E4A6E;   /* secondary body text */
+  --rule:      #C3D5EF;   /* borders & dividers */
+  --light:     #1A2D4A;   /* primary body text */
+  --white:     #0A1826;   /* heading text (deepest) */
+
+  /* Phase accent colours — vibrant on light bg */
+  --discover: #1660CC;    /* blue   */
+  --design:   #0E8A5A;    /* teal   */
+  --build:    #C96A0A;    /* amber  */
+  --govern:   #7A28BF;    /* purple */
+  --scale:    #C62828;    /* red    */
 
   /* Spacing — 4px base unit */
   --s-1:  4px;
@@ -53,16 +57,17 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
 }
 
 body {
   background-color: var(--dark);
   color: var(--light);
-  font-family: var(--font-dm-sans, 'DM Sans', system-ui, sans-serif);
+  font-family: var(--font-dm-sans, 'Inter', system-ui, sans-serif);
   font-weight: 400;
-  line-height: 1.6;
+  font-size: 17px;
+  line-height: 1.65;
   overflow-x: hidden;
 }
 
@@ -88,7 +93,7 @@ input, textarea, select { font-family: inherit; }
   height: 44px;
   padding: 0 1.5rem;
   background: var(--red);
-  color: var(--white);
+  color: #FFFFFF;
   font-family: var(--font-dm-sans, 'DM Sans', system-ui, sans-serif);
   font-weight: 600;
   font-size: 0.9rem;
@@ -116,19 +121,20 @@ input, textarea, select { font-family: inherit; }
   height: 44px;
   padding: 0 1.5rem;
   background: transparent;
-  color: var(--white);
+  color: var(--light);
   font-family: var(--font-dm-sans, 'DM Sans', system-ui, sans-serif);
   font-weight: 600;
   font-size: 0.9rem;
   border: 1px solid var(--rule);
   border-radius: 4px;
-  transition: background 0.2s, transform 0.2s;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
   white-space: nowrap;
   text-decoration: none;
   cursor: pointer;
 }
 .btn-ghost:hover {
   background: var(--surface);
+  border-color: var(--mid);
   transform: translateY(-1px);
 }
 
@@ -155,11 +161,11 @@ input, textarea, select { font-family: inherit; }
   padding: 0.2rem 0.5rem;
   border-radius: 3px;
 }
-.badge-webapp   { background: rgba(26,82,118,0.35);  color: #5DADE2; }
-.badge-rust     { background: rgba(120,66,18,0.35);   color: #F0A500; }
-.badge-doc      { background: rgba(74,35,90,0.35);    color: #AF7AC5; }
-.badge-fw       { background: rgba(20,90,50,0.35);    color: #58D68D; }
-.badge-product  { background: rgba(120,18,18,0.35);   color: #EC7063; }
+.badge-webapp   { background: #DBEAFE; color: #1D4ED8; }
+.badge-rust     { background: #FEF3C7; color: #92400E; }
+.badge-doc      { background: #EDE9FE; color: #6D28D9; }
+.badge-fw       { background: #D1FAE5; color: #065F46; }
+.badge-product  { background: #FFE4E6; color: #9F1239; }
 
 /* ─── 8. Skip link ─── */
 .skip-to-content {
@@ -168,7 +174,7 @@ input, textarea, select { font-family: inherit; }
   left: 1rem;
   padding: 0.5rem 1rem;
   background: var(--red);
-  color: var(--white);
+  color: #FFFFFF;
   font-weight: 600;
   border-radius: 4px;
   z-index: 9999;

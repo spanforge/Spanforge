@@ -5,10 +5,9 @@
   justify-content: center;
   padding: var(--s-5);
   background: var(--dark);
-  /* subtle radial glow behind card */
   background-image: radial-gradient(
     ellipse 60% 40% at 50% 40%,
-    rgba(192, 57, 43, 0.06) 0%,
+    rgba(26, 111, 219, 0.07) 0%,
     transparent 70%
   );
 }
@@ -45,7 +44,7 @@
   font-family: var(--font-playfair, serif);
   font-weight: 900;
   font-size: 0.9rem;
-  color: var(--white);
+  color: #FFFFFF;
   letter-spacing: -0.5px;
 }
 
@@ -79,12 +78,12 @@
 /* ── Error ── */
 .error {
   width: 100%;
-  background: rgba(192, 57, 43, 0.12);
-  border: 1px solid rgba(192, 57, 43, 0.4);
+  background: rgba(220, 40, 40, 0.08);
+  border: 1px solid rgba(220, 40, 40, 0.3);
   border-radius: 8px;
   padding: var(--s-3) var(--s-4);
   font-size: 0.85rem;
-  color: var(--red-light);
+  color: #B91C1C;
   text-align: center;
 }
 
@@ -115,9 +114,9 @@
 }
 
 .providerBtn:hover {
-  background: var(--rule);
+  background: var(--surface-2);
   border-color: var(--mid);
-  color: var(--white);
+  color: var(--light);
 }
 
 .providerBtn:active {
