@@ -36,8 +36,10 @@ vite.config.js
 *.xlsx
 *.pptx
 *.pdf
-# Allow PDFs that are intentionally served from public/
-!public/**/*.pdf
+# Allow PDFs served from public/ (must come after all ignore rules)
+!public/
+!public/downloads/
+!public/downloads/*.pdf
 
 # ── Python (retained from template) ──────────────────────────────────────────
 # Byte-compiled / optimized / DLL files
@@ -53,7 +55,7 @@ __pycache__/
 build/
 develop-eggs/
 dist/
-downloads/
+# Note: 'downloads/' scoped away — public/downloads/ must be tracked for PDF serving
 eggs/
 .eggs/
 lib64/
