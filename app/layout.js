@@ -8,6 +8,31 @@ import AuthSessionProvider from '@/components/AuthSessionProvider'
 import '../styles/globals.css'
 import '../styles/animations.css'
 
+const ORG_JSONLD = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'SpanForge',
+  url: 'https://www.getspanforge.com',
+  logo: 'https://www.getspanforge.com/logo.png',
+  description:
+    'SpanForge is the AI lifecycle platform for enterprise teams — from deciding whether to build, to running confidently in production.',
+  sameAs: [
+    'https://www.linkedin.com/in/spanforge',
+  ],
+  contactPoint: [
+    {
+      '@type': 'ContactPoint',
+      email: 'hello@getspanforge.com',
+      contactType: 'customer support',
+    },
+    {
+      '@type': 'ContactPoint',
+      email: 'press@getspanforge.com',
+      contactType: 'press',
+    },
+  ],
+}
+
 const nunito = Nunito({
   subsets: ['latin'],
   weight: ['400', '600', '700', '800'],
@@ -75,6 +100,13 @@ export default function RootLayout({ children }) {
           <main id="main-content">{children}</main>
           <Footer />
         </AuthSessionProvider>
+
+        {/* Organization structured data */}
+        <Script
+          id="org-jsonld"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(ORG_JSONLD) }}
+        />
 
         {/* Plausible Analytics — privacy-first, no cookies */}
         <Script

@@ -210,6 +210,7 @@ export default function Nav() {
             <Link href="/resources" className={`${styles.link} ${isActive('/resources') ? styles.active : ''}`}>Library</Link>
             <Link href="/about"    className={`${styles.link} ${isActive('/about')    ? styles.active : ''}`}>About</Link>
             <Link href="/blog"     className={`${styles.link} ${isActive('/blog')     ? styles.active : ''}`}>Blog</Link>
+            <Link href="/contact"  className={`${styles.link} ${isActive('/contact')  ? styles.active : ''}`}>Contact</Link>
           </div>
 
           {/* ── Right: auth + CTA + hamburger ── */}
@@ -230,10 +231,10 @@ export default function Nav() {
                 </button>
               </div>
             ) : (
-              <Link href="/signin" className={styles.signInBtn}>Sign In</Link>
+              <Link href="/signin" className={styles.signInText}>Sign In</Link>
             )}
-            <Link href="/platform" className={`btn-primary ${styles.cta}`}>
-              Get Started
+            <Link href="/contact" className={`btn-primary ${styles.cta}`}>
+              Request Briefing
             </Link>
             <button
               className={styles.hamburger}
@@ -273,6 +274,7 @@ export default function Nav() {
             <Link href="/resources" className={styles.mobileLink}>Library</Link>
             <Link href="/about"    className={styles.mobileLink}>About</Link>
             <Link href="/blog"     className={styles.mobileLink}>Blog</Link>
+            <Link href="/contact"  className={styles.mobileLink}>Contact</Link>
           </nav>
 
           <div className={styles.mobileAuthRow}>
@@ -286,8 +288,8 @@ export default function Nav() {
             ) : (
               <Link href="/signin" className={styles.mobileSignIn}>Sign In</Link>
             )}
-            <Link href="/platform" className={`btn-primary ${styles.mobileCta}`}>
-              Get Started
+            <Link href="/contact" className={`btn-primary ${styles.mobileCta}`}>
+              Request Briefing
             </Link>
           </div>
         </div>

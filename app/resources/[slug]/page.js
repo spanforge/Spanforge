@@ -21,6 +21,32 @@ export async function generateMetadata({ params }) {
       description: resource.excerpt || resource.title,
       type: 'article',
       publishedTime: resource.date,
+      authors: [resource.author || 'SpanForge'],
+      siteName: 'SpanForge',
+    },
+  }
+}
+
+function buildResourceJsonLd(resource) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: resource.title,
+    description: resource.excerpt || resource.title,
+    datePublished: resource.date,
+    author: {
+      '@type': 'Organization',
+      name: resource.author || 'SpanForge',
+      url: 'https://www.getspanforge.com',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'SpanForge',
+      url: 'https://www.getspanforge.com',
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `https://www.getspanforge.com/resources/${resource.slug}`,
     },
   }
 }
@@ -45,9 +71,15 @@ export default async function ResourcePage({ params }) {
   if (!resource) notFound()
 
   const typeMeta = TYPE_META[resource.type] || TYPE_META.guide
+  const jsonLd = buildResourceJsonLd(resource)
 
   return (
     <>
+      {/* Resource JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Resource header */}
       <header className={styles.header}>
         <div className="container">
@@ -105,6 +137,29 @@ export default async function ResourcePage({ params }) {
           <Link href="/resources" className={styles.backLink}>← Back to Library</Link>
         </div>
       </div>
+
+      {/* Editorial footer — next steps */}
+      <section className={styles.editorialFooter}>
+        <div className={`container ${styles.editorialInner}`}>
+          <div className={styles.editorialBlock}>
+            <span className={styles.editorialEyebrow}>Explore more</span>
+            <p className={styles.editorialTitle}>Browse the full research library</p>
+            <a href="/resources" className={styles.editorialLink}>See all resources →</a>
+          </div>
+          <div className={styles.editorialDivider} aria-hidden="true" />
+          <div className={styles.editorialBlock}>
+            <span className={styles.editorialEyebrow}>The methodology</span>
+            <p className={styles.editorialTitle}>See the five-phase lifecycle in full</p>
+            <a href="/platform" className={styles.editorialLink}>Explore the platform →</a>
+          </div>
+          <div className={styles.editorialDivider} aria-hidden="true" />
+          <div className={styles.editorialBlock}>
+            <span className={styles.editorialEyebrow}>Talk to SpanForge</span>
+            <p className={styles.editorialTitle}>Request a briefing for your team</p>
+            <a href="/contact" className={styles.editorialLink}>Get in touch →</a>
+          </div>
+        </div>
+      </section>
     </>
   )
 }

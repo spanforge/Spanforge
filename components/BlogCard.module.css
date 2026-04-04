@@ -94,3 +94,69 @@
   color: var(--red);
   margin-top: 0.25rem;
 }
+
+/* ── Featured card variant ──────────────────────────── */
+.cardFeatured {
+  grid-column: 1 / -1;
+}
+
+.innerFeatured {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto 1fr auto;
+  gap: 0 3rem;
+  padding: 2.5rem;
+  align-items: start;
+}
+
+.innerFeatured .meta {
+  grid-column: 1 / 2;
+  grid-row: 1;
+}
+
+.titleFeatured {
+  grid-column: 1 / 2;
+  grid-row: 2;
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  line-height: 1.25;
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+
+.excerptFeatured {
+  grid-column: 2 / 3;
+  grid-row: 1 / 4;
+  font-size: 0.95rem;
+  line-height: 1.75;
+  -webkit-line-clamp: unset;
+  overflow: visible;
+  align-self: center;
+}
+
+.innerFeatured .readMore {
+  grid-column: 1 / 2;
+  grid-row: 3;
+  font-size: 0.8rem;
+  margin-top: 1rem;
+}
+
+@media (max-width: 700px) {
+  .innerFeatured {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 0.75rem;
+    padding: 1.5rem;
+  }
+
+  .titleFeatured,
+  .excerptFeatured,
+  .innerFeatured .meta,
+  .innerFeatured .readMore {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .titleFeatured {
+    font-size: 1.35rem;
+  }
+}

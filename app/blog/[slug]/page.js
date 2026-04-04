@@ -20,6 +20,32 @@ export async function generateMetadata({ params }) {
       description: post.excerpt || post.title,
       type: 'article',
       publishedTime: post.date,
+      authors: [post.author || 'SpanForge'],
+      siteName: 'SpanForge',
+    },
+  }
+}
+
+function buildArticleJsonLd(post) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    description: post.excerpt || post.title,
+    datePublished: post.date,
+    author: {
+      '@type': 'Organization',
+      name: post.author || 'SpanForge',
+      url: 'https://www.getspanforge.com',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'SpanForge',
+      url: 'https://www.getspanforge.com',
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `https://www.getspanforge.com/blog/${post.slug}`,
     },
   }
 }
@@ -45,9 +71,15 @@ export default async function BlogPostPage({ params }) {
 
   const phase = post.phase || 'general'
   const phaseStyle = PHASE_COLORS[phase] || PHASE_COLORS.general
+  const jsonLd = buildArticleJsonLd(post)
 
   return (
     <>
+      {/* Article JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Article header */}
       <header className={styles.header}>
         <div className="container">
@@ -90,6 +122,29 @@ export default async function BlogPostPage({ params }) {
           <a href="/blog" className={styles.backLink}>← Back to blog</a>
         </div>
       </div>
+
+      {/* Editorial footer — next steps */}
+      <section className={styles.editorialFooter}>
+        <div className={`container ${styles.editorialInner}`}>
+          <div className={styles.editorialBlock}>
+            <span className={styles.editorialEyebrow}>Continue reading</span>
+            <p className={styles.editorialTitle}>Explore more SpanForge insights</p>
+            <a href="/blog" className={styles.editorialLink}>See all articles →</a>
+          </div>
+          <div className={styles.editorialDivider} aria-hidden="true" />
+          <div className={styles.editorialBlock}>
+            <span className={styles.editorialEyebrow}>The methodology</span>
+            <p className={styles.editorialTitle}>See the five-phase lifecycle in full</p>
+            <a href="/platform" className={styles.editorialLink}>Explore the platform →</a>
+          </div>
+          <div className={styles.editorialDivider} aria-hidden="true" />
+          <div className={styles.editorialBlock}>
+            <span className={styles.editorialEyebrow}>Talk to SpanForge</span>
+            <p className={styles.editorialTitle}>Request a briefing for your team</p>
+            <a href="/contact" className={styles.editorialLink}>Get in touch →</a>
+          </div>
+        </div>
+      </section>
     </>
   )
 }

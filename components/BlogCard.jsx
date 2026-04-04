@@ -18,13 +18,16 @@ function formatDate(dateStr) {
   })
 }
 
-export default function BlogCard({ post }) {
+export default function BlogCard({ post, featured = false }) {
   const { slug, title, date, excerpt, phase = 'general', readingTime } = post
   const phaseStyle = PHASE_COLORS[phase] || PHASE_COLORS.general
 
   return (
-    <Link href={`/blog/${slug}`} className={styles.card}>
-      <div className={styles.inner}>
+    <Link
+      href={`/blog/${slug}`}
+      className={`${styles.card} ${featured ? styles.cardFeatured : ''}`}
+    >
+      <div className={`${styles.inner} ${featured ? styles.innerFeatured : ''}`}>
         <div className={styles.meta}>
           <span
             className={styles.tag}
@@ -41,10 +44,14 @@ export default function BlogCard({ post }) {
           )}
         </div>
 
-        <h3 className={styles.title}>{title}</h3>
+        <h3 className={`${styles.title} ${featured ? styles.titleFeatured : ''}`}>
+          {title}
+        </h3>
 
         {excerpt && (
-          <p className={styles.excerpt}>{excerpt}</p>
+          <p className={`${styles.excerpt} ${featured ? styles.excerptFeatured : ''}`}>
+            {excerpt}
+          </p>
         )}
 
         <span className={styles.readMore} aria-hidden="true">

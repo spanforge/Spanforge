@@ -13,16 +13,16 @@ export const metadata = {
 }
 
 const HERO_STATS = [
-  { value: '5',    label: 'Lifecycle phases'         },
-  { value: '101',  label: 'Tools & frameworks'       },
-  { value: '85',   label: 'CLI utilities planned'    },
-  { value: '1',    label: 'Production-ready platform' },
+  { value: '5',    label: 'Lifecycle phases'          },
+  { value: '101',  label: 'Tools & frameworks planned' },
+  { value: '85',   label: 'CLI utilities planned'     },
+  { value: '1',    label: 'Live observability product — AgentOBS' },
 ]
 
 const PROBLEM_STATS = [
-  { value: '85%',         label: 'of enterprise AI projects fail to deliver on intended objectives' },
-  { value: '£0',          label: 'value delivered from a model that never ships'    },
-  { value: '4 months',    label: 'average delay from build to first production run' },
+  { value: '42%',  label: 'of companies abandoned the majority of their AI initiatives in 2025 — up from 17% the prior year' },
+  { value: '63%',  label: 'of organisations lack the right data management practices to support AI' },
+  { value: '39%',  label: 'of organisations report any measurable enterprise AI business impact' },
 ]
 
 const AGENTOBS_FEATURES = [
@@ -68,7 +68,7 @@ export default function Home() {
           <div className={styles.heroLeft}>
             <span className={`eyebrow ${styles.heroEyebrow}`}>
               <span className={styles.liveDot} aria-label="Live" />
-              AI Lifecycle Platform — Live Today
+              SpanForge is currently in build
             </span>
 
             <h1 id="hero-heading" className={styles.heroH1}>
@@ -80,16 +80,18 @@ export default function Home() {
             <p className={styles.heroCopy}>
               SpanForge is the AI lifecycle platform for enterprise teams — from deciding
               whether to build, through architecture and engineering, to governance and
-              scale. Every phase covered with standards, frameworks, and battle-tested
-              tools.
+              scale. Every phase covered with standards, frameworks, and tools.
             </p>
 
             <div className={styles.heroCtas}>
-              <Link href="/platform" className="btn-primary">
+              <Link href="/contact" className="btn-primary">
+                Request a Briefing →
+              </Link>
+              <Link href="/platform" className="btn-ghost">
                 Explore the Platform →
               </Link>
               <Link href="/agentobs" className="btn-ghost">
-                Learn about AgentOBS →
+                AgentOBS →
               </Link>
             </div>
 
@@ -179,8 +181,8 @@ export default function Home() {
             </p>
             <p className={styles.whatIsCopy}>
               Built around the <strong>T.R.U.S.T. Framework</strong> — five dimensions
-              that every production AI system must satisfy: Transparency, Reliability,
-              Understandability, Security, and Traceability.
+              that every production AI system must satisfy: Transparency, Responsibility,
+              User Rights, Safety Guardrails, and Traceability.
             </p>
             <Link href="/platform" className="btn-ghost" style={{ marginTop: '1.5rem', display: 'inline-flex' }}>
               Explore the five phases →
@@ -328,25 +330,18 @@ export default function Home() {
       {/* ─── 9. CLOSING CTA ──────────────────────────────── */}
       <section className={styles.waitlistCta} aria-labelledby="cta-heading">
         <div className={`container ${styles.waitlistInner}`}>
-          <span className="eyebrow">SpanForge — Live Today</span>
+          <span className="eyebrow">SpanForge is currently in build</span>
           <h2 id="cta-heading" className={styles.waitlistH2}>
             Decide. Build. Trust.
           </h2>
           <p className={styles.waitlistSub}>
-            SpanForge is the AI lifecycle platform for enterprise teams. The tools,
-            frameworks, and standards that get AI to production — and keep it there.
+            SpanForge is the AI lifecycle platform for enterprise teams. AgentOBS is
+            available today — the full suite of tools, frameworks, and standards is in active development.
           </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginTop: '2rem' }}>
-            <Link href="/platform" className="btn-primary">Explore the Platform →</Link>
+            <Link href="/contact" className="btn-primary">Request a Briefing →</Link>
+            <Link href="/platform" className="btn-ghost">Explore the Platform →</Link>
             <Link href="/agentobs" className="btn-ghost">Learn about AgentOBS →</Link>
-            <a
-              href="https://www.linkedin.com/in/spanforge"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-ghost"
-            >
-              Follow on LinkedIn ↗
-            </a>
           </div>
         </div>
       </section>

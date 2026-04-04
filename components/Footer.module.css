@@ -50,7 +50,19 @@
   font-family: var(--font-dm-mono, monospace);
   font-size: 0.75rem;
   color: var(--mid);
+  margin-bottom: 1rem;
 }
+
+.brandContact {
+  display: inline-flex;
+  font-family: var(--font-dm-sans, sans-serif);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--red);
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+.brandContact:hover { opacity: 0.8; }
 
 /* Nav columns */
 .col {

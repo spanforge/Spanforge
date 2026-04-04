@@ -197,12 +197,69 @@
   color: var(--mid);
 }
 
+/* Is / Is Not */
+.isIsNot {
+  padding: 100px 0;
+  background: var(--charcoal);
+  border-top: 1px solid var(--rule);
+}
+
+.isNotGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.isNotCol {
+  padding: 2rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+}
+
+.isNotColHead {
+  font-family: var(--font-dm-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--mid);
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.isNotItem {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.65;
+  margin-bottom: 0.6rem;
+  display: flex;
+  gap: 0.6rem;
+  align-items: baseline;
+}
+
+.isNotCheck {
+  color: #5cb85c;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+.isNotCross {
+  color: var(--red);
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+/* Is / Is Not */
+
 /* Responsive */
 @media (max-width: 700px) {
   .hero { padding: 100px 0 60px; }
   .missionGrid,
   .valuesGrid,
-  .buildingGrid {
+  .buildingGrid,
+  .isNotGrid {
     grid-template-columns: 1fr;
   }
 }

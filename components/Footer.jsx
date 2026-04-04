@@ -18,7 +18,9 @@ const companyLinks = [
   { label: 'About',          href: '/about' },
   { label: 'Blog',           href: '/blog' },
   { label: 'Library',        href: '/resources' },
+  { label: 'Contact',        href: '/contact' },
   { label: 'Privacy Policy', href: '/privacy' },
+  { label: 'Terms',          href: '/terms' },
 ]
 
 export default function Footer() {
@@ -35,6 +37,9 @@ export default function Footer() {
           </Link>
           <p className={styles.brandTagline}>Where Enterprise AI Goes to Production.</p>
           <p className={styles.brandUrl}>getspanforge.com</p>
+          <Link href="/contact" className={styles.brandContact}>
+            Request a briefing →
+          </Link>
         </div>
 
         {/* Platform column */}

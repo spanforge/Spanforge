@@ -332,6 +332,22 @@
   .signInBtn { display: inline-flex; }
 }
 
+/* Plain-text sign-in link (replaces bordered button in primary nav) */
+.signInText {
+  display: none;
+  font-family: var(--font-dm-sans, sans-serif);
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: var(--mid);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.15s;
+}
+.signInText:hover { color: var(--muted); }
+@media (min-width: 900px) {
+  .signInText { display: inline-flex; }
+}
+
 .userWrap {
   display: none;
   align-items: center;

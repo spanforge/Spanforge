@@ -53,9 +53,11 @@ export default function AboutPage() {
           <div className={styles.missionGrid}>
             <div>
               <p className={styles.missionCopy}>
-                85% of enterprise AI projects fail to deliver on their intended objectives
-                (Gartner). Not because the models don&rsquo;t work. Because the surrounding
-                system — the governance, the observability, the standards, the process — is absent.
+                Approximately 42% of companies abandoned the majority of their AI initiatives
+                in 2025 — more than double the 17% recorded the year prior (S&P Global Market
+                Intelligence, 1,000+ enterprises). Not because the models don&rsquo;t work.
+                Because the surrounding system — the governance, the observability, the standards,
+                the process — is absent.
               </p>
               <p className={styles.missionCopy}>
               SpanForge is the AI lifecycle platform for enterprise teams — from deciding
@@ -70,11 +72,62 @@ export default function AboutPage() {
                 audit it? How do we know when it drifts? What happens when it fails?
               </p>
               <p className={styles.missionCopy}>
-                SpanForge answers those questions — with a methodology proven across
-                regulated industries, and tooling that is production-grade by default.
+                SpanForge answers those questions — with a structured lifecycle, governance
+                controls, and production observability built for enterprise AI delivery.
               </p>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* What SpanForge IS and IS NOT */}
+      <section className={styles.isIsNot} aria-labelledby="isnot-heading">
+        <div className="container">
+          <span className="eyebrow">Clarity of purpose</span>
+          <h2 id="isnot-heading" className={styles.missionH2}>
+            What SpanForge is — and is not.
+          </h2>
+          <p className={styles.missionCopy} style={{ maxWidth: '640px', marginBottom: '2rem' }}>
+            Confusion about what SpanForge does — and does not do — is a risk to adoption.
+            This table clarifies the position explicitly.
+          </p>
+          <div className={styles.isNotGrid}>
+            <div className={styles.isNotCol}>
+              <p className={styles.isNotColHead}>SpanForge IS</p>
+              {[
+                'An AI delivery lifecycle platform',
+                'A governance and compliance framework engine',
+                'A production observability layer (AgentOBS)',
+                'A structured gate-based delivery system',
+                'An agent behaviour monitoring product',
+                'A risk and audit documentation system',
+              ].map(item => (
+                <p key={item} className={styles.isNotItem}>
+                  <span className={styles.isNotCheck} aria-hidden="true">✓</span> {item}
+                </p>
+              ))}
+            </div>
+            <div className={styles.isNotCol}>
+              <p className={styles.isNotColHead}>SpanForge IS NOT</p>
+              {[
+                'An MLOps platform (no model serving infrastructure)',
+                'A model provider or AI model builder',
+                'A cloud infrastructure platform',
+                'A project management tool',
+                'An agent framework or orchestration engine',
+                'A replacement for legal or compliance teams',
+              ].map(item => (
+                <p key={item} className={styles.isNotItem}>
+                  <span className={styles.isNotCross} aria-hidden="true">✕</span> {item}
+                </p>
+              ))}
+            </div>
+          </div>
+          <p className={styles.missionCopy} style={{ maxWidth: '640px', marginTop: '2rem' }}>
+            SpanForge sits above infrastructure and models, and owns the lifecycle, governance,
+            and observability layers. Teams use their existing infrastructure and models —
+            SpanForge governs how AI systems are built, validated, and run on top of them.
+          </p>
         </div>
       </section>
 
@@ -96,21 +149,30 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* What we are building */}
-      <section className={styles.building} aria-labelledby="building-heading">
+      {/* How to engage SpanForge */}
+      <section className={styles.building} aria-labelledby="engage-heading">
         <div className="container">
-          <span className="eyebrow">The roadmap</span>
-          <h2 id="building-heading" className={styles.buildingH2}>
-            What is in the platform.
+          <span className="eyebrow">Working with SpanForge</span>
+          <h2 id="engage-heading" className={styles.buildingH2}>
+            Three ways to engage.
           </h2>
           <div className={styles.buildingGrid}>
             {[
-              { label: 'Standards & Specifications', detail: 'RFC-level document templates and standards across every phase', count: '40+' },
-              { label: 'Web Applications',           detail: 'Interactive tools across the Discover and Govern phases', count: '20+' },
-              { label: 'CLI Tools',                  detail: 'Build and Scale phase automation tools', count: '20+' },
-              { label: 'Frameworks',                 detail: 'T.R.U.S.T., SpanForge Build Standards, and more', count: '5+' },
-              { label: 'AgentOBS',                   detail: 'Production observability for autonomous AI agents', count: '1' },
-              { label: 'CI/CD Pipeline Templates',   detail: 'Six-stage pipeline integrated into your build process', count: '6' },
+              {
+                label: 'Self-serve platform',
+                detail: 'Access the full five-phase lifecycle — Discover, Design, Build, Govern, Scale — through standards, tools, and frameworks you can adopt immediately.',
+                count: '01',
+              },
+              {
+                label: 'AgentOBS deployment',
+                detail: 'Instrument your autonomous agents with production-grade observability. Baseline behaviour, detect drift, enforce consent boundaries, and maintain an immutable audit trail.',
+                count: '02',
+              },
+              {
+                label: 'Advisory engagement',
+                detail: 'Work directly with SpanForge to assess your AI delivery posture, identify governance gaps, and build the foundations for governed production systems.',
+                count: '03',
+              },
             ].map(item => (
               <div key={item.label} className={styles.buildingCard}>
                 <span className={styles.buildingCount}>{item.count}</span>
@@ -125,18 +187,22 @@ export default function AboutPage() {
       {/* CTA */}
       <section className={styles.cta} aria-labelledby="contact-heading">
         <div className={`container ${styles.ctaInner}`}>
-          <span className="eyebrow">The platform</span>
+          <span className="eyebrow">Get in touch</span>
           <h2 id="contact-heading" className={styles.ctaH2}>
-            From first question to production.
+            Ready to make enterprise AI production-ready?
           </h2>
           <p className={styles.ctaSub}>
-            SpanForge covers all five phases of the AI lifecycle — Discover, Design,
-            Build, Govern, and Scale. Every tool, framework, and standard maps to one
-            phase of the journey.
+            Whether you are starting from scratch or rescuing a project that never made it past
+            the prototype — SpanForge has the methodology, the tooling, and the experience.
           </p>
-          <Link href="/platform" className="btn-primary">
-            Explore the Platform →
-          </Link>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            <Link href="/contact" className="btn-primary">
+              Request a Briefing →
+            </Link>
+            <Link href="/platform" className="btn-ghost">
+              Explore the Platform →
+            </Link>
+          </div>
         </div>
       </section>
     </>
