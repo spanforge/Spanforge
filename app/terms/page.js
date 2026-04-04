@@ -123,7 +123,7 @@ export default function TermsPage() {
             <h2 className={styles.h2}>9. Contact</h2>
             <p>
               Questions about these terms? Reach us at{' '}
-              <a href="mailto:hello@getspanforge.com">hello@getspanforge.com</a>.
+              <a href="mailto:sriram@getspanforge.com">sriram@getspanforge.com</a>.
             </p>
           </section>
 

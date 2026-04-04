@@ -56,7 +56,7 @@ export default function PrivacyPage() {
             <p>
               If you have submitted your email address and wish to have it removed, or
               if you have any questions about how we handle your data, please email us
-              at <a href="mailto:privacy@getspanforge.com">privacy@getspanforge.com</a>.
+              at <a href="mailto:sriram@getspanforge.com">sriram@getspanforge.com</a>.
               We will respond within 48 hours and honour all deletion requests promptly.
             </p>
           </section>
@@ -102,7 +102,7 @@ export default function PrivacyPage() {
             <h2>8. Contact</h2>
             <p>
               For any privacy-related questions or requests, contact us at{' '}
-              <a href="mailto:privacy@getspanforge.com">privacy@getspanforge.com</a>.
+              <a href="mailto:sriram@getspanforge.com">sriram@getspanforge.com</a>.
             </p>
           </section>
         </div>

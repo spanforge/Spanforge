@@ -22,7 +22,7 @@ const ENGAGEMENT_PATHS = [
     title: 'Get in touch',
     desc: 'Partnerships, research collaboration, press and media enquiries, or general questions about the platform. We read every message and respond to organisations within two business days.',
     cta: 'Send an email',
-    href: 'mailto:hello@getspanforge.com',
+    href: 'mailto:sriram@getspanforge.com',
     external: true,
     accent: 'var(--build)',
   },
@@ -120,8 +120,8 @@ export default function ContactPage() {
         <div className={`container ${styles.directInner}`}>
           <div>
             <p className={styles.directLabel}>Direct email</p>
-            <a href="mailto:hello@getspanforge.com" className={styles.directEmail}>
-              hello@getspanforge.com
+            <a href="mailto:sriram@getspanforge.com" className={styles.directEmail}>
+              sriram@getspanforge.com
             </a>
           </div>
           <div className={styles.directDivider} aria-hidden="true" />
@@ -139,8 +139,8 @@ export default function ContactPage() {
           <div className={styles.directDivider} aria-hidden="true" />
           <div>
             <p className={styles.directLabel}>Press &amp; media</p>
-            <a href="mailto:press@getspanforge.com" className={styles.directEmail}>
-              press@getspanforge.com
+            <a href="mailto:sriram@getspanforge.com" className={styles.directEmail}>
+              sriram@getspanforge.com
             </a>
           </div>
         </div>

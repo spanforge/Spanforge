@@ -22,12 +22,12 @@ const ORG_JSONLD = {
   contactPoint: [
     {
       '@type': 'ContactPoint',
-      email: 'hello@getspanforge.com',
+      email: 'sriram@getspanforge.com',
       contactType: 'customer support',
     },
     {
       '@type': 'ContactPoint',
-      email: 'press@getspanforge.com',
+      email: 'sriram@getspanforge.com',
       contactType: 'press',
     },
   ],
