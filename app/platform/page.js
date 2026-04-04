@@ -106,6 +106,63 @@ export default function PlatformPage() {
         </div>
       </section>
 
+      {/* Frameworks section */}
+      <section className={styles.frameworksSection} aria-labelledby="frameworks-heading">
+        <div className="container">
+          <span className="eyebrow">SpanForge frameworks</span>
+          <h2 id="frameworks-heading" className={styles.sectionH2}>
+            The analytical frameworks
+          </h2>
+          <div className={styles.frameworkCards}>
+            <Link href="/platform/exit-gate-system" className={styles.frameworkCard}>
+              <span className={styles.frameworkCardLabel}>Core system</span>
+              <span className={styles.frameworkCardTitle}>Exit Gate System™</span>
+              <p className={styles.frameworkCardDesc}>
+                A five-stage, evidence-based lifecycle that replaces ambiguity with defined
+                transition criteria at every stage of AI delivery.
+              </p>
+              <span className={styles.frameworkCardArrow} aria-hidden="true">→</span>
+            </Link>
+            <Link href="/platform/failure-funnel" className={styles.frameworkCard}>
+              <span className={styles.frameworkCardLabel}>Research</span>
+              <span className={styles.frameworkCardTitle}>Failure Funnel™</span>
+              <p className={styles.frameworkCardDesc}>
+                Where enterprise AI initiatives are typically lost across the lifecycle, grounded
+                in S&P Global, Gartner, and McKinsey research.
+              </p>
+              <span className={styles.frameworkCardArrow} aria-hidden="true">→</span>
+            </Link>
+            <Link href="/platform/cost-model" className={styles.frameworkCard}>
+              <span className={styles.frameworkCardLabel}>Economics</span>
+              <span className={styles.frameworkCardTitle}>Cost Model™</span>
+              <p className={styles.frameworkCardDesc}>
+                The true cost of pilot purgatory — separating the visible costs on the budget
+                from the hidden costs that compound below the surface.
+              </p>
+              <span className={styles.frameworkCardArrow} aria-hidden="true">→</span>
+            </Link>
+            <Link href="/platform/gate-readiness-score" className={styles.frameworkCard}>
+              <span className={styles.frameworkCardLabel}>Measurement</span>
+              <span className={styles.frameworkCardTitle}>Gate Readiness Score™</span>
+              <p className={styles.frameworkCardDesc}>
+                A structured 0–100 evidence assessment across five dimensions. A score below 70
+                blocks gate reviews until remediation is complete.
+              </p>
+              <span className={styles.frameworkCardArrow} aria-hidden="true">→</span>
+            </Link>
+            <Link href="/platform/pilot-risk-index" className={styles.frameworkCard}>
+              <span className={styles.frameworkCardLabel}>Risk</span>
+              <span className={styles.frameworkCardTitle}>Pilot Risk Index™</span>
+              <p className={styles.frameworkCardDesc}>
+                A five-failure-mode taxonomy mapped to each gate. Each gate is designed to
+                prevent one specific, documented failure pattern.
+              </p>
+              <span className={styles.frameworkCardArrow} aria-hidden="true">→</span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Bottom CTA */}
       <section className={styles.cta}>
         <div className={`container ${styles.ctaInner}`}>

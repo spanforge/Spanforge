@@ -206,6 +206,73 @@
   margin: 0;
 }
 
+/* Frameworks section */
+.frameworksSection {
+  padding: 80px 0 100px;
+  background: var(--charcoal);
+  border-top: 1px solid var(--rule);
+}
+
+.frameworkCards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+.frameworkCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.5rem 1.75rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.frameworkCard:hover {
+  background: var(--surface-2);
+  border-color: var(--mid);
+}
+
+.frameworkCardArrow {
+  color: var(--mid);
+  font-size: 1rem;
+  align-self: flex-end;
+  transition: transform 0.15s, color 0.15s;
+}
+
+.frameworkCard:hover .frameworkCardArrow {
+  transform: translateX(3px);
+  color: var(--light);
+}
+
+.frameworkCardLabel {
+  font-family: var(--font-dm-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--red);
+  margin-bottom: 0.15rem;
+}
+
+.frameworkCardTitle {
+  font-family: var(--font-playfair);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.2;
+}
+
+.frameworkCardDesc {
+  font-size: 0.875rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
 /* CTA section */
 .cta {
   padding: 100px 0;
@@ -244,6 +311,9 @@
   .trustCard {
     grid-template-columns: 1fr;
     gap: 3rem;
+  }
+  .frameworkCards {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
