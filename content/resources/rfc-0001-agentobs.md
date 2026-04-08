@@ -25,7 +25,7 @@ RFC-0001 defines **AGENTOBS** — an open event-schema standard for observabilit
 AGENTOBS standardises nine interconnected capabilities:
 
 1. **Event Envelope** — a typed, immutable container applied uniformly to every observability event, carrying identity, routing, and security fields alongside a namespace-specific payload.
-2. **Namespace Taxonomy** — thirty-six event types across eleven domains (trace, cost, cache, eval, guard, fence, prompt, redact, diff, template, audit), each with a typed payload schema.
+2. **Namespace Taxonomy** — ten observability namespaces (decision, tool_call, chain, confidence, consent, drift, latency, hitl, playbook, audit), each with a typed payload schema.
 3. **Agent Span Hierarchy** — `SpanPayload`, `AgentStepPayload`, and `AgentRunPayload` types that represent multi-step runs as an OpenTelemetry-compatible span tree, including `ReasoningStep` and `DecisionPoint` sub-types.
 4. **Token and Cost Model** — `TokenUsage` with per-category breakdowns and `CostBreakdown` as a typed value object — not a bare float — enabling reproducible cost attribution months after a call is made.
 5. **Provider Normalisation** — a language-neutral `ProviderNormalizer` protocol with built-in mappings for OpenAI, Anthropic, Vertex AI, Bedrock, Azure AI, Groq, Ollama, Mistral, Cohere, Together AI, and Hugging Face.

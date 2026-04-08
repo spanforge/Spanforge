@@ -51,6 +51,60 @@ export default function TrustPage() {
         </div>
       </section>
 
+      {/* How it is operationalised */}
+      <section className={styles.contentSection} aria-labelledby="ops-heading">
+        <div className={`container ${styles.contentInner}`}>
+          <span className="eyebrow">Operationalisation</span>
+          <h2 id="ops-heading" className={styles.sectionH2}>
+            Embedded across three platform phases
+          </h2>
+          <p className={styles.summaryPara}>
+            The T.R.U.S.T. Framework is not applied at the end of delivery — it is embedded
+            as technical controls across the Design, Govern, and Scale phases.
+          </p>
+          <p className={styles.summaryPara}>
+            <strong>Design phase (CostGuard™)</strong> — cost accountability is embedded via
+            the Cost Readiness dimension of the Gate Readiness Score™. Responsible owners must
+            understand and document the financial implications of architecture decisions before
+            any resource is committed.
+          </p>
+          <p className={styles.summaryPara}>
+            <strong>Govern phase</strong> — compliance mapping (including EU AI Act risk
+            categorisation), live risk registers, governance maturity assessment, and board-level
+            reporting packs, all structured around the five T.R.U.S.T. dimensions.
+          </p>
+          <p className={styles.summaryPara}>
+            <strong>Scale phase (AgentOBS™)</strong> — technical enforcement of Traceability
+            (immutable audit trail), User Rights (consent boundary monitoring), and Safety
+            Guardrails (automated playbooks) in production. Neither Traceability nor cost
+            accountability is left to human process alone.
+          </p>
+        </div>
+      </section>
+
+      {/* Certification */}
+      <section
+        className={styles.gateSection}
+        style={{ background: 'var(--charcoal)' }}
+        aria-labelledby="cert-heading"
+      >
+        <div className={`container ${styles.gateInner}`}>
+          <span className="eyebrow">SpanForge certification</span>
+          <h2 id="cert-heading" className={styles.sectionH2}>
+            What SpanForge-certified means
+          </h2>
+          <div className={styles.thresholdBox}>
+            <p className={styles.thresholdText}>
+              A SpanForge-certified AI system has completed the full five-phase lifecycle,
+              passed all six Build gates, satisfied every T.R.U.S.T. dimension in the Govern
+              phase, and has AgentOBS active in production. Certification is self-attested by
+              the named Gate Authority sponsor, supported by the complete audit trail of gate
+              records, risk registers, and incident playbooks.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className={styles.trustCta}>
         <div className={`container ${styles.trustCtaInner}`}>

@@ -1,0 +1,1160 @@
+﻿SPANFORGE
+The SpanForge Way
+Every System, Framework, and Product — Explained
+Version 4.7  |  April 2026  |  Based on getspanforge.com and the SpanForge White Paper
+About This Document
+SpanForge is the AI lifecycle platform for enterprise teams — from deciding whether to build, through architecture and engineering, to governance and scale. This document explains every system, framework, and product that constitutes the SpanForge way of delivering enterprise AI to production. Version 4.0 introduced CostGuard™ as the Design phase cost intelligence capability; v4.2 completed its integration. Version 4.7 is the operational edition — completing all frameworks, filling structural gaps, adding system hierarchy, ownership model, engagement flow, tagging taxonomy, versioning governance, and internal failure modes. All claims are sourced; framework outcomes reflect design intent rather than guaranteed results.
+Honest Scope Statement — Read This First
+The SpanForge Exit Gate System™ is designed to reduce the likelihood of AI pilot failure by addressing specific, documented governance gaps. It cannot prevent all failure modes. It is most effective for enterprise AI initiatives with material business impact, regulated data, and cross-functional stakeholder accountability. It is not appropriate for every AI experiment. See System 01 for explicit scope limits.
+CostGuard™ Scope Statement — Read This First
+CostGuard™ is in active development as the SpanForge Design phase cost intelligence capability. The initial release supports AWS infrastructure cost estimation. Multi-cloud support and AI/LLM inference cost estimation are on the roadmap. Cost estimates reflect design-time projections based on configuration inputs — actual costs will vary based on usage patterns, pricing changes, and runtime behaviour. CostGuard™ is intended to inform Design phase decisions, not replace financial governance or cloud billing review processes.
+What Is Covered in This Document
+System / Product
+Category
+Page Section
+SpanForge Mission & Positioning
+Context
+Introduction
+What SpanForge Is — and Is NOT
+Positioning
+Introduction
+Where SpanForge Fits in the Stack
+Positioning
+Introduction
+Exit Gate System™
+Core Delivery Framework
+System 01
+T.R.U.S.T. Framework™
+Governance Framework
+System 02
+Five-Phase Lifecycle (Discover–Design–Build–Govern–Scale)
+Platform Architecture
+System 03
+Data Layer & Model Lifecycle
+Engineering Depth
+System 03
+Human-in-the-Loop System Design
+Governance Architecture
+System 03
+Multi-Agent & LLM System Risks
+Risk Framework
+System 03
+AgentOBS™ (incl. full tech stack)
+Production Observability
+System 04
+Failure Funnel™ & Cost Model™
+Diagnostic Models
+System 05
+CostGuard™ — Decision-Time Cost Intelligence
+Design Phase Tool
+System 03, 05
+AI Maturity Model
+Maturity Framework
+System 06
+Metrics That Matter
+Performance Framework
+System 06
+Competitive Positioning
+Market Context
+System 07
+SpanForge Doctrine
+Brand Principles
+Conclusion
+Internal Operational Systems
+Internal Operations
+System 08
+SpanForge in 5 Minutes (8.7) | Training Path (8.8)
+Quick Reference + Onboarding
+System 08
+Navigation note: This is a digital-first document. Use your PDF viewer or Word search (Ctrl+F / Cmd+F) to jump directly to any section heading listed above.
+Introduction: The SpanForge Mission
+Enterprise AI has a delivery problem. Most AI initiatives fail not because the technology does not work, but because organisations lack the structured lifecycle, governance controls, and observability tools to carry a prototype safely into production.
+SpanForge exists to close that gap. It is the AI lifecycle platform for enterprise teams — covering every phase from deciding whether to build, through architecture and engineering, to governance and scale.
+The Core Problem
+Based on S&P Global Market Intelligence research spanning more than 1,000 enterprises, approximately 42% of companies reported abandoning the majority of their AI initiatives in 2025 — more than double the 17% recorded the year prior. The cause is not AI technology. It is a delivery discipline problem: the absence of structured lifecycles governing how pilots mature into production systems.
+What SpanForge IS — and IS NOT
+Confusion about what SpanForge does — and does not do — is a risk to adoption. This table clarifies the position explicitly.
+SpanForge IS
+SpanForge IS NOT
+An AI delivery lifecycle platform
+An MLOps platform (no model serving infrastructure)
+A governance and compliance framework engine
+A model provider or AI model builder
+A production observability layer (AgentOBS)
+A cloud infrastructure platform
+A structured gate-based delivery system
+A project management tool
+An agent behaviour monitoring product
+An agent framework or orchestration engine
+A risk and audit documentation system
+A replacement for legal or compliance teams
+A decision-time cost intelligence layer (CostGuard™)
+A replacement for cloud billing dashboards or FinOps reporting tools
+Where SpanForge Fits in the Stack
+SpanForge sits above infrastructure and models, and owns the lifecycle, governance, and observability layers. Teams use their existing infrastructure and models — SpanForge governs how AI systems are built, validated, and run on top of them.
+Stack Layer
+Who Owns It
+SpanForge's Role
+Infrastructure (compute, cloud, storage)
+External — customer or cloud provider
+Integrated where relevant; not owned
+Data (ingestion, quality, governance)
+Shared — customer data team + SpanForge frameworks
+Data Layer frameworks built into Discover and Design phases
+Models (LLMs, fine-tuned, local)
+Orchestrated — customer selects; SpanForge governs
+Model selection, benchmarking, versioning, and rollback frameworks
+Cost Intelligence (pre-deployment)
+Owned — CostGuard™
+CostGuard™ — cost visibility at Design time before any resource is committed (in active development)
+AI Lifecycle (scoping → production)
+Owned — SpanForge Exit Gate System™
+Full ownership via five-phase platform and gate framework
+Governance & Compliance
+Owned — SpanForge T.R.U.S.T. Framework™
+Full ownership via Govern phase and compliance tooling
+Production Observability
+Owned — AgentOBS™
+Full ownership via AgentOBS SDK, standard, and tooling
+Key Takeaways
+SpanForge is a delivery system, not a tool vendor. The distinction matters.
+It does not compete with cloud AI platforms or model providers — it governs what runs on top of them.
+The platform is most effective when infrastructure and models are already selected. SpanForge takes over from there.
+AgentOBS is the flagship live product component today. CostGuard™ is live for AWS infrastructure cost estimation and scenario comparison, with GCP, Azure, and LLM inference cost estimation in active development. The full platform represents the complete system architecture.
+  SYSTEM 01     Core Delivery Framework
+The SpanForge Exit Gate System™
+The Exit Gate System™ is SpanForge’s primary answer to the enterprise AI pilot crisis. It replaces ambiguous, momentum-driven piloting with a formal, evidence-led lifecycle: defined stages, explicit transition criteria, and non-negotiable gate conditions.
+Every advancement decision is made on documented evidence. Every closure is formally recorded. No initiative advances by momentum alone.
+Design Intent
+The Exit Gate System™ is designed to reduce the likelihood of AI pilot failure by closing the specific governance gaps identified in enterprise AI research. It does not guarantee successful delivery. Outcomes depend on the quality of evidence produced at each gate and the integrity of Gate Authority decisions.
+The Five Lifecycle Stages
+Stage
+Name
+Objective
+Exit Gate Condition
+01
+Scoping
+Define the problem, value hypothesis, and data prerequisites
+Signed problem statement; confirmed data access; sponsor commitment letter
+02
+Proof of Concept
+Validate technical feasibility with representative data
+Baseline accuracy met on holdout set; risk register reviewed; PoC report approved
+03
+Pilot
+Validate business value in a controlled production environment
+KPI targets achieved; operational integration confirmed; compliance sign-off obtained
+04
+Limited Release
+Confirm scalability and adoption with real users
+Adoption rate thresholds met; SLA compliance demonstrated; support model defined
+05
+Full Production
+Operate at scale with monitoring and governance
+Runbook approved; monitoring live; owner accountabilities documented
+The Gate Readiness Score™
+Before each gate review, the programme team produces a Gate Readiness Score™ — a structured 0–100 assessment across six dimensions.
+Dimension
+What Is Assessed
+Technical Readiness
+Model performance, integration completeness, and infrastructure stability
+Business Value Evidence
+KPIs defined, measured, and validated against baseline
+Operational Integration
+Support model, runbooks, escalation paths, and team training in place
+Compliance Status
+Regulatory requirements mapped; data handling compliant; sign-offs obtained
+Stakeholder Alignment
+Gate Authority constituted; business sponsor active; team capacity confirmed
+Cost Readiness (CostGuard™)
+CostGuard™ cost estimate produced for the selected infrastructure configuration; scenario comparison documented; projected cost within the approved business case envelope
+A score below 70 triggers an automatic remediation plan — no gate review is scheduled until the threshold is met.
+The score replaces narrative presentations with structured, measurable evidence briefs.
+It gives Gate Authority panels a consistent brief across all initiatives in a portfolio.
+How the Gate Readiness Score™ Is Calculated
+Each of the six dimensions is scored from 0 to 100 by the initiative team, then independently reviewed by the Gate Authority. The overall GRS is the weighted average across all six dimensions. The weighting is fixed per gate stage — earlier gates weight Stakeholder Alignment and Business Value Evidence more heavily (each at 25% of the total score); later gates shift weight toward Operational Integration and Compliance Status (each at 25%) as the initiative approaches production. Cost Readiness is weighted equally at 10% across all gates where a Design phase has been completed.
+A dimension score below 50 is an automatic flag regardless of overall score — the Gate Authority must address the flagged dimension explicitly before an Advance decision is recorded. A dimension cannot be averaged away. This prevents teams from gaming a high overall score by excelling on four dimensions while neglecting one critical area.
+Who scores it: The initiative team produces a scored brief at least five business days before the scheduled gate review. The Gate Authority reviews and may adjust scores with documented rationale. Any adjustment of more than 20 points on any dimension must be explained in the gate record. The final accepted score — not the team’s initial score — is the score of record.
+The Gate Decision Framework
+Decision
+Meaning
+What Happens Next
+Advance
+All gate conditions satisfied with documented evidence
+Moves to next stage on a confirmed schedule
+Conditional Advance
+Conditions substantially met; time-bounded remediation commitments defined
+Advances with a named review trigger and accountability owner
+Return
+Conditions not met — a designed outcome, not a failure
+Returns to current stage with documented rationale, remediation period, and captured learnings
+Important
+A gate that every initiative passes is not a governance mechanism. It is a rubber stamp with extra steps. If gate reviews never result in a Return decision, evidence thresholds are too low.
+The SpanForge Pilot Risk Index™ — What Each Gate Is Designed to Prevent
+Gate
+Failure Mode Addressed
+Mechanism
+Gate 1 — Scoping
+Wrong problem defined
+Forces a written, signed problem statement before any technical work begins
+Gate 2 — PoC
+Technical infeasibility undetected
+Requires demonstrated accuracy on representative data before pilot investment
+Gate 3 — Pilot
+No measurable business value
+Mandates KPI validation in a real operating environment, not a sandbox
+Gate 4 — Limited Release
+No user adoption
+Requires measured adoption rates and SLA compliance from actual users before full deployment
+Gate 5 — Production
+No scalability or governance
+Confirms runbooks, monitoring, and owner accountability before removing programme controls
+Pilot Risk Index™ Scoring
+The Pilot Risk Index™ (PRI) score is calculated at each gate review by assessing which failure modes remain unaddressed. Each unaddressed failure mode contributes points to the aggregate score. A PRI score of zero means all gate conditions are satisfied. A score above 40 at any gate triggers a mandatory Return decision. The table below shows the point contribution of each failure mode when it remains unaddressed at the time of the gate review. Each failure mode is assessed at the gate where it is most relevant — the theoretical maximum of 100 points is not achievable at any single gate, as Gate 1 failure modes cannot be assessed at Gate 5 and vice versa. The practical maximum at any gate is typically 40–60 points.
+Failure Mode
+Risk Score if Unaddressed at Gate
+Score Interpretation
+Wrong problem defined (Gate 1)
+25 points (Critical)
+If unaddressed at Gate 1, the entire initiative is built on an invalid foundation. All subsequent investment is at risk
+Technical infeasibility undetected (Gate 2)
+20 points (High)
+Pilot investment proceeds despite technical barriers. Likely to produce a Gate 3 failure after significant spend
+No measurable business value (Gate 3)
+25 points (Critical)
+System reaches limited release with no validated value. Credibility damage is highest at this stage — investment is visible, results are not
+No user adoption (Gate 4)
+15 points (Medium)
+System is technically complete but unused. Value is deferred and adoption cost compounds over time
+No scalability or governance (Gate 5)
+15 points (Medium)
+System reaches production without monitoring or accountability. Compliance and incident risk accumulate silently
+Gate Authority: Who Decides
+Every initiative must have a named Gate Authority — a cross-functional panel that includes a business representative with budget accountability. Without this, gate decisions become advisory rather than binding.
+A budget-accountable business sponsor is required at every gate — not a delegate.
+The Gate Authority applies the three-outcome decision framework: Advance, Conditional Advance, or Return.
+Undocumented Return decisions are a system failure — they eliminate the audit trail and create ambiguity about what the team must produce next.
+Scope: When NOT to Apply the Exit Gate System™
+The Exit Gate System™ is designed for AI initiatives with material business impact, production integration requirements, and meaningful stakeholder accountability. Three categories fall outside its intended scope.
+Initiative Type
+Recommended Alternative
+Low-risk internal automation — scripted or rules-based, limited blast radius
+Lightweight two-gate model
+Exploratory R&D and horizon-scanning — objective is learning, not deployment
+Time and budget boundary model only
+Short technical spikes (under six weeks) — answering a specific feasibility question
+Input to Gate 1 scoping decision; not a pilot programme
+The test: if an initiative could cause material disruption in production, affects customers or regulated data, or requires significant cross-functional coordination — it belongs inside the Exit Gate System™.
+Key Takeaways
+The Exit Gate System™ is designed to reduce — not eliminate — AI pilot failure by closing specific governance gaps.
+Every advancement requires documented evidence; advancement by momentum is the system's primary failure mode.
+Returning an initiative to a prior stage is a designed outcome, not a failure signal.
+The system is not appropriate for every AI experiment — calibrate governance to risk level.
+  SYSTEM 02     Governance Framework
+The T.R.U.S.T. Framework™
+The T.R.U.S.T. Framework is SpanForge's governance layer. It converts AI ethics from policy documents into technical controls, compliance documentation, and audit-ready evidence. Every SpanForge-certified AI system is designed to satisfy all five dimensions. SpanForge certification means the system has completed the full five-phase lifecycle, passed all six Build gates, satisfied every T.R.U.S.T. dimension in the Govern phase, and has AgentOBS active in production. Certification is self-attested by the named Gate Authority sponsor and supported by the complete audit trail of gate records, risk registers, and incident playbooks.
+T.R.U.S.T. Definition: Authoritative Standard
+The authoritative T.R.U.S.T. definition is: Transparency, Responsibility, User Rights, Safety Guardrails, Traceability. This White Paper version provides operationally specific governance dimensions and is the standard used across all platform documentation. The public website will be updated to reflect this definition.
+The Five Dimensions
+Letter
+Dimension
+What It Means
+T
+Traceability
+Every agent action must be traceable. Full audit trail. No black boxes. Every decision is logged with an immutable, timestamped record — ready for regulators, auditors, and post-incident review.
+R
+Responsibility
+A named human is accountable for every AI system. AI cannot be deployed without a designated owner who carries accountability for its behaviour in production. Responsibility extends to cost: CostGuard™ makes infrastructure cost visible at Design time, ensuring that accountable owners understand the financial implications of their architecture decisions before committing to them.
+U
+User Rights
+Consent, transparency, and recourse for every individual AI affects. Users have the right to understand how AI decisions affect them and to seek redress where required.
+S
+Safety Guardrails
+Technical constraints embedded in architecture, not just policy. Safety mechanisms are built into the system — not left as aspirational guidance or documents.
+T
+Transparency
+Customers, regulators, and employees understand how AI affects them. AI behaviour is made intelligible to all affected parties — not just technical teams.
+How the T.R.U.S.T. Framework Is Operationalised
+The T.R.U.S.T. Framework is embedded across three platform phases:
+Design phase (CostGuard™) — cost accountability embedded via the Cost Readiness dimension of the Gate Readiness Score™. Responsible owners must understand and document the financial implications of architecture decisions before any resource is committed.
+Govern phase — compliance mapping (including EU AI Act), risk registers, governance maturity assessment, and board-level reporting, all structured around the five dimensions.
+Scale phase (AgentOBS) — technical enforcement of Traceability (audit trail), User Rights (consent boundary monitoring), and Safety Guardrails (automated playbooks) in production.
+Key Takeaways
+The T.R.U.S.T. Framework converts governance intent into technical controls — not just documented policies.
+Responsibility, Traceability, and cost accountability are enforced technically — via CostGuard™ at Design time (Cost Readiness dimension) and via AgentOBS in production. Neither is left to human process alone.
+Compliance documentation produced through the Govern phase is designed to withstand EU AI Act regulatory scrutiny. Under the EU AI Act (in force from August 2026), AI systems are classified as minimal, limited, high, or unacceptable risk — high-risk systems (those affecting safety, employment, credit, education, or public services) require conformity assessments, technical documentation, and mandatory human oversight before deployment.
+The Framework applies to every AI system in the SpanForge lifecycle — it is not optional at any gate.
+  SYSTEM 03     Platform Architecture
+The Five-Phase Lifecycle
+Discover  ·  Design  ·  Build  ·  Govern  ·  Scale
+SpanForge's platform is structured around five sequential phases, each with its own tools, exit criteria, and deliverables. Together they form a complete, governed path from initial problem validation to production at scale. Over 102 tools and frameworks are distributed across the five phases.
+Phase
+Tools Planned
+Primary Output
+01 — Discover
+26
+Validated problem statement, readiness score, confirmed business case
+02 — Design
+14
+Documented architecture, data strategy, security review, model readiness score, cost estimate and scenario comparison (CostGuard™)
+03 — Build
+32
+All six CI/CD gates green; production-ready artefact
+04 — Govern
+20
+T.R.U.S.T. Framework mapped; compliance docs complete; incident playbook assigned
+05 — Scale
+10
+AgentOBS active; baseline established; drift monitoring running; owner named
+Total
+102+
+Full lifecycle from scoping to governed production
+Phase 01 — Discover
+The Discover phase addresses the most common cause of AI failure: building the wrong thing. Teams frequently select solutions before validating problems, assume data exists before auditing it, and begin building before defining what success looks like.
+Discover requires all of the following before any architecture decisions are made:
+Problem qualification — is this problem worth solving with AI?
+AI readiness assessment — does the organisation have the data, skills, and governance to proceed?
+Use case prioritisation — which problems offer the best risk-adjusted return?
+Data readiness audit — is training and evaluation data available, quality-sufficient, and legally usable?
+Stakeholder alignment — is there a budget-accountable sponsor with a mandate?
+ROI modelling — is there a credible, measurable value hypothesis?
+The Problem Statement Canvas
+Every initiative entering the Exit Gate System™ must complete the Problem Statement Canvas before Gate 1. This is the foundational evidence document. Without it, no gate review is scheduled. The canvas is produced by the initiative team and signed by the Gate Authority sponsor.
+Field
+What to Document
+Gate 1 Standard
+Problem Statement
+One sentence: what decision or task are we automating or augmenting with AI, and for whom?
+Signed off by named sponsor; no ambiguous scope
+Value Hypothesis
+What measurable outcome will improve, by how much, over what timeframe?
+Quantified; tied to business metric, not AI metric
+KPIs (2–3 maximum)
+The specific metrics that will be tracked from Gate 1 through Gate 5
+Measurable in production environment, not only in test
+Data Prerequisites
+What data is required? Does it exist? Is it accessible and legally usable?
+Data access confirmed; quality assessed; legal review complete
+Success Definition
+What does production-ready look like? What would cause this initiative to be formally closed?
+Both advancement and closure criteria explicitly stated
+Sponsor Commitment
+Named, budget-accountable sponsor who will attend every gate review
+Signed commitment letter on file; no proxy attendance
+Estimated Cost Envelope
+Preliminary infrastructure and delivery cost estimate (CostGuard™ output appended at Design phase)
+Business case confirms cost is within approved envelope
+Discover Exit Gate
+Nothing progresses to Design without: a signed-off Problem Statement Canvas, a validated readiness score, and a confirmed business case with named sponsor.
+Phase 02 — Design
+The Design phase translates a validated problem into a concrete technical architecture. It covers every major decision that must be made before production code is written.
+Model selection — evaluate candidate models against use-case requirements, cost constraints, and regulatory position
+Data strategy — define ingestion pipelines, preprocessing, feature engineering, and versioning approach
+Infrastructure decisions — select compute, storage, and serving architecture
+Integration patterns — define API contracts, fallback strategies, and downstream dependencies
+The Design phase includes tooling that benchmarks local LLM infrastructure and produces a model readiness score — so teams know precisely what they can run before committing to an architecture.
+CostGuard™ — Decision-Time Cost Intelligence
+The Design phase has a documented gap: it governs which model to select and which infrastructure to deploy, but has not previously governed the cost of those decisions at the moment they are made. CostGuard™ closes this gap. It is a pre-deployment cost intelligence tool built natively into the SpanForge Design phase, ensuring that every architecture decision carries a cost estimate before any resource is committed.
+CostGuard™ operates at the decision point — not after it. Just as the model readiness score tells teams what they can run, CostGuard™ tells them what it will cost to run it. The two outputs together constitute a complete Design phase decision brief: capability and cost, both known before a single line of production code is written.
+Core CostGuard™ capabilities:
+•  Pre-commitment cost prediction — infrastructure config or model selection produces a cost estimate before any resource is created
+•  Scenario comparison — cheapest, balanced, and performance architectures evaluated side by side at Design time
+•  Optimisation recommendations — actionable cost-saving changes ranked by impact, aligned to Gate Readiness Score™ evidence requirements
+•  Continuous cost feedback loop — actual vs. predicted costs feed back into the Design phase, improving future estimate accuracy across the portfolio
+CostGuard™ is the SpanForge answer to the question the market cannot currently answer at design time: what will this architecture cost before we build it?
+How CostGuard™ integrates:
+CostGuard™ accepts Terraform configurations, infrastructure YAML, and direct CLI inputs. It connects to live cloud pricing APIs — starting with AWS — to produce real-time estimates against the proposed architecture. The output is a structured cost brief: a baseline estimate, three scenario comparisons (cheapest, balanced, performance), and a ranked list of optimisation actions. This brief is submitted as part of the Design Exit Gate evidence package and feeds directly into the Gate Readiness Score™ Cost Readiness dimension.
+CostGuard™ Capability Roadmap
+The following table reflects CostGuard™ capability status as of April 2026. Timelines reflect design intent and are subject to change. Prospects with specific integration requirements should contact advisory@getspanforge.com to discuss roadmap priority.
+Capability
+Status
+Timeline
+Notes
+AWS infrastructure cost estimation
+Live
+Available now
+EC2, RDS, S3, Lambda, EKS supported
+Terraform & YAML input parsing
+Live
+Available now
+HCL and infrastructure-as-code configs
+Scenario comparison (3-way)
+Live
+Available now
+Cheapest, balanced, performance profiles
+GCP infrastructure cost estimation
+In development
+Q3 2026
+Compute Engine, Cloud Run, BigQuery
+Azure infrastructure cost estimation
+In development
+Q4 2026
+Azure VMs, AKS, Azure SQL
+LLM / AI inference cost estimation
+Roadmap
+2027
+OpenAI, Anthropic, Bedrock API costs
+CI/CD pipeline integration
+Roadmap
+2027
+GitHub Actions, GitLab, Jenkins
+Portfolio cost dashboard
+Roadmap
+2027
+Aggregate cost vs. estimate across all initiatives
+Design Exit Gate
+Nothing progresses to Build without: architecture documented, data strategy validated, security reviewed, team capacity confirmed, and CostGuard™ cost estimate produced with scenario comparison documented.
+The Data Layer — A Critical Dependency
+Data readiness is consistently identified as one of the primary drivers of AI initiative failure. Gartner (2025) found that 63% of organisations either do not have or are unsure they have the right data management practices to support AI. SpanForge addresses this through an explicit Data Layer embedded across the Discover and Design phases.
+Data Layer Component
+Phase
+What It Covers
+Data ingestion standards
+Discover
+Source connectivity, pipeline reliability, and refresh frequency requirements
+Data quality checks
+Discover / Design
+Completeness, accuracy, consistency, and timeliness scoring against use-case minimums
+Feature and embedding lifecycle
+Design / Build
+Feature engineering, versioning, drift monitoring for input distributions
+Data governance
+Design / Govern
+Lineage tracking, access controls, consent documentation, and retention policies
+Training / evaluation data management
+Build
+Holdout set integrity, label quality, and data version locking for reproducibility
+Why This Matters
+A model cannot be better than the data it was trained on. Without a governed data layer, Gate 2 (PoC accuracy requirements) and Gate 3 (KPI validation) become unmeasurable. Data readiness is not a pre-condition — it is part of the delivery system.
+Model Lifecycle Management
+Model selection is the starting point — not the end. Production AI systems require ongoing management of model versions, performance benchmarks, retraining triggers, and rollback capabilities. Model lifecycle is a first-class discipline.
+Model Lifecycle Component
+Description
+Model versioning
+Every model version is tracked with a unique identifier, training data reference, evaluation results, and deployment date. No model ships without a version record.
+Evaluation benchmarks
+Baseline accuracy established at Gate 2 and referenced at every subsequent gate. Performance degradation against the baseline triggers a defined response.
+Retraining triggers
+Defined conditions — drift score thresholds, accuracy degradation, input distribution shifts — that automatically initiate a retraining evaluation. AgentOBS provides the trigger signals.
+Rollback strategy
+Every deployment requires a tested rollback path. Rollback procedures are validated at Gate 5 and documented in the system runbook before production approval.
+Phase 03 — Build
+The Build phase is where SpanForge's engineering depth is most visible. A suite of CLI tools integrate into CI/CD pipelines, covering every quality and safety dimension an AI artefact must pass before production. Every tool composes: output from one gate feeds the next. Nothing ships without all six gates passing in sequence.
+Gate #
+Gate Name
+What Is Checked
+01
+Security
+No exposed secrets or API keys. No unauthorised, unmasked, or non-compliant PII usage in prompts or training data.
+02
+Quality
+Prompts valid and within token budget. Configuration correct. Schema compliance confirmed.
+03
+Behaviour
+Behaviour tests pass. No regressions against baseline. Hallucination score within acceptable threshold (measured via task-specific evaluation benchmarks, including factual accuracy tests and retrieval grounding checks).
+04
+Performance
+Latency within defined SLA. Load testing confirms expected throughput capacity.
+05
+Governance
+Consent respected. Output policies enforced. Prompt injection resistance validated.
+06
+Deploy
+Live monitoring active. Drift detection configured. Incident playbooks in place and tested.
+Build Exit Gate
+Nothing ships without all six CI/CD gates passing — security, quality, behaviour, performance, governance, and deploy checks all green.
+Human-in-the-Loop System Design
+Human oversight is not simply a feature — it is a system design decision that must be made explicitly at the architecture stage and enforced technically in production. SpanForge treats human-in-the-loop (HITL) as a first-class system component.
+HITL Design Dimension
+Design Decision Required
+When humans must intervene
+Define confidence thresholds per decision type. Any output below threshold is automatically queued for human review before reaching users or downstream systems.
+Cost vs. accuracy tradeoff
+Low thresholds increase human review volume and cost. High thresholds increase autonomous decision risk. This tradeoff must be explicitly modelled and approved at Gate 3.
+Approval flows
+Who reviews queued decisions? What is the SLA for review? What happens if a review times out? These flows must be defined, tested, and documented before Limited Release.
+Audit of human decisions
+Human review decisions are logged with the same immutability as automated decisions. This is required for regulatory compliance and post-incident analysis.
+Review interface design
+The interface presented to human reviewers must provide sufficient context — without creating cognitive overload — to support a reliable, accountable decision.
+Multi-Agent and LLM System Risks
+As enterprises deploy autonomous agents and LLM-powered systems in 2026, a new category of risk has emerged: failure modes that are specific to compound AI systems, not single models. SpanForge's Build and Scale phases are designed to address these explicitly.
+Risk Category
+Description
+SpanForge Mitigation
+Tool invocation errors
+Agents call external tools (APIs, databases, code executors) that may return unexpected results, fail silently, or have downstream side effects
+Tool call logging in AgentOBS; validated tool schemas at Build gate; timeout and fallback policies in runbook
+Prompt chaining failures
+Multi-step prompt chains accumulate errors — a small deviation in step 2 produces a compounding error by step 6
+Behaviour tests cover chain-level outputs, not just individual prompt responses; regression testing at Gate 3
+Agent coordination risks
+Multi-agent systems where agents share state or delegate tasks can enter loops, conflict states, or produce inconsistent outputs
+AgentOBS baselines per-agent behaviour and cross-agent interaction patterns; coordination anomalies trigger automated escalation
+Confidence hallucination
+LLMs produce high-confidence outputs for incorrect answers — standard confidence scores are unreliable indicators of factual accuracy
+Hallucination scoring at Build gate; AgentOBS monitors output confidence distributions against baseline; HITL hooks on low-reliability decision types
+Phase 04 — Govern
+The Govern phase operationalises the T.R.U.S.T. Framework — converting governance intent into technical controls, compliance documentation, and audit-ready evidence. Nothing reaches production without completing the Govern phase.
+Compliance mapping — including EU AI Act risk categorisation
+Risk registers — live, maintained, and reviewed at each gate
+Governance maturity assessment — baseline and target state
+Board-level reporting packs — structured for non-technical executive audiences
+What the Govern Phase Produces
+The Govern phase converts governance intent into six concrete, audit-ready deliverables. Each must be completed and reviewed before Gate 5. No deliverable is optional for AI systems with material business impact or regulated data.
+Govern Deliverable
+What It Contains
+T.R.U.S.T. Framework Mapping
+Each of the five T.R.U.S.T. dimensions assessed against the specific AI system: evidence of traceability implementation, named responsibility owner, user consent mechanisms, safety guardrail architecture, and transparency documentation
+EU AI Act Risk Categorisation
+Classification of the system as minimal, limited, high, or unacceptable risk under the EU AI Act. For high-risk systems: conformity assessment, technical documentation, and human oversight requirements are documented and assigned
+Live Risk Register
+All identified risks with likelihood, impact, owner, mitigation, and review date. Updated at every gate review. Risks that are not actively managed are escalated to Gate Authority. The risk register is a live document, not a one-time artefact
+Governance Maturity Assessment
+Baseline score against the SpanForge AI Maturity Model. Target state defined. Priority gaps identified with accountable owners and target dates. Used to measure improvement trajectory over subsequent gate reviews
+Incident Playbook
+Named owner for each incident category. Escalation path with SLAs. Rollback trigger conditions and procedures. Communication templates for regulators, customers, and leadership. Playbook is tested before Gate 5
+Board Reporting Pack
+Executive summary of AI system purpose, risk profile, governance status, and production readiness. Structured for non-technical audiences. Includes GRS history, open risks, and sponsor attestation
+Govern Exit Gate
+Nothing goes to production without: T.R.U.S.T. Framework fully mapped, compliance documentation complete, and an incident playbook assigned with a named owner.
+Phase 05 — Scale
+The Scale phase is delivered through AgentOBS — SpanForge's production observability product. AgentOBS connects to deployed agents via OpenTelemetry and watches what they actually do in production. Not just whether they are running — but whether they are behaving correctly.
+An agent that silently drifts and makes thousands of slightly wrong decisions is far more dangerous than one that crashes visibly. AgentOBS makes the invisible visible.
+Scale Exit Gate
+AgentOBS active before the first production request. Behavioural baseline established. Drift monitoring configured. On-call owner named and playbooks tested.
+Key Takeaways
+The five phases are sequential and gated — no phase begins without its predecessor's exit gate being formally cleared.
+The Data Layer and Model Lifecycle are embedded disciplines across phases, not afterthoughts.
+Human-in-the-loop design is an architecture decision made in Design and enforced technically in Production.
+Multi-agent risk is a first-class concern in 2026 — Build and Scale phases are designed to address it directly.
+CostGuard™ closes the cost visibility gap in the Design phase — making architecture and model cost known before any resource is committed, not only diagnosable after failure.
+  SYSTEM 04     Production Observability Product
+AgentOBS™
+You cannot govern what you cannot see.
+AgentOBS is SpanForge’s flagship product and the most mature live component. It provides production observability for autonomous AI agents: baselining behaviour, detecting drift, enforcing consent boundaries, and triggering automated responses — before regulators, users, or incident reports find the problem. (CostGuard™ is also live for AWS infrastructure cost estimation, Terraform/YAML parsing, and 3-way scenario comparison — see the CostGuard™ Capability Roadmap in System 03 for full status.)
+Traditional observability tells you if systems are running. AgentOBS tells you if they are behaving correctly.
+The 10 AgentOBS™ Observability Namespaces
+Every AgentOBS™ event is emitted into one of ten namespaces defined by RFC-0001 AGENTOBS. The namespaces cover the complete observability surface of an autonomous AI agent — from individual decisions to the immutable audit chain. The SDK instruments all ten namespaces by default. Individual namespaces can be configured independently per deployment context.
+#
+Namespace
+What It Observes
+01
+decision
+Every individual agent decision: input, output, confidence score, latency, and decision type
+02
+tool_call
+All external tool invocations: API calls, database queries, code execution, file reads — with inputs, outputs, and latency
+03
+chain
+Multi-step prompt chain execution: step sequence, inter-step data flow, cumulative error propagation
+04
+confidence
+Output confidence score distributions: per decision type, per model, tracked against baseline
+05
+consent
+Data access decisions: which fields, sources, and APIs were accessed, against the approved consent boundary
+06
+drift
+Statistical drift signals: Z-score and KL-divergence against deployment baseline, per metric and per time window
+07
+latency
+End-to-end response time, per-step latency breakdown, SLA compliance tracking
+08
+hitl
+Human-in-the-loop events: queue entries, review decisions, SLA timers, timeout actions, and reviewer identity
+09
+playbook
+Automated playbook executions: trigger event, action taken, outcome, and HMAC-signed timestamp
+10
+audit
+Immutable audit chain: every event cross-referenced with HMAC signature for tamper-evident regulatory export
+Core Capabilities
+Capability
+Technical Detail
+Behavioural Baselining
+Instruments the agent at first deployment. Baseline is computed across: output token distributions, confidence score distributions, decision frequency patterns, tool invocation sequences, and latency profiles. Every subsequent run is compared against these baselines.
+Drift Detection
+Statistical drift detection using Z-score and KL-divergence metrics. Configurable thresholds per metric type. Comparison window is configurable (e.g. rolling 24-hour vs. static deployment baseline). Designed to detect drift before user-visible degradation in most cases.
+Consent Boundary Enforcement
+Defines at deployment time which data fields, sources, and external APIs the agent is permitted to access. AgentOBS monitors every decision for boundary violations and escalates immediately — logging access attempt, triggering playbook, and pausing agent if configured.
+Automated Response Playbooks
+Pre-defined runbooks execute in milliseconds for any alert type. Actions include: pause agent, escalate to named responder, reroute to fallback model, log for deferred review, or trigger HITL queue. Playbooks are versioned and tested before production.
+Human-in-the-Loop Hooks
+Low-confidence decisions (below configurable threshold, set per decision type) are automatically queued for human approval before any output reaches users or downstream systems. Queue management, SLA timers, and timeout actions are all configurable.
+Immutable Audit Trail
+Every decision, alert, playbook execution, and human review is logged with an immutable, timestamped, HMAC-signed record. Export-ready for regulators, auditors, and post-incident reviews. Audit chain is verifiable via AgentOBSValidate.
+Integration: Up and Running in an Afternoon
+Step
+Action
+Detail
+01 — Instrument
+Add the AgentOBS SDK
+One decorated function call per decision point in agent code. Zero required dependencies. pip-installable.
+02 — Baseline
+Run in staging
+AgentOBS establishes the behavioural baseline automatically across all 10 observability namespaces.
+03 — Deploy
+Ship to production
+AgentOBS monitors every decision in real time from the first production request.
+04 — Respond
+Alerts trigger playbooks
+Humans are looped in exactly when needed — no more, no less. Every alert is logged.
+Who AgentOBS Is Built For
+Sector
+Representative Use Cases
+Financial services
+Credit decisions, fraud detection, customer communication agents, AML monitoring
+Healthcare
+Clinical decision support, triage routing, patient-facing assistants, prior authorisation agents
+Legal & compliance
+Contract analysis, regulatory monitoring, compliance automation, document review agents
+Enterprise operations
+Procurement automation, HR decision support, internal knowledge agents, IT service automation
+The AgentOBS Ecosystem
+AgentOBS is an open ecosystem — not just a product. Four components form the complete observability stack.
+Component
+Type
+Purpose
+RFC-0001 AGENTOBS
+Open Standard
+Schema specification for the ecosystem. Defines the event envelope, 10 observability namespaces, HMAC audit chains, and conformance profiles. Open and vendor-neutral.
+agentobs Python SDK
+Developer SDK
+Reference implementation. pip-installable. Zero required dependencies. Covers all 10 namespaces. Includes quickstart, integration guides, and a CLI for local testing.
+AgentOBSDebug
+Developer Tool
+Inspect, replay, and visualise AgentOBS traces. Timeline views, span trees, tool-call analysis, cost attribution, and trace diffing for debugging production behaviour.
+AgentOBSValidate
+Compliance Tool
+Reference validation CLI and Python SDK. Validates JSON/JSONL event streams against the AGENTOBS schema, verifies HMAC chains, and integrates into CI pipelines for compliance gating.
+Key Takeaways
+AgentOBS measures what agents actually do — output distributions, confidence patterns, tool calls — not just whether they are running.
+Drift is detected statistically before users notice, using configurable Z-score and KL-divergence thresholds.
+Consent boundary enforcement is technical — not process-dependent. Violations trigger automated playbooks in milliseconds.
+The HMAC-signed audit trail is designed to satisfy regulatory evidence requirements, not just internal logging needs.
+  SYSTEM 05     Diagnostic Frameworks
+The SpanForge Diagnostic Models
+SpanForge has developed three analytical frameworks to help organisations understand, communicate, and cost the enterprise AI delivery problem. The Failure Funnel™ and Cost Model™ are structured diagnostic tools. The ROI and Value Measurement Model is an operational tracking framework embedded across all five gates. None are software products.
+5a. The SpanForge Failure Funnel™
+The Failure Funnel™ illustrates where in the AI delivery lifecycle organisations typically lose initiatives. The consistent finding from enterprise AI research is that most initiatives are not lost because of technical failure at an advanced stage — they are lost early, at structural gaps that precede any technical test.
+Lifecycle Stage
+Primary Loss Cause at This Stage
+Initiatives Started
+All begin here — this is the baseline
+Survive Scoping (Gate 1)
+No written problem statement; sponsor uncommitted; data access unconfirmed
+Pass Proof of Concept (Gate 2)
+No accuracy standard defined; no holdout set; no risk register
+Validated Pilot (Gate 3)
+No KPI baseline; no production environment for validation; compliance unaddressed
+Limited Release (Gate 4)
+No adoption measurement framework; no SLA definition; no support model
+Full Production
+Only a fraction of initiated projects reach this stage
+The Failure Funnel™ makes the structural nature of the problem visible: failure concentrates at predictable delivery gaps, not at random technical breakpoints. This is why adding more governance reviews — without defining what evidence is required — does not reduce failure rates.
+5b. The SpanForge Cost Model™
+The Cost Model™ exposes the true cost of AI initiatives that never reach production — distinguishing between the visible costs that appear on budget reports and the hidden costs that compound without appearing on any financial statement. From v4.0 onwards, the Cost Model™ is directly connected to CostGuard™: where the Cost Model™ diagnoses the cost of failure after the fact, CostGuard™ prevents avoidable cost by making infrastructure and model spend visible at the Design phase, before any commitment is made.
+Cost Category
+Budget Visibility
+Description
+Compute & Infrastructure
+Visible — measurable
+Direct cloud and hardware costs during the pilot period
+Vendor Licences
+Visible — measurable
+API, software, and platform fees billed during the initiative
+Contractor & Staff Fees
+Visible — measurable
+External and internal labour costs directly allocated to the project
+Deferred Business Value
+Hidden — rarely measured
+Value the initiative was designed to capture, lost during every month it remains in purgatory. Often the largest single cost category.
+Credibility Rebuild Investment
+Hidden — rarely measured
+Organisational effort required to rebuild AI investment appetite after visible failures. Measured in leadership attention, political capital, and sponsor reluctance.
+Competitive Displacement
+Hidden — compounds over time
+Advantage compounded by competitors who have solved the delivery problem while others cycle through abandoned pilots. Widens with each passing quarter.
+Internal Staff Opportunity Cost
+Hidden — rarely measured
+Value of work not done by skilled staff consumed by pilots that do not ship. Particularly significant for scarce AI talent.
+Reframe
+The primary risk of a failed AI pilot is not sunk cost. It is the credibility damage that makes the next initiative harder to fund, staff, and deliver — and the competitive displacement that widens while the organisation remains in purgatory.
+5c. ROI and Value Measurement Model
+The Cost Model addresses what is lost when AI fails to ship. The Value Measurement Model addresses what is gained — and how to measure it — when it does. SpanForge connects KPI definitions at Gate 1 to production measurement at Gate 5, creating a closed-loop value tracking system.
+Value Tracking Component
+Description
+KPI definition at Gate 1
+Every initiative defines 2–3 measurable KPIs as part of the Problem Statement Canvas. These KPIs must be measurable in the production environment — not only in controlled test conditions.
+Baseline measurement at Gate 2
+Current performance against each KPI is measured and documented before any production exposure. This becomes the reference point for all subsequent gate reviews.
+Value validation at Gate 3
+KPI improvement against baseline is measured in the controlled production pilot. Gate 3 cannot be cleared without evidence of measurable improvement in the production environment.
+Sustained value confirmation at Gate 4
+KPI performance is verified at scale across a broader user population. Confirms that Gate 3 results were not attributable to favourable conditions in the limited pilot environment.
+Production ROI tracking at Gate 5
+A named owner is accountable for maintaining KPI performance post-production. Regression against baseline triggers a defined review. ROI is reported at regular intervals to the Gate Authority.
+Key Takeaways
+Most AI initiatives fail early — at explicit criteria gaps, not at technical limits. The Failure Funnel™ makes this visible.
+The true cost of a failed pilot is dominated by hidden costs — deferred value, credibility, and competitive displacement.
+ROI is not measured at the end — it is defined at Gate 1 and tracked continuously through to production.
+        
+CostGuard™ connects the Cost Model™ to the Design phase — making infrastructure and model cost visible before commitment, not only diagnosable after failure.
+Credibility damage from repeated pilot failure is the most significant barrier to future AI investment in most organisations.
+  SYSTEM 06     Maturity and Performance Frameworks
+The SpanForge AI Maturity Model
+Organisations do not adopt structured AI delivery overnight. The SpanForge Maturity Model defines four progression levels — from unmanaged experimentation to scaled institutional capability — each with distinct characteristics, risk profiles, and priorities for improvement.
+Level
+Name
+Characteristics
+Primary Risk
+SpanForge Priority
+1
+Ad Hoc
+Unstructured pilots. No exit criteria. No defined ownership. Progress tracked by tasks, not outcomes.
+Budget exhaustion; repeated restarts; credibility erosion.
+Implement Gate 1 immediately. Establish Gate Authority. Map active portfolio.
+2
+Structured Pilots
+Some exit criteria exist. Sponsors identified but not always budget-accountable. Inconsistent evidence standards across initiatives.
+Selective rigour — some initiatives governed, others not. Governance gaps remain exploitable.
+Standardise Gate Readiness Score™ across all initiatives. Close two-tier governance gap.
+3
+Gate-Driven
+All initiatives use the Exit Gate System™. Gate Authority constituted for every initiative. Evidence-based advancement decisions consistently applied.
+System works but value measurement is immature. Production ROI not systematically tracked.
+Implement full Value Measurement Model. Activate AgentOBS across all production systems.
+4
+Scaled AI Delivery
+Full lifecycle governance in place. AgentOBS monitoring all production agents. ROI tracked continuously. Institutional delivery capacity compounding.
+Complexity of scale — managing a large portfolio of governed production systems requires dedicated capability.
+Mature the Data Layer and Model Lifecycle disciplines. Build retraining and rollback infrastructure.
+Maturity Progression Paths
+Progression between maturity levels is not automatic — it requires meeting specific conditions. The table below defines what must be true before an organisation can credibly claim the next level, the typical elapsed time for each transition, and SpanForge’s role in supporting it. Most organisations entering SpanForge adoption start at Level 1 or 2. Honest assessment of starting level is the first step.
+Transition
+Typical Duration
+What Must Be True to Progress
+SpanForge’s Role
+Level 1 → Level 2
+4–8 weeks
+Gate Authority constituted for all active initiatives. Gate 1 exit criteria defined and applied to at least one initiative. Evidence brief produced for first gate review
+4-Week Portfolio Diagnostic. Gate Authority constitution workshop. First gate review facilitation
+Level 2 → Level 3
+3–6 months
+All active initiatives using the Exit Gate System™. At least one Return decision has been made and documented. GRS applied consistently across portfolio
+Gate Readiness Score™ standardisation. Evidence brief templates. Return decision coaching
+Level 3 → Level 4
+6–18 months
+AgentOBS active on all production AI systems. ROI tracked continuously against Gate 1 baselines. Institutional delivery capability: team can run gates without external support
+AgentOBS deployment. Value Measurement Model activation. ROI dashboard. CostGuard™ integration across Design phase
+Metrics That Matter
+Most AI programme metrics measure activity, not delivery. SpanForge defines a set of outcome metrics that distinguish programmes with genuine delivery capability from those that are busy but unproductive.
+Metric
+Definition
+What It Reveals
+Gate Success Rate
+Percentage of gate reviews resulting in Advance or Conditional Advance decisions, per stage
+Whether evidence standards are appropriate. A 100% rate suggests thresholds are too low; below 60% suggests initiatives are reaching gates underprepared.
+Time per Stage
+Average elapsed time between gate decisions, per stage
+Where in the lifecycle the organisation loses momentum. Chronic delays at Gate 2 suggest data readiness problems; at Gate 3, business value definition problems.
+Production Conversion Rate
+Percentage of initiated Scoping projects that reach Full Production within 18 months
+Target range 30–50%, depending on initiative complexity and organisational maturity. Designed to exceed the industry baseline of below 20%. Improvement trajectory matters more than absolute rate in early adoption.
+Pilot Risk Index Score
+Aggregate score across the five Pilot Risk Index failure modes at the time of each gate review
+Which specific structural failure patterns are most prevalent in the portfolio — and whether they are improving over time.
+Post-Production ROI Realisation
+Actual KPI improvement at 90 days post-production, against Gate 1 baseline
+Whether the value hypothesis was validated in the real production environment. Significant gaps between predicted and realised ROI signal a systematic Gate 3 evidence problem.
+AgentOBS Drift Incident Rate
+Number of statistically significant drift events per agent per month in production
+Production AI system health. Rising rates suggest model degradation, data distribution shift, or upstream system changes requiring intervention.
+Implementation Effort Model
+Adopting the SpanForge Exit Gate System™ requires three foundational commitments, a structured 90-day adoption roadmap, and a realistic assessment of what it takes to make the system work.
+What Is Required
+Realistic Effort Estimate
+Retroactive baseline assessment of all active initiatives
+2–5 days of structured workshops with AI team and business representatives. Output: stage map and Gate Readiness Score™ for each initiative.
+Gate Authority constitution for all initiatives
+1–2 days. Requires executive-level sponsorship to enforce budget-accountable attendance. This is typically the primary organisational friction point.
+Evidence-first culture shift
+Ongoing, 3–6 months to embed. Requires explicit endorsement from executive sponsors and consistent reinforcement from programme leadership at every gate review.
+90-day portfolio rationalisation
+Structured sprint: assessment weeks 1–2, gate plans weeks 3–4, first reviews weeks 5–8, rationalisation decisions weeks 9–13. Requires a named programme lead.
+AgentOBS integration per production agent
+Half a day to one day per agent, depending on codebase complexity. SDK is pip-installable with zero required dependencies.
+CostGuard™ integration per Design phase initiative
+2–4 hours per initiative. Provide infrastructure configuration (Terraform, YAML, or CLI inputs); CostGuard™ connects to live cloud pricing APIs and produces the cost estimate and scenario comparison automatically. Output feeds directly into the Design Exit Gate evidence brief.
+The 90-Day SpanForge Adoption Roadmap
+The 90-day roadmap is designed for organisations entering SpanForge adoption at Maturity Level 1 or 2. It is structured as four sequential sprints, each with defined activities and a clear exit condition. A named programme lead is required. The roadmap does not require all initiatives to be gate-ready on day one — it uses the first 90 days to establish the system, build evidence discipline, and rationalise the portfolio.
+Weeks
+Sprint Name
+Key Activities
+Exit Condition
+1–2
+Assessment
+Map all active AI initiatives. Assign each a lifecycle stage. Score each against the Gate Readiness Score™. Identify Gate Authority gaps
+Stage map and GRS for every active initiative
+3–4
+Gate Planning
+Define exit criteria for all open gates. Constitute Gate Authority for every initiative. Schedule first gate reviews. Produce evidence brief templates
+All initiatives have gate plans and Gate Authority
+5–8
+First Reviews
+Run first gate reviews using three-outcome framework. Apply Advance, Conditional Advance, or Return decisions. Document all outcomes. Conduct post-review debrief
+At least one Return decision documented and actioned
+9–13
+Portfolio Rationalisation
+Close initiatives that cannot meet Gate 1 criteria. Advance initiatives with strong evidence. Install AgentOBS on any systems reaching production. Activate CostGuard™ for initiatives in Design phase
+Portfolio reduced to evidence-supported initiatives only
+Key Takeaways
+Most organisations entering SpanForge adoption are at Maturity Level 1 or 2. The 90-day roadmap is designed for this starting point.
+The most important metrics are Production Conversion Rate and Post-Production ROI Realisation — not activity measures.
+Gate Success Rate at 100% is a warning sign, not a success signal. Some Return decisions are evidence the system is working.
+The primary implementation friction is always Gate Authority constitution — getting budget-accountable sponsors to show up is the hardest part.
+SpanForge System Architecture
+Five integrated layers — from data foundation to production observability
+SpanForge owns the Lifecycle, Governance, and Observability layers. The Cost Intelligence layer is owned by CostGuard™ at the Design phase. The Data and Model layers are governed through SpanForge frameworks.
+  SYSTEM 07     Market Context
+Competitive Positioning
+Understanding what SpanForge is requires understanding what it is not — and how it differs from the tools that enterprise teams already use. SpanForge does not compete with most of the categories below. It complements them.
+The Core Positioning Statement
+SpanForge in One Sentence
+Existing tools provide the infrastructure and models. SpanForge provides the delivery system — the structured lifecycle, governance controls, cost intelligence at design time, and production observability that determine whether those tools ever produce business value at scale.
+How SpanForge Compares
+Category
+What They Provide
+What SpanForge Provides
+Relationship
+MLOps platforms (e.g. MLflow, Weights & Biases)
+Model tracking, experiment logging, serving infrastructure
+Lifecycle governance, gate-based advancement, compliance documentation
+Complementary — MLOps sits within SpanForge's Build and Scale phases
+Cloud AI platforms (AWS, Azure, GCP AI)
+Compute, managed ML services, model hosting
+Delivery lifecycle, governance framework, observability layer
+Complementary — SpanForge governs what runs on cloud AI infrastructure
+Agent frameworks (LangChain, AutoGen, CrewAI)
+Agent orchestration, tool integration, chaining primitives
+Agent observability, consent enforcement, drift detection, audit trail
+Complementary — SpanForge monitors what agent frameworks deploy
+Compliance / GRC tools
+Policy documentation, control libraries, audit workflows
+Technical enforcement of AI-specific governance at the code and deployment level
+Complementary — SpanForge produces the AI-specific evidence GRC tools need
+Data platforms (Databricks, Snowflake)
+Data storage, processing, and ML feature engineering
+Data readiness assessment and governance standards integrated into the delivery lifecycle
+Complementary — SpanForge governs how data platforms are used for AI
+FinOps & cloud cost tools (Infracost, AWS Cost Explorer, Apptio)
+Reactive spend reporting, budget alerting, and post-deployment cost analysis
+Pre-commitment cost intelligence at Design time via CostGuard™ — cost is governed before it is incurred, not reported after
+Complementary — FinOps tools track cost after deployment; CostGuard™ prevents avoidable cost before it
+Conditions Where SpanForge May Not Be the Right Fit
+Intellectual honesty about scope is a precondition for credibility. SpanForge is not the right fit in every situation.
+Condition
+Why SpanForge May Not Fit
+Very early-stage startup without production AI ambitions
+The overhead of a structured gate system exceeds the benefit at pre-product stage. Build first; govern when there is something to govern.
+Pure R&D or academic AI research
+Research objectives (learning, publication, exploration) are incompatible with production-readiness gate criteria. Apply time and budget boundaries instead.
+Single-developer, no-stakeholder AI tool
+Gate Authority requirements assume cross-functional accountability. Without stakeholders, the governance overhead is unjustified.
+Organisations without executive AI sponsorship
+Without a budget-accountable executive sponsor, Gate Authority decisions cannot be made. The system requires this as a non-negotiable precondition.
+Key Takeaways
+SpanForge is a delivery system, not an infrastructure tool — it sits above and governs what existing tools produce.
+Most competitive categories are complementary, not competitive. SpanForge governs how MLOps, cloud AI, and agent frameworks are used.
+The honest failure case: SpanForge requires executive sponsorship. Without it, gate decisions are advisory and the system cannot function as designed.
+SpanForge is not appropriate for pure R&D, pre-product startups, or single-developer projects without cross-functional accountability.
+CostGuard™ occupies a category that FinOps tools do not — it governs cost before it is incurred, at Design time, not after deployment. This is a distinct market position with no direct incumbent.
+The SpanForge Doctrine
+Core beliefs. Non-negotiable principles. The way SpanForge thinks about enterprise AI delivery.
+What We Believe
+Belief
+What It Means in Practice
+Evidence over momentum
+No initiative advances because it has been running for a long time, because people believe in it, or because stopping feels politically costly. Evidence — and only evidence — advances an initiative.
+Governance is architecture
+AI governance is not a compliance exercise bolted onto delivery. It is a design decision made at the architecture stage and enforced technically in production. If it is not in the code, it is not real.
+Ambiguity compounds
+The longer an AI initiative operates without defined success criteria, the more expensive it becomes to define them later. Clarity at Gate 1 is worth more than optimism at Month 12.
+Failure must be documented, not apologised for
+A formally closed initiative with captured learnings is more valuable than an abandoned pilot that quietly disappears. Return decisions are designed outcomes — not failures.
+You cannot govern what you cannot see
+Production AI systems that are not monitored are not governed. Governance is not a one-time delivery event — it is a continuous operational state.
+Delivery discipline is a competitive advantage
+AI advantage will not be won by those who experiment the most, but by those who operationalise the fastest. Structured delivery is not bureaucracy — it is the mechanism of advantage.
+Cost is a design decision, not a report
+Infrastructure cost is not a finance problem discovered after deployment. It is an engineering decision made at architecture time. Cost that is not governed at the Design phase cannot be governed at all — it can only be measured after it has already been incurred. CostGuard™ is the operational expression of this belief.
+When SpanForge Fails
+SpanForge is a governance system. Like any governance system, it fails when the conditions that make governance meaningful are absent. Three failure modes consistently undermine the system.
+Weak Gate Authority. Gate decisions become advisory when the Gate Authority lacks budget accountability. Without a sponsor who can actually stop an initiative, gate reviews are progress presentations with extra steps. Every Advance decision becomes a formality.
+Fake evidence culture. Gate Readiness Scores can be gamed. Evidence briefs can be assembled to support a predetermined conclusion. When teams optimise for passing gates rather than producing genuine evidence, the system measures compliance theatre, not delivery capability.
+No executive enforcement. The evidence-based culture shift required by SpanForge runs against the organisational grain in most enterprises. Without visible, consistent enforcement from executive sponsors — particularly at the first Return decision — teams learn that the system is optional. It then reverts to the governance theatre it was designed to replace.
+Naming these failure modes is not a disclaimer. It is a commitment: SpanForge is designed to be honest about the conditions it requires. Organisations that lack executive enforcement or operate in environments where Return decisions are politically impossible should address those conditions before implementing the system.
+These are not edge cases. They are the default failure modes in most organisations.
+Non-Negotiables
+Every initiative must have a named Gate Authority with a budget-accountable sponsor — before any gate review is scheduled.
+Every gate requires documented evidence — not progress updates, relationship capital, or executive optimism.
+Every production AI system must have AgentOBS (or equivalent observability) active before the first production request.
+Every Return decision must be documented — rationale, remediation requirements, accountable owner, and target review date.
+Every closure decision must capture learnings — not to assign blame, but to reduce the cost of the next attempt.
+Every Design phase must produce a CostGuard™ cost estimate and scenario comparison before architecture is approved — cost visibility is not optional at Design time.
+What Success Looks Like — In Numbers
+SpanForge is at an early stage of its commercial journey. The following represents what structured delivery success looks like — the outcomes the system is designed to produce when implemented with integrity.
+Success Metric
+Target Signal
+Production Conversion Rate
+Target range 30–50% of Gate 1 initiatives reaching Full Production within 18 months (vs. industry average below 20%). Trajectory of improvement is the primary signal in early adoption.
+Gate Readiness Score™ at first review
+Above 70 for initiatives that advance; below 70 correctly triggering remediation before review is scheduled
+Post-Production ROI Realisation
+KPI improvement within 20% of Gate 1 value hypothesis at 90 days post-production
+AgentOBS Drift Incident Rate
+Drift detected and resolved before user-visible impact in over 90% of incidents
+Sponsor confidence in AI delivery
+Measurable increase in executive sponsor confidence in AI programme delivery outcomes, surveyed at 90 days
+CostGuard™ Estimate Accuracy
+Actual vs. predicted infrastructure cost within 15% at the Design phase. Accuracy improves over time as the feedback loop matures across the portfolio.
+  SYSTEM 08     🏗️  Internal Operational Systems
+Internal Operational Systems
+8.1 — System Hierarchy
+SpanForge has accumulated multiple named frameworks, models, and tools. Without a clear hierarchy, every construct is treated as equally authoritative — which creates training overhead, misuse, and inconsistent interpretation. The hierarchy below defines exactly how each construct relates to the others and what weight it carries in practice.
+Construct
+Type Tag
+What It Means Operationally
+Exit Gate System™
+[SYSTEM]
+The primary delivery mechanism. Non-negotiable. Every engagement runs on this.
+CostGuard™
+[PRODUCT]
+Live product. Required at Design phase. Evidence fed into GRS.
+AgentOBS™
+[PRODUCT]
+Live product. Required at Scale phase. Non-negotiable for production.
+Gate Readiness Score™
+[MODEL]
+Scoring mechanism embedded in Exit Gate System. Required at every gate.
+Pilot Risk Index™
+[MODEL]
+Diagnostic scoring model. Generated at each gate review. Feeds Return decision logic.
+T.R.U.S.T. Framework™
+[SYSTEM]
+Governance layer. Applied across Design, Govern, and Scale phases. Non-negotiable.
+Failure Funnel™
+[MODEL]
+Diagnostic and sales tool. Explains where initiatives are lost. Not operational.
+Cost Model™
+[MODEL]
+Diagnostic and sales tool. Explains hidden cost of failure. Not operational.
+AI Maturity Model
+[MODEL]
+Assessment and positioning tool. Used at onboarding and quarterly reviews.
+SpanForge Doctrine
+[CONCEPTUAL]
+Brand belief system. Informs culture and communication. Not a delivery mechanism.
+Problem Statement Canvas
+[TOOL]
+Required artefact. Produced by client team. Gate 1 evidence standard.
+90-Day Adoption Roadmap
+[TOOL]
+Implementation guide. Used in client onboarding. Adjusted per engagement.
+Type Tag Definitions
+[SYSTEM] = non-negotiable delivery mechanism | [PRODUCT] = buildable/live software | [MODEL] = analytical or diagnostic tool | [TOOL] = required artefact or template | [CONCEPTUAL] = principle or belief, not a delivery mechanism
+Rule: If it is tagged [SYSTEM] or [PRODUCT], it is enforced. If it is tagged [MODEL], [TOOL], or [CONCEPTUAL], it is applied with judgement. No team member should treat a [MODEL] with the same rigidity as a [SYSTEM].
+8.2 — Operational Ownership Model
+Every system, product, and model has a named internal owner. Ownership means: accountable for quality, accountable for updates, and accountable for training the team on correct usage. Without named ownership, frameworks drift, evidence standards drop, and the system degrades silently.
+System / Product / Model
+Internal Owner and Accountability
+Exit Gate System™
+Delivery Lead — owns gate review quality, evidence standards, and Return decision integrity
+CostGuard™
+Design Phase Owner — owns cost estimate quality, scenario comparison accuracy, and feedback loop data
+AgentOBS™
+Production Engineering Lead — owns SDK integration, namespace coverage, drift threshold calibration, and playbook integrity
+Gate Readiness Score™
+Delivery Lead — owns scoring consistency, dimension weighting updates, and Gate Authority briefing quality
+T.R.U.S.T. Framework™
+Governance Lead — owns compliance mapping accuracy, EU AI Act alignment, and certification standards
+Problem Statement Canvas
+Delivery Lead — owns template version, field standards, and Gate 1 sign-off process
+AI Maturity Model
+Advisory Lead — owns assessment methodology and maturity progression criteria
+This Document (SpanForge Way)
+Founding Team — owns version control, change approval, and deprecation decisions. No section is updated without approval from at least two founding team members.
+Ownership transfers must be documented and communicated to the full team within 5 business days of any role change. An unowned system is a risk — escalate immediately to the founding team.
+8.3 — How SpanForge Is Used in a Real Engagement
+This section answers the question every new team member and every new client asks: where do I start, and what happens next? The flow below is the canonical engagement map. Every client engagement follows this sequence. Nothing is skipped. The only variable is time.
+For new team members
+Read this section first. Before you read any other system or framework, understand the engagement flow. Every other section in this document is context that supports one of the steps below.
+Step 1: Client Enters — Discover Phase
+Client arrives with an AI initiative idea or active pilot. SpanForge runs the 4-Week Portfolio Diagnostic. Every active initiative is mapped to a lifecycle stage and scored on the Gate Readiness Score™. A Maturity Level is assigned. The Problem Statement Canvas is introduced. Sponsor accountability is established or flagged as a blocker.
+Step 2: Gate 1 — Scoping Review
+First formal gate. The Problem Statement Canvas is submitted. Gate Authority is constituted with named, budget-accountable sponsor. Evidence brief is reviewed: problem statement signed off, data access confirmed, KPIs defined, cost envelope estimated. Gate Readiness Score™ produced. Decision: Advance, Conditional Advance, or Return.
+Step 3: Design Phase — CostGuard™ Activated
+Architecture decisions are made. Model selection, infrastructure, integration patterns. CostGuard™ is activated: client provides Terraform config, YAML, or CLI inputs. Cost brief produced: baseline estimate, three scenario comparisons, optimisation recommendations. Cost Readiness dimension of GRS™ completed. Design Exit Gate reviewed.
+Step 4: Gate 2 — Proof of Concept
+Technical feasibility validated on representative data. Baseline accuracy established on holdout set. Risk register reviewed and signed. PoC report submitted as evidence brief. PRI™ score calculated. Decision made. If Return: documented with remediation plan and accountable owner.
+Step 5: Build Phase — Six CI/CD Gates
+All six Build gates run in sequence: Security → Quality → Behaviour → Performance → Governance → Deploy. Nothing ships until all six are green. Gate 3 (Pilot) and Gate 4 (Limited Release) reviews occur during this phase. KPI validation against baseline is mandatory at Gate 3.
+Step 6: Govern Phase — T.R.U.S.T. Framework™ Applied
+All six Govern deliverables produced: T.R.U.S.T. mapping, EU AI Act categorisation, live risk register, governance maturity assessment, incident playbook, board reporting pack. Nothing proceeds to production without Govern phase completion. Gate Authority signs off.
+Step 7: Scale Phase — AgentOBS™ Active
+AgentOBS™ SDK installed. Behavioural baseline established in staging. Gate 5 (Full Production) requires: AgentOBS active, drift monitoring configured, on-call owner named, playbooks tested. First production request is monitored from moment one. CostGuard• feedback loop activated: actual vs. predicted cost tracked.
+Step 8: Ongoing — Continuous Governance
+Production ROI tracked against Gate 1 KPI baseline. AgentOBS• drift incidents reviewed monthly. Gate Authority receives regular reporting pack. Any regression against KPI baseline triggers a review. CostGuard• cost accuracy data feeds back into Design phase estimates for future initiatives.
+The Golden Rule
+Every step produces documented evidence. Every gate reviews that evidence. No step is skipped because of momentum, optimism, or relationship capital. The system only works if the sequence is respected.
+8.4 — Specification vs Product Tagging
+This document mixes philosophy, system design, and product features by design — because all three are required to explain how SpanForge works. However, as SpanForge matures, engineering, sales, and delivery teams need to know which elements are buildable today, which are governance frameworks, and which are analytical models.
+Every construct in this document is tagged in the System Hierarchy table (Section 8.1). The tags are:
+Tag
+What It Means for Engineering / Delivery
+[SYSTEM]
+A non-negotiable governance or delivery mechanism. Enforced on every engagement without exception.
+[PRODUCT]
+A buildable software component. Has a live version or active development roadmap. Described by technical specifications.
+[MODEL]
+An analytical or diagnostic tool. Applied with judgement. Not enforced — used to understand and communicate.
+[TOOL]
+A required artefact, template, or structured document. Produced as part of the delivery process.
+[CONCEPTUAL]
+A principle, belief, or doctrine. Informs culture and communication. Not a delivery mechanism and not enforced.
+Engineering note
+Only [PRODUCT] items have technical specifications and development roadmaps. [SYSTEM] items define operational requirements that products must satisfy. Never build a [MODEL] as if it were a [PRODUCT] — they serve different purposes.
+8.5 — Specification Governance
+This document is version-controlled. Every change must be approved and documented. Without discipline here, the SpanForge Way becomes a living document in the worst sense — informal, inconsistent, and impossible to train against.
+Versioning rules:
+Major version (e.g. 4.0 → 5.0): New system added, existing system fundamentally redesigned, or a Non-Negotiable changed. Requires founding team approval and full team briefing within 5 business days.
+Minor version (e.g. 4.5 → 4.6): New section added, existing section significantly expanded, or a scoring methodology changed. Requires approval from at least two founding team members.
+Patch version (e.g. 4.5 → 4.5.1): Typo corrections, clarifications that do not change meaning, formatting fixes. One founding team member can approve.
+No undocumented changes: Every change must be logged in the changelog (below) with the date, author, and description. Undocumented changes are not valid.
+Backward compatibility:
+Gate exit criteria are backward compatible within a major version. An initiative that entered at Gate 1 under v4.x will not have its gate criteria changed mid-lifecycle.
+Scoring methodology changes (GRS weights, PRI scores) take effect on new initiatives only — not retroactively on active initiatives.
+Product capability changes (CostGuard™ roadmap, AgentOBS™ namespaces) are updated in patch versions and do not require a minor version bump.
+Deprecation policy:
+A construct is deprecated when it is superseded by a more precise replacement. Deprecated constructs are marked [DEPRECATED] in the System Hierarchy table and remain for two major versions before removal.
+No construct is silently removed. Every deprecation is announced to the full team with a transition period of at least 90 days.
+Version
+Date
+What Changed
+v4.0
+April 2026
+CostGuard™ introduced as Design phase cost intelligence capability
+v4.2
+April 2026
+CostGuard™ integration completed across positioning, governance, competitive context, and doctrine
+v4.3
+April 2026
+All frameworks fully specified: Problem Statement Canvas, GRS scoring, 90-day roadmap, Govern deliverables, AgentOBS namespaces, Maturity progression, PRI scoring
+v4.4
+April 2026
+Internal consistency fixes: GRS weighting defined, PRI scoring clarified, T.R.U.S.T. updated, S07 KT box fixed
+v4.5
+April 2026
+Final polish: duplicate bullet removed, AgentOBS sentence corrected, intro KT status updated
+v4.6
+April 2026
+Operational edition: System hierarchy, ownership model, engagement flow, tagging taxonomy, versioning governance, internal failure modes added
+v4.7
+April 2026
+5-minute summary, CostGuard™ consequence language strengthened, training path added
+8.6 — When SpanForge Fails Internally
+The Doctrine section documents how SpanForge fails when clients do not follow the system. This section documents how SpanForge fails when we do not follow it ourselves. These are not hypothetical — they are the default failure modes of any governance system when the team that built it becomes too familiar with it.
+Why this section exists
+Every methodology eventually becomes ritual for the team that created it. The gates become checkboxes. The evidence becomes performance. The system that was built to prevent bad outcomes starts producing false confidence. Naming these failure modes explicitly is how we prevent them.
+Internal Failure Mode
+What It Looks Like
+Gates become ritual
+Gate reviews are scheduled and conducted, but no Return decisions are made. Evidence briefs are formatted correctly but unchallenged. The Gate Authority attends but defers to the delivery team. Score: 100%. Reality: zero governance.
+Evidence becomes performance
+The Gate Readiness Score™ is gamed. Teams produce evidence briefs that look complete but are assembled to support a predetermined Advance decision. The PRI™ score is managed down. GRS is a compliance exercise, not a genuine assessment.
+CostGuard™ ignored at Design
+CONSEQUENCE: Skipping CostGuard™ introduces uncontrolled cost exposure. Architecture decisions made without cost evidence are invalid and must be revisited — at significant additional cost. If discovered post-production, the overrun is attributable to a Design phase governance failure that was preventable and explicitly documented as a Non-Negotiable. Teams skip it because the architecture feels “already decided” or the conversation feels premature. This rationalisation is never valid. The Design Exit Gate does not clear without a CostGuard™ cost brief. No exceptions.
+AgentOBS• deployed but unwatched
+AgentOBS• is installed and Gate 5 is cleared, but no one is actively monitoring the drift dashboard. Alerts trigger but go unacknowledged. The immutable audit trail exists but is never reviewed. Technical compliance without operational governance.
+Sponsor accountability is proxied
+The Gate Authority budget-accountable sponsor sends a delegate. The delegate cannot make a Return decision. Gates become progress presentations. The entire system loses its enforcement mechanism.
+Ownership is unclear
+Systems, products, and models have no named internal owner. The SpanForge Way document drifts. CostGuard• estimates are not quality-checked. AgentOBS• thresholds are never recalibrated. The document describes a system that is no longer being run.
+This document becomes out of date
+The SpanForge Way document is not updated when products ship new capabilities or scoring methodologies change. Team members work from an old version. The authoritative source diverges from operational reality.
+Detection signals:
+Gate Success Rate at 100% for more than two consecutive quarters
+No Return decisions in the last six months
+CostGuard™ estimates are not being compared to actual costs post-production
+AgentOBS• drift alerts are acknowledged but not actioned
+The Operational Ownership table has any row with no named owner
+This document has not been updated in more than 90 days despite product changes
+The internal review cadence
+Every quarter, the founding team reviews: (1) Gate Success Rate and Return decision frequency, (2) CostGuard• estimate accuracy vs. actuals, (3) AgentOBS• alert response times, (4) Ownership table completeness, (5) document currency. If any signal is red, the system is in failure mode and must be corrected before new client engagements begin.
+8.7 — SpanForge in 5 Minutes
+This is the single page every new team member reads first. Before the systems, before the frameworks, before the scoring models — read this. If you understand these five things, you understand SpanForge. Everything else in this document is the detailed specification of how these five things are operationalised.
+For new team members
+Print this page. Read it. Then read it again at the end of your first week and check whether your understanding of each point has deepened. If it has not, re-read the relevant system section.
+#
+If you remember one thing
+What it means in practice
+1
+The Exit Gate System™ governs everything
+Every AI initiative — without exception — moves through five stages: Scoping, PoC, Pilot, Limited Release, Full Production. Each stage has an exit gate. No initiative advances without documented evidence reviewed by a named, budget-accountable Gate Authority. Momentum, optimism, and relationship capital are not evidence.
+2
+No evidence = no advancement
+The Gate Readiness Score™ (GRS) measures six dimensions per gate. A score below 70 means no gate review is scheduled. A dimension score below 50 is an automatic flag regardless of overall score. The Gate Authority can return an initiative to any prior stage. A Return decision is designed into the system — it is not failure.
+3
+CostGuard™ at Design is mandatory. No exceptions.
+Every Design phase must produce a CostGuard™ cost estimate before architecture is approved. This is a Non-Negotiable. Skipping it introduces uncontrolled cost exposure and invalidates the Design Exit Gate. The Cost Readiness GRS dimension does not pass without a real cost brief. The rationalisation that architecture is “already decided” is not accepted.
+4
+AgentOBS™ at Production is mandatory. No exceptions.
+Every production AI system must have AgentOBS™ active before the first production request. This is a Non-Negotiable. Gate 5 does not clear without AgentOBS• instrumented, behavioural baseline established, drift monitoring configured, and on-call owner named. An unmonitored production AI system is an ungoverned one.
+5
+Return is success, not failure
+The system is designed to return initiatives that are not ready. A Return decision with documented rationale and a remediation plan is more valuable than an Advance decision based on insufficient evidence. Gate Success Rate at 100% is a warning sign, not a performance indicator. If no initiatives have ever been returned, the gates are not working.
+Everything else in this document exists to operationalise these five principles. The Exit Gate System• is how we enforce principle 1 and 2. CostGuard• is how we enforce principle 3. AgentOBS• is how we enforce principle 4. The Doctrine is how we protect principle 5 against organisational pressure.
+8.8 — SpanForge Training Path
+When you hire, new team members will ask: where do I start, and how do I know when I am ready to run an engagement alone? This section answers both questions. The training path is structured, progressive, and has explicit completion standards. Completion is signed off by the Delivery Lead — not self-assessed.
+Why this matters
+SpanForge is a governance system that fails when it is misunderstood or inconsistently applied. The training path ensures every team member reaches the same standard of operational understanding before running unsupervised engagements. The system is only as strong as the least-trained person applying it.
+Timeline
+Focus
+Activities
+Completion Standard
+Day 1
+Orientation
+Read Section 8.7 (SpanForge in 5 Minutes). Read the Introduction and System 01 (Exit Gate System™). Understand the three gate decisions: Advance, Conditional Advance, Return.
+Complete reading. Can explain the three gate decisions without the document.
+Days 2–5
+System Foundations
+Read Systems 02–5 (T.R.U.S.T. Framework™, Platform Architecture, AgentOBS™, Diagnostic Models). Focus on: what each phase produces, what each exit gate requires, and how CostGuard• fits into Design.
+Can name every exit gate condition from memory. Can explain what CostGuard• outputs and why it is mandatory.
+Week 2
+Shadow a Gate Review
+Attend a full gate review as an observer. Review the evidence brief before the meeting. Note the Gate Readiness Score• dimensions and how they are discussed. Observe the Gate Authority dynamic.
+Written debrief: what was the GRS? What dimension was weakest? Was the decision correct? What would you have done differently?
+Week 3
+Produce a Gate Readiness Score™
+Take a real or simulated initiative. Complete the Problem Statement Canvas. Score all six GRS dimensions. Produce a full evidence brief. Have it reviewed by the Delivery Lead.
+Evidence brief reviewed and scored by Delivery Lead. Feedback incorporated.
+Week 4
+Run a Mock Gate Review
+Facilitate a mock Gate 1 or Gate 2 review with a real or simulated initiative. Constitute a Gate Authority. Present the evidence brief. Manage the three-outcome decision. Document the result.
+Mock gate documented with decision, rationale, and any conditional commitments. Delivery Lead signs off.
+Month 2
+CostGuard™ and AgentOBS• Hands-On
+Run a real CostGuard• cost brief on a live or past initiative. Configure AgentOBS• on a test agent. Review the 10 observability namespaces and what each one captures. Interpret a drift alert.
+CostGuard• brief produced. AgentOBS• configured in staging. Drift alert reviewed and response documented.
+Month 3
+Full Engagement Ownership
+Own a client engagement from Discover through Design under supervision. Produce all Phase 01 and Phase 02 deliverables. Run Gate 1 and Gate 2 reviews. Brief the Gate Authority independently.
+Gate 1 and Gate 2 complete with documented decisions. Delivery Lead endorses readiness for unsupervised engagement ownership.
+After Month 3 completion, the team member is authorised to run client engagements through Gate 4 (Limited Release) independently. Gate 5 (Full Production) and CostGuard• accuracy review require at least six months of engagement experience before independent ownership is granted.
+Ongoing learning
+Every new version of this document requires a team briefing within 5 business days. Every major version (e.g. v4 → v5) requires a structured re-training session. Ownership of the training path belongs to the Delivery Lead.
+Contact SpanForge
+Website: getspanforge.com   |   Email: advisory@getspanforge.com   |   LinkedIn: linkedin.com/in/spanforge
+4-Week AI Portfolio Diagnostic: getspanforge.com/platform
+© 2026 SpanForge. All rights reserved. SpanForge Exit Gate System™, T.R.U.S.T. Framework™, AgentOBS™, Gate Readiness Score™, SpanForge Pilot Risk Index™, SpanForge Failure Funnel™, SpanForge Cost Model™, and CostGuard™ are trademarks of SpanForge.

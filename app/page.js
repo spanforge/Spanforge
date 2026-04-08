@@ -14,9 +14,9 @@ export const metadata = {
 
 const HERO_STATS = [
   { value: '5',    label: 'Lifecycle phases'          },
-  { value: '101',  label: 'Tools & frameworks planned' },
+  { value: '102',  label: 'Tools & frameworks planned' },
   { value: '85',   label: 'CLI utilities planned'     },
-  { value: '1',    label: 'Live observability product — AgentOBS' },
+  { value: '2',    label: 'Live products — AgentOBS + CostGuard™' },
 ]
 
 const PROBLEM_STATS = [
@@ -68,7 +68,7 @@ export default function Home() {
           <div className={styles.heroLeft}>
             <span className={`eyebrow ${styles.heroEyebrow}`}>
               <span className={styles.liveDot} aria-label="Live" />
-              SpanForge is currently in build
+              AgentOBS and CostGuard™ are live
             </span>
 
             <h1 id="hero-heading" className={styles.heroH1}>
@@ -182,7 +182,9 @@ export default function Home() {
             <p className={styles.whatIsCopy}>
               Built around the <strong>T.R.U.S.T. Framework</strong> — five dimensions
               that every production AI system must satisfy: Transparency, Responsibility,
-              User Rights, Safety Guardrails, and Traceability.
+              User Rights, Safety Guardrails, and Traceability. AgentOBS delivers production
+              observability at Scale. CostGuard™ delivers pre-commitment cost intelligence
+              at Design — live now for AWS, with GCP and Azure in active development.
             </p>
             <Link href="/platform" className="btn-ghost" style={{ marginTop: '1.5rem', display: 'inline-flex' }}>
               Explore the five phases →
@@ -330,13 +332,15 @@ export default function Home() {
       {/* ─── 9. CLOSING CTA ──────────────────────────────── */}
       <section className={styles.waitlistCta} aria-labelledby="cta-heading">
         <div className={`container ${styles.waitlistInner}`}>
-          <span className="eyebrow">SpanForge is currently in build</span>
+          <span className="eyebrow">SpanForge products are live</span>
           <h2 id="cta-heading" className={styles.waitlistH2}>
             Decide. Build. Trust.
           </h2>
           <p className={styles.waitlistSub}>
             SpanForge is the AI lifecycle platform for enterprise teams. AgentOBS is
-            available today — the full suite of tools, frameworks, and standards is in active development.
+            available today. CostGuard™ is live for AWS infrastructure cost estimation
+            and scenario comparison — the full suite of tools, frameworks, and standards
+            is in active development.
           </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginTop: '2rem' }}>
             <Link href="/contact" className="btn-primary">Request a Briefing →</Link>

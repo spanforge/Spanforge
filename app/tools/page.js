@@ -16,6 +16,7 @@ const TOOL_TYPES = [
   { count: '5+',  label: 'Frameworks',                 note: 'Governance, methodology, and build standards' },
   { count: '6',   label: 'CI/CD pipeline templates',  note: 'Six-stage pipeline integrated into your build process' },
   { count: '1',   label: 'AgentOBS platform',         note: 'Production observability for autonomous AI agents' },
+  { count: '1',   label: 'CostGuard™',                note: 'Design-time cost intelligence — live for AWS, GCP and Azure in development' },
 ]
 
 function PriorityPip({ count, label, color }) {

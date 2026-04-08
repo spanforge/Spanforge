@@ -4,7 +4,7 @@ import styles from '@/components/phasePage.module.css'
 export const metadata = {
   title: 'Gate Readiness Score™ — SpanForge',
   description:
-    'A structured 0–100 evidence assessment produced before every gate review across five dimensions. A score below 70 triggers an automatic remediation plan; no gate review is scheduled until the threshold is met.',
+    'A structured 0–100 evidence assessment produced before every gate review across six dimensions. A score below 70 triggers an automatic remediation plan; no gate review is scheduled until the threshold is met.',
 }
 
 const dimensions = [
@@ -32,6 +32,11 @@ const dimensions = [
     num: '05',
     label: 'Stakeholder Alignment',
     desc: 'Business sponsor commitment, cross-functional sign-off, and end-user readiness are confirmed. Accountabilities are documented and agreed.',
+  },
+  {
+    num: '06',
+    label: 'Cost Readiness (CostGuard™)',
+    desc: 'CostGuard™ cost estimate produced for the selected infrastructure configuration. Scenario comparison documented. Projected cost is within the approved business case envelope. Required for all initiatives that have completed the Design phase.',
   },
 ]
 
@@ -80,7 +85,7 @@ export default function GateReadinessScorePage() {
           <h1 className={styles.frameworkHeroH1}>Gate Readiness Score™</h1>
           <p className={styles.frameworkHeroSub}>
             A structured 0–100 evidence assessment produced before every gate review in the
-            SpanForge Exit Gate System™. Scored across five dimensions. A score below 70 triggers
+            SpanForge Exit Gate System™. Scored across six dimensions. A score below 70 triggers
             an automatic remediation plan; no gate review is scheduled until the threshold is met.
           </p>
         </div>
@@ -95,14 +100,16 @@ export default function GateReadinessScorePage() {
           </h2>
           <p className={styles.summaryPara}>
             Before each gate review, the programme team produces a Gate Readiness Score™ — a
-            structured 0–100 assessment across five dimensions: technical readiness, business
-            value evidence, operational integration, compliance status, and stakeholder alignment.
+            structured 0–100 assessment across six dimensions: technical readiness, business
+            value evidence, operational integration, compliance status, stakeholder alignment,
+            and cost readiness (CostGuard™).
           </p>
           <p className={styles.summaryPara}>
             The score is an evidence assessment, not a task count. Each dimension is scored based
             on documented artefacts the team can present to the Gate Authority. A score below 70
             triggers an automatic remediation plan — no gate review is scheduled until the
-            threshold is met.
+            threshold is met. A dimension score below 50 is an automatic flag regardless of overall
+            score — the Gate Authority must address it explicitly; no dimension can be averaged away.
           </p>
         </div>
       </section>
@@ -135,7 +142,7 @@ export default function GateReadinessScorePage() {
         <div className={`container ${styles.contentInner}`} style={{ maxWidth: '960px' }}>
           <span className="eyebrow">Assessment dimensions</span>
           <h2 id="dims-heading" className={styles.sectionH2}>
-            Five dimensions of readiness
+            Six dimensions of readiness
           </h2>
           <p className={styles.sectionSub}>
             Each dimension reflects a category of evidence the Gate Authority requires in order

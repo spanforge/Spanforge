@@ -168,10 +168,10 @@ export default function AgentObsPage() {
           </h2>
           <div className={styles.useCasesGrid}>
             {[
-              { label: 'Financial services', desc: 'Credit decisions, fraud detection, customer communication agents.' },
-              { label: 'Healthcare', desc: 'Clinical decision support, triage routing, patient-facing assistants.' },
-              { label: 'Legal & compliance', desc: 'Contract analysis, regulatory monitoring, compliance automation.' },
-              { label: 'Enterprise operations', desc: 'Procurement automation, HR decision support, internal knowledge agents.' },
+              { label: 'Financial services', desc: 'Credit decisions, fraud detection, customer communication agents, AML monitoring.' },
+              { label: 'Healthcare', desc: 'Clinical decision support, triage routing, patient-facing assistants, prior authorisation agents.' },
+              { label: 'Legal & compliance', desc: 'Contract analysis, regulatory monitoring, compliance automation, document review agents.' },
+              { label: 'Enterprise operations', desc: 'Procurement automation, HR decision support, internal knowledge agents, IT service automation.' },
             ].map(uc => (
               <div key={uc.label} className={styles.useCaseCard}>
                 <h3 className={styles.useCaseLabel}>{uc.label}</h3>

@@ -145,7 +145,7 @@ export default function PlatformPage() {
               <span className={styles.frameworkCardLabel}>Measurement</span>
               <span className={styles.frameworkCardTitle}>Gate Readiness Score™</span>
               <p className={styles.frameworkCardDesc}>
-                A structured 0–100 evidence assessment across five dimensions. A score below 70
+                A structured 0–100 evidence assessment across six dimensions. A score below 70
                 blocks gate reviews until remediation is complete.
               </p>
               <span className={styles.frameworkCardArrow} aria-hidden="true">→</span>
@@ -156,6 +156,16 @@ export default function PlatformPage() {
               <p className={styles.frameworkCardDesc}>
                 A five-failure-mode taxonomy mapped to each gate. Each gate is designed to
                 prevent one specific, documented failure pattern.
+              </p>
+              <span className={styles.frameworkCardArrow} aria-hidden="true">→</span>
+            </Link>
+            <Link href="/platform/costguard" className={styles.frameworkCard}>
+              <span className={styles.frameworkCardLabel}>Product — Design Phase</span>
+              <span className={styles.frameworkCardTitle}>CostGuard™</span>
+              <p className={styles.frameworkCardDesc}>
+                Decision-time cost intelligence. Every architecture decision carries a cost
+                estimate before any resource is committed. Live for AWS; GCP and Azure in
+                development.
               </p>
               <span className={styles.frameworkCardArrow} aria-hidden="true">→</span>
             </Link>

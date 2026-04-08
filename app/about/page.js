@@ -101,6 +101,7 @@ export default function AboutPage() {
                 'A structured gate-based delivery system',
                 'An agent behaviour monitoring product',
                 'A risk and audit documentation system',
+                'A decision-time cost intelligence layer (CostGuard™)',
               ].map(item => (
                 <p key={item} className={styles.isNotItem}>
                   <span className={styles.isNotCheck} aria-hidden="true">✓</span> {item}
@@ -116,6 +117,7 @@ export default function AboutPage() {
                 'A project management tool',
                 'An agent framework or orchestration engine',
                 'A replacement for legal or compliance teams',
+                'A replacement for cloud billing dashboards or FinOps reporting tools',
               ].map(item => (
                 <p key={item} className={styles.isNotItem}>
                   <span className={styles.isNotCross} aria-hidden="true">✕</span> {item}
@@ -164,8 +166,8 @@ export default function AboutPage() {
                 count: '01',
               },
               {
-                label: 'AgentOBS deployment',
-                detail: 'Instrument your autonomous agents with production-grade observability. Baseline behaviour, detect drift, enforce consent boundaries, and maintain an immutable audit trail.',
+                label: 'AgentOBS + CostGuard™',
+                detail: 'Deploy AgentOBS for production observability — baseline behaviour, detect drift, enforce consent boundaries, and maintain an immutable audit trail. Activate CostGuard™ at Design time for pre-commitment infrastructure cost intelligence.',
                 count: '02',
               },
               {

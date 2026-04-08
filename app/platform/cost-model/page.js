@@ -184,6 +184,37 @@ export default function CostModelPage() {
         </div>
       </section>
 
+      {/* CostGuard connection */}
+      <section className={styles.contentSection} aria-labelledby="costguard-heading">
+        <div className={`container ${styles.contentInner}`}>
+          <span className="eyebrow">Prevention, not diagnosis</span>
+          <h2 id="costguard-heading" className={styles.sectionH2}>
+            CostGuard™ — cost at Design time, not after failure
+          </h2>
+          <p className={styles.summaryPara}>
+            The Cost Model™ diagnoses the cost of failure after the fact. CostGuard™ prevents
+            avoidable cost by making infrastructure and model spend visible at the Design phase
+            — before any commitment is made. Where the Cost Model™ explains what went wrong,
+            CostGuard™ removes the conditions that allow it to go wrong in the first place.
+          </p>
+          <p className={styles.summaryPara}>
+            CostGuard™ is the SpanForge Design phase cost intelligence tool: every architecture
+            decision carries a cost estimate before any resource is committed. Scenario comparisons
+            — cheapest, balanced, and performance configurations — are produced at Design time.
+            The output feeds directly into the Gate Readiness Score™ Cost Readiness dimension.
+            CostGuard™ is currently live for AWS infrastructure cost estimation, with GCP and
+            Azure support in active development.
+          </p>
+          <div className={styles.insightBox}>
+            <p className={styles.insightText}>
+              &ldquo;Cost is a design decision, not a report. Infrastructure cost that is not
+              governed at Design time cannot be governed at all — it can only be measured after
+              it has already been incurred.&rdquo;
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Related */}
       <nav className={styles.phaseNav} aria-label="Framework navigation">
         <div className={`container ${styles.phaseNavInner}`}>
