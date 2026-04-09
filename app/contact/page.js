@@ -4,7 +4,7 @@ import styles from './page.module.css'
 export const metadata = {
   title: 'Contact — SpanForge',
   description:
-    'Request a briefing, book a strategy conversation, or reach out to the SpanForge team about enterprise AI delivery, the SpanForge Platform, or the T.R.U.S.T. Framework.',,
+    'Request a briefing, book a strategy conversation, or reach out to the SpanForge team about enterprise AI delivery, the SpanForge Platform, or the T.R.U.S.T. Framework.',
 }
 
 const ENGAGEMENT_PATHS = [
