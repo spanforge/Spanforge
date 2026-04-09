@@ -2,9 +2,9 @@ import Link from 'next/link'
 import styles from '@/components/agentObsPage.module.css'
 
 export const metadata = {
-  title: 'RFC-0001 AGENTOBS Standard — AgentOBS — SpanForge',
+  title: 'RFC-0001 SPANFORGE Standard — SpanForge',
   description:
-    'The open event-schema standard for observability of agentic AI systems. Defines the event envelope, 10 namespaces, HMAC audit chains, PII redaction, and four conformance profiles.',
+    'The open event-schema standard for observability of agentic AI systems. Defines the event envelope, 10 namespaces, HMAC audit chains, PII redaction, and four conformance profiles. Vendor-neutral and open — SpanForge is the reference implementation.',
 }
 
 const NAMESPACES = [
@@ -35,19 +35,19 @@ const ENVELOPE_FIELDS = [
 
 const CONFORMANCE_PROFILES = [
   {
-    name: 'AGENTOBS-Core-1.0',
+    name: 'SPANFORGE-Core-1.0',
     desc: 'Structured event envelope with at least llm.trace.* events. The baseline for any compliant implementation.',
   },
   {
-    name: 'AGENTOBS-Security-2.0',
+    name: 'SPANFORGE-Security-2.0',
     desc: 'Core plus HMAC-SHA256 audit chains. Required for compliance-grade tamper-evident logging.',
   },
   {
-    name: 'AGENTOBS-Privacy-2.0',
+    name: 'SPANFORGE-Privacy-2.0',
     desc: 'Core plus PII redaction via llm.redact.* namespace before any event reaches a backend.',
   },
   {
-    name: 'AGENTOBS-Enterprise-2.0',
+    name: 'SPANFORGE-Enterprise-2.0',
     desc: 'All four profiles combined. Export abstraction, governance primitives, and schema migration tooling included.',
   },
 ]
@@ -58,18 +58,18 @@ export default function StandardPage() {
       {/* Breadcrumb */}
       <div className={styles.breadcrumb}>
         <div className="container">
-          <Link href="/agentobs" className={styles.breadcrumbLink}>AgentOBS</Link>
+          <Link href="/agentobs" className={styles.breadcrumbLink}>SpanForge Platform</Link>
           <span className={styles.breadcrumbSep} aria-hidden="true">/</span>
-          <span className={styles.breadcrumbCurrent}>RFC-0001 Standard</span>
+          <span className={styles.breadcrumbCurrent}>RFC-0001 SPANFORGE</span>
         </div>
       </div>
 
       {/* Hero */}
       <section className={styles.hero}>
         <div className="container">
-          <span className={styles.heroLabel}>Open Standard · Public Review</span>
+          <span className={styles.heroLabel}>Open Standard · Vendor-Neutral · In Development</span>
           <h1 className={styles.h1}>
-            RFC-0001 AGENTOBS
+            RFC-0001 SPANFORGE
           </h1>
           <p className={styles.heroSub}>
             An open event-schema standard for observability of agentic AI systems.
@@ -78,13 +78,13 @@ export default function StandardPage() {
             AI spans to enterprise compliance.
           </p>
           <div className={styles.heroCtas}>
-            <Link href="/agentobs/sdk" className="btn-primary">Python SDK implementation →</Link>
+            <Link href="/agentobs/sdk" className="btn-primary">SpanForge SDK →</Link>
             <Link href="/agentobs/validate" className="btn-ghost">Validate events →</Link>
           </div>
         </div>
       </section>
 
-      {/* What is AGENTOBS */}
+      {/* What is SPANFORGE */}
       <section className={styles.sectionCharcoal}>
         <div className="container">
           <div className={styles.sectionInner}>
@@ -104,7 +104,7 @@ export default function StandardPage() {
               backend, or how the integrity of an audit trail is guaranteed.
             </p>
             <p className={styles.sectionBody}>
-              AGENTOBS fills this gap. It is a community-driven specification (RFC process
+              SPANFORGE fills this gap. It is a community-driven specification (RFC process
               operated by the llm-toolkit community) designed for incremental adoption and
               vendor-neutral integration.
             </p>
@@ -118,7 +118,7 @@ export default function StandardPage() {
           <span className="eyebrow">Specification</span>
           <h2 className={styles.sectionH2}>The Event Envelope</h2>
           <p className={styles.sectionBody} style={{ maxWidth: '700px' }}>
-            Every AGENTOBS event is wrapped in a typed envelope with six required fields
+            Every SPANFORGE event is wrapped in a typed envelope with six required fields
             and four optional fields. The envelope is serialised as JSON and is designed
             to be compatible with OpenTelemetry span context.
           </p>
@@ -176,7 +176,7 @@ event = Event(
           <span className="eyebrow">Namespace Taxonomy</span>
           <h2 className={styles.sectionH2}>10 observability domains.</h2>
           <p className={styles.sectionBody} style={{ maxWidth: '700px' }}>
-            AGENTOBS defines 36 event types across 10 namespaces (plus one security domain
+            SPANFORGE defines 36 event types across 10 namespaces (plus one security domain
             — audit). Every event type is dot-separated, typed, and has a versioned JSON
             Schema payload definition.
           </p>
@@ -198,7 +198,7 @@ event = Event(
             <span className="eyebrow">Security</span>
             <h2 className={styles.sectionH2}>HMAC-SHA256 audit chains.</h2>
             <p className={styles.sectionBody}>
-              AGENTOBS includes a tamper-evident audit logging mechanism. Each event can
+              SPANFORGE includes a tamper-evident audit logging mechanism. Each event can
               carry an HMAC-SHA256 signature that chains it to the preceding event in a
               session. Verifying the chain proves that the event stream has not been
               modified, re-ordered, or truncated after the fact.
@@ -228,7 +228,7 @@ agentobs audit-chain production-events.jsonl
           <span className="eyebrow">Adoption</span>
           <h2 className={styles.sectionH2}>Four conformance profiles.</h2>
           <p className={styles.sectionBody} style={{ maxWidth: '680px' }}>
-            AGENTOBS is designed for incremental adoption. Start with the Core profile and
+            SPANFORGE is designed for incremental adoption. Start with the Core profile and
             layer in Security, Privacy, and Enterprise capabilities as your requirements grow.
           </p>
           <div className={styles.cardsGrid}>
@@ -250,7 +250,7 @@ agentobs audit-chain production-events.jsonl
             <span className="eyebrow">Versioning</span>
             <h2 className={styles.sectionH2}>Schema versions.</h2>
             <p className={styles.sectionBody}>
-              The AGENTOBS schema is versioned using semantic versioning. The v1.0 schema
+              The SPANFORGE schema is versioned using semantic versioning. The v1.0 schema
               is the stable baseline; v2.0 extends it with additional namespace event types
               and governance primitives. Both schemas are published as JSON Schema Draft 2020-12
               and can be exported via the validation CLI.
@@ -308,7 +308,7 @@ agentobs-validate events.jsonl --schema-version 1.0`}</pre>
       {/* Page nav */}
       <div className={styles.pageNav}>
         <div className={`container ${styles.pageNavInner}`}>
-          <Link href="/agentobs" className={styles.pageNavLink}>← AgentOBS overview</Link>
+          <Link href="/agentobs" className={styles.pageNavLink}>← SpanForge Platform</Link>
           <Link href="/agentobs/sdk" className={styles.pageNavLink}>Python SDK →</Link>
         </div>
       </div>

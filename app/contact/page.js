@@ -4,7 +4,7 @@ import styles from './page.module.css'
 export const metadata = {
   title: 'Contact — SpanForge',
   description:
-    'Request a briefing, book a strategy conversation, or reach out to the SpanForge team about enterprise AI delivery, AgentOBS, or the T.R.U.S.T. Framework.',
+    'Request a briefing, book a strategy conversation, or reach out to the SpanForge team about enterprise AI delivery, the SpanForge Platform, or the T.R.U.S.T. Framework.',,
 }
 
 const ENGAGEMENT_PATHS = [
@@ -57,7 +57,7 @@ export default function ContactPage() {
             Start a conversation.
           </h1>
           <p className={styles.heroSub}>
-            Whether you are assessing AI lifecycle governance, evaluating AgentOBS for
+            Whether you are assessing AI lifecycle governance, evaluating SpanForge for
             production agents, or have a question about the platform — we want to hear
             from you.
           </p>

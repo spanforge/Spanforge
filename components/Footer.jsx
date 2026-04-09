@@ -11,7 +11,7 @@ const platformLinks = [
   { label: 'T.R.U.S.T. Framework', href: '/platform/trust' },
 ]
 const productLinks = [
-  { label: 'AgentOBS',         href: '/agentobs' },
+  { label: 'SpanForge Platform', href: '/agentobs' },
   { label: 'Tools & Artifacts', href: '/tools' },
 ]
 const companyLinks = [

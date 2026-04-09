@@ -2,9 +2,9 @@ import Link from 'next/link'
 import styles from '@/components/agentObsPage.module.css'
 
 export const metadata = {
-  title: 'AgentOBSValidate — AgentOBS — SpanForge',
+  title: 'SpanForge Validate — SpanForge',
   description:
-    'Reference validation CLI and Python SDK for the AGENTOBS event standard. Validate JSON/JSONL event streams, verify HMAC chains, integrate with CI pipelines, and export the JSON Schema.',
+    'Reference validation CLI and Python SDK for the SPANFORGE event standard. Validate JSON/JSONL event streams, verify HMAC chains, integrate with CI pipelines, and export the JSON Schema.',
 }
 
 const CLI_OPTIONS = [
@@ -14,7 +14,7 @@ const CLI_OPTIONS = [
   { flag: '--otel',                    desc: 'OpenTelemetry compatibility mode — accept camelCase field names.' },
   { flag: '--schema-version <ver>',    desc: 'Pin validation to a specific schema version, e.g. --schema-version 0.1.' },
   { flag: '--key-file <path>',         desc: 'Cryptographic HMAC-SHA256 signature verification using a key file.' },
-  { flag: '--export-schema',           desc: 'Export the AgentOBS event JSON Schema (Draft 2020-12) to stdout.' },
+  { flag: '--export-schema',           desc: 'Export the SPANFORGE event JSON Schema (Draft 2020-12) to stdout.' },
 ]
 
 const EXIT_CODES = [
@@ -29,26 +29,26 @@ export default function ValidatePage() {
       {/* Breadcrumb */}
       <div className={styles.breadcrumb}>
         <div className="container">
-          <Link href="/agentobs" className={styles.breadcrumbLink}>AgentOBS</Link>
+          <Link href="/agentobs" className={styles.breadcrumbLink}>SpanForge Platform</Link>
           <span className={styles.breadcrumbSep} aria-hidden="true">/</span>
-          <span className={styles.breadcrumbCurrent}>AgentOBSValidate</span>
+          <span className={styles.breadcrumbCurrent}>SpanForge Validate</span>
         </div>
       </div>
 
       {/* Hero */}
       <section className={styles.hero}>
         <div className="container">
-          <span className={styles.heroLabel}>agentobs-validate · Compliance Tool · Python 3.9+</span>
+          <span className={styles.heroLabel}>agentobs-validate · Compliance Tool · In Development</span>
           <h1 className={styles.h1}>
             Schema compliance. In CI.
           </h1>
           <p className={styles.heroSub}>
-            AgentOBSValidate is the reference validation CLI and Python SDK for the AGENTOBS
+            SpanForge Validate is the reference validation CLI and Python SDK for the SPANFORGE
             event standard. Validate JSON and JSONL event streams, verify HMAC signing
             chains, and catch non-compliance at build time — before it reaches production.
           </p>
           <div className={styles.heroCtas}>
-            <Link href="/agentobs/sdk" className="btn-primary">AgentOBS SDK →</Link>
+            <Link href="/agentobs/sdk" className="btn-primary">SpanForge SDK →</Link>
             <Link href="/agentobs/debug" className="btn-ghost">Debug tooling →</Link>
           </div>
         </div>
@@ -77,7 +77,7 @@ export default function ValidatePage() {
             <h2 className={styles.sectionH2}>Validate from the terminal.</h2>
             <p className={styles.sectionBody}>
               Point <code className={styles.inlineCode}>agentobs-validate</code> at any
-              JSONL file produced by the AgentOBS SDK. Pass a file path, pipe from stdin,
+              JSONL file produced by the SpanForge SDK. Pass a file path, pipe from stdin,
               or integrate it as a step in your CI workflow.
             </p>
             <div className={styles.codeBlock}>

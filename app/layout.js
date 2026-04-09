@@ -61,7 +61,7 @@ export const metadata = {
     default: 'SpanForge — Where Enterprise AI Goes to Production',
   },
   description:
-    'SpanForge is the AI lifecycle platform for enterprise teams — from deciding whether to build, to running confidently in production. Standards, frameworks, CLI tools, and AgentOBS observability across every phase.',
+    'SpanForge is the AI lifecycle platform for enterprise teams — from deciding whether to build, to running confidently in production. Standards, frameworks, CLI tools, and SpanForge production observability across every phase.',
   keywords: [
     'AI lifecycle platform',
     'enterprise AI',
@@ -69,7 +69,12 @@ export const metadata = {
     'LLM observability',
     'AI production',
     'SpanForge',
-    'AgentOBS',
+    'SpanForge Platform',
+    'T.R.U.S.T. Framework',
+    'AI governance standard',
+    'AI observability',
+    'standalone AI governance',
+    'RFC-0001 SPANFORGE',
   ],
   openGraph: {
     type: 'website',

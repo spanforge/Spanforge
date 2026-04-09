@@ -32,7 +32,7 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--red);
+  background: #f5a623;
   animation: pulseRed 2s infinite;
   flex-shrink: 0;
 }
@@ -179,8 +179,8 @@
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  background: rgba(26,111,219,0.12);
-  color: var(--red);
+  background: rgba(245,166,35,0.12);
+  color: #f5a623;
   padding: 0.25rem 0.65rem;
   border-radius: 3px;
   white-space: nowrap;
@@ -621,6 +621,97 @@
 .agentobsRight {
   position: sticky;
   top: 88px;
+}
+
+/* 8b. STANDALONE EXECUTABLES */
+.execSection {
+  padding: 100px 0;
+  background: var(--charcoal);
+  border-top: 1px solid var(--rule);
+}
+
+.execH2 {
+  font-family: var(--font-playfair);
+  font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.execAccent {
+  color: var(--red);
+}
+
+.execSub {
+  font-size: 1rem;
+  color: var(--muted);
+  max-width: 640px;
+  line-height: 1.7;
+  margin-bottom: 3rem;
+}
+
+.execGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.execCard {
+  background: var(--dark);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: border-color 0.2s;
+}
+
+.execCard:hover {
+  border-color: var(--red);
+}
+
+.execCardTop {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.execGateLabel {
+  font-family: var(--font-dm-mono);
+  font-size: 0.72rem;
+  color: var(--red);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: rgba(220, 30, 30, 0.1);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+
+.execCmd {
+  font-family: var(--font-dm-mono);
+  font-size: 0.85rem;
+  color: var(--white);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 0.6rem 0.9rem;
+}
+
+.execDesc {
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.execNote {
+  font-size: 0.85rem;
+  color: var(--mid);
+  max-width: 640px;
+  line-height: 1.6;
+  font-style: italic;
 }
 
 /* 9. WAITLIST CTA */

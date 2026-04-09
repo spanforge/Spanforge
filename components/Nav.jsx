@@ -15,11 +15,11 @@ const phaseLinks = [
 ]
 
 const agentObsLinks = [
-  { id: 'overview',  label: 'AgentOBS Overview', sub: 'Production observability', href: '/agentobs' },
-  { id: 'standard',  label: 'RFC-0001 Standard',  sub: 'Open event-schema spec',  href: '/agentobs/standard' },
-  { id: 'sdk',       label: 'Python SDK',          sub: 'pip install agentobs',    href: '/agentobs/sdk' },
-  { id: 'debug',     label: 'AgentOBSDebug',       sub: 'Inspect & replay traces', href: '/agentobs/debug' },
-  { id: 'validate',  label: 'AgentOBSValidate',    sub: 'Schema compliance in CI', href: '/agentobs/validate' },
+  { id: 'overview',  label: 'SpanForge Platform',           sub: 'Production observability',    href: '/agentobs' },
+  { id: 'standard',  label: 'RFC-0001 SPANFORGE',           sub: 'Open event-schema spec',       href: '/agentobs/standard' },
+  { id: 'sdk',       label: 'SpanForge SDK',                sub: 'pip install agentobs',         href: '/agentobs/sdk' },
+  { id: 'debug',     label: 'SpanForge Debug',              sub: 'Inspect & replay traces',      href: '/agentobs/debug' },
+  { id: 'validate',  label: 'SpanForge Validate',           sub: 'Schema compliance in CI',      href: '/agentobs/validate' },
 ]
 
 export default function Nav() {
@@ -180,7 +180,7 @@ export default function Nav() {
                 aria-expanded={agentObsOpen}
                 onClick={() => setAgentObsOpen((v) => !v)}
               >
-                AgentOBS
+                SpanForge
                 <svg className={`${styles.chevron} ${agentObsOpen ? styles.chevronOpen : ''}`} width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                   <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
@@ -265,11 +265,11 @@ export default function Nav() {
           <nav className={styles.mobileLinks} aria-label="Mobile navigation">
             <Link href="/platform" className={styles.mobileLink}>Platform</Link>
             <Link href="/platform/trust" className={styles.mobileLink}>T.R.U.S.T. Framework</Link>
-            <Link href="/agentobs" className={styles.mobileLink}>AgentOBS</Link>
-            <Link href="/agentobs/standard" className={styles.mobileLinkIndent}>RFC-0001 Standard</Link>
-            <Link href="/agentobs/sdk" className={styles.mobileLinkIndent}>Python SDK</Link>
-            <Link href="/agentobs/debug" className={styles.mobileLinkIndent}>AgentOBSDebug</Link>
-            <Link href="/agentobs/validate" className={styles.mobileLinkIndent}>AgentOBSValidate</Link>
+            <Link href="/agentobs" className={styles.mobileLink}>SpanForge Platform</Link>
+            <Link href="/agentobs/standard" className={styles.mobileLinkIndent}>RFC-0001 SPANFORGE</Link>
+            <Link href="/agentobs/sdk" className={styles.mobileLinkIndent}>SpanForge SDK</Link>
+            <Link href="/agentobs/debug" className={styles.mobileLinkIndent}>SpanForge Debug</Link>
+            <Link href="/agentobs/validate" className={styles.mobileLinkIndent}>SpanForge Validate</Link>
             <Link href="/tools"     className={styles.mobileLink}>Tools</Link>
             <Link href="/resources" className={styles.mobileLink}>Library</Link>
             <Link href="/about"    className={styles.mobileLink}>About</Link>

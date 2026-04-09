@@ -97,11 +97,12 @@ export default function AboutPage() {
               {[
                 'An AI delivery lifecycle platform',
                 'A governance and compliance framework engine',
-                'A production observability layer (AgentOBS)',
+                'A production observability platform (SpanForge)',
                 'A structured gate-based delivery system',
                 'An agent behaviour monitoring product',
                 'A risk and audit documentation system',
                 'A decision-time cost intelligence layer (CostGuard™)',
+                'A suite of standalone open-source CI/CD executables for individual T.R.U.S.T. gate checks (spanforge-secrets, spanforge-behaviour, spanforge-policy, spanforge-redteam)',
               ].map(item => (
                 <p key={item} className={styles.isNotItem}>
                   <span className={styles.isNotCheck} aria-hidden="true">✓</span> {item}
@@ -118,6 +119,7 @@ export default function AboutPage() {
                 'An agent framework or orchestration engine',
                 'A replacement for legal or compliance teams',
                 'A replacement for cloud billing dashboards or FinOps reporting tools',
+                'A replacement for existing CI/CD tooling — the standalone executables extend it, not replace it',
               ].map(item => (
                 <p key={item} className={styles.isNotItem}>
                   <span className={styles.isNotCross} aria-hidden="true">✕</span> {item}
@@ -166,8 +168,8 @@ export default function AboutPage() {
                 count: '01',
               },
               {
-                label: 'AgentOBS + CostGuard™',
-                detail: 'Deploy AgentOBS for production observability — baseline behaviour, detect drift, enforce consent boundaries, and maintain an immutable audit trail. Activate CostGuard™ at Design time for pre-commitment infrastructure cost intelligence.',
+                label: 'SpanForge Platform + CostGuard™',
+                detail: 'Deploy SpanForge for production observability — baseline behaviour, detect drift, enforce consent boundaries, and maintain an immutable audit trail. Activate CostGuard™ for pre-commitment infrastructure cost intelligence — in development for AWS, GCP, and Azure.',
                 count: '02',
               },
               {

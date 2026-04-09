@@ -15,8 +15,8 @@ const TOOL_TYPES = [
   { count: '40+', label: 'Standards documents',        note: 'RFC-level templates and specifications' },
   { count: '5+',  label: 'Frameworks',                 note: 'Governance, methodology, and build standards' },
   { count: '6',   label: 'CI/CD pipeline templates',  note: 'Six-stage pipeline integrated into your build process' },
-  { count: '1',   label: 'AgentOBS platform',         note: 'Production observability for autonomous AI agents' },
-  { count: '1',   label: 'CostGuard™',                note: 'Design-time cost intelligence — live for AWS, GCP and Azure in development' },
+  { count: '1',   label: 'SpanForge Platform',       note: 'Production observability for autonomous AI agents — in development' },
+  { count: '1',   label: 'CostGuard™',               note: 'Design-time cost intelligence — in development for AWS, GCP, and Azure' },
 ]
 
 function PriorityPip({ count, label, color }) {

@@ -21,9 +21,12 @@ export default function ToolCard({ tool, locked = false, hideName = false }) {
 
   return (
     <div className={styles.card}>
-      <span className={`badge ${badgeClass[tool.type] || 'badge-doc'} ${styles.badge}`}>
-        {badgeLabel[tool.type] || tool.type}
-      </span>
+      <div className={styles.cardTopRow}>
+        <span className={`badge ${badgeClass[tool.type] || 'badge-doc'} ${styles.badge}`}>
+          {badgeLabel[tool.type] || tool.type}
+        </span>
+        <span className={styles.inBuildBadge}>In Build</span>
+      </div>
       {!hideName && (
         <h3 className={styles.name}>
           {tool.type === 'rust' ? <code>{tool.name}</code> : tool.name}

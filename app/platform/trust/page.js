@@ -5,7 +5,7 @@ import styles from '@/components/phasePage.module.css'
 export const metadata = {
   title: 'T.R.U.S.T. Framework — SpanForge',
   description:
-    'Five dimensions of responsible AI deployment — operationalised as technical controls across every phase of the SpanForge lifecycle.',
+    'T.R.U.S.T. is an open governance standard for responsible AI deployment. Five dimensions — Transparency, Responsibility, User Rights, Safety Guardrails, Traceability — operationalised as technical controls. SpanForge is the reference implementation.',
 }
 
 export default function TrustPage() {
@@ -23,12 +23,12 @@ export default function TrustPage() {
       {/* Hero */}
       <section className={styles.hero}>
         <div className="container">
-          <span className="eyebrow">Governance layer</span>
+          <span className="eyebrow">Open Governance Standard</span>
           <h1 className={styles.trustHeroH1}>The T.R.U.S.T. Framework</h1>
           <p className={styles.trustHeroSub}>
-            Every SpanForge-certified AI system satisfies five dimensions of responsible
-            deployment. The T.R.U.S.T. Framework converts AI ethics from a slide deck
-            into technical controls, compliance documentation, and audit-ready evidence.
+            T.R.U.S.T. is an open governance standard for responsible AI deployment — not
+            SpanForge IP. Any organisation can adopt it. SpanForge is the reference
+            implementation, built to make adoption production-ready with no additional overhead.
           </p>
         </div>
       </section>
@@ -74,8 +74,8 @@ export default function TrustPage() {
             reporting packs, all structured around the five T.R.U.S.T. dimensions.
           </p>
           <p className={styles.summaryPara}>
-            <strong>Scale phase (AgentOBS™)</strong> — technical enforcement of Traceability
-            (immutable audit trail), User Rights (consent boundary monitoring), and Safety
+            <strong>Scale phase (SpanForge)</strong> — technical enforcement of Traceability
+            (immutable HMAC-signed audit trail), User Rights (consent boundary monitoring), and Safety
             Guardrails (automated playbooks) in production. Neither Traceability nor cost
             accountability is left to human process alone.
           </p>
@@ -97,7 +97,7 @@ export default function TrustPage() {
             <p className={styles.thresholdText}>
               A SpanForge-certified AI system has completed the full five-phase lifecycle,
               passed all six Build gates, satisfied every T.R.U.S.T. dimension in the Govern
-              phase, and has AgentOBS active in production. Certification is self-attested by
+              phase, and has SpanForge active in production. Certification is self-attested by
               the named Gate Authority sponsor, supported by the complete audit trail of gate
               records, risk registers, and incident playbooks.
             </p>

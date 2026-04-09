@@ -2,9 +2,9 @@ import Link from 'next/link'
 import styles from '@/components/agentObsPage.module.css'
 
 export const metadata = {
-  title: 'Python SDK — AgentOBS — SpanForge',
+  title: 'SpanForge SDK — SpanForge',
   description:
-    'The reference implementation of the AGENTOBS standard. pip install agentobs — zero required dependencies, Python 3.9+, all 10 observability namespaces, CLI, and integrations for OpenAI, LangChain, LlamaIndex, CrewAI, and Datadog.',
+    'The reference implementation of the SPANFORGE standard. pip install agentobs — zero required dependencies, Python 3.9+, all 10 observability namespaces, CLI, and integrations for OpenAI, LangChain, LlamaIndex, CrewAI, and Datadog.',
 }
 
 const EXTRAS = [
@@ -72,16 +72,16 @@ export default function SdkPage() {
       {/* Breadcrumb */}
       <div className={styles.breadcrumb}>
         <div className="container">
-          <Link href="/agentobs" className={styles.breadcrumbLink}>AgentOBS</Link>
+          <Link href="/agentobs" className={styles.breadcrumbLink}>SpanForge Platform</Link>
           <span className={styles.breadcrumbSep} aria-hidden="true">/</span>
-          <span className={styles.breadcrumbCurrent}>Python SDK</span>
+          <span className={styles.breadcrumbCurrent}>SpanForge SDK</span>
         </div>
       </div>
 
       {/* Hero */}
       <section className={styles.hero}>
         <div className="container">
-          <span className={styles.heroLabel}>agentobs · Python 3.9+</span>
+          <span className={styles.heroLabel}>agentobs · Python 3.9+ · In Development</span>
           <h1 className={styles.h1}>
             The reference implementation.
           </h1>

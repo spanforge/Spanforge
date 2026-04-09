@@ -9,14 +9,14 @@ import styles from './page.module.css'
 export const metadata = {
   title: 'SpanForge — Where Enterprise AI Goes to Production',
   description:
-    'SpanForge is the AI lifecycle platform for enterprise teams — from deciding whether to build, to running confidently in production. Standards, frameworks, CLI tools, and AgentOBS observability across every phase.',
+    'SpanForge is the AI lifecycle platform for enterprise teams — from deciding whether to build, to running confidently in production. The T.R.U.S.T. Framework, Exit Gate System, CostGuard™, and production observability across every phase.',
 }
 
 const HERO_STATS = [
-  { value: '5',    label: 'Lifecycle phases'          },
-  { value: '102',  label: 'Tools & frameworks planned' },
-  { value: '85',   label: 'CLI utilities planned'     },
-  { value: '2',    label: 'Live products — AgentOBS + CostGuard™' },
+  { value: '5',    label: 'Lifecycle phases'                      },
+  { value: '102',  label: 'Tools & frameworks planned'             },
+  { value: '6',    label: 'Mandatory Build phase CI/CD gates'      },
+  { value: '2',    label: 'Products in build — SpanForge + CostGuard™' },
 ]
 
 const PROBLEM_STATS = [
@@ -67,8 +67,8 @@ export default function Home() {
           {/* Left: copy */}
           <div className={styles.heroLeft}>
             <span className={`eyebrow ${styles.heroEyebrow}`}>
-              <span className={styles.liveDot} aria-label="Live" />
-              AgentOBS and CostGuard™ are live
+              <span className={styles.liveDot} aria-label="In Build" />
+              SpanForge in build · CostGuard™ in development
             </span>
 
             <h1 id="hero-heading" className={styles.heroH1}>
@@ -91,7 +91,7 @@ export default function Home() {
                 Explore the Platform →
               </Link>
               <Link href="/agentobs" className="btn-ghost">
-                AgentOBS →
+                SpanForge Platform →
               </Link>
             </div>
 
@@ -128,18 +128,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── 2. AGENTOBS CALLOUT STRIP ───────────────────────── */}
-      <section className={styles.agentobsStrip} aria-label="AgentOBS announcement">
+      {/* ─── 2. SPANFORGE PRODUCT CALLOUT STRIP ───────────────── */}
+      <section className={styles.agentobsStrip} aria-label="SpanForge product announcement">
         <div className={`container ${styles.agentobsStripInner}`}>
           <div className={styles.agentobsStripLeft}>
-            <span className={styles.agentobsTag}>New</span>
+            <span className={styles.agentobsTag}>In Build</span>
             <p className={styles.agentobsStripText}>
-              <strong>AgentOBS</strong> — Production observability for autonomous AI agents.
-              Baseline. Detect. Enforce.
+              <strong>SpanForge</strong> — Production observability and governance for autonomous AI agents.
+              Baseline. Detect. Enforce. Audit.
             </p>
           </div>
           <Link href="/agentobs" className={`btn-ghost ${styles.agentobsStripCta}`}>
-            Learn more →
+            Explore SpanForge →
           </Link>
         </div>
       </section>
@@ -180,11 +180,11 @@ export default function Home() {
               phases: Discover, Design, Build, Govern, and Scale.
             </p>
             <p className={styles.whatIsCopy}>
-              Built around the <strong>T.R.U.S.T. Framework</strong> — five dimensions
-              that every production AI system must satisfy: Transparency, Responsibility,
-              User Rights, Safety Guardrails, and Traceability. AgentOBS delivers production
-              observability at Scale. CostGuard™ delivers pre-commitment cost intelligence
-              at Design — live now for AWS, with GCP and Azure in active development.
+              Built around the <strong>T.R.U.S.T. Framework</strong> — an open governance standard defining five dimensions
+              every production AI system must satisfy: Transparency, Responsibility,
+              User Rights, Safety Guardrails, and Traceability. SpanForge delivers production
+              observability and governance at the Scale phase. CostGuard™ delivers pre-commitment cost intelligence
+              at Design — in development for AWS, GCP, and Azure.
             </p>
             <Link href="/platform" className="btn-ghost" style={{ marginTop: '1.5rem', display: 'inline-flex' }}>
               Explore the five phases →
@@ -290,20 +290,20 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── 8. AGENTOBS FEATURE SECTION ───────────────────── */}
+      {/* ─── 8. SPANFORGE FEATURE SECTION ───────────────── */}
       <section className={styles.agentobsFeature} aria-labelledby="agentobs-heading">
         <div className={`container ${styles.agentobsFeatureGrid}`}>
           <div className={styles.agentobsLeft}>
-            <span className="eyebrow">AgentOBS</span>
+            <span className="eyebrow">SpanForge Platform</span>
             <h2 id="agentobs-heading" className={styles.agentobsH2}>
               Observability for AI agents<br />
               <span className={styles.agentobsRed}>that actually run in production.</span>
             </h2>
             <p className={styles.agentobsCopy}>
-              You can&rsquo;t govern what you can&rsquo;t see. AgentOBS instruments your
+              You can&rsquo;t govern what you can&rsquo;t see. SpanForge instruments your
               autonomous agents, establishes behavioural baselines, and raises the alarm
               the moment something drifts, violates consent, or breaches a confidence
-              threshold.
+              threshold — before regulators, users, or incident reports find it first.
             </p>
 
             <div className={styles.agentobsFeatures}>
@@ -319,7 +319,7 @@ export default function Home() {
             </div>
 
             <Link href="/agentobs" className="btn-primary" style={{ marginTop: '2rem', display: 'inline-flex' }}>
-              Learn about AgentOBS →
+              Explore SpanForge Platform →
             </Link>
           </div>
 
@@ -329,23 +329,59 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ─── 8b. STANDALONE EXECUTABLES ─────────────────── */}
+      <section className={styles.execSection} aria-labelledby="exec-heading">
+        <div className="container">
+          <span className="eyebrow">Distribution precedes revenue</span>
+          <h2 id="exec-heading" className={styles.execH2}>
+            One command. One gate.<br />
+            <span className={styles.execAccent}>No platform required.</span>
+          </h2>
+          <p className={styles.execSub}>
+            Each standalone executable implements one T.R.U.S.T. gate check and drops into
+            any CI/CD pipeline. Free, open-source, pip-installable or binary download.
+            No account. No platform dependency. The fastest way to start building governed AI.
+          </p>
+          <div className={styles.execGrid}>
+            {[
+              { cmd: 'spanforge-secrets',   gate: 'Gate 01 — Security',    desc: 'Scans prompts and training data for exposed secrets, API keys, and non-compliant PII before they enter the pipeline.' },
+              { cmd: 'spanforge-behaviour', gate: 'Gate 03 — Behaviour',   desc: 'Runs behaviour tests and hallucination scoring against your LLM. Catches regressions before they reach production.' },
+              { cmd: 'spanforge-policy',    gate: 'Gate 05 — Governance',  desc: 'Validates consent, enforces output policies, and tests prompt injection resistance on any OpenAI-compatible endpoint.' },
+              { cmd: 'spanforge-redteam',   gate: 'Adversarial Testing',   desc: 'Runs a known adversarial pattern library against your deployed AI system. Required for RAM-AI scores above 0.7.' },
+            ].map(item => (
+              <div key={item.cmd} className={styles.execCard}>
+                <div className={styles.execCardTop}>
+                  <span className={styles.execGateLabel}>{item.gate}</span>
+                </div>
+                <p className={styles.execCmd}>$ pip install {item.cmd}</p>
+                <p className={styles.execDesc}>{item.desc}</p>
+              </div>
+            ))}
+          </div>
+          <p className={styles.execNote}>
+            Each executable produces structured JSON output that maps directly to the T.R.U.S.T. Evaluation Scorecard.
+            The platform and certification are the destination. The executables are how you find it.
+          </p>
+        </div>
+      </section>
+
       {/* ─── 9. CLOSING CTA ──────────────────────────────── */}
       <section className={styles.waitlistCta} aria-labelledby="cta-heading">
         <div className={`container ${styles.waitlistInner}`}>
-          <span className="eyebrow">SpanForge products are live</span>
+          <span className="eyebrow">SpanForge — under active development</span>
           <h2 id="cta-heading" className={styles.waitlistH2}>
             Decide. Build. Trust.
           </h2>
           <p className={styles.waitlistSub}>
-            SpanForge is the AI lifecycle platform for enterprise teams. AgentOBS is
-            available today. CostGuard™ is live for AWS infrastructure cost estimation
-            and scenario comparison — the full suite of tools, frameworks, and standards
-            is in active development.
+            SpanForge is the AI lifecycle platform for enterprise teams. The SpanForge production
+            observability platform, CostGuard™ cost intelligence, and standalone T.R.U.S.T. gate
+            executables are all actively being built — sign up for early access or follow along as
+            we ship.
           </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginTop: '2rem' }}>
             <Link href="/contact" className="btn-primary">Request a Briefing →</Link>
             <Link href="/platform" className="btn-ghost">Explore the Platform →</Link>
-            <Link href="/agentobs" className="btn-ghost">Learn about AgentOBS →</Link>
+            <Link href="/agentobs" className="btn-ghost">SpanForge Platform →</Link>
           </div>
         </div>
       </section>

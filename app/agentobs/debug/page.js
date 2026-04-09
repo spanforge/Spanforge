@@ -2,9 +2,9 @@ import Link from 'next/link'
 import styles from '@/components/agentObsPage.module.css'
 
 export const metadata = {
-  title: 'AgentOBSDebug — AgentOBS — SpanForge',
+  title: 'SpanForge Debug — SpanForge',
   description:
-    'Developer tools for inspecting, replaying, and visualising AgentOBS traces. Timeline views, span trees, tool-call analysis, cost attribution, and trace diffing — via Python API and CLI.',
+    'Developer tools for inspecting, replaying, and visualising SpanForge traces. Timeline views, span trees, tool-call analysis, cost attribution, and trace diffing — via Python API and CLI.',
 }
 
 const API_FUNCTIONS = [
@@ -69,27 +69,27 @@ export default function DebugPage() {
       {/* Breadcrumb */}
       <div className={styles.breadcrumb}>
         <div className="container">
-          <Link href="/agentobs" className={styles.breadcrumbLink}>AgentOBS</Link>
+          <Link href="/agentobs" className={styles.breadcrumbLink}>SpanForge Platform</Link>
           <span className={styles.breadcrumbSep} aria-hidden="true">/</span>
-          <span className={styles.breadcrumbCurrent}>AgentOBSDebug</span>
+          <span className={styles.breadcrumbCurrent}>SpanForge Debug</span>
         </div>
       </div>
 
       {/* Hero */}
       <section className={styles.hero}>
         <div className="container">
-          <span className={styles.heroLabel}>agentobs-debug · Developer Tool · Python 3.10+</span>
+          <span className={styles.heroLabel}>agentobs-debug · Developer Tool · In Development</span>
           <h1 className={styles.h1}>
             See inside every agent run.
           </h1>
           <p className={styles.heroSub}>
-            AgentOBSDebug ships developer tools for inspecting, replaying, and
-            visualising AgentOBS traces. Span trees, execution timelines, tool-call
+            SpanForge Debug ships developer tools for inspecting, replaying, and
+            visualising SpanForge traces. Span trees, execution timelines, tool-call
             analysis, cost attribution, and side-by-side trace diffs — via a Python
             API or a single CLI command.
           </p>
           <div className={styles.heroCtas}>
-            <Link href="/agentobs/sdk" className="btn-primary">AgentOBS SDK →</Link>
+            <Link href="/agentobs/sdk" className="btn-primary">SpanForge SDK →</Link>
             <Link href="/agentobs/validate" className="btn-ghost">Validate events →</Link>
           </div>
         </div>
@@ -121,9 +121,9 @@ export default function DebugPage() {
             <span className="eyebrow">Quickstart · CLI</span>
             <h2 className={styles.sectionH2}>Start from the terminal.</h2>
             <p className={styles.sectionBody}>
-              All AgentOBSDebug functionality is accessible from the{' '}
+              All SpanForge Debug functionality is accessible from the{' '}
               <code className={styles.inlineCode}>agentobs-debug</code> CLI. Point it
-              at any JSONL file produced by the AgentOBS SDK.
+              at any JSONL file produced by the SpanForge SDK.
             </p>
             <div className={styles.codeBlock}>
               <div className={styles.codeBlockHeader}>
@@ -249,7 +249,7 @@ diff_traces(trace, "other-trace-id", stream=stream)`}</pre>
           <span className="eyebrow">Next steps</span>
           <h2 className={styles.ctaH2}>Confident events are compliant events.</h2>
           <p className={styles.ctaSub}>
-            Use AgentOBSValidate to enforce schema compliance in CI, catch drift at
+            Use SpanForge Validate to enforce schema compliance in CI, catch drift at
             build time, and verify HMAC chains before shipping.
           </p>
           <div className={styles.ctaBtns}>
