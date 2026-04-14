@@ -77,7 +77,7 @@ export default function Home() {
             </h1>
 
             <p className={styles.heroCopy}>
-              SpanForge is the AI compliance platform for solo developers, startups, SMBs,
+              SpanForge is the AI lifecycle platform for solo developers, startups, SMBs,
               and enterprises — from deciding whether to build, through architecture and
               engineering, to governance and scale. Every phase covered with the RFC-0001
               SpanForge standard, regulatory evidence generation, and cryptographic audit trails.
