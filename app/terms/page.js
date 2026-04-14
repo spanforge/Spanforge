@@ -4,7 +4,7 @@ import styles from './page.module.css'
 export const metadata = {
   title: 'Terms of Service — SpanForge',
   description:
-    'Terms of Service for SpanForge — the AI lifecycle platform for enterprise teams.',
+    'Terms of Service for SpanForge — the AI lifecycle platform for every team.',
 }
 
 const LAST_UPDATED = 'April 2026'
@@ -37,7 +37,7 @@ export default function TermsPage() {
             <h2 className={styles.h2}>2. Description of Service</h2>
             <p>
               SpanForge provides an AI lifecycle platform including standards, frameworks,
-              CLI tools, and the SpanForge compliance product for enterprise teams. The
+              CLI tools, and the SpanForge compliance product for every team. The
               Service is provided &ldquo;as is&rdquo; during the current build phase and
               specific features, tools, and availability are subject to change.
             </p>
@@ -94,7 +94,7 @@ export default function TermsPage() {
             </p>
             <p>
               SpanForge standards and frameworks are guidance documents. They do not
-              constitute legal or compliance advice. Enterprises remain responsible for
+              constitute legal or compliance advice. Users remain responsible for
               their own regulatory obligations.
             </p>
           </section>

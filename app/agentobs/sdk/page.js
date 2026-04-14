@@ -125,7 +125,7 @@ export default function SdkPage() {
                 <span className={styles.codeBlockLang}>bash</span>
               </div>
               <pre className={styles.codeBlockBody}>{`spanforge --version
-# spanforge 1.0.8 [spanforge-Enterprise-2.0]`}</pre>
+# spanforge 1.0.8 [spanforge-Full-2.0]`}</pre>
             </div>
 
             <h3 style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.95rem', fontWeight: 600, color: 'var(--light)', marginTop: '2.5rem', marginBottom: '0.75rem' }}>

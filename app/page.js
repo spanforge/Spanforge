@@ -9,7 +9,7 @@ import styles from './page.module.css'
 export const metadata = {
   title: 'SpanForge — The AI Compliance Platform',
   description:
-    'SpanForge is the AI compliance platform for enterprise teams — structured around RFC-0001 SpanForge. Five phases, cryptographic audit trails, and regulatory evidence for EU AI Act, GDPR, SOC 2, ISO 42001, and NIST AI RMF.',
+    'SpanForge is the AI compliance platform for every team — structured around RFC-0001 SpanForge. Five phases, cryptographic audit trails, and regulatory evidence for EU AI Act, GDPR, SOC 2, ISO 42001, and NIST AI RMF.',
 }
 
 const HERO_STATS = [
@@ -147,9 +147,9 @@ export default function Home() {
       {/* ─── 3. PROBLEM STRIP ───────────────────────────────── */}
       <section className={styles.problemStrip} aria-labelledby="problem-heading">
         <div className={`container ${styles.problemInner}`}>
-          <span className="eyebrow">The enterprise AI problem</span>
+          <span className="eyebrow">The AI production problem</span>
           <h2 id="problem-heading" className={styles.problemH2}>
-            Most enterprise AI never ships.
+            Most AI projects never ship.
           </h2>
           <p className={styles.problemSub}>
             The gap between a working prototype and a governed, auditable, production system
@@ -172,10 +172,10 @@ export default function Home() {
           <div className={styles.whatIsLeft}>
             <span className="eyebrow">What is SpanForge?</span>
             <h2 id="whatis-heading" className={styles.whatIsH2}>
-              The AI Lifecycle Platform<br />for enterprise teams.
+              The AI Lifecycle Platform<br />for every team.
             </h2>
             <p className={styles.whatIsCopy}>
-              SpanForge is the AI compliance platform for enterprise teams — from deciding
+              SpanForge is the AI compliance platform for every team — from deciding
               whether to build, to proving compliance in production. It covers all five
               phases: Discover, Design, Build, Govern, and Scale.
             </p>
@@ -374,7 +374,7 @@ export default function Home() {
             Comply. Prove. Scale.
           </h2>
           <p className={styles.waitlistSub}>
-            SpanForge is the AI compliance platform for enterprise teams. The SpanForge production
+            SpanForge is the AI compliance platform for every team. The SpanForge production
             compliance platform, RFC-0001 SpanForge standard, Cost Intelligence Layer, and
             standalone T.R.U.S.T. gate executables are all actively being built — sign up for
             early access or follow along as we ship.

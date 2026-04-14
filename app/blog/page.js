@@ -6,7 +6,7 @@ import styles from './page.module.css'
 export const metadata = {
   title: 'Blog — SpanForge',
   description:
-    'Research and analysis on enterprise AI delivery — governance, observability, production operations, and the real cost of cutting corners.',
+    'Research and analysis on AI delivery — governance, observability, production operations, and the real cost of cutting corners.',
 }
 
 export default async function BlogPage() {
@@ -20,7 +20,7 @@ export default async function BlogPage() {
         <div className="container">
           <span className="eyebrow">SpanForge Insights</span>
           <h1 className={styles.h1}>
-            Enterprise AI, honestly.
+            Production AI, honestly.
           </h1>
           <p className={styles.heroSub}>
             Research-grounded writing on the hard parts of production AI — governance,

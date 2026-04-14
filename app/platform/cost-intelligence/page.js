@@ -102,7 +102,7 @@ export default function CostIntelligencePage() {
             Cost governed at both ends of the lifecycle
           </h2>
           <p className={styles.summaryPara}>
-            Enterprise AI cost overruns happen at two distinct points. At Design time:
+            AI cost overruns happen at two distinct points. At Design time:
             infrastructure and model spend is committed without a cost estimate, and the first
             bill arrives after architecture decisions have already locked in. At production scale:
             token consumption accumulates across thousands of agent runs with no per-call

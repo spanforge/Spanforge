@@ -86,7 +86,7 @@ export default function ToolsPage() {
               <p className={styles.needDesc}>
                 The ainternals utility layer ships {NEED_TOTAL} Python CLI tools — zero external
                 dependencies — organised by the exact production gap each one
-                closes. Every tool targets a real failure mode in enterprise AI delivery.
+                closes. Every tool targets a real failure mode in AI delivery.
               </p>
             </div>
             <div className={styles.needLegend} aria-label="Priority key">

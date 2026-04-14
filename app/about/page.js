@@ -4,17 +4,17 @@ import styles from './page.module.css'
 export const metadata = {
   title: 'About SpanForge',
   description:
-    'SpanForge is being built to close the gap between an enterprise AI prototype and a governed, auditable, production system. Who we are and why we are building this.',
+    'SpanForge is being built to close the gap between an AI prototype and a governed, auditable, production system. Who we are and why we are building this.',
 }
 
 const VALUES = [
   {
     title: 'Build in the open.',
-    desc: 'The standards are public. The roadmap is public. The reasoning is visible. Enterprise AI needs more transparency, not less.',
+    desc: 'The standards are public. The roadmap is public. The reasoning is visible. AI needs more transparency, not less.',
   },
   {
     title: 'Opinionated by design.',
-    desc: 'SpanForge has a clear position on how enterprise AI should be built. We would rather be useful and direct than vague and universally palatable.',
+    desc: 'SpanForge has a clear position on how AI should be built. We would rather be useful and direct than vague and universally palatable.',
   },
   {
     title: 'Production is the point.',
@@ -37,7 +37,7 @@ export default function AboutPage() {
             Decide. Build. Trust.
           </h1>
           <p className={styles.heroSub}>
-            SpanForge was built because too many enterprise AI projects fail after the
+            SpanForge was built because too many AI projects fail after the
             prototype. Not because the AI was wrong — because the organisation, the
             process, and the tooling were not ready for production.
           </p>
@@ -60,7 +60,7 @@ export default function AboutPage() {
                 the process — is absent.
               </p>
               <p className={styles.missionCopy}>
-              SpanForge is the AI lifecycle platform for enterprise teams — from deciding
+              SpanForge is the AI lifecycle platform for every team — from deciding
               whether to build, to running confidently in production. It covers all five
               phases: Discover, Design, Build, Govern, and Scale.
               </p>
@@ -73,7 +73,7 @@ export default function AboutPage() {
               </p>
               <p className={styles.missionCopy}>
                 SpanForge answers those questions — with a structured lifecycle, governance
-                controls, and production compliance built for enterprise AI delivery.
+                controls, and production compliance built for AI delivery.
               </p>
             </div>
           </div>
@@ -193,7 +193,7 @@ export default function AboutPage() {
         <div className={`container ${styles.ctaInner}`}>
           <span className="eyebrow">Get in touch</span>
           <h2 id="contact-heading" className={styles.ctaH2}>
-            Ready to make enterprise AI production-ready?
+            Ready to make your AI production-ready?
           </h2>
           <p className={styles.ctaSub}>
             Whether you are starting from scratch or rescuing a project that never made it past

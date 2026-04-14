@@ -4,7 +4,7 @@ import styles from '@/components/phasePage.module.css'
 export const metadata = {
   title: 'Failure Funnel™ — SpanForge',
   description:
-    'Illustrative representation of where enterprise AI initiatives are typically lost across the lifecycle, based on publicly reported adoption data from S&P Global Market Intelligence (2025).',
+    'Illustrative representation of where AI initiatives are typically lost across the lifecycle, based on publicly reported adoption data from S&P Global Market Intelligence (2025).',
 }
 
 const stats = [
@@ -81,7 +81,7 @@ export default function FailureFunnelPage() {
           <span className="eyebrow">SpanForge Research</span>
           <h1 className={styles.frameworkHeroH1}>SpanForge Failure Funnel™</h1>
           <p className={styles.frameworkHeroSub}>
-            An illustrative representation of where enterprise AI initiatives are typically lost
+            An illustrative representation of where AI initiatives are typically lost
             across the lifecycle. Based on publicly reported adoption data from S&P Global Market
             Intelligence (2025). Specific drop-off rates at each stage are illustrative.
           </p>

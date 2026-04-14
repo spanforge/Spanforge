@@ -1,5 +1,5 @@
 ---
-title: "Why Enterprise AI Fails Before It Ships"
+title: "Why AI Projects Fail Before They Ship"
 date: "2026-02-24"
 phase: "govern"
 excerpt: "The failure is not in the model. It is in the missing operating system around it. Here are five root causes — and what the most current data actually shows."
@@ -11,7 +11,7 @@ author: "SpanForge"
 
 S&P Global Market Intelligence surveyed over 1,000 enterprises and found that 42% of companies abandoned the majority of their AI initiatives in 2025 — more than double the 17% recorded the year prior. McKinsey’s State of AI 2025 found that only 39% of organisations report any measurable enterprise-level AI business impact. Gartner predicted in 2024 that more than 30% of generative AI projects would be abandoned after proof of concept.
 
-Different methodologies, different populations, different years. The numbers converge around the same cold truth: **the majority of enterprise AI investment never produces operating value**.
+Different methodologies, different populations, different years. The numbers converge around the same cold truth: **the majority of AI investment never produces operating value**.
 
 This is not a technology failure. The models work. The engineering is real. The failure is organisational, methodological, and systemic.
 
@@ -31,7 +31,7 @@ In a regulated enterprise environment, this question has a specific legal meanin
 
 These are not compliance checkboxes. They are the conditions under which a deployment is lawful. When they are not addressed before build begins, the answer when you finally surface the question is: *"Stop the project until we have answers."*
 
-That stop — often six to twelve months into a build cycle — is where a large proportion of enterprise AI projects die.
+That stop — often six to twelve months into a build cycle — is where a large proportion of AI projects die.
 
 **The fix:** Governance is a Phase 0 activity, not a post-build review. Before the first design decision is made, accountability must be assigned, the regulatory framework must be clear, and the audit model must be designed.
 
@@ -43,7 +43,7 @@ Models drift. Not because anyone did anything wrong. Because the world changes, 
 
 Production observability for AI is not the same as application monitoring. A service that returns HTTP 200 can still be silently wrong. A model that is confidently producing outputs can be producing outputs that are increasingly incorrect. Standard infrastructure monitoring cannot see this. Only specialist AI observability tooling can.
 
-Most enterprise AI projects have no AI observability layer. They have application monitoring. They have error logging. They do not have the instrumentation to detect when a model's behaviour is drifting.
+Most AI projects have no AI observability layer. They have application monitoring. They have error logging. They do not have the instrumentation to detect when a model's behaviour is drifting.
 
 The practical consequence: by the time a problem is surfaced through user complaints or audit findings, it has typically been present for weeks or months. The data trail is fragmented. The investigation is difficult. The remediation is expensive.
 
@@ -57,7 +57,7 @@ This is the problem SpanForge is built to solve: continuous monitoring of AI age
 
 In traditional software engineering, there is a definition of done. Tests pass. Code review is complete. The security checklist is signed. The release process is followed.
 
-Enterprise AI projects frequently have no equivalent. The model performs well on a test set, and that is considered sufficient. There is no documented standard for what constitutes a production-ready AI artefact.
+AI projects frequently have no equivalent. The model performs well on a test set, and that is considered sufficient. There is no documented standard for what constitutes a production-ready AI artefact.
 
 This creates a dangerous ambiguity at the point of deployment decision. Without a formal quality gate, the deployment decision becomes entirely a matter of subjective judgment. When things go wrong — and in complex systems, things go wrong — there is no documented baseline to return to, no audit trail of what was assessed and approved.
 
@@ -87,7 +87,7 @@ GDPR's right to explanation. The EU AI Act's requirements for high-risk AI syste
 
 Black-box models can produce extraordinary outputs. They can also produce extraordinary liability. In regulated environments, a model that nobody can explain is a model that cannot be deployed — regardless of how well it performs on a test set.
 
-Enterprise AI teams frequently discover this late. The model is built. The performance is strong. Then explainability review finds that the model is fundamentally opaque, and the project either returns to design (expensive) or is abandoned (typical).
+AI teams frequently discover this late. The model is built. The performance is strong. Then explainability review finds that the model is fundamentally opaque, and the project either returns to design (expensive) or is abandoned (typical).
 
 **The fix:** Choose explainability-compatible architectures from the start. Design the explanation model before the prediction model. Test your explanations with the compliance and legal teams who will need to use them.
 
@@ -99,6 +99,6 @@ The teams that do get AI to production share common characteristics. They plan g
 
 These are disciplines. They are learnable. They become faster with practice, better tooling, and established standards.
 
-That is what SpanForge is building: the methodology, the tooling, and the standards to make these disciplines repeatable across every enterprise AI project.
+That is what SpanForge is building: the methodology, the tooling, and the standards to make these disciplines repeatable across every AI project.
 
 [Explore SpanForge](https://www.getspanforge.com) and see the complete AI delivery system.

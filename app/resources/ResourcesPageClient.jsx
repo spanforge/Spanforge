@@ -32,7 +32,7 @@ export default function ResourcesPageClient({ resources }) {
           </h1>
           <p className={styles.heroSub}>
             Whitepapers, mini books, research papers, and practical guides on
-            enterprise AI — governance, observability, production operations,
+            AI delivery — governance, observability, production operations,
             and the SpanForge platform.
           </p>
         </div>

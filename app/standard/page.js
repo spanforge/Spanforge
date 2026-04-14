@@ -54,7 +54,7 @@ const CONFORMANCE_PROFILES = [
     desc: 'Core plus PII redaction via llm.redact.* namespace before any event reaches a backend.',
   },
   {
-    name: 'spanforge-Enterprise-2.0',
+    name: 'spanforge-Full-2.0',
     desc: 'All four profiles combined. Export abstraction, governance primitives, and schema migration tooling included.',
   },
 ]
@@ -82,7 +82,7 @@ export default function StandardPage() {
             An open event-schema standard for observability of agentic AI systems.
             Defines a structured event envelope, 10 observability namespaces, HMAC
             audit chains, PII redaction, and four conformance profiles — from basic
-            AI spans to enterprise compliance.
+            AI spans to full compliance.
           </p>
           <div className={styles.heroCtas}>
             <Link href="/agentobs/sdk" className="btn-primary">SpanForge SDK →</Link>
@@ -237,7 +237,7 @@ spanforge audit-chain production-events.jsonl
           <h2 className={styles.sectionH2}>Four conformance profiles.</h2>
           <p className={styles.sectionBody} style={{ maxWidth: '680px' }}>
             SPANFORGE is designed for incremental adoption. Start with the Core profile and
-            layer in Security, Privacy, and Enterprise capabilities as your requirements grow.
+            layer in Security, Privacy, and Full-Suite capabilities as your requirements grow.
           </p>
           <div className={styles.cardsGrid}>
             {CONFORMANCE_PROFILES.map(p => (

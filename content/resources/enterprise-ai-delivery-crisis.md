@@ -1,22 +1,22 @@
 ---
-title: "The Enterprise AI Delivery Crisis"
+title: "The AI Delivery Crisis"
 date: "2026-04-04"
 type: "whitepaper"
-excerpt: "Enterprise AI investment is accelerating. Delivery is stalling. This whitepaper diagnoses why — and maps a path from perpetual pilots to systems that actually run in production."
+excerpt: "AI investment is accelerating. Delivery is stalling. This whitepaper diagnoses why — and maps a path from perpetual pilots to systems that actually run in production."
 author: "SpanForge"
 pageCount: "18 pages"
 downloadUrl: "/downloads/SpanForge_WhitePaper_The%20Enterprise%20AI%20Delivery%20Crisis.pdf"
 fileSize: "PDF"
-tags: ["enterprise", "AI delivery", "production readiness", "governance", "strategy"]
+tags: ["AI delivery", "production readiness", "governance", "strategy"]
 ---
 
 ## About This Whitepaper
 
 Boards are approving AI budgets. Engineering teams are shipping prototypes. And yet — production deployment rates remain stubbornly low, failure modes go undetected until they become incidents, and the gap between AI investment and AI return keeps widening.
 
-This is the Enterprise AI Delivery Crisis.
+This is the AI Delivery Crisis.
 
-*The Enterprise AI Delivery Crisis* is SpanForge's first whitepaper: a diagnostic of where enterprise AI delivery is breaking down, why conventional approaches to AI programme management are failing, and what organisations that are shipping AI reliably have in common.
+*The AI Delivery Crisis* is SpanForge's first whitepaper: a diagnostic of where AI delivery is breaking down, why conventional approaches to AI programme management are failing, and what organisations that are shipping AI reliably have in common.
 
 ---
 
@@ -38,7 +38,7 @@ These are not isolated failures. They are structural. And they are predictable.
 
 **The root causes** — why the delivery gap is widening despite growing investment, and why "moving faster" makes it worse rather than better.
 
-**The five failure patterns** — the recurring breakdowns in enterprise AI delivery, from prototype-to-production friction to governance debt, mapped against real outcomes.
+**The five failure patterns** — the recurring breakdowns in AI delivery, from prototype-to-production friction to governance debt, mapped against real outcomes.
 
 **The operating disciplines that close it** — what distinguishes the organisations that are delivering AI reliably: how they structure readiness gates, instrument observability from day one, and assign accountable ownership.
 
@@ -48,7 +48,7 @@ These are not isolated failures. They are structural. And they are predictable.
 
 ## Who This Is For
 
-This whitepaper is written for the executives, programme leads, and architects who are accountable for enterprise AI delivery outcomes. If you are responsible for getting AI from concept to production — and keeping it there — this paper is your diagnostic.
+This whitepaper is written for the executives, programme leads, and architects who are accountable for AI delivery outcomes. If you are responsible for getting AI from concept to production — and keeping it there — this paper is your diagnostic.
 
 ---
 

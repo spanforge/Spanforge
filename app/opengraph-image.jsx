@@ -80,7 +80,7 @@ export default async function Image() {
             marginBottom: '28px',
           }}
         >
-          Where Enterprise AI
+          Where AI
           <br />
           <span style={{ color: '#E63946' }}>Goes to Production.</span>
         </div>

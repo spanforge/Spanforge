@@ -4,14 +4,14 @@ import styles from './page.module.css'
 export const metadata = {
   title: 'Contact — SpanForge',
   description:
-    'Request a briefing, book a strategy conversation, or reach out to the SpanForge team about enterprise AI delivery, the SpanForge Platform, or the T.R.U.S.T. Framework.',
+    'Request a briefing, book a strategy conversation, or reach out to the SpanForge team about AI delivery, the SpanForge Platform, or the T.R.U.S.T. Framework.',
 }
 
 const ENGAGEMENT_PATHS = [
   {
     eyebrow: 'Advisory',
     title: 'Request a briefing',
-    desc: 'A structured 60-minute conversation for enterprise teams evaluating AI lifecycle governance, production readiness, or the T.R.U.S.T. Framework. No pitch. Focused on your context.',
+    desc: 'A structured 60-minute conversation for any team evaluating AI lifecycle governance, production readiness, or the T.R.U.S.T. Framework. No pitch. Focused on your context.',
     cta: 'Request via LinkedIn',
     href: 'https://www.linkedin.com/in/spanforge',
     external: true,
@@ -32,7 +32,7 @@ const WHAT_TO_EXPECT = [
   {
     num: '01',
     title: 'We read every message.',
-    desc: 'No automated responses. Every inbound enquiry from an enterprise organisation is read and considered by the team.',
+    desc: 'No automated responses. Every inbound enquiry is read and considered by the team.',
   },
   {
     num: '02',

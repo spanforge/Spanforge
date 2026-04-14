@@ -20,7 +20,7 @@ export default function PlatformPage() {
             <span className={styles.redAccent}>Cryptographic audit trail.</span>
           </h1>
           <p className={styles.heroSub}>
-            SpanForge is the AI compliance platform for enterprise teams — structured around
+            SpanForge is the AI compliance platform for every team — structured around
             RFC-0001 SpanForge, the open event-schema standard for AI governance. Each phase
             has defined compliance obligations, auditable exit gates, and evidence that satisfies
             EU AI Act, GDPR, SOC 2, ISO 42001, and NIST AI RMF.
@@ -128,7 +128,7 @@ export default function PlatformPage() {
               <span className={styles.frameworkCardLabel}>Research</span>
               <span className={styles.frameworkCardTitle}>Failure Funnel™</span>
               <p className={styles.frameworkCardDesc}>
-                Where enterprise AI initiatives are typically lost across the lifecycle, grounded
+                Where AI initiatives are typically lost across the lifecycle, grounded
                 in S&P Global, Gartner, and McKinsey research.
               </p>
               <span className={styles.frameworkCardArrow} aria-hidden="true">→</span>

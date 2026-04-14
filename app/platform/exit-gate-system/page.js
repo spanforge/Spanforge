@@ -4,7 +4,7 @@ import styles from '@/components/phasePage.module.css'
 export const metadata = {
   title: 'Exit Gate System™ — SpanForge',
   description:
-    'A formal, evidence-based lifecycle that replaces ambiguity with clarity at every stage of enterprise AI delivery. Defined stages, explicit transition criteria, and non-negotiable gate conditions.',
+    'A formal, evidence-based lifecycle that replaces ambiguity with clarity at every stage of AI delivery. Defined stages, explicit transition criteria, and non-negotiable gate conditions.',
 }
 
 const stages = [
@@ -118,7 +118,7 @@ export default function ExitGateSystemPage() {
         <div className={`container ${styles.contentInner}`}>
           <h2 id="problem-heading" className={styles.sectionH2}>The problem it solves</h2>
           <p className={styles.summaryPara}>
-            The fundamental failure of enterprise AI delivery is the absence of a shared, explicit
+            The fundamental failure of AI delivery is the absence of a shared, explicit
             contract between the AI team and the business about what conditions must be satisfied —
             and verified — before a pilot advances to the next stage. Without this contract,
             advancement decisions are political rather than evidential. Projects drift indefinitely,
@@ -286,7 +286,7 @@ export default function ExitGateSystemPage() {
           <p className={styles.sectionSub}>
             Adopting the SpanForge Exit Gate System™ requires three commitments, applied
             consistently. They are designed to directly address the governance gaps that the
-            research identifies as the primary causes of enterprise AI pilot failure.
+            research identifies as the primary causes of AI pilot failure.
           </p>
           <div className={styles.stepList}>
             {commitments.map((c) => (

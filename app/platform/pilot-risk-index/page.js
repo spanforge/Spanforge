@@ -83,7 +83,7 @@ export default function PilotRiskIndexPage() {
             The five failure modes are drawn from the governance, data, and lifecycle gaps
             consistently identified in S&P Global Market Intelligence (2025), Gartner (2024, 2025),
             and McKinsey &amp; Company (2025). They are not theoretical — they represent the actual
-            conditions under which the research shows enterprise AI pilots are abandoned.
+            conditions under which the research shows AI pilots are abandoned.
           </p>
           <div className={styles.insightBox}>
             <p className={styles.insightText}>
@@ -195,7 +195,7 @@ export default function PilotRiskIndexPage() {
           <p className={styles.summaryPara}>
             The five failure modes in the SpanForge Pilot Risk Index™ are not hypothetical.
             They are derived from the governance, data, and lifecycle gaps that three major
-            research surveys identify as the dominant causes of enterprise AI pilot failure.
+            research surveys identify as the dominant causes of AI pilot failure.
           </p>
           <p className={styles.summaryPara}>
             Gartner (2024) found that fewer than one in five pilot-phase projects had written,

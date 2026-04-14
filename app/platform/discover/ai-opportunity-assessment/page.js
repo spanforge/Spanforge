@@ -4,11 +4,11 @@ import styles from './page.module.css'
 export const metadata = {
   title: 'AI Opportunity Assessment v1.0 — Discover — SpanForge',
   description:
-    'The SpanForge AI Opportunity & Problem Qualification Assessment. A two-phase, 12-dimension enterprise governance artefact for qualifying AI initiatives before the first line of code is written.',
+    'The SpanForge AI Opportunity & Problem Qualification Assessment. A two-phase, 12-dimension governance artefact for qualifying AI initiatives before the first line of code is written.',
   openGraph: {
     title: 'SpanForge AI Opportunity & Problem Qualification Assessment v1.0',
     description:
-      'A two-phase, 12-dimension enterprise governance artefact for qualifying AI initiatives before the first line of code is written.',
+      'A two-phase, 12-dimension governance artefact for qualifying AI initiatives before the first line of code is written.',
     type: 'article',
     siteName: 'SpanForge',
   },
@@ -139,7 +139,7 @@ const jsonLd = {
   '@type': 'DigitalDocument',
   name: 'SpanForge AI Opportunity & Problem Qualification Assessment v1.0',
   description:
-    'A two-phase, 12-dimension enterprise governance artefact for qualifying AI initiatives before the first line of code is written. Aligned to the SpanForge Discover Framework.',
+    'A two-phase, 12-dimension governance artefact for qualifying AI initiatives before the first line of code is written. Aligned to the SpanForge Discover Framework.',
   version: '1.0',
   datePublished: '2026-04-01',
   author: {
@@ -183,7 +183,7 @@ export default function AIOpportunityAssessmentPage() {
         <div className="container">
           <div className={styles.heroBadges}>
             <span className={styles.phaseBadge}>Discover Phase · Gate 1 Pre-Qualification</span>
-            <span className={styles.typeBadge}>Enterprise Governance Artefact</span>
+            <span className={styles.typeBadge}>Governance Artefact</span>
             <span className={styles.versionBadge}>v1.0 · Discover Phase</span>
           </div>
 

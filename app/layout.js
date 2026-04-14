@@ -14,7 +14,7 @@ const ORG_JSONLD = {
   url: 'https://www.getspanforge.com',
   logo: 'https://www.getspanforge.com/logo.png',
   description:
-    'SpanForge is the AI lifecycle platform for enterprise teams — from deciding whether to build, to running confidently in production.',
+    'SpanForge is the AI lifecycle platform for every team — from deciding whether to build, to running confidently in production.',
   sameAs: [
     'https://www.linkedin.com/in/spanforge',
   ],
@@ -57,13 +57,13 @@ export const metadata = {
   metadataBase: new URL('https://www.getspanforge.com'),
   title: {
     template: '%s — SpanForge',
-    default: 'SpanForge — Where Enterprise AI Goes to Production',
+    default: 'SpanForge — Where AI Goes to Production',
   },
   description:
-    'SpanForge is the AI lifecycle platform for enterprise teams — from deciding whether to build, to running confidently in production. Standards, frameworks, CLI tools, and SpanForge production compliance across every phase.',
+    'SpanForge is the AI lifecycle platform for every team — from deciding whether to build, to running confidently in production. Standards, frameworks, CLI tools, and SpanForge production compliance across every phase.',
   keywords: [
     'AI lifecycle platform',
-    'enterprise AI',
+    'AI lifecycle platform',
     'AI governance',
     'LLM observability',
     'AI production',
@@ -80,7 +80,7 @@ export const metadata = {
     siteName: 'SpanForge',
     title: 'SpanForge — The AI Lifecycle Platform',
     description:
-      'Where enterprise AI goes to production. Discover. Design. Build. Govern. Scale.',
+      'Where AI goes to production. Discover. Design. Build. Govern. Scale.',
   },
   twitter: {
     card: 'summary_large_image',
