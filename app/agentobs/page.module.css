@@ -280,6 +280,10 @@
     position: static;
   }
 
+  .featuresGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .hiwSteps {
     grid-template-columns: repeat(2, 1fr);
   }
