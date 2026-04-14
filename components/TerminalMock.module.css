@@ -68,12 +68,14 @@
   padding: 1.5rem;
   min-height: 220px;
   color: #E2E8F0;
+  overflow-x: auto;
 }
 
 .line {
   font-size: 0.78rem;
   line-height: 1.7;
   white-space: pre;
+  display: block;
 }
 
 .lbl {
