@@ -9,11 +9,11 @@ records what was built and notes areas for future development.
 
 **Status:** ✅ Implemented in v0.1.0
 
-Exports the full AgentOBS event envelope as a JSON Schema (Draft 2020-12) document.
+Exports the full spanforge event envelope as a JSON Schema (Draft 2020-12) document.
 
 ```bash
-agentobs-validate --export-schema > agentobs-schema.json
-agentobs-validate --export-schema --schema-version 0.1
+spanforge-validate --export-schema > spanforge-schema.json
+spanforge-validate --export-schema --schema-version 0.1
 ```
 
 The schema covers all required and optional fields with types, regex patterns, and
@@ -27,15 +27,15 @@ IDE JSON validators.  Python SDK: `build_json_schema()` / `export_schema()`.
 **Status:** ✅ Implemented in v0.1.0
 
 Enables OpenTelemetry / W3C Trace Context compatibility: accepts camelCase
-field-name aliases in addition to AgentOBS snake_case names.
+field-name aliases in addition to spanforge snake_case names.
 
 ```bash
-agentobs-validate events.jsonl --otel
+spanforge-validate events.jsonl --otel
 ```
 
 Alias mapping:
 
-| OTel camelCase | AgentOBS snake_case |
+| OTel camelCase | spanforge snake_case |
 |----------------|---------------------|
 | `eventId`      | `event_id`          |
 | `eventType`    | `event_type`        |
@@ -55,7 +55,7 @@ Pins validation against a specific schema version.  The version appears in all
 output (human and JSON).  Supplying an unsupported version exits with code 2.
 
 ```bash
-agentobs-validate events.jsonl --schema-version 0.1
+spanforge-validate events.jsonl --schema-version 0.1
 ```
 
 Currently supported versions: **0.1**
@@ -73,7 +73,7 @@ every event that carries a `signature` block.  Events whose digest does not matc
 are rejected with `SIGNATURE_MISMATCH`.
 
 ```bash
-agentobs-validate events.jsonl --key-file signing.key
+spanforge-validate events.jsonl --key-file signing.key
 ```
 
 Canonical message: event dict without the `signature` key, serialised with
@@ -88,7 +88,7 @@ Python SDK: `ValidationContext(key_bytes=b"...")`.
 - Multi-version schema registry (v0.2+)
 - Plugin system for custom field validators
 - `--output-file` flag to write reports to disk without shell redirection
-- GitHub Action packaging (`uses: veerarag1973/AgentOBSValidate@v0.1`)
+- GitHub Action packaging (`uses: veerarag1973/SpanForgeValidate@v0.1`)
 
 These will be tracked in the GitHub issue tracker at
-<https://github.com/veerarag1973/AgentOBSValidate>.
+<https://github.com/veerarag1973/SpanForgeValidate>.

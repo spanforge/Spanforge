@@ -4,7 +4,7 @@ import styles from '@/components/agentObsPage.module.css'
 export const metadata = {
   title: 'SpanForge SDK — SpanForge',
   description:
-    'The reference implementation of the SPANFORGE standard. pip install agentobs — zero required dependencies, Python 3.9+, all 10 observability namespaces, CLI, and integrations for OpenAI, LangChain, LlamaIndex, CrewAI, and Datadog.',
+    'The reference implementation of the spanforge standard. pip install spanforge — zero required dependencies, Python 3.9+, all 15 compliance and governance namespaces, CLI, and integrations for OpenAI, LangChain, LlamaIndex, CrewAI, and Datadog.',
 }
 
 const EXTRAS = [
@@ -26,10 +26,13 @@ const CLI_COMMANDS = [
   { cmd: 'check-compat',    desc: 'Validate a batch of events against the v1.0 compatibility checklist (CHK-1 through CHK-5).' },
   { cmd: 'validate',        desc: 'Validate every event in a JSONL file against the published JSON Schema.' },
   { cmd: 'audit-chain',     desc: 'Verify HMAC-SHA256 signing chain integrity of events in a JSONL file.' },
+  { cmd: 'compliance',      desc: 'Generate HMAC-signed compliance evidence packages mapped to EU AI Act, GDPR, SOC 2, ISO 42001, and NIST AI RMF.' },
+  { cmd: 'audit',           desc: 'Audit chain management: erase, rotate-key, check-health, verify.' },
+  { cmd: 'scan',            desc: 'Scan a JSONL file for PII using built-in regex detectors.' },
   { cmd: 'inspect',         desc: 'Pretty-print a single event by event_id from a JSONL file.' },
   { cmd: 'stats',           desc: 'Print event-type counts, trace count, and time range for a JSONL file.' },
-  { cmd: 'list-deprecated', desc: 'Print all deprecated event types from the global deprecation registry.' },
-  { cmd: 'migration-roadmap', desc: 'Print the planned v1 → v2 migration roadmap.' },
+  { cmd: 'report',          desc: 'Generate a static HTML trace report from a JSONL events file.' },
+  { cmd: 'serve',           desc: 'Start a local HTTP trace viewer at /traces (default port 8888).' },
   { cmd: 'check-consumers', desc: 'Assert all registered consumers are compatible with the installed schema.' },
 ]
 
@@ -57,12 +60,12 @@ const INTEGRATIONS = [
   {
     label: 'Datadog',
     extra: '[datadog]',
-    desc: 'Export agentobs span events as custom Datadog APM spans. Compatible with the Datadog Agent and the dd-trace-py client.',
+    desc: 'Export spanforge span events as custom Datadog APM spans. Compatible with the Datadog Agent and the dd-trace-py client.',
   },
   {
     label: 'OpenTelemetry',
     extra: '[otel]',
-    desc: 'Full OTLP bridge. Converts agentobs span events to OpenTelemetry proto-compatible dicts and exports via gRPC or HTTP. Works with any OTEL-compatible backend.',
+    desc: 'Full OTLP bridge. Converts spanforge span events to OpenTelemetry proto-compatible dicts and exports via gRPC or HTTP. Works with any OTEL-compatible backend.',
   },
 ]
 
@@ -81,18 +84,18 @@ export default function SdkPage() {
       {/* Hero */}
       <section className={styles.hero}>
         <div className="container">
-          <span className={styles.heroLabel}>agentobs · Python 3.9+ · In Development</span>
+          <span className={styles.heroLabel}>spanforge · Python 3.9+ · In Development</span>
           <h1 className={styles.h1}>
             The reference implementation.
           </h1>
           <p className={styles.heroSub}>
-            <code className={styles.inlineCode}>pip install agentobs</code> — zero required
-            dependencies, all 10 AGENTOBS namespaces, a full CLI, and integrations for
+            <code className={styles.inlineCode}>pip install spanforge</code> — zero required
+            dependencies, all 15 spanforge namespaces, a full CLI, and integrations for
             OpenAI, LangChain, LlamaIndex, CrewAI, and Datadog.
           </p>
           <div className={styles.heroCtas}>
             <Link href="/agentobs/debug" className="btn-primary">Debug tooling →</Link>
-            <Link href="/agentobs/standard" className="btn-ghost">Read the standard →</Link>
+            <Link href="/standard" className="btn-ghost">Read the standard →</Link>
           </div>
         </div>
       </section>
@@ -110,7 +113,7 @@ export default function SdkPage() {
 
             <div className={styles.installBlock}>
               <span className={styles.installCmd}>
-                <span>pip install</span> agentobs
+                <span>pip install</span> spanforge
               </span>
             </div>
 
@@ -121,8 +124,8 @@ export default function SdkPage() {
               <div className={styles.codeBlockHeader}>
                 <span className={styles.codeBlockLang}>bash</span>
               </div>
-              <pre className={styles.codeBlockBody}>{`agentobs --version
-# agentobs 1.0.8 [AGENTOBS-Enterprise-2.0]`}</pre>
+              <pre className={styles.codeBlockBody}>{`spanforge --version
+# spanforge 1.0.8 [spanforge-Enterprise-2.0]`}</pre>
             </div>
 
             <h3 style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.95rem', fontWeight: 600, color: 'var(--light)', marginTop: '2.5rem', marginBottom: '0.75rem' }}>
@@ -136,7 +139,7 @@ export default function SdkPage() {
                 <tbody>
                   {EXTRAS.map(e => (
                     <tr key={e.extra}>
-                      <td>agentobs{e.extra}</td>
+                      <td>spanforge{e.extra}</td>
                       <td>{e.desc}</td>
                     </tr>
                   ))}
@@ -154,7 +157,7 @@ export default function SdkPage() {
             <span className="eyebrow">Quickstart</span>
             <h2 className={styles.sectionH2}>Your first event.</h2>
             <p className={styles.sectionBody}>
-              Every event in the AGENTOBS standard is an{' '}
+              Every event in the spanforge standard is an{' '}
               <code className={styles.inlineCode}>Event</code> object with three required
               arguments: <code className={styles.inlineCode}>event_type</code>,{' '}
               <code className={styles.inlineCode}>source</code>, and{' '}
@@ -165,11 +168,11 @@ export default function SdkPage() {
               <div className={styles.codeBlockHeader}>
                 <span className={styles.codeBlockLang}>python</span>
               </div>
-              <pre className={styles.codeBlockBody}>{`from agentobs import Event
+              <pre className={styles.codeBlockBody}>{`from spanforge import Event, EventType
 
 # Minimal event
 event = Event(
-    event_type="llm.trace.span",
+    event_type=EventType.TRACE_SPAN_COMPLETED,
     source="my-service@0.1.0",
     payload={"span_name": "summarise", "status": "ok"},
 )
@@ -191,25 +194,25 @@ print(event.trace_id)    # W3C-compatible 128-bit hex`}</pre>
               <div className={styles.codeBlockHeader}>
                 <span className={styles.codeBlockLang}>python</span>
               </div>
-              <pre className={styles.codeBlockBody}>{`from agentobs import Event
-from agentobs.namespaces.trace import SpanPayload, TokenUsage, ModelInfo
+              <pre className={styles.codeBlockBody}>{`from spanforge import Event, EventType
+from spanforge.namespaces.trace import SpanPayload, TokenUsage, ModelInfo, GenAISystem
 
 event = Event(
-    event_type="llm.trace.span",
+    event_type=EventType.TRACE_SPAN_COMPLETED,
     source="spanforge@1.0.0",
     payload=SpanPayload(
         span_name="summarise_document",
         span_kind="LLM",
         status="ok",
         duration_ms=830,
-        token_usage=TokenUsage(prompt=411, completion=128, total=539),
-        model_info=ModelInfo(provider="openai", model="gpt-4o"),
-    ),
+        token_usage=TokenUsage(input_tokens=411, output_tokens=128, total_tokens=539),
+        model_info=ModelInfo(system=GenAISystem.OPENAI, name="gpt-4o"),
+    ).to_dict(),
     tags=["prod", "summarisation"],
 )
 
 # Export to OTLP
-from agentobs.export import OTLPExporter
+from spanforge.export import OTLPExporter
 exporter = OTLPExporter(endpoint="http://localhost:4317")
 exporter.export(event)`}</pre>
             </div>
@@ -223,14 +226,14 @@ exporter.export(event)`}</pre>
           <span className="eyebrow">Integrations</span>
           <h2 className={styles.sectionH2}>Works with your existing stack.</h2>
           <p className={styles.sectionBody} style={{ maxWidth: '680px' }}>
-            Install the relevant extra and add one line of code. AGENTOBS events are
-            emitted automatically — you retain full visibility without rewriting your
-            instrumentation.
+            Install the relevant extra and add one line of code. spanforge events are
+            emitted automatically — you retain full compliance instrumentation without rewriting your
+            existing code.
           </p>
           <div className={styles.cardsGrid}>
             {INTEGRATIONS.map(i => (
               <div key={i.label} className={styles.card}>
-                <span className={styles.cardLabel}>{i.label} · agentobs{i.extra}</span>
+                <span className={styles.cardLabel}>{i.label} · spanforge{i.extra}</span>
                 <h3 className={styles.cardTitle}>{i.label}</h3>
                 <p className={styles.cardDesc}>{i.desc}</p>
               </div>
@@ -245,14 +248,14 @@ exporter.export(event)`}</pre>
           <span className="eyebrow">Command-line interface</span>
           <h2 className={styles.sectionH2}>Operational tooling included.</h2>
           <p className={styles.sectionBody} style={{ maxWidth: '680px' }}>
-            The <code className={styles.inlineCode}>agentobs</code> CLI is installed
+            The <code className={styles.inlineCode}>spanforge</code> CLI is installed
             automatically with the SDK. Use it for health checks, schema validation,
-            audit-chain verification, and migration tooling.
+            audit-chain verification, compliance evidence generation, and PII scanning.
           </p>
           <div className={styles.cliList}>
             {CLI_COMMANDS.map(c => (
               <div key={c.cmd} className={styles.cliRow}>
-                <span className={styles.cliCmd}>agentobs {c.cmd}</span>
+                <span className={styles.cliCmd}>spanforge {c.cmd}</span>
                 <span className={styles.cliCmdDesc}>{c.desc}</span>
               </div>
             ))}
@@ -263,7 +266,7 @@ exporter.export(event)`}</pre>
               <span className={styles.codeBlockLang}>bash</span>
             </div>
             <pre className={styles.codeBlockBody}>{`# End-to-end health check
-agentobs check
+spanforge check
 # [1/5] Config ............. OK
 # [2/5] Event creation ..... OK
 # [3/5] Schema validation .. OK
@@ -272,10 +275,13 @@ agentobs check
 # All checks passed.
 
 # Validate a JSONL event stream
-agentobs validate production-events.jsonl
+spanforge validate production-events.jsonl
 
-# Lint your instrumentation code
-python -m agentobs.lint src/`}</pre>
+# Scan for PII before export
+spanforge scan production-events.jsonl
+
+# Generate compliance evidence package
+spanforge compliance production-events.jsonl --framework eu-ai-act`}</pre>
           </div>
         </div>
       </section>
@@ -316,12 +322,12 @@ python -m agentobs.lint src/`}</pre>
           <span className="eyebrow">Next steps</span>
           <h2 className={styles.ctaH2}>Inspect. Validate. Ship.</h2>
           <p className={styles.ctaSub}>
-            Use AgentOBSDebug to inspect and replay traces, and AgentOBSValidate to
+            Use SpanForge Debug to inspect and replay compliance traces, and SpanForge Validate to
             enforce schema compliance in your CI pipeline.
           </p>
           <div className={styles.ctaBtns}>
-            <Link href="/agentobs/debug" className="btn-primary">AgentOBSDebug →</Link>
-            <Link href="/agentobs/validate" className="btn-ghost">AgentOBSValidate →</Link>
+            <Link href="/agentobs/debug" className="btn-primary">SpanForge Debug →</Link>
+            <Link href="/agentobs/validate" className="btn-ghost">SpanForge Validate →</Link>
           </div>
         </div>
       </section>
@@ -329,8 +335,8 @@ python -m agentobs.lint src/`}</pre>
       {/* Page nav */}
       <div className={styles.pageNav}>
         <div className={`container ${styles.pageNavInner}`}>
-          <Link href="/agentobs/standard" className={styles.pageNavLink}>← RFC-0001 Standard</Link>
-          <Link href="/agentobs/debug" className={styles.pageNavLink}>AgentOBSDebug →</Link>
+          <Link href="/standard" className={styles.pageNavLink}>← RFC-0001 Standard</Link>
+          <Link href="/agentobs/debug" className={styles.pageNavLink}>SpanForge Debug →</Link>
         </div>
       </div>
     </>

@@ -7,7 +7,7 @@
 
 ## Executive Summary
 
-The current site is a **Vite + React SPA** built around AgentOBS SDK documentation and sub-product pages. The rewrite replaces it entirely with a **Next.js 14 (App Router)** multi-page site that repositions SpanForge as the **AI Lifecycle Platform** — 5 phases, 100+ artifacts, the T.R.U.S.T. Framework, a Rust CLI toolset, and AgentOBS as the Scale-phase flagship. The existing docs content (AgentOBS, LlmDiff, Standard, etc.) is **superseded** by the new platform narrative and is not carried forward.
+The current site is a **Vite + React SPA** built around spanforge SDK documentation and sub-product pages. The rewrite replaces it entirely with a **Next.js 14 (App Router)** multi-page site that repositions SpanForge as the **AI Lifecycle Platform** — 5 phases, 100+ artifacts, the T.R.U.S.T. Framework, a Rust CLI toolset, and spanforge as the Scale-phase flagship. The existing docs content (spanforge, LlmDiff, Standard, etc.) is **superseded** by the new platform narrative and is not carried forward.
 
 ---
 
@@ -43,10 +43,10 @@ The following directories/files are **superseded** by the rewrite and should be 
 - `src/components/` — all existing components  
 - `src/data/` — existing data files
 - `src/hooks/` — existing hooks
-- `AgentOBS/`, `AgentOBSDebug/`, `AgentOBSValidate/`, `llm-toolkit-schema/`, `llmdiff/`, `Standard/`, `tutorials/` — raw markdown doc trees (not needed; new site does not render SDK docs)
+- `spanforge/`, `SpanForgeDebug/`, `SpanForgeValidate/`, `llm-toolkit-schema/`, `llmdiff/`, `Standard/`, `tutorials/` — raw markdown doc trees (not needed; new site does not render SDK docs)
 - `vite.config.js`, `src/main.jsx`, `src/App.jsx`, `src/index.css` — replaced by Next.js equivalents
 
-> **Note**: The `AgentOBS/schemas/` directory may be needed by backend — check with founder before deleting.
+> **Note**: The `spanforge/schemas/` directory may be needed by backend — check with founder before deleting.
 
 ---
 
@@ -81,8 +81,8 @@ npm install @mailchimp/mailchimp_marketing   # if Mailchimp
 │   ├── page.js             ← / (Home)
 │   ├── platform/
 │   │   └── page.js         ← /platform
-│   ├── agentobs/
-│   │   └── page.js         ← /agentobs
+│   ├── spanforge/
+│   │   └── page.js         ← /spanforge
 │   ├── tools/
 │   │   └── page.js         ← /tools
 │   ├── pricing/
@@ -106,7 +106,7 @@ npm install @mailchimp/mailchimp_marketing   # if Mailchimp
 │   ├── ToolCard.jsx        ← Tool card component (reused on Home + /tools)
 │   ├── PhaseRow.jsx        ← Lifecycle phase row component
 │   ├── TrustCard.jsx       ← T.R.U.S.T. Framework card
-│   ├── TerminalMock.jsx    ← AgentOBS terminal demo
+│   ├── TerminalMock.jsx    ← spanforge terminal demo
 │   ├── WaitlistForm.jsx    ← Email capture form (client component)
 │   ├── PriceCard.jsx       ← Pricing tier card
 │   └── BlogCard.jsx        ← Blog index card
@@ -261,7 +261,7 @@ Scroll reveal: `IntersectionObserver` threshold 0.1, `translateY(16px) → 0`, o
 - Background: `rgba(17,19,24,0.92)` + `backdrop-filter: blur(12px)` after 80px scroll (use `scroll` event listener)
 - Border-bottom `1px solid --rule` appears on scroll
 - Logo: `<Link href="/">` — "Span" in `--white` bold, "Forge" in `--red` bold, Playfair 1.35rem 700. Sub-label "AI Lifecycle Platform" DM Mono 0.6rem `--mid` on desktop only
-- Centre links (hidden <900px): Platform (dropdown), AgentOBS, Tools, Pricing, About, Blog
+- Centre links (hidden <900px): Platform (dropdown), spanforge, Tools, Pricing, About, Blog
 - Platform dropdown: hover on desktop / tap on mobile. 7 links with phase colour pips. Routes to `/platform` and `/platform#[phase]`
 - Right: "Get Early Access" btn-primary → `/early-access` + hamburger below 900px
 - Mobile overlay: full viewport, `--charcoal` bg, all links stacked, CTA at bottom, close button top-right
@@ -329,7 +329,7 @@ The most complex page. Build sections in order:
 - CTA row: "Get Early Access" (btn-primary → /early-access) + "Explore the Platform" (btn-ghost → /platform)
 - Right col hero card (desktop only): lifecycle stats, 5-phase list, artifact counts
 
-**5.2 AgentOBS callout strip** — `--charcoal` bg, flex row, bridges old→new positioning
+**5.2 spanforge callout strip** — `--charcoal` bg, flex row, bridges old→new positioning
 
 **5.3 Problem strip** — centred pull quote + 3-stat grid (73% / 0 / 4mo)
 
@@ -341,7 +341,7 @@ The most complex page. Build sections in order:
 
 **5.7 CI/CD pipeline section** — 6-stage table (SECURITY → QUALITY → BEHAVIOUR → PERFORMANCE → GOVERNANCE → DEPLOY)
 
-**5.8 AgentOBS feature section** — 2-col, 6 features, `TerminalMock` right column
+**5.8 spanforge feature section** — 2-col, 6 features, `TerminalMock` right column
 
 **5.9 Pricing section** — `--charcoal` bg, 4-col pricing cards preview, link to /pricing
 
@@ -361,9 +361,9 @@ The most complex page. Build sections in order:
 
 ---
 
-### Page 3: AgentOBS (`/agentobs`) — Section 7
+### Page 3: spanforge (`/spanforge`) — Section 7
 - Hero with pill badge "Part of the SpanForge AI Lifecycle Platform"
-- Observability gap 2-col (Without AgentOBS / With AgentOBS)
+- Observability gap 2-col (Without spanforge / With spanforge)
 - 2×3 feature card grid
 - Terminal demo with 3 tab scenarios (Consent violation / Drift detected / Confidence breach)
 - Industry use cases table
@@ -473,7 +473,7 @@ export const metadata = {
 
 ### 7.2 Structured data
 - `Organization` schema on all pages (in root layout)
-- `SoftwareApplication` schema on `/agentobs`
+- `SoftwareApplication` schema on `/spanforge`
 - `BlogPosting` schema on `/blog/[slug]`
 
 ### 7.3 Sitemap
@@ -510,7 +510,7 @@ All 10 titles are defined in the spec (Section 12.2). Write or expand from Linke
 4. The Data Readiness Lie — 800w
 5. Introducing the T.R.U.S.T. Framework — 1,000w
 6. The White Space in Enterprise AI Tooling — 900w
-7. AgentOBS: Why Behavioural Observability Matters — 1,100w
+7. spanforge: Why Behavioural Observability Matters — 1,100w
 8. Why SpanForge Will Be $49/Month — 700w
 9. Why I Am Building SpanForge — 900w
 10. Day One: Development Starts — 600w
@@ -542,7 +542,7 @@ All 10 titles are defined in the spec (Section 12.2). Write or expand from Linke
 - [ ] All interactive elements keyboard-navigable with visible focus states
 - [ ] Form inputs have visible labels or `aria-label`
 - [ ] `prefers-reduced-motion` disables all transforms, keeps opacity fades
-- [ ] Terminal mock: `role="region" aria-label="AgentOBS live monitoring example"`
+- [ ] Terminal mock: `role="region" aria-label="spanforge live monitoring example"`
 - [ ] Navigation landmarks: `<nav>`, `<main>`, `<footer>` with `id` attributes
 - [ ] Skip-to-content link at top of every page (visually hidden until focused)
 - [ ] Blog heading hierarchy: H1 > H2 > H3, no skipped levels
@@ -594,21 +594,21 @@ NEXT_PUBLIC_PLAUSIBLE_DOMAIN=getspanforge.com
 
 ### Sprint 2 — Home Page (Days 3–4)
 - [ ] Hero section (all 10 sub-components)
-- [ ] AgentOBS callout strip
+- [ ] spanforge callout strip
 - [ ] Problem strip with stats
 - [ ] "What is SpanForge" section + T.R.U.S.T. card
 - [ ] ToolCard component
 - [ ] Lifecycle phase rows
 - [ ] Tools preview grid with filter tabs
 - [ ] CI/CD pipeline section
-- [ ] AgentOBS feature section + TerminalMock
+- [ ] spanforge feature section + TerminalMock
 - [ ] Pricing preview strip
 - [ ] Waitlist CTA section + WaitlistForm component
 - [ ] API route `/api/waitlist`
 
 ### Sprint 3 — Core Pages (Days 5–7)
 - [ ] `/platform` — full 5-phase lifecycle with sticky nav and all artifact tables
-- [ ] `/agentobs` — product page with terminal demo tabs, industry use cases, tech spec
+- [ ] `/spanforge` — product page with terminal demo tabs, industry use cases, tech spec
 - [ ] `/tools` — filterable full catalog with client-side filter and search
 - [ ] `/pricing` — 4-tier grid + features table + FAQ
 
@@ -694,9 +694,9 @@ NEXT_PUBLIC_PLAUSIBLE_DOMAIN=getspanforge.com
 Once Next.js scaffold is in place, remove:
 ```
 src/                          (entire directory)
-AgentOBS/                     (confirm with founder first)
-AgentOBSDebug/
-AgentOBSValidate/
+spanforge/                     (confirm with founder first)
+SpanForgeDebug/
+SpanForgeValidate/
 llm-toolkit-schema/
 llmdiff/
 Standard/

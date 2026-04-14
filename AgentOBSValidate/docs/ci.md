@@ -1,6 +1,6 @@
 # CI Integration Guide
 
-`agentobs-validate` is designed as a **drop-in CI gate** — its exit code contract maps directly to `pass`/`fail` in every major CI system.
+`spanforge-validate` is designed as a **drop-in CI gate** — its exit code contract maps directly to `pass`/`fail` in every major CI system.
 
 ---
 
@@ -18,12 +18,12 @@
 ## GitHub Actions
 
 ```yaml
-- name: Validate AgentOBS events
-  run: agentobs-validate events.jsonl
+- name: Validate spanforge events
+  run: spanforge-validate events.jsonl
 
 # For machine-parseable output in CI logs:
 - name: Validate (JSON output)
-  run: agentobs-validate events.jsonl --json | tee validation-report.json
+  run: spanforge-validate events.jsonl --json | tee validation-report.json
 ```
 
 Full workflow template: [`.github/workflows/validate.yml`](../.github/workflows/validate.yml)
@@ -36,8 +36,8 @@ Full workflow template: [`.github/workflows/validate.yml`](../.github/workflows/
 validate-events:
   image: python:3.11-slim
   script:
-    - pip install agentobs-validate
-    - agentobs-validate events.jsonl
+    - pip install spanforge-validate
+    - spanforge-validate events.jsonl
   artifacts:
     when: on_failure
     paths:
@@ -57,10 +57,10 @@ jobs:
       - checkout
       - run:
           name: Install validator
-          command: pip install agentobs-validate
+          command: pip install spanforge-validate
       - run:
           name: Validate events
-          command: agentobs-validate events.jsonl
+          command: spanforge-validate events.jsonl
 ```
 
 ---
@@ -70,7 +70,7 @@ jobs:
 Use `--json` to get a structured report suitable for downstream processing:
 
 ```bash
-agentobs-validate events.jsonl --json > report.json
+spanforge-validate events.jsonl --json > report.json
 python - <<'EOF'
 import json, sys
 r = json.load(open("report.json"))
@@ -90,7 +90,7 @@ EOF
 Currently it behaves identically to normal mode — exit `0` on all-valid, exit `1` on any failure.
 
 ```bash
-agentobs-validate events.jsonl --strict
+spanforge-validate events.jsonl --strict
 ```
 
 ---
@@ -100,13 +100,13 @@ agentobs-validate events.jsonl --strict
 For reproducible CI, pin the package version in your `requirements.txt`:
 
 ```
-agentobs-validate==0.1.0
+spanforge-validate==0.1.0
 ```
 
 Or with pip extras for development:
 
 ```bash
-pip install "agentobs-validate[dev]==0.1.0"
+pip install "spanforge-validate[dev]==0.1.0"
 ```
 
 ---

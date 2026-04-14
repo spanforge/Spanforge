@@ -7,7 +7,7 @@ import styles from './page.module.css'
 const ALL_TYPES = [
   { id: 'all',     label: 'All' },
   { id: 'webapp',  label: 'Web Apps' },
-  { id: 'rust',    label: 'Rust CLI' },
+  { id: 'python',  label: 'Python CLI' },
   { id: 'doc',     label: 'Documents' },
   { id: 'fw',      label: 'Frameworks' },
   { id: 'product', label: 'Products' },

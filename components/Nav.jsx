@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useSession, signOut } from 'next-auth/react'
 import styles from './Nav.module.css'
 
 const phaseLinks = [
@@ -15,10 +14,10 @@ const phaseLinks = [
 ]
 
 const agentObsLinks = [
-  { id: 'overview',  label: 'SpanForge Platform',           sub: 'Production observability',    href: '/agentobs' },
-  { id: 'standard',  label: 'RFC-0001 SPANFORGE',           sub: 'Open event-schema spec',       href: '/agentobs/standard' },
-  { id: 'sdk',       label: 'SpanForge SDK',                sub: 'pip install agentobs',         href: '/agentobs/sdk' },
-  { id: 'debug',     label: 'SpanForge Debug',              sub: 'Inspect & replay traces',      href: '/agentobs/debug' },
+  { id: 'overview',  label: 'SpanForge Platform',           sub: 'AI compliance & governance',   href: '/agentobs' },
+  { id: 'standard',  label: 'RFC-0001 SPANFORGE',           sub: 'Compliance event-schema spec', href: '/standard' },
+  { id: 'sdk',       label: 'SpanForge SDK',                sub: 'pip install spanforge',        href: '/agentobs/sdk' },
+  { id: 'debug',     label: 'SpanForge Debug',              sub: 'Inspect compliance traces',    href: '/agentobs/debug' },
   { id: 'validate',  label: 'SpanForge Validate',           sub: 'Schema compliance in CI',      href: '/agentobs/validate' },
 ]
 
@@ -56,7 +55,7 @@ export default function Nav() {
     return () => document.removeEventListener('mousedown', handler)
   }, [])
 
-  // Close AgentOBS dropdown on outside click
+  // Close SpanForge dropdown on outside click
   useEffect(() => {
     const handler = (e) => {
       if (agentObsRef.current && !agentObsRef.current.contains(e.target)) {
@@ -87,7 +86,6 @@ export default function Nav() {
     return () => { document.body.style.overflow = '' }
   }, [mobileOpen])
 
-  const { data: session } = useSession()
   const isActive = (href) => pathname === href || pathname.startsWith(href + '/')
 
   return (
@@ -167,7 +165,7 @@ export default function Nav() {
               )}
             </div>
 
-            {/* AgentOBS dropdown */}
+            {/* SpanForge dropdown */}
             <div
               className={styles.dropWrap}
               ref={agentObsRef}
@@ -213,26 +211,8 @@ export default function Nav() {
             <Link href="/contact"  className={`${styles.link} ${isActive('/contact')  ? styles.active : ''}`}>Contact</Link>
           </div>
 
-          {/* ── Right: auth + CTA + hamburger ── */}
+          {/* ── Right: CTA + hamburger ── */}
           <div className={styles.right}>
-            {session ? (
-              <div className={styles.userWrap}>
-                <span className={styles.avatar} aria-label={session.user?.name || 'Account'}>
-                  {session.user?.image
-                    ? <img src={session.user.image} alt={session.user.name || ''} width={28} height={28} referrerPolicy="no-referrer" />
-                    : (session.user?.name?.[0] ?? session.user?.email?.[0] ?? 'U').toUpperCase()
-                  }
-                </span>
-                <button
-                  className={styles.signOutBtn}
-                  onClick={() => signOut({ callbackUrl: '/' })}
-                >
-                  Sign out
-                </button>
-              </div>
-            ) : (
-              <Link href="/signin" className={styles.signInText}>Sign In</Link>
-            )}
             <Link href="/contact" className={`btn-primary ${styles.cta}`}>
               Request Briefing
             </Link>
@@ -266,7 +246,7 @@ export default function Nav() {
             <Link href="/platform" className={styles.mobileLink}>Platform</Link>
             <Link href="/platform/trust" className={styles.mobileLink}>T.R.U.S.T. Framework</Link>
             <Link href="/agentobs" className={styles.mobileLink}>SpanForge Platform</Link>
-            <Link href="/agentobs/standard" className={styles.mobileLinkIndent}>RFC-0001 SPANFORGE</Link>
+            <Link href="/standard" className={styles.mobileLinkIndent}>RFC-0001 SPANFORGE</Link>
             <Link href="/agentobs/sdk" className={styles.mobileLinkIndent}>SpanForge SDK</Link>
             <Link href="/agentobs/debug" className={styles.mobileLinkIndent}>SpanForge Debug</Link>
             <Link href="/agentobs/validate" className={styles.mobileLinkIndent}>SpanForge Validate</Link>
@@ -278,16 +258,6 @@ export default function Nav() {
           </nav>
 
           <div className={styles.mobileAuthRow}>
-            {session ? (
-              <button
-                className={styles.mobileSignOut}
-                onClick={() => signOut({ callbackUrl: '/' })}
-              >
-                Sign out
-              </button>
-            ) : (
-              <Link href="/signin" className={styles.mobileSignIn}>Sign In</Link>
-            )}
             <Link href="/contact" className={`btn-primary ${styles.mobileCta}`}>
               Request Briefing
             </Link>

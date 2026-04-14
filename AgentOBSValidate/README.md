@@ -1,31 +1,31 @@
-# agentobs-validate
+# spanforge-validate
 
-**Reference validation CLI and Python SDK for the [AgentOBS](https://github.com/veerarag1973/AgentOBSValidate) event standard.**
+**Reference validation CLI and Python SDK for the [spanforge](https://github.com/veerarag1973/SpanForgeValidate) event standard.**
 
-[![CI](https://github.com/veerarag1973/AgentOBSValidate/actions/workflows/tests.yml/badge.svg)](https://github.com/veerarag1973/AgentOBSValidate/actions)
+[![CI](https://github.com/veerarag1973/SpanForgeValidate/actions/workflows/tests.yml/badge.svg)](https://github.com/veerarag1973/SpanForgeValidate/actions)
 
 ---
 
 ## Overview
 
-`agentobs-validate` validates **JSON or JSONL event streams** against the AgentOBS schema.
+`spanforge-validate` validates **JSON or JSONL event streams** against the spanforge schema.
 It can be used as a **CLI tool** for CI pipelines or as a **Python library** for programmatic validation.
 
-If an event stream passes validation, it is considered **AgentOBS compliant**.
+If an event stream passes validation, it is considered **spanforge compliant**.
 
 ---
 
 ## Installation
 
 ```bash
-pip install agentobs-validate
+pip install spanforge-validate
 ```
 
 For development:
 
 ```bash
-git clone https://github.com/veerarag1973/AgentOBSValidate.git
-cd AgentOBSValidate
+git clone https://github.com/veerarag1973/SpanForgeValidate.git
+cd SpanForgeValidate
 pip install -e ".[dev]"
 ```
 
@@ -35,28 +35,28 @@ pip install -e ".[dev]"
 
 ```bash
 # Validate a JSONL stream
-agentobs-validate events.jsonl
+spanforge-validate events.jsonl
 
 # Validate a JSON array
-agentobs-validate events.json
+spanforge-validate events.json
 
 # JSON output for CI / downstream scripts
-agentobs-validate events.jsonl --json
+spanforge-validate events.jsonl --json
 
 # Read from STDIN
-cat events.jsonl | agentobs-validate
+cat events.jsonl | spanforge-validate
 
 # OpenTelemetry compatibility: accept camelCase field names
-agentobs-validate events.jsonl --otel
+spanforge-validate events.jsonl --otel
 
 # Pin to a specific schema version
-agentobs-validate events.jsonl --schema-version 0.1
+spanforge-validate events.jsonl --schema-version 0.1
 
 # Cryptographic HMAC-SHA256 signature verification
-agentobs-validate events.jsonl --key-file signing.key
+spanforge-validate events.jsonl --key-file signing.key
 
-# Export the AgentOBS event JSON Schema (Draft 2020-12)
-agentobs-validate --export-schema > agentobs-schema.json
+# Export the spanforge event JSON Schema (Draft 2020-12)
+spanforge-validate --export-schema > spanforge-schema.json
 ```
 
 ---
@@ -64,9 +64,9 @@ agentobs-validate --export-schema > agentobs-schema.json
 ## Quick Start — Python SDK
 
 ```python
-from agentobs_validate.validator.engine import validate_event, validate_stream
-from agentobs_validate.validator.input_parser import iter_events
-from agentobs_validate.validator.context import ValidationContext
+from spanforge_validate.validator.engine import validate_event, validate_stream
+from spanforge_validate.validator.input_parser import iter_events
+from spanforge_validate.validator.context import ValidationContext
 
 # Validate a single dict
 result = validate_event(1, {
@@ -110,7 +110,7 @@ result = validate_stream(iter_events("events.jsonl"), ctx)
 | [docs/errors.md](docs/errors.md) | Error code reference |
 | [docs/ci.md](docs/ci.md) | CI integration guide (GitHub Actions, GitLab, CircleCI) |
 | [docs/performance.md](docs/performance.md) | Benchmark results and performance notes |
-| [agentobsvalidatespec.md](agentobsvalidatespec.md) | Full specification |
+| [SpanForgeValidatespec.md](SpanForgeValidatespec.md) | Full specification |
 
 ---
 

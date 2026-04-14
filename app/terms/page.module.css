@@ -1,6 +1,6 @@
 /* Hero */
 .hero {
-  padding: 140px 0 64px;
+  padding: 76px 0 64px;
   background: var(--dark);
   border-bottom: 1px solid var(--rule);
 }

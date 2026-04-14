@@ -1,8 +1,8 @@
-# agentobs-debug API Reference
+# spanforge-debug API Reference
 
 **Version:** 1.0.1
 
-This document is the complete reference for the `agentobs-debug` package. The package exposes a **Python API** for programmatic use and a **CLI** for shell-based inspection. Both surfaces provide identical capabilities.
+This document is the complete reference for the `spanforge-debug` package. The package exposes a **Python API** for programmatic use and a **CLI** for shell-based inspection. Both surfaces provide identical capabilities.
 
 ---
 
@@ -42,10 +42,10 @@ This document is the complete reference for the `agentobs-debug` package. The pa
 
 ## 1. Python API — Overview
 
-All functions are importable from `agentobs_debug`:
+All functions are importable from `spanforge_debug`:
 
 ```python
-import agentobs_debug as aod
+import spanforge_debug as aod
 
 stream = aod.load_events("events.jsonl")
 trace  = "4bf92f3577b34da6a3ce929d0e0e4736"
@@ -68,9 +68,9 @@ aod.diff_traces(trace_a, trace_b, stream=stream)
 The three newer multi-trace functions (`batch_report`, `diff_traces`, `cost_attribution`) can also be imported directly from their modules:
 
 ```python
-from agentobs_debug.report import batch_report
-from agentobs_debug.diff import diff_traces
-from agentobs_debug.attribution import cost_attribution
+from spanforge_debug.report import batch_report
+from spanforge_debug.diff import diff_traces
+from spanforge_debug.attribution import cost_attribution
 ```
 
 **Pattern — load once, query many times:**
@@ -91,17 +91,17 @@ The `EventStream` object is immutable and reusable. The file is read only once.
 
 ### `load_events(path: str) -> EventStream`
 
-Load a JSONL events file into an `EventStream` using the AgentOBS SDK.
+Load a JSONL events file into an `EventStream` using the spanforge SDK.
 
 #### Parameters
 
 | Parameter | Type | Description |
 |---|---|---|
-| `path` | `str` | Path to a `.jsonl` file produced by an AgentOBS exporter. |
+| `path` | `str` | Path to a `.jsonl` file produced by an spanforge exporter. |
 
 #### Returns
 
-`agentobs.stream.EventStream` — an immutable, iterable sequence of `Event` objects.
+`spanforge.stream.EventStream` — an immutable, iterable sequence of `Event` objects.
 
 #### Raises
 
@@ -112,8 +112,8 @@ Load a JSONL events file into an `EventStream` using the AgentOBS SDK.
 #### Example
 
 ```python
-import agentobs_debug as aod
-from agentobs_debug.errors import CorruptEventError
+import spanforge_debug as aod
+from spanforge_debug.errors import CorruptEventError
 
 try:
     stream = aod.load_events("events.jsonl")
@@ -129,7 +129,7 @@ except CorruptEventError as e:
 All single-trace functions share these conventions:
 
 - `trace_id` — the 32-character hex OpenTelemetry trace identifier.
-- `stream` — an `EventStream` returned by `load_events()`. Passing `None` raises `AgentOBSDebugError`.
+- `stream` — an `EventStream` returned by `load_events()`. Passing `None` raises `SpanForgeDebugError`.
 - `output_format` — controls the output representation (see [Output formats](#6-output-formats)).
 - Functions write to **stdout** and return `None`.
 - `TraceNotFoundError` is raised if `trace_id` does not exist in `stream`.
@@ -165,7 +165,7 @@ def replay(
 
 | Exception | When |
 |---|---|
-| `AgentOBSDebugError` | `stream` is `None`. |
+| `SpanForgeDebugError` | `stream` is `None`. |
 | `TraceNotFoundError` | `trace_id` not in stream. |
 
 #### Example — Python
@@ -242,7 +242,7 @@ def inspect_trace(
 
 | Exception | When |
 |---|---|
-| `AgentOBSDebugError` | `stream` is `None`. |
+| `SpanForgeDebugError` | `stream` is `None`. |
 | `TraceNotFoundError` | `trace_id` not in stream. |
 
 #### Example — Python
@@ -304,7 +304,7 @@ def print_trace_tree(
 
 | Exception | When |
 |---|---|
-| `AgentOBSDebugError` | `stream` is `None`. |
+| `SpanForgeDebugError` | `stream` is `None`. |
 | `TraceNotFoundError` | `trace_id` not in stream. |
 
 > **Note:** Orphan spans (those with a `parent_span_id` not found in the trace) are attached to the root with a warning printed to stderr: `Warning: orphan span <span_id> — attached to root`.
@@ -360,7 +360,7 @@ def timeline(
 
 | Exception | When |
 |---|---|
-| `AgentOBSDebugError` | `stream` is `None`. |
+| `SpanForgeDebugError` | `stream` is `None`. |
 | `TraceNotFoundError` | `trace_id` not in stream. |
 
 #### Example — Python
@@ -395,7 +395,7 @@ aod.timeline("4bf92f3577b34da6a3ce929d0e0e4736", stream=stream, event_type="llm.
 
 ### `show_tools(trace_id, stream, *, tool_name, output_format)`
 
-Print all `x.agentobs.tool.called` events recorded in a trace.
+Print all `x.spanforge.tool.called` events recorded in a trace.
 
 #### Signature
 
@@ -422,7 +422,7 @@ def show_tools(
 
 | Exception | When |
 |---|---|
-| `AgentOBSDebugError` | `stream` is `None`. |
+| `SpanForgeDebugError` | `stream` is `None`. |
 | `TraceNotFoundError` | `trace_id` not in stream. |
 
 #### Example — Python
@@ -450,7 +450,7 @@ When no tool calls match: `No tool calls recorded.`
 
 ### `show_decisions(trace_id, stream, *, decision_name, output_format)`
 
-Print all `x.agentobs.decision.recorded` events recorded in a trace.
+Print all `x.spanforge.decision.recorded` events recorded in a trace.
 
 #### Signature
 
@@ -477,7 +477,7 @@ def show_decisions(
 
 | Exception | When |
 |---|---|
-| `AgentOBSDebugError` | `stream` is `None`. |
+| `SpanForgeDebugError` | `stream` is `None`. |
 | `TraceNotFoundError` | `trace_id` not in stream. |
 
 #### Example — Python
@@ -526,7 +526,7 @@ def cost_summary(
 
 | Exception | When |
 |---|---|
-| `AgentOBSDebugError` | `stream` is `None`. |
+| `SpanForgeDebugError` | `stream` is `None`. |
 | `TraceNotFoundError` | `trace_id` not in stream. |
 
 #### Example — Python
@@ -584,7 +584,7 @@ def batch_report(
 #### Example — Python
 
 ```python
-from agentobs_debug.report import batch_report
+from spanforge_debug.report import batch_report
 
 # Report all traces in a file
 batch_report("production_events.jsonl")
@@ -647,13 +647,13 @@ def diff_traces(
 
 | Exception | When |
 |---|---|
-| `AgentOBSDebugError` | `stream` is `None`. |
+| `SpanForgeDebugError` | `stream` is `None`. |
 | `TraceNotFoundError` | Either trace ID not found in stream. |
 
 #### Example — Python
 
 ```python
-from agentobs_debug.diff import diff_traces
+from spanforge_debug.diff import diff_traces
 
 stream = aod.load_events("ab_test_events.jsonl")
 
@@ -716,13 +716,13 @@ def cost_attribution(
 
 | Exception | When |
 |---|---|
-| `AgentOBSDebugError` | `stream` is `None`. |
+| `SpanForgeDebugError` | `stream` is `None`. |
 | `TraceNotFoundError` | `trace_id` not in stream. |
 
 #### Example — Python
 
 ```python
-from agentobs_debug.attribution import cost_attribution
+from spanforge_debug.attribution import cost_attribution
 
 cost_attribution("4bf92f3577b34da6a3ce929d0e0e4736", stream=stream)
 cost_attribution("4bf92f3577b34da6a3ce929d0e0e4736", stream=stream, output_format="csv")
@@ -751,11 +751,11 @@ Latency percentiles across 2 step(s):
 
 ## 5. Exceptions
 
-All exceptions are importable from `agentobs_debug.errors` (or from `agentobs_debug` directly for the base class and the two most common subclasses).
+All exceptions are importable from `spanforge_debug.errors` (or from `spanforge_debug` directly for the base class and the two most common subclasses).
 
 ```python
-from agentobs_debug.errors import (
-    AgentOBSDebugError,
+from spanforge_debug.errors import (
+    SpanForgeDebugError,
     CorruptEventError,
     TraceNotFoundError,
     InvalidSpanHierarchyError,
@@ -764,17 +764,17 @@ from agentobs_debug.errors import (
 
 | Exception | Base | Description |
 |---|---|---|
-| `AgentOBSDebugError` | `Exception` | Base class for all library errors. Catch this to handle any error from `agentobs_debug`. |
-| `CorruptEventError` | `AgentOBSDebugError` | Raised by `load_events()` and `batch_report()` when the JSONL file is missing, unreadable, or contains a malformed event line. |
-| `TraceNotFoundError` | `AgentOBSDebugError` | Raised by all single-trace analysis functions when `trace_id` is not present in the loaded stream. |
-| `InvalidSpanHierarchyError` | `AgentOBSDebugError` | Reserved for future structural validation. Not currently raised. |
+| `SpanForgeDebugError` | `Exception` | Base class for all library errors. Catch this to handle any error from `spanforge_debug`. |
+| `CorruptEventError` | `SpanForgeDebugError` | Raised by `load_events()` and `batch_report()` when the JSONL file is missing, unreadable, or contains a malformed event line. |
+| `TraceNotFoundError` | `SpanForgeDebugError` | Raised by all single-trace analysis functions when `trace_id` is not present in the loaded stream. |
+| `InvalidSpanHierarchyError` | `SpanForgeDebugError` | Reserved for future structural validation. Not currently raised. |
 
 #### Recommended error-handling pattern
 
 ```python
-import agentobs_debug as aod
-from agentobs_debug.errors import (
-    AgentOBSDebugError,
+import spanforge_debug as aod
+from spanforge_debug.errors import (
+    SpanForgeDebugError,
     CorruptEventError,
     TraceNotFoundError,
 )
@@ -789,7 +789,7 @@ try:
     aod.replay("4bf92f3577b34da6a3ce929d0e0e4736", stream=stream)
 except TraceNotFoundError as e:
     print(f"Trace not found: {e}", file=sys.stderr)
-except AgentOBSDebugError as e:
+except SpanForgeDebugError as e:
     # Safety net for any other library error
     print(f"Unexpected error: {e}", file=sys.stderr)
 ```
@@ -809,13 +809,13 @@ Most functions accept an `output_format` keyword argument. The supported values 
 **JSON output** is suitable for piping into `jq` or loading with `json.loads()`:
 
 ```bash
-agentobs-debug inspect events.jsonl --trace 4bf92f35... --format json | jq .cost_usd
+spanforge-debug inspect events.jsonl --trace 4bf92f35... --format json | jq .cost_usd
 ```
 
 **CSV output** is suitable for import into spreadsheets or further processing:
 
 ```bash
-agentobs-debug cost events.jsonl --trace 4bf92f35... --format csv > cost.csv
+spanforge-debug cost events.jsonl --trace 4bf92f35... --format csv > cost.csv
 ```
 
 ---
@@ -825,17 +825,17 @@ agentobs-debug cost events.jsonl --trace 4bf92f35... --format csv > cost.csv
 ### General syntax
 
 ```
-agentobs-debug COMMAND EVENTS_FILE [OPTIONS]
+spanforge-debug COMMAND EVENTS_FILE [OPTIONS]
 ```
 
-- `EVENTS_FILE` — path to a `.jsonl` file produced by AgentOBS.
+- `EVENTS_FILE` — path to a `.jsonl` file produced by spanforge.
 - `--trace TRACE_ID` — 32-character hex trace ID. Required for single-trace commands.
 - `--format FORMAT` — output format (`text`, `json`, or `csv`). Default: `text`.
 
 ```bash
-agentobs-debug --version   # agentobs-debug 1.0.1
-agentobs-debug --help
-agentobs-debug COMMAND --help
+spanforge-debug --version   # spanforge-debug 1.0.1
+spanforge-debug --help
+spanforge-debug COMMAND --help
 ```
 
 All errors are printed to **stderr** as `Error: <message>` and exit with **code 1**. Python tracebacks are never shown.
@@ -847,7 +847,7 @@ All errors are printed to **stderr** as `Error: <message>` and exit with **code 
 Replay an agent run step-by-step.
 
 ```
-agentobs-debug replay EVENTS_FILE --trace TRACE_ID [--step STEP_NAME] [--format text|json]
+spanforge-debug replay EVENTS_FILE --trace TRACE_ID [--step STEP_NAME] [--format text|json]
 ```
 
 | Flag | Description |
@@ -857,9 +857,9 @@ agentobs-debug replay EVENTS_FILE --trace TRACE_ID [--step STEP_NAME] [--format 
 | `--format FORMAT` | `text` (default) or `json`. |
 
 ```bash
-agentobs-debug replay events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
-agentobs-debug replay events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --step search
-agentobs-debug replay events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --format json
+spanforge-debug replay events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
+spanforge-debug replay events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --step search
+spanforge-debug replay events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --format json
 ```
 
 ---
@@ -869,7 +869,7 @@ agentobs-debug replay events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --fo
 Print a one-page trace summary.
 
 ```
-agentobs-debug inspect EVENTS_FILE --trace TRACE_ID [--format text|json|csv]
+spanforge-debug inspect EVENTS_FILE --trace TRACE_ID [--format text|json|csv]
 ```
 
 | Flag | Description |
@@ -878,8 +878,8 @@ agentobs-debug inspect EVENTS_FILE --trace TRACE_ID [--format text|json|csv]
 | `--format FORMAT` | `text` (default), `json`, or `csv`. |
 
 ```bash
-agentobs-debug inspect events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
-agentobs-debug inspect events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --format json
+spanforge-debug inspect events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
+spanforge-debug inspect events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --format json
 ```
 
 ---
@@ -889,7 +889,7 @@ agentobs-debug inspect events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --f
 Print the span hierarchy as an ASCII tree.
 
 ```
-agentobs-debug tree EVENTS_FILE --trace TRACE_ID
+spanforge-debug tree EVENTS_FILE --trace TRACE_ID
 ```
 
 | Flag | Description |
@@ -897,8 +897,8 @@ agentobs-debug tree EVENTS_FILE --trace TRACE_ID
 | `--trace TRACE_ID` | **(required)** |
 
 ```bash
-agentobs-debug tree events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
-agentobs-debug tree events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 > tree.txt
+spanforge-debug tree events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
+spanforge-debug tree events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 > tree.txt
 ```
 
 ---
@@ -908,7 +908,7 @@ agentobs-debug tree events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 > tree
 Print the millisecond-resolution execution timeline.
 
 ```
-agentobs-debug timeline EVENTS_FILE --trace TRACE_ID
+spanforge-debug timeline EVENTS_FILE --trace TRACE_ID
     [--from-ms MS] [--to-ms MS] [--event-type PREFIX]
     [--format text|json|csv]
 ```
@@ -922,10 +922,10 @@ agentobs-debug timeline EVENTS_FILE --trace TRACE_ID
 | `--format FORMAT` | `text` (default), `json`, or `csv`. |
 
 ```bash
-agentobs-debug timeline events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
-agentobs-debug timeline events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --from-ms 100 --to-ms 500
-agentobs-debug timeline events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --event-type llm.trace.span
-agentobs-debug timeline events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 | less
+spanforge-debug timeline events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
+spanforge-debug timeline events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --from-ms 100 --to-ms 500
+spanforge-debug timeline events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --event-type llm.trace.span
+spanforge-debug timeline events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 | less
 ```
 
 ---
@@ -935,7 +935,7 @@ agentobs-debug timeline events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 | 
 List all tool calls in a trace.
 
 ```
-agentobs-debug tools EVENTS_FILE --trace TRACE_ID [--tool-name NAME] [--format text|json|csv]
+spanforge-debug tools EVENTS_FILE --trace TRACE_ID [--tool-name NAME] [--format text|json|csv]
 ```
 
 | Flag | Description |
@@ -945,8 +945,8 @@ agentobs-debug tools EVENTS_FILE --trace TRACE_ID [--tool-name NAME] [--format t
 | `--format FORMAT` | `text` (default), `json`, or `csv`. |
 
 ```bash
-agentobs-debug tools events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
-agentobs-debug tools events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --tool-name search_api
+spanforge-debug tools events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
+spanforge-debug tools events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --tool-name search_api
 ```
 
 ---
@@ -956,7 +956,7 @@ agentobs-debug tools events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --too
 List all decision points in a trace.
 
 ```
-agentobs-debug decisions EVENTS_FILE --trace TRACE_ID [--decision-name NAME] [--format text|json|csv]
+spanforge-debug decisions EVENTS_FILE --trace TRACE_ID [--decision-name NAME] [--format text|json|csv]
 ```
 
 | Flag | Description |
@@ -966,8 +966,8 @@ agentobs-debug decisions EVENTS_FILE --trace TRACE_ID [--decision-name NAME] [--
 | `--format FORMAT` | `text` (default), `json`, or `csv`. |
 
 ```bash
-agentobs-debug decisions events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
-agentobs-debug decisions events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --decision-name tool_selection
+spanforge-debug decisions events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
+spanforge-debug decisions events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --decision-name tool_selection
 ```
 
 ---
@@ -977,7 +977,7 @@ agentobs-debug decisions events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 -
 Print aggregated token usage and cost.
 
 ```
-agentobs-debug cost EVENTS_FILE --trace TRACE_ID [--format text|json|csv]
+spanforge-debug cost EVENTS_FILE --trace TRACE_ID [--format text|json|csv]
 ```
 
 | Flag | Description |
@@ -986,8 +986,8 @@ agentobs-debug cost EVENTS_FILE --trace TRACE_ID [--format text|json|csv]
 | `--format FORMAT` | `text` (default), `json`, or `csv`. |
 
 ```bash
-agentobs-debug cost events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
-agentobs-debug cost events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --format csv
+spanforge-debug cost events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
+spanforge-debug cost events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --format csv
 ```
 
 ---
@@ -997,7 +997,7 @@ agentobs-debug cost events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --form
 Print per-step cost and latency breakdown with duration percentiles.
 
 ```
-agentobs-debug attribution EVENTS_FILE --trace TRACE_ID [--format text|json|csv]
+spanforge-debug attribution EVENTS_FILE --trace TRACE_ID [--format text|json|csv]
 ```
 
 | Flag | Description |
@@ -1006,8 +1006,8 @@ agentobs-debug attribution EVENTS_FILE --trace TRACE_ID [--format text|json|csv]
 | `--format FORMAT` | `text` (default), `json`, or `csv`. |
 
 ```bash
-agentobs-debug attribution events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
-agentobs-debug attribution events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --format csv > attr.csv
+spanforge-debug attribution events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
+spanforge-debug attribution events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --format csv > attr.csv
 ```
 
 ---
@@ -1017,7 +1017,7 @@ agentobs-debug attribution events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
 Print a batch summary across all (or selected) traces in a file. Does not require `--trace`.
 
 ```
-agentobs-debug report EVENTS_FILE [--trace TRACE_ID ...] [--format text|json|csv]
+spanforge-debug report EVENTS_FILE [--trace TRACE_ID ...] [--format text|json|csv]
 ```
 
 | Flag | Description |
@@ -1027,15 +1027,15 @@ agentobs-debug report EVENTS_FILE [--trace TRACE_ID ...] [--format text|json|csv
 
 ```bash
 # Report all traces
-agentobs-debug report production_events.jsonl
+spanforge-debug report production_events.jsonl
 
 # Report only two specific traces
-agentobs-debug report production_events.jsonl \
+spanforge-debug report production_events.jsonl \
   --trace 4bf92f3577b34da6a3ce929d0e0e4736 \
   --trace aaaa0000000000000000000000000001
 
 # Export as CSV for a spreadsheet
-agentobs-debug report production_events.jsonl --format csv > traces.csv
+spanforge-debug report production_events.jsonl --format csv > traces.csv
 ```
 
 ---
@@ -1045,7 +1045,7 @@ agentobs-debug report production_events.jsonl --format csv > traces.csv
 Compare two traces side by side.
 
 ```
-agentobs-debug diff EVENTS_FILE --trace-a TRACE_ID --trace-b TRACE_ID [--format text|json]
+spanforge-debug diff EVENTS_FILE --trace-a TRACE_ID --trace-b TRACE_ID [--format text|json]
 ```
 
 | Flag | Description |
@@ -1055,11 +1055,11 @@ agentobs-debug diff EVENTS_FILE --trace-a TRACE_ID --trace-b TRACE_ID [--format 
 | `--format FORMAT` | `text` (default) or `json`. |
 
 ```bash
-agentobs-debug diff events.jsonl \
+spanforge-debug diff events.jsonl \
   --trace-a 4bf92f3577b34da6a3ce929d0e0e4736 \
   --trace-b aaaa0000000000000000000000000001
 
-agentobs-debug diff events.jsonl \
+spanforge-debug diff events.jsonl \
   --trace-a 4bf92f3577b34da6a3ce929d0e0e4736 \
   --trace-b aaaa0000000000000000000000000001 \
     --format json | jq .summary.tokens
@@ -1071,32 +1071,32 @@ agentobs-debug diff events.jsonl \
 
 ```python
 # Recommended: import the package and use the aod. prefix
-import agentobs_debug as aod
+import spanforge_debug as aod
 
 stream = aod.load_events("events.jsonl")
 aod.replay("...", stream=stream)
 
 # Alternative: import individual functions
-from agentobs_debug import load_events, replay, inspect_trace
-from agentobs_debug import cost_summary, show_tools, show_decisions
-from agentobs_debug import print_trace_tree, timeline
+from spanforge_debug import load_events, replay, inspect_trace
+from spanforge_debug import cost_summary, show_tools, show_decisions
+from spanforge_debug import print_trace_tree, timeline
 
 # Multi-trace functions (not in __all__, import from modules directly)
-from agentobs_debug.report import batch_report
-from agentobs_debug.diff import diff_traces
-from agentobs_debug.attribution import cost_attribution
+from spanforge_debug.report import batch_report
+from spanforge_debug.diff import diff_traces
+from spanforge_debug.attribution import cost_attribution
 
 # Exceptions
-from agentobs_debug.errors import (
-    AgentOBSDebugError,
+from spanforge_debug.errors import (
+    SpanForgeDebugError,
     CorruptEventError,
     TraceNotFoundError,
     InvalidSpanHierarchyError,
 )
 
 # Version
-import agentobs_debug
-print(agentobs_debug.__version__)  # 1.0.1
+import spanforge_debug
+print(spanforge_debug.__version__)  # 1.0.1
 ```
 
 ### What's in `__all__`
@@ -1106,7 +1106,7 @@ The following names are exported in the package's `__all__` and can be relied up
 ```python
 __all__ = [
     # Exceptions
-    "AgentOBSDebugError",
+    "SpanForgeDebugError",
     "CorruptEventError",
     "InvalidSpanHierarchyError",
     "TraceNotFoundError",

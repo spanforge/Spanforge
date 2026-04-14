@@ -1,21 +1,21 @@
-# agentobs-debug
+# spanforge-debug
 
-Developer tools for inspecting, replaying, and visualising [AgentOBS](https://github.com/agentobs) traces.
+Developer tools for inspecting, replaying, and visualising [spanforge](https://github.com/spanforge) traces.
 
 ## Installation
 
 ```bash
-pip install agentobs-debug
+pip install spanforge-debug
 ```
 
-Requires Python ≥ 3.10 and `agentobs >= 1.0.5`.
+Requires Python ≥ 3.10 and `spanforge >= 1.0.5`.
 
 ---
 
 ## Quickstart — Programmatic API
 
 ```python
-import agentobs_debug as aod
+import spanforge_debug as aod
 
 # Load events from a JSONL file
 stream = aod.load_events("events.jsonl")
@@ -32,8 +32,8 @@ aod.cost_summary(trace, stream=stream)    # token usage + cost
 aod.cost_attribution(trace, stream=stream) # per-step cost/latency table
 
 # Multi-trace
-from agentobs_debug.report import batch_report
-from agentobs_debug.diff import diff_traces
+from spanforge_debug.report import batch_report
+from spanforge_debug.diff import diff_traces
 
 batch_report("events.jsonl")               # summarise all traces in a file
 diff_traces(trace_a, trace_b, stream=stream)  # compare two traces
@@ -45,34 +45,34 @@ diff_traces(trace_a, trace_b, stream=stream)  # compare two traces
 
 ```bash
 # Replay an agent run step-by-step
-agentobs-debug replay events.jsonl --trace 4bf92f3577b34da6
+spanforge-debug replay events.jsonl --trace 4bf92f3577b34da6
 
 # Print a trace summary
-agentobs-debug inspect events.jsonl --trace 4bf92f3577b34da6
+spanforge-debug inspect events.jsonl --trace 4bf92f3577b34da6
 
 # Print the span hierarchy tree
-agentobs-debug tree events.jsonl --trace 4bf92f3577b34da6
+spanforge-debug tree events.jsonl --trace 4bf92f3577b34da6
 
 # Print the execution timeline
-agentobs-debug timeline events.jsonl --trace 4bf92f3577b34da6
+spanforge-debug timeline events.jsonl --trace 4bf92f3577b34da6
 
 # List all tool calls
-agentobs-debug tools events.jsonl --trace 4bf92f3577b34da6
+spanforge-debug tools events.jsonl --trace 4bf92f3577b34da6
 
 # List all decision points
-agentobs-debug decisions events.jsonl --trace 4bf92f3577b34da6
+spanforge-debug decisions events.jsonl --trace 4bf92f3577b34da6
 
 # Print cost summary
-agentobs-debug cost events.jsonl --trace 4bf92f3577b34da6
+spanforge-debug cost events.jsonl --trace 4bf92f3577b34da6
 
 # Per-step cost/latency breakdown with percentiles
-agentobs-debug attribution events.jsonl --trace 4bf92f3577b34da6
+spanforge-debug attribution events.jsonl --trace 4bf92f3577b34da6
 
 # Batch summary across all traces in a file
-agentobs-debug report events.jsonl
+spanforge-debug report events.jsonl
 
 # Diff two traces
-agentobs-debug diff events.jsonl --trace-a 4bf92f3577b34da6a3ce929d0e0e4736 --trace-b aaaa0000000000000000000000000001
+spanforge-debug diff events.jsonl --trace-a 4bf92f3577b34da6a3ce929d0e0e4736 --trace-b aaaa0000000000000000000000000001
 ```
 
 ---
@@ -81,7 +81,7 @@ agentobs-debug diff events.jsonl --trace-a 4bf92f3577b34da6a3ce929d0e0e4736 --tr
 
 ### `load_events(path: str) -> EventStream`
 
-Load events from a JSONL file using the AgentOBS SDK.
+Load events from a JSONL file using the spanforge SDK.
 
 - **Raises** `CorruptEventError` if the file is missing or malformed.
 
@@ -183,25 +183,25 @@ Total cost: $0.0030
 
 Print a per-step cost and latency breakdown table with p50/p90/p99 duration percentiles.
 
-Import: `from agentobs_debug.attribution import cost_attribution`
+Import: `from spanforge_debug.attribution import cost_attribution`
 
 ### `batch_report(path: str, trace_ids: list[str] | None = None, output_format: str = "text") -> None`
 
 Run `inspect_trace()` for every trace (or a given subset) in a JSONL file and print a summary table. Does not require a pre-loaded stream.
 
-Import: `from agentobs_debug.report import batch_report`
+Import: `from spanforge_debug.report import batch_report`
 
 ### `diff_traces(trace_id_a: str, trace_id_b: str, stream: EventStream, output_format: str = "text") -> None`
 
 Compare two traces side by side: spans, tokens, cost, duration, status, and per-step breakdown.
 
-Import: `from agentobs_debug.diff import diff_traces`
+Import: `from spanforge_debug.diff import diff_traces`
 
 ---
 
 ## Error Handling
 
-All errors are typed exceptions that subclass `AgentOBSDebugError`:
+All errors are typed exceptions that subclass `SpanForgeDebugError`:
 
 | Exception | Raised when |
 |---|---|
@@ -221,5 +221,5 @@ See [docs/api-reference.md](docs/api-reference.md) for the full reference: all f
 
 ## Dependencies
 
-- `agentobs >= 1.0.5` — AgentOBS SDK (provides `EventStream`, event types)
+- `spanforge >= 1.0.5` — spanforge SDK (provides `EventStream`, event types)
 - Python ≥ 3.10

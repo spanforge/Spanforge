@@ -35,8 +35,8 @@ const dimensions = [
   },
   {
     num: '06',
-    label: 'Cost Readiness (CostGuard™)',
-    desc: 'CostGuard™ cost estimate produced for the selected infrastructure configuration. Scenario comparison documented. Projected cost is within the approved business case envelope. Required for all initiatives that have completed the Design phase.',
+    label: 'Cost Readiness',
+    desc: 'A documented infrastructure cost estimate has been produced via the Cost Intelligence Layer for the selected architecture. Scenario comparison documented. Projected cost is within the approved business case envelope. Required for all initiatives that have completed the Design phase.',
   },
 ]
 
@@ -102,7 +102,7 @@ export default function GateReadinessScorePage() {
             Before each gate review, the programme team produces a Gate Readiness Score™ — a
             structured 0–100 assessment across six dimensions: technical readiness, business
             value evidence, operational integration, compliance status, stakeholder alignment,
-            and cost readiness (CostGuard™).
+            and cost readiness.
           </p>
           <p className={styles.summaryPara}>
             The score is an evidence assessment, not a task count. Each dimension is scored based

@@ -1,6 +1,6 @@
 # Performance Notes
 
-`agentobs-validate` is designed to meet the 100 000 events/second throughput floor from spec §14
+`spanforge-validate` is designed to meet the 100 000 events/second throughput floor from spec §14
 while consuming O(1) memory for JSONL input streams.
 
 ---

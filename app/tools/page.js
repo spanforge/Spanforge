@@ -10,13 +10,13 @@ export const metadata = {
 
 // Breakdown of planned tool types
 const TOOL_TYPES = [
-  { count: '85',  label: 'CLI utilities',              note: 'Rust-native, single binary, zero dependencies' },
+  { count: '85',  label: 'CLI utilities',              note: 'Python-native, zero external dependencies' },
   { count: '20+', label: 'Web applications',           note: 'Interactive tools across Discover and Govern' },
   { count: '40+', label: 'Standards documents',        note: 'RFC-level templates and specifications' },
   { count: '5+',  label: 'Frameworks',                 note: 'Governance, methodology, and build standards' },
   { count: '6',   label: 'CI/CD pipeline templates',  note: 'Six-stage pipeline integrated into your build process' },
-  { count: '1',   label: 'SpanForge Platform',       note: 'Production observability for autonomous AI agents — in development' },
-  { count: '1',   label: 'CostGuard™',               note: 'Design-time cost intelligence — in development for AWS, GCP, and Azure' },
+  { count: '1',   label: 'SpanForge Platform',       note: 'Production compliance for autonomous AI agents — in development' },
+  { count: '1',   label: 'Cost Intelligence Layer',   note: 'Design-time cost estimation and runtime token cost tracking via SpanForge llm.cost.* namespace' },
 ]
 
 function PriorityPip({ count, label, color }) {
@@ -84,8 +84,8 @@ export default function ToolsPage() {
                 {NEED_TOTAL} utilities. 10 production gaps closed.
               </h2>
               <p className={styles.needDesc}>
-                The ainternals utility layer ships {NEED_TOTAL} Rust CLI tools — single compiled
-                binaries, zero dependencies — organised by the exact production gap each one
+                The ainternals utility layer ships {NEED_TOTAL} Python CLI tools — zero external
+                dependencies — organised by the exact production gap each one
                 closes. Every tool targets a real failure mode in enterprise AI delivery.
               </p>
             </div>

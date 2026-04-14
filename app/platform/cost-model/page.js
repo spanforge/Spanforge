@@ -185,31 +185,30 @@ export default function CostModelPage() {
       </section>
 
       {/* CostGuard connection */}
-      <section className={styles.contentSection} aria-labelledby="costguard-heading">
+      <section className={styles.contentSection} aria-labelledby="costintel-heading">
         <div className={`container ${styles.contentInner}`}>
           <span className="eyebrow">Prevention, not diagnosis</span>
-          <h2 id="costguard-heading" className={styles.sectionH2}>
-            CostGuard™ — cost at Design time, not after failure
+          <h2 id="costintel-heading" className={styles.sectionH2}>
+            Cost Intelligence Layer — cost governed at Design time and in production
           </h2>
           <p className={styles.summaryPara}>
-            The Cost Model™ diagnoses the cost of failure after the fact. CostGuard™ prevents
-            avoidable cost by making infrastructure and model spend visible at the Design phase
-            — before any commitment is made. Where the Cost Model™ explains what went wrong,
-            CostGuard™ removes the conditions that allow it to go wrong in the first place.
+            The Cost Model™ diagnoses the cost of failure after the fact. The Cost Intelligence
+            Layer prevents avoidable cost by making infrastructure and model spend visible at the
+            Design phase — before any commitment is made — and tracks runtime token consumption
+            continuously in production via the SpanForge llm.cost.* namespace.
           </p>
           <p className={styles.summaryPara}>
-            CostGuard™ is the SpanForge Design phase cost intelligence tool: every architecture
-            decision carries a cost estimate before any resource is committed. Scenario comparisons
-            — cheapest, balanced, and performance configurations — are produced at Design time.
-            The output feeds directly into the Gate Readiness Score™ Cost Readiness dimension.
-            CostGuard™ is currently live for AWS infrastructure cost estimation, with GCP and
-            Azure support in active development.
+            Where the Cost Model™ explains what went wrong, the Cost Intelligence Layer removes
+            the conditions that allow it to go wrong in the first place. Design-time scenario
+            comparisons feed directly into the Gate Readiness Score™ Cost Readiness dimension.
+            Runtime cost attribution by actor, team, and session ensures the financial accountability
+            the T.R.U.S.T. Responsibility dimension requires.
           </p>
           <div className={styles.insightBox}>
             <p className={styles.insightText}>
-              &ldquo;Cost is a design decision, not a report. Infrastructure cost that is not
-              governed at Design time cannot be governed at all — it can only be measured after
-              it has already been incurred.&rdquo;
+              &ldquo;Cost is a design decision and a compliance signal — not a report. Infrastructure
+              cost ungoverned at Design time cannot be governed at all. Token cost unattributed in
+              production cannot be audited at all.&rdquo;
             </p>
           </div>
         </div>

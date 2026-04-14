@@ -63,10 +63,10 @@ export default function TrustPage() {
             as technical controls across the Design, Govern, and Scale phases.
           </p>
           <p className={styles.summaryPara}>
-            <strong>Design phase (CostGuard™)</strong> — cost accountability is embedded via
+            <strong>Design phase (Cost Intelligence Layer)</strong> — cost accountability is embedded via
             the Cost Readiness dimension of the Gate Readiness Score™. Responsible owners must
             understand and document the financial implications of architecture decisions before
-            any resource is committed.
+            any resource is committed — evidenced via a documented cost estimate with scenario comparison.
           </p>
           <p className={styles.summaryPara}>
             <strong>Govern phase</strong> — compliance mapping (including EU AI Act risk
@@ -75,9 +75,11 @@ export default function TrustPage() {
           </p>
           <p className={styles.summaryPara}>
             <strong>Scale phase (SpanForge)</strong> — technical enforcement of Traceability
-            (immutable HMAC-signed audit trail), User Rights (consent boundary monitoring), and Safety
-            Guardrails (automated playbooks) in production. Neither Traceability nor cost
-            accountability is left to human process alone.
+            (immutable HMAC-signed audit trail via RFC-0001 SpanForge), User Rights (consent boundary
+            monitoring via the consent namespace), and Safety Guardrails (automated playbooks on guard
+            and hitl events) in production. Cost attribution is recorded on every SpanForge event as
+            part of the same tamper-evident chain — neither Traceability nor cost accountability is
+            left to human process alone.
           </p>
         </div>
       </section>

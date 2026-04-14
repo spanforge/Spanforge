@@ -21,7 +21,7 @@ const ENGAGEMENT_PATHS = [
     eyebrow: 'General',
     title: 'Get in touch',
     desc: 'Partnerships, research collaboration, press and media enquiries, or general questions about the platform. We read every message and respond to organisations within two business days.',
-    cta: 'Send an email',
+    cta: 'sriram@getspanforge.com',
     href: 'mailto:sriram@getspanforge.com',
     external: true,
     accent: 'var(--build)',
@@ -88,7 +88,7 @@ export default function ContactPage() {
                   style={{ '--accent': path.accent }}
                   {...(path.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                 >
-                  {path.cta} →
+                  {path.cta}{path.href.startsWith('mailto:') ? '' : ' →'}
                 </a>
               </div>
             ))}

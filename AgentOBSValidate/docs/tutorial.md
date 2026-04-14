@@ -1,4 +1,4 @@
-# Tutorial: Validating AgentOBS Events
+# Tutorial: Validating spanforge Events
 
 This tutorial walks through common validation tasks, first using the **CLI**
 and then using the **Python SDK** for programmatic integration.
@@ -10,14 +10,14 @@ and then using the **Python SDK** for programmatic integration.
 Install the package:
 
 ```bash
-pip install agentobs-validate
+pip install spanforge-validate
 ```
 
 Verify the installation:
 
 ```bash
-agentobs-validate --version
-# agentobs-validate, version 0.1.0
+spanforge-validate --version
+# spanforge-validate, version 0.1.0
 ```
 
 ---
@@ -36,7 +36,7 @@ Create a file `events.jsonl` with one JSON object per line:
 Run validation:
 
 ```bash
-agentobs-validate events.jsonl
+spanforge-validate events.jsonl
 ```
 
 Expected output:
@@ -67,7 +67,7 @@ Create `bad-events.jsonl` with deliberate errors:
 ```
 
 ```bash
-agentobs-validate bad-events.jsonl
+spanforge-validate bad-events.jsonl
 ```
 
 Expected output:
@@ -93,7 +93,7 @@ Exit code is `1` — validation errors were found.
 The validator also accepts a JSON array (`.json` file):
 
 ```bash
-agentobs-validate events.json
+spanforge-validate events.json
 ```
 
 Format is auto-detected from the file extension. If the extension is ambiguous,
@@ -106,19 +106,19 @@ the validator peeks at the first character (`[` → JSON array, `{` → JSONL).
 Pipe events directly into the validator:
 
 ```bash
-cat events.jsonl | agentobs-validate
+cat events.jsonl | spanforge-validate
 ```
 
 Or equivalently:
 
 ```bash
-agentobs-validate -
+spanforge-validate -
 ```
 
 Useful in pipelines where events are generated on-the-fly:
 
 ```bash
-my-agent emit-events | agentobs-validate
+my-agent emit-events | spanforge-validate
 ```
 
 ---
@@ -128,7 +128,7 @@ my-agent emit-events | agentobs-validate
 Use `--json` for structured output suitable for CI systems or downstream scripts:
 
 ```bash
-agentobs-validate events.jsonl --json
+spanforge-validate events.jsonl --json
 ```
 
 Output:
@@ -175,7 +175,7 @@ For failing events, the `errors` array is included:
 ### 1.6 Saving a validation report
 
 ```bash
-agentobs-validate events.jsonl --json > report.json
+spanforge-validate events.jsonl --json > report.json
 echo "Exit code: $?"
 ```
 
@@ -206,12 +206,12 @@ use `--otel` to accept them automatically:
 ```
 
 ```bash
-agentobs-validate otel-events.jsonl --otel
+spanforge-validate otel-events.jsonl --otel
 ```
 
-The following aliases are mapped to their AgentOBS snake_case equivalents:
+The following aliases are mapped to their spanforge snake_case equivalents:
 
-| OTel camelCase | AgentOBS snake_case |
+| OTel camelCase | spanforge snake_case |
 |----------------|---------------------|
 | `eventId`      | `event_id`          |
 | `eventType`    | `event_type`        |
@@ -226,14 +226,14 @@ The following aliases are mapped to their AgentOBS snake_case equivalents:
 ### 1.8 Pinning a schema version (`--schema-version`)
 
 ```bash
-agentobs-validate events.jsonl --schema-version 0.1
+spanforge-validate events.jsonl --schema-version 0.1
 ```
 
 The `schema_version` appears in all output.
 Supplying an unsupported version exits with code `2`:
 
 ```bash
-agentobs-validate events.jsonl --schema-version 9.9
+spanforge-validate events.jsonl --schema-version 9.9
 # Error: Schema version '9.9' is not supported. Supported versions: 0.1
 # Exit code: 2
 ```
@@ -248,14 +248,14 @@ When events carry an HMAC-SHA256 `signature` block, you can verify the digest
 against a known key:
 
 ```bash
-agentobs-validate events.jsonl --key-file signing.key
+spanforge-validate events.jsonl --key-file signing.key
 ```
 
 The key file contains the raw signing key (trailing whitespace is stripped):
 
 ```bash
 echo -n "my-secret-key" > signing.key
-agentobs-validate events.jsonl --key-file signing.key
+spanforge-validate events.jsonl --key-file signing.key
 ```
 
 Without `--key-file`, only structural validation is performed (algorithm name
@@ -286,22 +286,22 @@ print(json.dumps(event))
 
 ### 1.10 Exporting the JSON Schema (`--export-schema`)
 
-Print the full AgentOBS event envelope as a JSON Schema (Draft 2020-12) document:
+Print the full spanforge event envelope as a JSON Schema (Draft 2020-12) document:
 
 ```bash
-agentobs-validate --export-schema
+spanforge-validate --export-schema
 ```
 
 Save to a file:
 
 ```bash
-agentobs-validate --export-schema > agentobs-event-schema.json
+spanforge-validate --export-schema > spanforge-event-schema.json
 ```
 
 Combine with `--schema-version` to export a specific version schema:
 
 ```bash
-agentobs-validate --export-schema --schema-version 0.1 > schema-0.1.json
+spanforge-validate --export-schema --schema-version 0.1 > schema-0.1.json
 ```
 
 The exported schema can be used with:
@@ -317,7 +317,7 @@ The exported schema can be used with:
 Use exit codes to gate CI pipelines:
 
 ```bash
-agentobs-validate events.jsonl
+spanforge-validate events.jsonl
 case $? in
   0) echo "All events valid — deploy allowed" ;;
   1) echo "Validation errors — deploy blocked" ;;
@@ -340,7 +340,7 @@ esac
 ### 2.1 Validate a single event dict
 
 ```python
-from agentobs_validate.validator.engine import validate_event
+from spanforge_validate.validator.engine import validate_event
 
 event = {
     "event_id": "01HZQSN7PQVR2K4M0BXJD3GSTA",
@@ -365,7 +365,7 @@ else:
 ### 2.2 Validate a list of events
 
 ```python
-from agentobs_validate.validator.engine import validate_stream
+from spanforge_validate.validator.engine import validate_stream
 
 events = [
     {"event_id": "01HZQSN7PQVR2K4M0BXJD3GSTA", ...},
@@ -388,8 +388,8 @@ for evt in result.events:
 ### 2.3 Validate a JSONL file
 
 ```python
-from agentobs_validate.validator.engine import validate_stream
-from agentobs_validate.validator.input_parser import iter_events, ParseError
+from spanforge_validate.validator.engine import validate_stream
+from spanforge_validate.validator.input_parser import iter_events, ParseError
 
 try:
     result = validate_stream(iter_events("events.jsonl"))
@@ -408,7 +408,7 @@ print(f"Invalid: {result.invalid}")
 
 ```python
 import json
-from agentobs_validate.validator.formatters import format_human, format_json
+from spanforge_validate.validator.formatters import format_human, format_json
 
 # Human-readable (same as default CLI output)
 print(format_human(result))
@@ -427,7 +427,7 @@ d = result.to_dict()
 ### 2.5 Inspect individual errors
 
 ```python
-from agentobs_validate.errors.codes import MISSING_EVENT_ID, INVALID_ULID
+from spanforge_validate.errors.codes import MISSING_EVENT_ID, INVALID_ULID
 
 for evt in result.events:
     if evt.status == "fail":
@@ -449,8 +449,8 @@ for evt in result.events:
 ### 2.6 OTel compatibility mode
 
 ```python
-from agentobs_validate.validator.engine import validate_event
-from agentobs_validate.validator.context import ValidationContext
+from spanforge_validate.validator.engine import validate_event
+from spanforge_validate.validator.context import ValidationContext
 
 # Event emitted by an OTel-native SDK
 otel_event = {
@@ -473,8 +473,8 @@ print(result.status)  # "pass"
 
 ```python
 import base64, hashlib, hmac, json
-from agentobs_validate.validator.engine import validate_event
-from agentobs_validate.validator.context import ValidationContext
+from spanforge_validate.validator.engine import validate_event
+from spanforge_validate.validator.context import ValidationContext
 
 key = b"my-secret-key"
 
@@ -508,9 +508,9 @@ print(result_wrong.errors[0].code)  # "SIGNATURE_MISMATCH"
 ### 2.8 Validate a JSONL file with a key and OTel mode
 
 ```python
-from agentobs_validate.validator.engine import validate_stream
-from agentobs_validate.validator.input_parser import iter_events
-from agentobs_validate.validator.context import ValidationContext
+from spanforge_validate.validator.engine import validate_stream
+from spanforge_validate.validator.input_parser import iter_events
+from spanforge_validate.validator.context import ValidationContext
 
 ctx = ValidationContext(
     otel_mode=True,
@@ -528,7 +528,7 @@ print(f"valid={result.valid}, invalid={result.invalid}")
 ### 2.9 Export the JSON Schema
 
 ```python
-from agentobs_validate.schema.json_schema import build_json_schema, export_schema
+from spanforge_validate.schema.json_schema import build_json_schema, export_schema
 
 # As a Python dict
 schema = build_json_schema("0.1")
@@ -539,7 +539,7 @@ print(schema["required"])  # ["event_id", "timestamp", ...]
 print(export_schema("0.1"))
 
 # Write to disk
-with open("agentobs-schema.json", "w") as f:
+with open("spanforge-schema.json", "w") as f:
     f.write(export_schema("0.1"))
 ```
 
@@ -548,7 +548,7 @@ with open("agentobs-schema.json", "w") as f:
 ### 2.10 Check a specific error code
 
 ```python
-from agentobs_validate.errors.codes import ALL_ERROR_CODES, SIGNATURE_MISMATCH
+from spanforge_validate.errors.codes import ALL_ERROR_CODES, SIGNATURE_MISMATCH
 
 # Enumerate all known codes
 for code in sorted(ALL_ERROR_CODES):
@@ -572,8 +572,8 @@ Validate every event before writing it to a log store.
 Reject invalid events so the log remains clean.
 """
 import json
-from agentobs_validate.validator.engine import validate_event
-from agentobs_validate.validator.context import ValidationContext
+from spanforge_validate.validator.engine import validate_event
+from spanforge_validate.validator.context import ValidationContext
 
 ctx = ValidationContext()
 

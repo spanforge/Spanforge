@@ -4,7 +4,6 @@ import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
-import AuthSessionProvider from '@/components/AuthSessionProvider'
 import '../styles/globals.css'
 import '../styles/animations.css'
 
@@ -61,7 +60,7 @@ export const metadata = {
     default: 'SpanForge — Where Enterprise AI Goes to Production',
   },
   description:
-    'SpanForge is the AI lifecycle platform for enterprise teams — from deciding whether to build, to running confidently in production. Standards, frameworks, CLI tools, and SpanForge production observability across every phase.',
+    'SpanForge is the AI lifecycle platform for enterprise teams — from deciding whether to build, to running confidently in production. Standards, frameworks, CLI tools, and SpanForge production compliance across every phase.',
   keywords: [
     'AI lifecycle platform',
     'enterprise AI',
@@ -100,11 +99,9 @@ export default function RootLayout({ children }) {
       className={`${nunito.variable} ${inter.variable} ${jetbrainsMono.variable}`}
     >
       <body>
-        <AuthSessionProvider>
-          <Nav />
+        <Nav />
           <main id="main-content">{children}</main>
           <Footer />
-        </AuthSessionProvider>
 
         {/* Organization structured data */}
         <Script

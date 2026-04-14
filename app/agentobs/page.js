@@ -3,41 +3,41 @@ import TerminalMock from '@/components/TerminalMock'
 import styles from './page.module.css'
 
 export const metadata = {
-  title: 'SpanForge — Production Observability and Governance for AI Agents',
+  title: 'SpanForge — Compliance and Governance for Agentic AI',
   description:
-    'SpanForge is the production observability and governance platform for autonomous AI agents. Baseline behaviour, detect drift, enforce consent boundaries, and maintain an immutable audit trail — before regulators, users, or incident reports find the problem.',
+    'SpanForge is the compliance and governance platform for agentic AI systems. Structured event schema, HMAC-SHA256 audit chains, PII redaction, and provable regulatory compliance — EU AI Act, GDPR, SOC 2, ISO 42001, and NIST AI RMF.',
 }
 
 const FEATURES = [
   {
     num: '01',
-    title: 'Behavioural baselining',
-    desc: 'Instrument your agent at first deployment. Every subsequent run is automatically compared against established baselines — output distributions, confidence scores, token patterns, and decision frequencies.',
+    title: 'Structured compliance events',
+    desc: 'Every LLM call, tool invocation, decision, and guardrail check is recorded as a typed RFC-0001 event — a structured envelope with required fields, audit metadata, and schema-validated payloads.',
   },
   {
     num: '02',
-    title: 'Drift detection',
-    desc: 'Statistical drift detection using configurable thresholds. When outputs start deviating from baseline, SpanForge alerts before users notice. Z-score and KL-divergence metrics out of the box.',
+    title: 'HMAC-SHA256 audit chains',
+    desc: 'Every emitted event is cryptographically signed with HMAC-SHA256 and chained to its predecessor via prev_id. Verifying the chain proves the event stream has not been modified, reordered, or truncated.',
   },
   {
     num: '03',
-    title: 'Consent boundary enforcement',
-    desc: 'Define exactly which data fields and sources your agent is permitted to access. SpanForge monitors every decision for consent violations and escalates immediately when boundaries are breached.',
+    title: 'PII redaction before export',
+    desc: 'First-class PII detection and redaction via the llm.redact.* namespace. Sensitivity levels, custom redaction policies, and field-level re-identification risk — before any event reaches a backend.',
   },
   {
     num: '04',
-    title: 'Automated response playbooks',
-    desc: 'Pre-define runbooks for every alert type — pause the agent, escalate to a named responder, reroute to a fallback model, or log for later review. Playbooks execute in milliseconds.',
+    title: 'Regulatory framework mapping',
+    desc: 'ComplianceMappingEngine maps events to obligations under EU AI Act, GDPR, SOC 2, ISO 42001, and NIST AI RMF. HMAC-signed evidence packages are generated on demand for auditors and regulators.',
   },
   {
     num: '05',
-    title: 'Human-in-the-loop hooks',
-    desc: 'Low-confidence decisions are automatically queued for human approval before any output reaches users or downstream systems. Configurable confidence thresholds per decision type.',
+    title: 'Schema governance',
+    desc: 'Consumer registry, deprecation tracking, and schema migration tooling. Block or warn on disallowed event types, declare schema dependencies, and ensure every consumer is compatible before you ship.',
   },
   {
     num: '06',
-    title: 'Immutable audit trail',
-    desc: 'Every decision, alert, playbook execution, and human review is logged with an immutable, timestamped record. Export-ready for regulators, auditors, and post-incident reviews.',
+    title: 'Export to any backend',
+    desc: 'OTLP, Webhook, JSONL, Datadog, Grafana Loki, and Cloud export backends. EventStream multiplexer with Apache Kafka support for streaming compliance pipelines.',
   },
 ]
 
@@ -45,22 +45,22 @@ const HOW_IT_WORKS = [
   {
     step: '01',
     title: 'Instrument',
-    desc: 'Add the SpanForge SDK to your agent. One function call per decision point.',
+    desc: 'pip install spanforge and emit RFC-0001 events from every LLM call, tool invocation, and decision point. Zero required dependencies.',
   },
   {
     step: '02',
-    title: 'Baseline',
-    desc: 'Run your agent in staging. SpanForge establishes the behavioural baseline automatically.',
+    title: 'Sign',
+    desc: 'Every event carries an HMAC-SHA256 signature chained to the previous — tamper-evident audit trail by design, not by configuration.',
   },
   {
     step: '03',
-    title: 'Deploy',
-    desc: 'Ship to production with confidence. SpanForge monitors every decision in real time.',
+    title: 'Validate',
+    desc: 'Run spanforge validate in CI. Catch non-compliant events, schema violations, and broken audit chains at build time — not post-incident.',
   },
   {
     step: '04',
-    title: 'Respond',
-    desc: 'Alerts trigger playbooks. Humans are looped in exactly when needed — no more, no less.',
+    title: 'Prove',
+    desc: 'ComplianceMappingEngine generates HMAC-signed evidence packages mapped to EU AI Act, GDPR, SOC 2, ISO 42001, and NIST AI RMF.',
   },
 ]
 
@@ -76,9 +76,9 @@ export default function AgentObsPage() {
             <span className={styles.redAccent}>you can&rsquo;t see.</span>
           </h1>
           <p className={styles.heroSub}>
-            SpanForge is the production observability and governance platform for autonomous AI agents.
-            Baseline behaviour, detect drift, enforce consent, and respond automatically —
-            before regulators, users, or incident reports find the problem first.
+            SpanForge is the compliance and governance platform for agentic AI systems.
+            Structured RFC-0001 events, HMAC-signed audit chains, PII redaction, and regulatory
+            evidence packages — provable compliance before auditors or incidents find the problem first.
           </p>
           <div className={styles.heroCtas}>
             <Link href="/tools" className="btn-primary">
@@ -99,9 +99,9 @@ export default function AgentObsPage() {
               See it in action.
             </h2>
             <p className={styles.terminalCopy}>
-              Three scenarios. Three ways SpanForge catches what your monitoring
-              dashboards miss. Switch between tabs to explore — consent violations,
-              behavioural drift, and confidence breaches.
+              Three scenarios. Three ways SpanForge generates compliance evidence that
+              your dashboards miss. Switch between tabs to explore — consent records,
+              audit chain verification, and PII redaction events.
             </p>
             <p className={styles.terminalNote}>
               These are representative examples. Real output varies by agent configuration
@@ -191,21 +191,21 @@ export default function AgentObsPage() {
           </h2>
           <p className={styles.ecosystemSub}>
             From the open standard to the production SDK and developer tooling —
-            every layer of the observability stack is documented and ready to use.
+            every layer of the compliance stack is documented and ready to use.
           </p>
           <div className={styles.ecosystemGrid}>
             {[
               {
                 label: 'Open Standard',
                 title: 'RFC-0001 SPANFORGE',
-                desc: 'The schema specification at the core of the ecosystem. Defines the event envelope, 10 observability namespaces, HMAC audit chains, and conformance profiles. Open and vendor-neutral.',
-                href: '/agentobs/standard',
+                desc: 'The schema specification at the core of the ecosystem. Defines the event envelope, 15 compliance & governance namespaces, HMAC audit chains, and four conformance profiles. Open and vendor-neutral.',
+                href: '/standard',
                 cta: 'Read the standard →',
               },
               {
                 label: 'SpanForge SDK',
-                title: 'pip install agentobs',
-                desc: 'The reference implementation. pip-installable, zero required dependencies, covers all 10 namespaces with quickstart, integrations, and a CLI.',
+                title: 'pip install spanforge',
+                desc: 'The reference implementation. pip-installable, zero required dependencies, covers all 15 namespaces with quickstart, integrations, and a full CLI.',
                 href: '/agentobs/sdk',
                 cta: 'Explore the SDK →',
               },
@@ -243,12 +243,12 @@ export default function AgentObsPage() {
             Know what your AI is doing. Always.
           </h2>
           <p className={styles.ctaSub}>
-            SpanForge is the production observability and governance platform for autonomous AI
-            agents. Instrument, baseline, and govern your agents from day one.
+            SpanForge is the compliance and governance platform for agentic AI systems.
+            Instrument, sign, validate, and prove compliance from day one.
           </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginTop: '2rem' }}>
             <Link href="/agentobs/sdk" className="btn-primary">Get started with the SDK →</Link>
-            <Link href="/agentobs/standard" className="btn-ghost">Read the standard →</Link>
+            <Link href="/standard" className="btn-ghost">Read the standard →</Link>
           </div>
         </div>
       </section>

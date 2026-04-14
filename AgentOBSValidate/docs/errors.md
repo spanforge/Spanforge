@@ -1,6 +1,6 @@
 # Error Code Reference
 
-All validation error codes emitted by `agentobs-validate` are listed below.  
+All validation error codes emitted by `spanforge-validate` are listed below.  
 Every error object in the JSON output (§11) and human output (§10) uses one of these codes.
 
 ---

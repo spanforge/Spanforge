@@ -5,7 +5,7 @@ import styles from './page.module.css'
 export const metadata = {
   title: 'The Platform — SpanForge',
   description:
-    'The SpanForge five-phase AI lifecycle platform. Discover, Design, Build, Govern, and Scale — with the T.R.U.S.T. Framework running through every phase.',
+    'The SpanForge AI compliance platform. Five phases — Discover, Design, Build, Govern, Scale — with the T.R.U.S.T. Framework, cryptographic audit trails, and regulatory evidence generation at every stage.',
 }
 
 export default function PlatformPage() {
@@ -16,16 +16,16 @@ export default function PlatformPage() {
         <div className="container">
           <span className="eyebrow">The Platform</span>
           <h1 className={styles.h1}>
-            Five phases. One platform.<br />
-            <span className={styles.redAccent}>Zero shortcuts.</span>
+            Five phases. Provable compliance.<br />
+            <span className={styles.redAccent}>Cryptographic audit trail.</span>
           </h1>
           <p className={styles.heroSub}>
-            SpanForge structures the entire enterprise AI lifecycle — from the first
-            question of &ldquo;should we build this?&rdquo; to running agents safely
-            in production. Each phase has a clear entry condition, defined tools,
-            and an auditable exit gate.
+            SpanForge is the AI compliance platform for enterprise teams — structured around
+            RFC-0001 SpanForge, the open event-schema standard for AI governance. Each phase
+            has defined compliance obligations, auditable exit gates, and evidence that satisfies
+            EU AI Act, GDPR, SOC 2, ISO 42001, and NIST AI RMF.
           </p>
-          <p className={styles.heroTagline}>Decide. Build. Trust.</p>
+          <p className={styles.heroTagline}>Comply. Prove. Scale.</p>
         </div>
       </section>
 
@@ -34,7 +34,7 @@ export default function PlatformPage() {
         <div className="container">
           <span className="eyebrow">Five-phase lifecycle</span>
           <h2 id="phases-heading" className={styles.sectionH2}>
-            From first question to production.
+            From compliance baseline to production proof.
           </h2>
           <div className={styles.phaseCards}>
             {phases.map((phase) => (
@@ -81,7 +81,8 @@ export default function PlatformPage() {
               <p className={styles.trustCopy}>
                 Every SpanForge-certified AI system satisfies five dimensions of
                 responsible deployment. The T.R.U.S.T. Framework is not a checklist —
-                it is the lens through which every phase is evaluated.
+              it is the governance standard operationalised as technical controls, regulatory
+              evidence packages, and cryptographically signed audit trails.
               </p>
               <Link
                 href="/platform/trust"
@@ -111,7 +112,7 @@ export default function PlatformPage() {
         <div className="container">
           <span className="eyebrow">SpanForge frameworks</span>
           <h2 id="frameworks-heading" className={styles.sectionH2}>
-            The analytical frameworks
+            Compliance frameworks and intelligence layers
           </h2>
           <div className={styles.frameworkCards}>
             <Link href="/platform/exit-gate-system" className={styles.frameworkCard}>
@@ -159,13 +160,13 @@ export default function PlatformPage() {
               </p>
               <span className={styles.frameworkCardArrow} aria-hidden="true">→</span>
             </Link>
-            <Link href="/platform/costguard" className={styles.frameworkCard}>
-              <span className={styles.frameworkCardLabel}>Product — Design Phase</span>
-              <span className={styles.frameworkCardTitle}>CostGuard™</span>
+            <Link href="/platform/cost-intelligence" className={styles.frameworkCard}>
+              <span className={styles.frameworkCardLabel}>Cost Intelligence Layer</span>
+              <span className={styles.frameworkCardTitle}>Cost Intelligence</span>
               <p className={styles.frameworkCardDesc}>
-                Decision-time cost intelligence. Every architecture decision carries a cost
-                estimate before any resource is committed. Live for AWS; GCP and Azure in
-                development.
+                Design-time infrastructure estimates before any resource is committed, unified
+                with runtime token cost tracking across all LLM providers via the SpanForge
+                llm.cost.* namespace.
               </p>
               <span className={styles.frameworkCardArrow} aria-hidden="true">→</span>
             </Link>
@@ -176,9 +177,10 @@ export default function PlatformPage() {
       {/* Bottom CTA */}
       <section className={styles.cta}>
         <div className={`container ${styles.ctaInner}`}>
-          <h2 className={styles.ctaH2}>Start with the right phase.</h2>
+          <h2 className={styles.ctaH2}>Start with your compliance baseline.</h2>
           <p className={styles.ctaSub}>
-            Not sure where you are in the lifecycle? The Discover phase tells you.
+            Not sure where you stand against EU AI Act, GDPR, or SOC 2? The Discover phase
+            maps your obligations before you commit to architecture.
           </p>
           <Link href="/platform/discover" className="btn-primary">
             Start with Discover →

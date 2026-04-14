@@ -73,7 +73,7 @@ export default function AboutPage() {
               </p>
               <p className={styles.missionCopy}>
                 SpanForge answers those questions — with a structured lifecycle, governance
-                controls, and production observability built for enterprise AI delivery.
+                controls, and production compliance built for enterprise AI delivery.
               </p>
             </div>
           </div>
@@ -97,11 +97,11 @@ export default function AboutPage() {
               {[
                 'An AI delivery lifecycle platform',
                 'A governance and compliance framework engine',
-                'A production observability platform (SpanForge)',
+                'A production compliance platform (SpanForge)',
                 'A structured gate-based delivery system',
                 'An agent behaviour monitoring product',
                 'A risk and audit documentation system',
-                'A decision-time cost intelligence layer (CostGuard™)',
+                'A decision-time cost intelligence layer for infrastructure spend and runtime token cost attribution',
                 'A suite of standalone open-source CI/CD executables for individual T.R.U.S.T. gate checks (spanforge-secrets, spanforge-behaviour, spanforge-policy, spanforge-redteam)',
               ].map(item => (
                 <p key={item} className={styles.isNotItem}>
@@ -129,7 +129,7 @@ export default function AboutPage() {
           </div>
           <p className={styles.missionCopy} style={{ maxWidth: '640px', marginTop: '2rem' }}>
             SpanForge sits above infrastructure and models, and owns the lifecycle, governance,
-            and observability layers. Teams use their existing infrastructure and models —
+            and compliance layers. Teams use their existing infrastructure and models —
             SpanForge governs how AI systems are built, validated, and run on top of them.
           </p>
         </div>
@@ -168,8 +168,8 @@ export default function AboutPage() {
                 count: '01',
               },
               {
-                label: 'SpanForge Platform + CostGuard™',
-                detail: 'Deploy SpanForge for production observability — baseline behaviour, detect drift, enforce consent boundaries, and maintain an immutable audit trail. Activate CostGuard™ for pre-commitment infrastructure cost intelligence — in development for AWS, GCP, and Azure.',
+                label: 'SpanForge Platform + Cost Intelligence Layer',
+                detail: 'Deploy SpanForge for production compliance — baseline behaviour, detect drift, enforce consent boundaries, and maintain an immutable HMAC-signed audit trail via RFC-0001 SpanForge. The Cost Intelligence Layer provides design-time infrastructure cost estimation and runtime token cost tracking with full attribution across all providers.',
                 count: '02',
               },
               {

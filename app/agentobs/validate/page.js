@@ -10,11 +10,11 @@ export const metadata = {
 const CLI_OPTIONS = [
   { flag: '<file>',                    desc: 'Validate a JSONL stream or JSON array file.' },
   { flag: '--json',                    desc: 'JSON output for CI systems and downstream scripts.' },
-  { flag: 'cat file | agentobs-validate', desc: 'Read from STDIN — pipe-friendly for CI step composition.' },
+  { flag: 'cat file | spanforge validate', desc: 'Read from STDIN — pipe-friendly for CI step composition.' },
   { flag: '--otel',                    desc: 'OpenTelemetry compatibility mode — accept camelCase field names.' },
   { flag: '--schema-version <ver>',    desc: 'Pin validation to a specific schema version, e.g. --schema-version 0.1.' },
   { flag: '--key-file <path>',         desc: 'Cryptographic HMAC-SHA256 signature verification using a key file.' },
-  { flag: '--export-schema',           desc: 'Export the SPANFORGE event JSON Schema (Draft 2020-12) to stdout.' },
+  { flag: '--export-schema',           desc: 'Export the spanforge event JSON Schema (Draft 2020-12) to stdout.' },
 ]
 
 const EXIT_CODES = [
@@ -38,12 +38,12 @@ export default function ValidatePage() {
       {/* Hero */}
       <section className={styles.hero}>
         <div className="container">
-          <span className={styles.heroLabel}>agentobs-validate · Compliance Tool · In Development</span>
+          <span className={styles.heroLabel}>spanforge validate · Compliance Tool · In Development</span>
           <h1 className={styles.h1}>
             Schema compliance. In CI.
           </h1>
           <p className={styles.heroSub}>
-            SpanForge Validate is the reference validation CLI and Python SDK for the SPANFORGE
+            SpanForge Validate is the reference validation CLI and Python SDK for the spanforge
             event standard. Validate JSON and JSONL event streams, verify HMAC signing
             chains, and catch non-compliance at build time — before it reaches production.
           </p>
@@ -62,7 +62,7 @@ export default function ValidatePage() {
             <h2 className={styles.sectionH2}>One command to install.</h2>
             <div className={styles.installBlock}>
               <span className={styles.installCmd}>
-                <span>pip install</span> agentobs-validate
+                <span>pip install</span> spanforge
               </span>
             </div>
           </div>
@@ -76,7 +76,7 @@ export default function ValidatePage() {
             <span className="eyebrow">Quickstart · CLI</span>
             <h2 className={styles.sectionH2}>Validate from the terminal.</h2>
             <p className={styles.sectionBody}>
-              Point <code className={styles.inlineCode}>agentobs-validate</code> at any
+              Point <code className={styles.inlineCode}>spanforge-validate</code> at any
               JSONL file produced by the SpanForge SDK. Pass a file path, pipe from stdin,
               or integrate it as a step in your CI workflow.
             </p>
@@ -85,28 +85,28 @@ export default function ValidatePage() {
                 <span className={styles.codeBlockLang}>bash</span>
               </div>
               <pre className={styles.codeBlockBody}>{`# Validate a JSONL stream
-agentobs-validate events.jsonl
+spanforge validate events.jsonl
 
 # Validate a JSON array
-agentobs-validate events.json
+spanforge validate events.json
 
 # JSON output for CI / downstream scripts
-agentobs-validate events.jsonl --json
+spanforge validate events.jsonl --json
 
 # Read from STDIN
-cat events.jsonl | agentobs-validate
+cat events.jsonl | spanforge validate
 
 # OpenTelemetry compatibility: accept camelCase field names
-agentobs-validate events.jsonl --otel
+spanforge validate events.jsonl --otel
 
 # Pin to a specific schema version
-agentobs-validate events.jsonl --schema-version 0.1
+spanforge validate events.jsonl --schema-version 0.1
 
 # Cryptographic HMAC-SHA256 signature verification
-agentobs-validate events.jsonl --key-file signing.key
+spanforge validate events.jsonl --key-file signing.key
 
-# Export the AgentOBS event JSON Schema (Draft 2020-12)
-agentobs-validate --export-schema > agentobs-schema.json`}</pre>
+# Export the spanforge event JSON Schema (Draft 2020-12)
+spanforge validate --export-schema > spanforge-schema.json`}</pre>
             </div>
 
             <h3 style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.95rem', fontWeight: 600, color: 'var(--light)', marginTop: '2.5rem', marginBottom: '0.75rem' }}>
@@ -138,7 +138,7 @@ agentobs-validate --export-schema > agentobs-schema.json`}</pre>
             <span className="eyebrow">Quickstart · Python API</span>
             <h2 className={styles.sectionH2}>Programmatic validation.</h2>
             <p className={styles.sectionBody}>
-              Import <code className={styles.inlineCode}>agentobs_validate</code> to
+              Import <code className={styles.inlineCode}>spanforge_validate</code> to
               validate individual events or entire streams in your test suite, CI scripts,
               or monitoring pipelines.
             </p>
@@ -146,9 +146,9 @@ agentobs-validate --export-schema > agentobs-schema.json`}</pre>
               <div className={styles.codeBlockHeader}>
                 <span className={styles.codeBlockLang}>python</span>
               </div>
-              <pre className={styles.codeBlockBody}>{`from agentobs_validate.validator.engine import validate_event, validate_stream
-from agentobs_validate.validator.input_parser import iter_events
-from agentobs_validate.validator.context import ValidationContext
+              <pre className={styles.codeBlockBody}>{`from spanforge.validate import validate_event, validate_stream
+from spanforge.validate import iter_events
+from spanforge.validate import ValidationContext
 
 # Validate a single dict
 result = validate_event(1, {
@@ -194,7 +194,7 @@ with open("events.jsonl") as f:
             <span className="eyebrow">CI Integration</span>
             <h2 className={styles.sectionH2}>Add to your pipeline in two lines.</h2>
             <p className={styles.sectionBody}>
-              AgentOBSValidate exits <code className={styles.inlineCode}>0</code> on
+              SpanForge Validate exits <code className={styles.inlineCode}>0</code> on
               success and <code className={styles.inlineCode}>1</code> on failure, making
               it a natural CI gate. Run it in any GitHub Actions, GitLab CI, or Jenkins
               pipeline step.
@@ -204,15 +204,15 @@ with open("events.jsonl") as f:
                 <span className={styles.codeBlockLang}>yaml</span>
               </div>
               <pre className={styles.codeBlockBody}>{`# GitHub Actions example
-- name: Validate AgentOBS events
+- name: Validate spanforge events
   run: |
-    pip install agentobs-validate
-    agentobs-validate tests/fixtures/events.jsonl --json`}</pre>
+    pip install spanforge
+    spanforge validate tests/fixtures/events.jsonl --json`}</pre>
             </div>
             <p className={styles.sectionBody} style={{ marginTop: '1.5rem' }}>
               Use <code className={styles.inlineCode}>--json</code> to get structured
               output for downstream processing, test-result reporting, or integration
-              with your existing observability stack.
+              with your existing compliance pipeline.
             </p>
           </div>
         </div>
@@ -224,12 +224,12 @@ with open("events.jsonl") as f:
           <span className="eyebrow">The full stack</span>
           <h2 className={styles.ctaH2}>Standard. SDK. Debug. Validate.</h2>
           <p className={styles.ctaSub}>
-            Every layer of the AgentOBS observability stack is open, documented,
-            and ready to instrument your production AI agents.
+            Every layer of the spanforge compliance stack is open, documented,
+            and ready to instrument your production AI systems.
           </p>
           <div className={styles.ctaBtns}>
-            <Link href="/agentobs/standard" className="btn-primary">Read the standard →</Link>
-            <Link href="/agentobs" className="btn-ghost">AgentOBS overview →</Link>
+            <Link href="/standard" className="btn-primary">Read the standard →</Link>
+            <Link href="/agentobs" className="btn-ghost">SpanForge overview →</Link>
           </div>
         </div>
       </section>
@@ -237,8 +237,8 @@ with open("events.jsonl") as f:
       {/* Page nav */}
       <div className={styles.pageNav}>
         <div className={`container ${styles.pageNavInner}`}>
-          <Link href="/agentobs/debug" className={styles.pageNavLink}>← AgentOBSDebug</Link>
-          <Link href="/agentobs" className={styles.pageNavLink}>AgentOBS overview →</Link>
+          <Link href="/agentobs/debug" className={styles.pageNavLink}>← SpanForge Debug</Link>
+          <Link href="/agentobs" className={styles.pageNavLink}>SpanForge overview →</Link>
         </div>
       </div>
     </>

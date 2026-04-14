@@ -1,8 +1,8 @@
-# AgentOBS Validate — Specification
+# spanforge Validate — Specification
 
-> This file mirrors [`../agentobsvalidatespec.md`](../agentobsvalidatespec.md) for convenient reading from the `docs/` directory.
+> This file mirrors [`../SpanForgeValidatespec.md`](../SpanForgeValidatespec.md) for convenient reading from the `docs/` directory.
 > The canonical version is the root-level spec file.
 
-<!-- The spec content is maintained in agentobsvalidatespec.md at the repository root. -->
+<!-- The spec content is maintained in SpanForgeValidatespec.md at the repository root. -->
 
-See [agentobsvalidatespec.md](../agentobsvalidatespec.md).
+See [SpanForgeValidatespec.md](../SpanForgeValidatespec.md).

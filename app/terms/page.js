@@ -37,7 +37,7 @@ export default function TermsPage() {
             <h2 className={styles.h2}>2. Description of Service</h2>
             <p>
               SpanForge provides an AI lifecycle platform including standards, frameworks,
-              CLI tools, and the AgentOBS observability product for enterprise teams. The
+              CLI tools, and the SpanForge compliance product for enterprise teams. The
               Service is provided &ldquo;as is&rdquo; during the current build phase and
               specific features, tools, and availability are subject to change.
             </p>
@@ -49,7 +49,7 @@ export default function TermsPage() {
               All content on this website — including text, standards documents, frameworks,
               specifications, code examples, and branding — is the property of SpanForge
               unless otherwise stated. The T.R.U.S.T. Framework, the SpanForge Standard
-              RFC series, and AgentOBS are proprietary to SpanForge.
+              RFC series are proprietary to SpanForge.
             </p>
             <p>
               Certain resources in the Library are published for reference. You may read

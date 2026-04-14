@@ -1,7 +1,7 @@
 import styles from './ToolCard.module.css'
 
-const badgeClass = { webapp: 'badge-webapp', rust: 'badge-rust', doc: 'badge-doc', fw: 'badge-fw', product: 'badge-product' }
-const badgeLabel = { webapp: 'Web App', rust: 'CLI Tool', doc: 'Document', fw: 'Framework', product: 'Product' }
+const badgeClass = { webapp: 'badge-webapp', python: 'badge-python', doc: 'badge-doc', fw: 'badge-fw', product: 'badge-product' }
+const badgeLabel = { webapp: 'Web App', python: 'Python CLI', doc: 'Document', fw: 'Framework', product: 'Product' }
 
 export default function ToolCard({ tool, locked = false, hideName = false }) {
   if (locked) {
@@ -29,7 +29,7 @@ export default function ToolCard({ tool, locked = false, hideName = false }) {
       </div>
       {!hideName && (
         <h3 className={styles.name}>
-          {tool.type === 'rust' ? <code>{tool.name}</code> : tool.name}
+          {tool.type === 'python' ? <code>{tool.name}</code> : tool.name}
         </h3>
       )}
       <p className={styles.desc}>{tool.description}</p>

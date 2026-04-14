@@ -1,0 +1,153 @@
+---
+title: "RFC-0001: SPANFORGE — Open Event-Schema Standard for AI Compliance"
+type: spec
+date: "2026-04-03"
+author: "SpanForge Maintainers"
+excerpt: "The full SPANFORGE open specification. Defines the Event Envelope, Namespace Taxonomy, HMAC Audit Chains, PII Redaction Framework, and Compliance Namespaces for standardised AI compliance across any LLM provider."
+tags:
+  - spanforge
+  - compliance
+  - open-standard
+  - opentelemetry
+  - security
+  - privacy
+---
+
+# RFC-0001: SPANFORGE — Open Event-Schema Standard for AI Compliance
+
+**Status:** Accepted  
+**Version:** 1.0.0  
+**Authors:** SpanForge Maintainers  
+**Created:** 2025  
+**Updated:** 2026
+
+---
+
+## Abstract
+
+This RFC defines the SPANFORGE event-schema standard: a structured, typed event envelope for recording, signing, redacting, and exporting events emitted by agentic AI systems. The goal is a language-agnostic, vendor-neutral schema that any instrumentation library can emit and any compliance backend can consume.
+
+---
+
+## Motivation
+
+Agentic AI systems (LLM pipelines, tool-calling agents, multi-step workflows) produce rich operational data — model calls, tool invocations, memory reads, guardrail decisions, cost accrual, PII exposure — but there is no shared vocabulary for this data. Each vendor invents its own schema, creating lock-in and making cross-tool analysis impossible.
+
+SPANFORGE provides the missing standard: a minimal, extensible envelope that covers the full lifecycle of an AI event while remaining compatible with OpenTelemetry spans.
+
+---
+
+## Core Concepts
+
+### 1. Event Envelope
+
+Every SPANFORGE event is a JSON object with the following top-level fields:
+
+| Field | Type | Required | Description |
+|---|---|:---:|---|
+| `event_id` | `string` (UUID v4) | ✅ | Globally unique event identifier |
+| `schema_version` | `string` (semver) | ✅ | Schema version, e.g. `"1.0.0"` |
+| `namespace` | `string` | ✅ | Event type namespace (see §4) |
+| `timestamp` | `string` (ISO 8601 UTC) | ✅ | Event creation time |
+| `service_name` | `string` | ✅ | Emitting service name |
+| `payload` | `object` | ✅ | Namespace-specific data |
+| `trace_id` | `string` | — | Parent trace identifier |
+| `span_id` | `string` | — | Span identifier for this event |
+| `parent_span_id` | `string` | — | Parent span for hierarchy |
+| `signature` | `string` | — | HMAC-SHA256 over canonical form |
+| `redacted_fields` | `array[string]` | — | Fields redacted by PII filter |
+| `meta` | `object` | — | Arbitrary extension metadata |
+
+### 2. Canonical Form
+
+The canonical form used for signing is the JSON object serialized with:
+- Keys sorted lexicographically (recursive)
+- No extra whitespace
+- UTF-8 encoding
+- `signature` field excluded from the signed body
+
+### 3. HMAC Signing
+
+```
+signature = HMAC-SHA256(key=secret, msg=canonical_json_bytes).hex()
+```
+
+Chain integrity is verified by re-computing the signature and checking `timestamp` monotonicity across a sequence of events.
+
+### 4. Namespaces
+
+SPANFORGE defines 22+ built-in namespaces. Each namespace specifies the shape of `payload`:
+
+**Compliance & Governance**
+
+| Namespace | Description |
+|---|---|
+| `consent.granted` / `consent.revoked` / `consent.violation` | Data-subject consent lifecycle (GDPR Art. 22/25) |
+| `hitl.queued` / `hitl.reviewed` / `hitl.escalated` / `hitl.timeout` | Human-in-the-loop review workflow (EU AI Act Art. 14) |
+| `model_registry.registered` / `model_registry.deprecated` / `model_registry.retired` | Model governance lifecycle (SOC 2 CC6.1, NIST MAP 1.1) |
+| `explanation.generated` | Decision explainability record (EU AI Act Art. 13, NIST MAP 1.1) |
+| `audit.access` | Data access record |
+| `compliance.check` | Compliance rule evaluation result |
+
+**Instrumentation & Telemetry**
+
+| Namespace | Description |
+|---|---|
+| `llm.call` | LLM request/response, token counts, model info |
+| `llm.stream` | Streaming token events |
+| `agent.decision` | Agent reasoning step / tool selection |
+| `agent.execution` | Tool execution result |
+| `agent.memory` | Memory read/write operations |
+| `tool.call` | Generic tool invocation |
+| `tool.result` | Tool execution outcome |
+| `guardrail.check` | Content / safety filter evaluation |
+| `guardrail.block` | Blocked request with reason |
+| `cost.usage` | Token cost accrual |
+| `cost.budget` | Budget limit event |
+| `retrieval.query` | RAG retrieval request |
+| `retrieval.result` | RAG retrieval results |
+| `session.start` / `session.end` | Session lifecycle |
+| `error.exception` | Exception with stack trace |
+
+Custom namespaces MUST use reverse-DNS notation: `com.example.my_namespace`.
+
+### 5. Schema Versioning
+
+**Short version:**
+- MAJOR version bumps are breaking; implementations MUST reject events from future major versions
+- MINOR version bumps add fields; implementations MUST ignore unknown fields (be liberal in what you accept)
+- PATCH version bumps are documentation/clarification only
+
+---
+
+## Reference Implementation
+
+The `spanforge` Python package is the reference implementation of this RFC:
+
+```python
+import spanforge
+
+# Emit a compliant event
+event = spanforge.Event(
+    namespace="llm.call",
+    payload={"model": "gpt-4o", "prompt_tokens": 512, "completion_tokens": 128},
+    service_name="my-agent",
+)
+print(event.to_dict())
+```
+
+---
+
+## Backward Compatibility
+
+All changes to this RFC go through the RFC amendment process:
+1. Open a GitHub Issue with the `rfc-amendment` label
+2. Discussion period of minimum 14 days
+3. Two maintainer approvals required
+4. Schema version bump per semver rules
+
+---
+
+## License
+
+This RFC and the SPANFORGE schema are published under MIT License.

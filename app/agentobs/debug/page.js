@@ -51,16 +51,14 @@ const API_FUNCTIONS = [
 ]
 
 const CLI_COMMANDS = [
-  { cmd: 'replay',      args: 'events.jsonl --trace <id>',      desc: 'Step-by-step replay of a single trace.' },
-  { cmd: 'inspect',     args: 'events.jsonl --trace <id>',      desc: 'Print a trace summary.' },
-  { cmd: 'tree',        args: 'events.jsonl --trace <id>',      desc: 'Print the span hierarchy tree.' },
-  { cmd: 'timeline',    args: 'events.jsonl --trace <id>',      desc: 'Print the execution timeline.' },
-  { cmd: 'tools',       args: 'events.jsonl --trace <id>',      desc: 'List all tool calls.' },
-  { cmd: 'decisions',   args: 'events.jsonl --trace <id>',      desc: 'List all decision points.' },
-  { cmd: 'cost',        args: 'events.jsonl --trace <id>',      desc: 'Print cost summary.' },
-  { cmd: 'attribution', args: 'events.jsonl --trace <id>',      desc: 'Per-span cost/latency breakdown.' },
-  { cmd: 'report',      args: 'events.jsonl',                   desc: 'Batch summary across all traces.' },
-  { cmd: 'diff',        args: 'events.jsonl --trace-a --trace-b', desc: 'Diff two traces side-by-side.' },
+  { cmd: 'inspect',     args: 'events.jsonl --event-id <id>',   desc: 'Pretty-print a single event by event_id.' },
+  { cmd: 'stats',       args: 'events.jsonl',                   desc: 'Print event-type counts, trace count, and time range.' },
+  { cmd: 'report',      args: 'events.jsonl',                   desc: 'Generate a static HTML trace report.' },
+  { cmd: 'serve',       args: 'events.jsonl [--port 8888]',     desc: 'Start a local HTTP trace viewer at /traces.' },
+  { cmd: 'ui',          args: 'events.jsonl',                   desc: 'Open trace viewer in your browser.' },
+  { cmd: 'audit-chain', args: 'events.jsonl [--key-file <k>]',  desc: 'Verify HMAC-SHA256 signing chain integrity.' },
+  { cmd: 'scan',        args: 'events.jsonl',                   desc: 'Scan for PII using built-in regex detectors.' },
+  { cmd: 'compliance',  args: 'events.jsonl [--framework <f>]', desc: 'Generate HMAC-signed compliance evidence packages.' },
 ]
 
 export default function DebugPage() {
@@ -78,7 +76,7 @@ export default function DebugPage() {
       {/* Hero */}
       <section className={styles.hero}>
         <div className="container">
-          <span className={styles.heroLabel}>agentobs-debug · Developer Tool · In Development</span>
+          <span className={styles.heroLabel}>spanforge · Developer Tool · In Development</span>
           <h1 className={styles.h1}>
             See inside every agent run.
           </h1>
@@ -102,12 +100,12 @@ export default function DebugPage() {
             <span className="eyebrow">Installation</span>
             <h2 className={styles.sectionH2}>Install in seconds.</h2>
             <p className={styles.sectionBody}>
-              Requires Python ≥ 3.10 and{' '}
-              <code className={styles.inlineCode}>agentobs &gt;= 1.0.5</code>.
+              Requires Python ≥ 3.9 and{' '}
+              <code className={styles.inlineCode}>spanforge &gt;= 1.0.8</code>.
             </p>
             <div className={styles.installBlock}>
               <span className={styles.installCmd}>
-                <span>pip install</span> agentobs-debug
+                <span>pip install</span> spanforge
               </span>
             </div>
           </div>
@@ -122,7 +120,7 @@ export default function DebugPage() {
             <h2 className={styles.sectionH2}>Start from the terminal.</h2>
             <p className={styles.sectionBody}>
               All SpanForge Debug functionality is accessible from the{' '}
-              <code className={styles.inlineCode}>agentobs-debug</code> CLI. Point it
+              <code className={styles.inlineCode}>spanforge</code> CLI. Point it
               at any JSONL file produced by the SpanForge SDK.
             </p>
             <div className={styles.codeBlock}>
@@ -131,22 +129,20 @@ export default function DebugPage() {
               </div>
               <pre className={styles.codeBlockBody}>{`TRACE="4bf92f3577b34da6a3ce929d0e0e4736"
 
-# Step-by-step replay
-agentobs-debug replay events.jsonl --trace $TRACE
+# Inspect a single event by event_id
+spanforge inspect events.jsonl --event-id $TRACE
 
-# Span hierarchy tree
-agentobs-debug tree events.jsonl --trace $TRACE
+# Print span counts and time range
+spanforge stats events.jsonl
 
-# Execution timeline
-agentobs-debug timeline events.jsonl --trace $TRACE
+# Generate a static HTML trace report
+spanforge report events.jsonl
 
-# Per-span cost/latency breakdown
-agentobs-debug attribution events.jsonl --trace $TRACE
+# Start a local HTTP trace viewer at /traces
+spanforge serve events.jsonl
 
-# Diff two traces
-agentobs-debug diff events.jsonl \\
-  --trace-a $TRACE \\
-  --trace-b aaaa0000000000000000000000000001`}</pre>
+# Open trace viewer in browser
+spanforge ui events.jsonl`}</pre>
             </div>
           </div>
         </div>
@@ -159,7 +155,7 @@ agentobs-debug diff events.jsonl \\
             <span className="eyebrow">Quickstart · Python API</span>
             <h2 className={styles.sectionH2}>Or use it programmatically.</h2>
             <p className={styles.sectionBody}>
-              Import <code className={styles.inlineCode}>agentobs_debug</code> and
+              Import <code className={styles.inlineCode}>spanforge.debug</code> and
               call the same functions from your test suite, notebooks, or automation
               scripts.
             </p>
@@ -167,30 +163,20 @@ agentobs-debug diff events.jsonl \\
               <div className={styles.codeBlockHeader}>
                 <span className={styles.codeBlockLang}>python</span>
               </div>
-              <pre className={styles.codeBlockBody}>{`import agentobs_debug as aod
+              <pre className={styles.codeBlockBody}>{`from spanforge.debug import print_tree, summary, visualize
+from spanforge._store import TraceStore
 
-stream = aod.load_events("events.jsonl")
-trace  = "4bf92f3577b34da6a3ce929d0e0e4736"
+store = TraceStore.load("events.jsonl")
+trace = store.get_trace("4bf92f3577b34da6a3ce929d0e0e4736")
 
-# Single-trace inspection
-aod.inspect_trace(trace, stream=stream)
-aod.print_trace_tree(trace, stream=stream)
-aod.timeline(trace, stream=stream)
+# Print span hierarchy tree
+print_tree(trace)
 
-# Cost analysis
-aod.cost_summary(trace, stream=stream)
-aod.cost_attribution(trace, stream=stream)
+# Compact summary: span count, cost, duration, model, status
+summary(trace)
 
-# Tool and decision analysis
-aod.show_tools(trace, stream=stream)
-aod.show_decisions(trace, stream=stream)
-
-# Multi-trace
-from agentobs_debug.report import batch_report
-from agentobs_debug.diff import diff_traces
-
-batch_report("events.jsonl")
-diff_traces(trace, "other-trace-id", stream=stream)`}</pre>
+# Open visual trace viewer
+visualize(trace)`}</pre>
             </div>
           </div>
         </div>
@@ -223,7 +209,7 @@ diff_traces(trace, "other-trace-id", stream=stream)`}</pre>
       <section className={styles.sectionCharcoal}>
         <div className="container">
           <span className="eyebrow">CLI Reference</span>
-          <h2 className={styles.sectionH2}>agentobs-debug commands.</h2>
+          <h2 className={styles.sectionH2}>spanforge debug commands.</h2>
           <div className={styles.tableWrap}>
             <table className={styles.table}>
               <thead>
@@ -253,7 +239,7 @@ diff_traces(trace, "other-trace-id", stream=stream)`}</pre>
             build time, and verify HMAC chains before shipping.
           </p>
           <div className={styles.ctaBtns}>
-            <Link href="/agentobs/validate" className="btn-primary">AgentOBSValidate →</Link>
+            <Link href="/agentobs/validate" className="btn-primary">SpanForge Validate →</Link>
             <Link href="/agentobs/sdk" className="btn-ghost">Back to the SDK →</Link>
           </div>
         </div>
@@ -263,7 +249,7 @@ diff_traces(trace, "other-trace-id", stream=stream)`}</pre>
       <div className={styles.pageNav}>
         <div className={`container ${styles.pageNavInner}`}>
           <Link href="/agentobs/sdk" className={styles.pageNavLink}>← Python SDK</Link>
-          <Link href="/agentobs/validate" className={styles.pageNavLink}>AgentOBSValidate →</Link>
+          <Link href="/agentobs/validate" className={styles.pageNavLink}>SpanForge Validate →</Link>
         </div>
       </div>
     </>

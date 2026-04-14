@@ -2,7 +2,7 @@
 
 /* 1. HERO */
 .hero {
-  padding: 140px 0 100px;
+  padding: 76px 0 100px;
   background: var(--dark);
   background-image:
     radial-gradient(ellipse 800px 600px at 60% 40%, rgba(26,111,219,0.07) 0%, transparent 70%);
@@ -801,7 +801,7 @@
 }
 
 @media (max-width: 700px) {
-  .hero { padding: 100px 0 72px; }
+  .hero { padding: 44px 0 72px; }
 
   .problemStats {
     grid-template-columns: 1fr;

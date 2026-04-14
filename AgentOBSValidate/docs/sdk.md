@@ -1,6 +1,6 @@
 # SDK Reference — Programmatic Usage
 
-`agentobs-validate` ships as a fully importable Python library in addition to its CLI.
+`spanforge-validate` ships as a fully importable Python library in addition to its CLI.
 Core validation capabilities are available as a Python API. CLI-only flags such as
 `--strict` are command-interface behaviors, not separate SDK methods.
 
@@ -9,7 +9,7 @@ Core validation capabilities are available as a Python API. CLI-only flags such 
 ## Installation
 
 ```bash
-pip install agentobs-validate
+pip install spanforge-validate
 ```
 
 ---
@@ -17,7 +17,7 @@ pip install agentobs-validate
 ## Package layout
 
 ```
-agentobs_validate/
+spanforge_validate/
 ├── cli/main.py              # Click entry point (CLI only)
 ├── errors/
 │   ├── codes.py             # Error code string constants + ALL_ERROR_CODES
@@ -44,7 +44,7 @@ agentobs_validate/
 The atomic unit of a failed validation.
 
 ```python
-from agentobs_validate.errors.models import ValidationError
+from spanforge_validate.errors.models import ValidationError
 
 # Fields:
 # .code     — machine-readable error code (str)
@@ -58,7 +58,7 @@ from agentobs_validate.errors.models import ValidationError
 The outcome of validating a single event.
 
 ```python
-from agentobs_validate.validator.results import EventResult
+from spanforge_validate.validator.results import EventResult
 
 # Fields:
 # .index   — 1-based position in the input stream (int)
@@ -71,7 +71,7 @@ from agentobs_validate.validator.results import EventResult
 The aggregated outcome of validating a stream of events.
 
 ```python
-from agentobs_validate.validator.results import StreamResult
+from spanforge_validate.validator.results import StreamResult
 
 # Fields:
 # .events_checked  — total events processed (int)
@@ -86,7 +86,7 @@ from agentobs_validate.validator.results import StreamResult
 Per-run configuration: OTel mode, schema version, HMAC key.
 
 ```python
-from agentobs_validate.validator.context import ValidationContext
+from spanforge_validate.validator.context import ValidationContext
 
 ctx = ValidationContext(
     otel_mode=False,       # accept camelCase OTel aliases
@@ -104,7 +104,7 @@ ctx = ValidationContext(
 Validate a single event dict.
 
 ```python
-from agentobs_validate.validator.engine import validate_event
+from spanforge_validate.validator.engine import validate_event
 
 result = validate_event(1, event_dict)
 # result.status   → "pass" or "fail"
@@ -125,7 +125,7 @@ All field validators run regardless of earlier failures (**non-short-circuit**).
 Validate every event in an iterator.
 
 ```python
-from agentobs_validate.validator.engine import validate_stream
+from spanforge_validate.validator.engine import validate_stream
 
 result = validate_stream(iter([(1, event1), (2, event2)]))
 # result.events_checked  → 2
@@ -145,7 +145,7 @@ result = validate_stream(iter([(1, event1), (2, event2)]))
 Open a file (or stdin) and yield `(position, event_dict)` pairs.
 
 ```python
-from agentobs_validate.validator.input_parser import iter_events, ParseError
+from spanforge_validate.validator.input_parser import iter_events, ParseError
 
 try:
     for position, event in iter_events("events.jsonl"):
@@ -166,7 +166,7 @@ except ParseError as exc:
 Return the human-readable report string (spec §10).
 
 ```python
-from agentobs_validate.validator.formatters import format_human
+from spanforge_validate.validator.formatters import format_human
 
 print(format_human(result))
 ```
@@ -192,7 +192,7 @@ invalid: 1
 Return the machine-readable JSON report string (spec §11).
 
 ```python
-from agentobs_validate.validator.formatters import format_json
+from spanforge_validate.validator.formatters import format_json
 import json
 
 report = json.loads(format_json(result))
@@ -206,7 +206,7 @@ print(report["summary"]["valid"])
 Return the JSON Schema (Draft 2020-12) as a Python dict.
 
 ```python
-from agentobs_validate.schema.json_schema import build_json_schema
+from spanforge_validate.schema.json_schema import build_json_schema
 
 schema = build_json_schema("0.1")
 # schema["$schema"]    → "https://json-schema.org/draft/2020-12/schema"
@@ -222,7 +222,7 @@ Raises `ValueError` if `schema_version` is not in `SUPPORTED_VERSIONS`.
 Return the JSON Schema as a formatted JSON string (``indent=2``).
 
 ```python
-from agentobs_validate.schema.json_schema import export_schema
+from spanforge_validate.schema.json_schema import export_schema
 
 print(export_schema("0.1"))
 ```
@@ -231,10 +231,10 @@ print(export_schema("0.1"))
 
 ## Error codes
 
-All error code constants live in `agentobs_validate.errors.codes`.
+All error code constants live in `spanforge_validate.errors.codes`.
 
 ```python
-from agentobs_validate.errors.codes import (
+from spanforge_validate.errors.codes import (
     MISSING_EVENT_ID,    # "MISSING_EVENT_ID"
     INVALID_ULID,        # "INVALID_ULID"
     MISSING_TIMESTAMP,   # "MISSING_TIMESTAMP"
@@ -300,6 +300,6 @@ Both are safe to call from multiple threads simultaneously.
 ## Supported schema versions
 
 ```python
-from agentobs_validate.schema.json_schema import SUPPORTED_VERSIONS
+from spanforge_validate.schema.json_schema import SUPPORTED_VERSIONS
 # frozenset({"0.1"})
 ```

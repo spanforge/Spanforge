@@ -7,16 +7,16 @@ import { phases, pipelineStages } from '@/lib/phases-data'
 import styles from './page.module.css'
 
 export const metadata = {
-  title: 'SpanForge — Where Enterprise AI Goes to Production',
+  title: 'SpanForge — The AI Compliance Platform',
   description:
-    'SpanForge is the AI lifecycle platform for enterprise teams — from deciding whether to build, to running confidently in production. The T.R.U.S.T. Framework, Exit Gate System, CostGuard™, and production observability across every phase.',
+    'SpanForge is the AI compliance platform for enterprise teams — structured around RFC-0001 SpanForge. Five phases, cryptographic audit trails, and regulatory evidence for EU AI Act, GDPR, SOC 2, ISO 42001, and NIST AI RMF.',
 }
 
 const HERO_STATS = [
-  { value: '5',    label: 'Lifecycle phases'                      },
+  { value: '5',    label: 'Compliance lifecycle phases'                      },
   { value: '102',  label: 'Tools & frameworks planned'             },
   { value: '6',    label: 'Mandatory Build phase CI/CD gates'      },
-  { value: '2',    label: 'Products in build — SpanForge + CostGuard™' },
+  { value: '15',   label: 'SpanForge namespaces — RFC-0001 standard' },
 ]
 
 const PROBLEM_STATS = [
@@ -25,7 +25,7 @@ const PROBLEM_STATS = [
   { value: '39%',  label: 'of organisations report any measurable enterprise AI business impact' },
 ]
 
-const AGENTOBS_FEATURES = [
+const SPANFORGE_FEATURES = [
   {
     icon: '◈',
     title: 'Baseline everything',
@@ -39,7 +39,7 @@ const AGENTOBS_FEATURES = [
   {
     icon: '⬤',
     title: 'Consent boundary enforcement',
-    desc: 'Define what data your agent is permitted to access. AgentOBS raises the alarm when boundaries are crossed.',
+    desc: 'Define what data your agent is permitted to access. SpanForge raises the alarm when boundaries are crossed.',
   },
   {
     icon: '◻',
@@ -68,9 +68,8 @@ export default function Home() {
           <div className={styles.heroLeft}>
             <span className={`eyebrow ${styles.heroEyebrow}`}>
               <span className={styles.liveDot} aria-label="In Build" />
-              SpanForge in build · CostGuard™ in development
+              SpanForge AI Compliance Platform · Live
             </span>
-
             <h1 id="hero-heading" className={styles.heroH1}>
               Where Enterprise AI<br />
               <em className={styles.heroItalic}>Goes to</em>{' '}
@@ -78,9 +77,10 @@ export default function Home() {
             </h1>
 
             <p className={styles.heroCopy}>
-              SpanForge is the AI lifecycle platform for enterprise teams — from deciding
+              SpanForge is the AI compliance platform for enterprise teams — from deciding
               whether to build, through architecture and engineering, to governance and
-              scale. Every phase covered with standards, frameworks, and tools.
+              scale. Every phase covered with the RFC-0001 SpanForge standard, regulatory
+              evidence generation, and cryptographic audit trails.
             </p>
 
             <div className={styles.heroCtas}>
@@ -96,7 +96,7 @@ export default function Home() {
             </div>
 
             <p className={styles.heroTagline}>
-              Decide. Build. Trust.
+              Comply. Prove. Scale.
             </p>
           </div>
 
@@ -134,7 +134,7 @@ export default function Home() {
           <div className={styles.agentobsStripLeft}>
             <span className={styles.agentobsTag}>In Build</span>
             <p className={styles.agentobsStripText}>
-              <strong>SpanForge</strong> — Production observability and governance for autonomous AI agents.
+              <strong>SpanForge</strong> — Production compliance and governance for autonomous AI agents.
               Baseline. Detect. Enforce. Audit.
             </p>
           </div>
@@ -175,16 +175,17 @@ export default function Home() {
               The AI Lifecycle Platform<br />for enterprise teams.
             </h2>
             <p className={styles.whatIsCopy}>
-              SpanForge is the AI lifecycle platform for enterprise teams — from deciding
-              whether to build, to running confidently in production. It covers all five
+              SpanForge is the AI compliance platform for enterprise teams — from deciding
+              whether to build, to proving compliance in production. It covers all five
               phases: Discover, Design, Build, Govern, and Scale.
             </p>
             <p className={styles.whatIsCopy}>
               Built around the <strong>T.R.U.S.T. Framework</strong> — an open governance standard defining five dimensions
               every production AI system must satisfy: Transparency, Responsibility,
               User Rights, Safety Guardrails, and Traceability. SpanForge delivers production
-              observability and governance at the Scale phase. CostGuard™ delivers pre-commitment cost intelligence
-              at Design — in development for AWS, GCP, and Azure.
+              compliance at the Scale phase via the RFC-0001 SpanForge standard —
+              cryptographic audit trails, regulatory evidence generation, and drift detection for
+              EU AI Act, GDPR, SOC 2, ISO 42001, and NIST AI RMF.
             </p>
             <Link href="/platform" className="btn-ghost" style={{ marginTop: '1.5rem', display: 'inline-flex' }}>
               Explore the five phases →
@@ -296,7 +297,7 @@ export default function Home() {
           <div className={styles.agentobsLeft}>
             <span className="eyebrow">SpanForge Platform</span>
             <h2 id="agentobs-heading" className={styles.agentobsH2}>
-              Observability for AI agents<br />
+              Compliance for AI agents<br />
               <span className={styles.agentobsRed}>that actually run in production.</span>
             </h2>
             <p className={styles.agentobsCopy}>
@@ -307,7 +308,7 @@ export default function Home() {
             </p>
 
             <div className={styles.agentobsFeatures}>
-              {AGENTOBS_FEATURES.map(f => (
+              {SPANFORGE_FEATURES.map(f => (
                 <div key={f.title} className={styles.featureItem}>
                   <span className={styles.featureIcon} aria-hidden="true">{f.icon}</span>
                   <div>
@@ -370,13 +371,13 @@ export default function Home() {
         <div className={`container ${styles.waitlistInner}`}>
           <span className="eyebrow">SpanForge — under active development</span>
           <h2 id="cta-heading" className={styles.waitlistH2}>
-            Decide. Build. Trust.
+            Comply. Prove. Scale.
           </h2>
           <p className={styles.waitlistSub}>
-            SpanForge is the AI lifecycle platform for enterprise teams. The SpanForge production
-            observability platform, CostGuard™ cost intelligence, and standalone T.R.U.S.T. gate
-            executables are all actively being built — sign up for early access or follow along as
-            we ship.
+            SpanForge is the AI compliance platform for enterprise teams. The SpanForge production
+            compliance platform, RFC-0001 SpanForge standard, Cost Intelligence Layer, and
+            standalone T.R.U.S.T. gate executables are all actively being built — sign up for
+            early access or follow along as we ship.
           </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginTop: '2rem' }}>
             <Link href="/contact" className="btn-primary">Request a Briefing →</Link>

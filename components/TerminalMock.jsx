@@ -19,7 +19,7 @@ const scenarios = {
       { label: 'action',    value: 'ESCALATED to compliance@org', labelColor: '#5DADE2', valueColor: '#EC7063' },
       { label: 'playbook',  value: 'GDPR-002 triggered',          labelColor: '#5DADE2', valueColor: '#58D68D' },
       { label: 'agent',     value: 'PAUSED pending human review', labelColor: '#5DADE2', valueColor: '#58D68D' },
-      { type: 'comment', text: '// AgentOBS caught it before the regulator did.' },
+      { type: 'comment', text: '// SpanForge caught it before the regulator did.' },
     ],
   },
   drift: {
@@ -68,7 +68,7 @@ export default function TerminalMock() {
     <div
       className={styles.wrap}
       role="region"
-      aria-label="AgentOBS live monitoring example"
+      aria-label="SpanForge live monitoring example"
     >
       {/* Tab bar */}
       <div className={styles.tabs} role="tablist">
@@ -90,7 +90,7 @@ export default function TerminalMock() {
         <span className={styles.dot} style={{ background: '#C0392B' }} aria-hidden="true" />
         <span className={styles.dot} style={{ background: '#F0A500' }} aria-hidden="true" />
         <span className={styles.dot} style={{ background: '#58D68D' }} aria-hidden="true" />
-        <span className={styles.barLabel}>AgentOBS — Production Monitor</span>
+        <span className={styles.barLabel}>SpanForge — Production Monitor</span>
       </div>
 
       {/* Terminal body */}

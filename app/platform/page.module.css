@@ -1,6 +1,6 @@
 /* Hero */
 .hero {
-  padding: 140px 0 80px;
+  padding: 76px 0 80px;
   background: var(--dark);
 }
 
@@ -318,7 +318,7 @@
 }
 
 @media (max-width: 700px) {
-  .hero { padding: 100px 0 60px; }
+  .hero { padding: 44px 0 60px; }
   .phaseCards {
     grid-template-columns: 1fr;
   }

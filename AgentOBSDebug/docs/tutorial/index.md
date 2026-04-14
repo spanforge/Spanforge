@@ -1,15 +1,15 @@
-# agentobs-debug Tutorial
+# spanforge-debug Tutorial
 
 **Version:** 1.0.1  
-**Audience:** Developers who build or operate AI agents with the AgentOBS SDK and need to inspect, debug, and understand trace data.
+**Audience:** Developers who build or operate AI agents with the spanforge SDK and need to inspect, debug, and understand trace data.
 
 ---
 
 ## Table of Contents
 
-1. [What is agentobs-debug?](#1-what-is-agentobs-debug)
+1. [What is spanforge-debug?](#1-what-is-spanforge-debug)
 2. [What problem does it solve?](#2-what-problem-does-it-solve)
-3. [How AgentOBS traces work](#3-how-agentobs-traces-work)
+3. [How spanforge traces work](#3-how-spanforge-traces-work)
 4. [Installation](#4-installation)
 5. [Your first trace file](#5-your-first-trace-file)
 6. [Loading events](#6-loading-events)
@@ -28,9 +28,9 @@
 
 ---
 
-## 1. What is agentobs-debug?
+## 1. What is spanforge-debug?
 
-`agentobs-debug` is a Python developer toolkit for reading, visualising, and understanding traces produced by the [AgentOBS](https://github.com/agentobs) observability SDK.
+`spanforge-debug` is a Python developer toolkit for reading, visualising, and understanding traces produced by the [spanforge](https://github.com/spanforge) observability SDK.
 
 It gives you seven focused views of what happened inside a single agent run:
 
@@ -50,20 +50,20 @@ All seven views are available both as a **Python API** and as a **command-line i
 
 ## 2. What problem does it solve?
 
-When an AI agent misbehaves — wrong answer, unexpected tool call, high cost, slow response — you need to understand exactly what happened inside the run. AgentOBS writes every significant event to a JSONL file, but that raw file is not readable by humans.
+When an AI agent misbehaves — wrong answer, unexpected tool call, high cost, slow response — you need to understand exactly what happened inside the run. spanforge writes every significant event to a JSONL file, but that raw file is not readable by humans.
 
-`agentobs-debug` bridges that gap:
+`spanforge-debug` bridges that gap:
 
 ```
 ┌────────────────────────────────────────────────────────────────────┐
-│  Your agent (powered by AgentOBS)                                  │
+│  Your agent (powered by spanforge)                                  │
 │                                                                    │
 │  agent run → step → LLM call → tool call → decision → step → ...  │
 │                       │                                            │
-│            AgentOBS writes events.jsonl                            │
+│            spanforge writes events.jsonl                            │
 └───────────────────────┬────────────────────────────────────────────┘
                         │
-                agentobs-debug reads it
+                spanforge-debug reads it
                         │
                         ▼
    ┌──────────────────────────────────────────┐
@@ -87,9 +87,9 @@ When an AI agent misbehaves — wrong answer, unexpected tool call, high cost, s
 
 ---
 
-## 3. How AgentOBS traces work
+## 3. How spanforge traces work
 
-Before using `agentobs-debug` it helps to understand the three layers of an AgentOBS trace.
+Before using `spanforge-debug` it helps to understand the three layers of an spanforge trace.
 
 ### Trace
 
@@ -111,7 +111,7 @@ Each span has a `span_id` and an optional `parent_span_id` to indicate nesting.
 
 ### Event types
 
-AgentOBS records the following event types (used by `agentobs-debug`):
+spanforge records the following event types (used by `spanforge-debug`):
 
 | Event type | What it represents |
 |---|---|
@@ -119,8 +119,8 @@ AgentOBS records the following event types (used by `agentobs-debug`):
 | `llm.trace.agent.step.completed` | One reasoning step finished |
 | `llm.trace.span.completed` | One LLM call (chat/completion) finished |
 | `llm.cost.token.recorded` | Token usage and cost billing record |
-| `x.agentobs.tool.called` | An external tool was called |
-| `x.agentobs.decision.recorded` | The agent recorded a decision point |
+| `x.spanforge.tool.called` | An external tool was called |
+| `x.spanforge.decision.recorded` | The agent recorded a decision point |
 
 ### JSONL file format
 
@@ -148,20 +148,20 @@ Each line in the file is a self-contained JSON object. Example (compressed):
 ## 4. Installation
 
 ```bash
-pip install agentobs-debug
+pip install spanforge-debug
 ```
 
 **Requirements:**
 - Python ≥ 3.10
-- `agentobs >= 1.0.5` (installed automatically as a dependency)
+- `spanforge >= 1.0.5` (installed automatically as a dependency)
 
 Verify the install:
 
 ```bash
-agentobs-debug --version
-# agentobs-debug 1.0.1
+spanforge-debug --version
+# spanforge-debug 1.0.1
 
-agentobs-debug --help
+spanforge-debug --help
 ```
 
 ---
@@ -174,9 +174,9 @@ Create a minimal JSONL file called `events.jsonl` to follow along with the rest 
 {"event_id":"00000000000000000000000001","event_type":"llm.trace.agent.run.completed","payload":{"agent_name":"research_agent","duration_ms":1100.0,"end_time_unix_nano":1700000001100000000,"span_name":"agent_run","start_time_unix_nano":1700000000000000000,"status":"ok"},"schema_version":"2.0","source":"research-agent@1.0.0","span_id":"a1b2c3d4e5f60001","timestamp":"2023-11-14T22:13:20.000000Z","trace_id":"4bf92f3577b34da6a3ce929d0e0e4736"}
 {"event_id":"00000000000000000000000002","event_type":"llm.trace.agent.step.completed","parent_span_id":"a1b2c3d4e5f60001","payload":{"duration_ms":330.0,"end_time_unix_nano":1700000000450000000,"start_time_unix_nano":1700000000120000000,"status":"ok","step_index":0,"step_name":"search"},"schema_version":"2.0","source":"research-agent@1.0.0","span_id":"a1b2c3d4e5f60002","timestamp":"2023-11-14T22:13:20.120000Z","trace_id":"4bf92f3577b34da6a3ce929d0e0e4736"}
 {"event_id":"00000000000000000000000003","event_type":"llm.trace.span.completed","parent_span_id":"a1b2c3d4e5f60002","payload":{"duration_ms":330.0,"end_time_unix_nano":1700000000450000000,"model_info":{"name":"gpt-4o","system":"openai"},"span_name":"chat:gpt-4o","start_time_unix_nano":1700000000120000000,"status":"ok","token_usage":{"input_tokens":400,"output_tokens":130,"total_tokens":530}},"schema_version":"2.0","source":"research-agent@1.0.0","span_id":"a1b2c3d4e5f60003","timestamp":"2023-11-14T22:13:20.120000Z","trace_id":"4bf92f3577b34da6a3ce929d0e0e4736"}
-{"event_id":"00000000000000000000000004","event_type":"x.agentobs.decision.recorded","parent_span_id":"a1b2c3d4e5f60002","payload":{"chosen":"search_api","decision_name":"tool_selection","options":["search_api","knowledge_base"]},"schema_version":"2.0","source":"research-agent@1.0.0","span_id":"a1b2c3d4e5f60006","timestamp":"2023-11-14T22:13:20.300000Z","trace_id":"4bf92f3577b34da6a3ce929d0e0e4736"}
-{"event_id":"00000000000000000000000005","event_type":"x.agentobs.tool.called","parent_span_id":"a1b2c3d4e5f60002","payload":{"arguments":{"query":"LLM observability"},"tool_name":"search_api"},"schema_version":"2.0","source":"research-agent@1.0.0","span_id":"a1b2c3d4e5f60007","timestamp":"2023-11-14T22:13:20.150000Z","trace_id":"4bf92f3577b34da6a3ce929d0e0e4736"}
-{"event_id":"00000000000000000000000006","event_type":"x.agentobs.tool.called","parent_span_id":"a1b2c3d4e5f60004","payload":{"arguments":{"url":"example.com"},"tool_name":"web_fetch"},"schema_version":"2.0","source":"research-agent@1.0.0","span_id":"a1b2c3d4e5f60008","timestamp":"2023-11-14T22:13:20.200000Z","trace_id":"4bf92f3577b34da6a3ce929d0e0e4736"}
+{"event_id":"00000000000000000000000004","event_type":"x.spanforge.decision.recorded","parent_span_id":"a1b2c3d4e5f60002","payload":{"chosen":"search_api","decision_name":"tool_selection","options":["search_api","knowledge_base"]},"schema_version":"2.0","source":"research-agent@1.0.0","span_id":"a1b2c3d4e5f60006","timestamp":"2023-11-14T22:13:20.300000Z","trace_id":"4bf92f3577b34da6a3ce929d0e0e4736"}
+{"event_id":"00000000000000000000000005","event_type":"x.spanforge.tool.called","parent_span_id":"a1b2c3d4e5f60002","payload":{"arguments":{"query":"LLM observability"},"tool_name":"search_api"},"schema_version":"2.0","source":"research-agent@1.0.0","span_id":"a1b2c3d4e5f60007","timestamp":"2023-11-14T22:13:20.150000Z","trace_id":"4bf92f3577b34da6a3ce929d0e0e4736"}
+{"event_id":"00000000000000000000000006","event_type":"x.spanforge.tool.called","parent_span_id":"a1b2c3d4e5f60004","payload":{"arguments":{"url":"example.com"},"tool_name":"web_fetch"},"schema_version":"2.0","source":"research-agent@1.0.0","span_id":"a1b2c3d4e5f60008","timestamp":"2023-11-14T22:13:20.200000Z","trace_id":"4bf92f3577b34da6a3ce929d0e0e4736"}
 {"event_id":"00000000000000000000000007","event_type":"llm.trace.agent.step.completed","parent_span_id":"a1b2c3d4e5f60001","payload":{"duration_ms":200.0,"end_time_unix_nano":1700000000900000000,"start_time_unix_nano":1700000000700000000,"status":"ok","step_index":1,"step_name":"summarize"},"schema_version":"2.0","source":"research-agent@1.0.0","span_id":"a1b2c3d4e5f60004","timestamp":"2023-11-14T22:13:20.700000Z","trace_id":"4bf92f3577b34da6a3ce929d0e0e4736"}
 {"event_id":"00000000000000000000000008","event_type":"llm.trace.span.completed","parent_span_id":"a1b2c3d4e5f60004","payload":{"duration_ms":200.0,"end_time_unix_nano":1700000000900000000,"model_info":{"name":"gpt-4o","system":"openai"},"span_name":"chat:gpt-4o","start_time_unix_nano":1700000000700000000,"status":"ok","token_usage":{"input_tokens":170,"output_tokens":40,"total_tokens":210}},"schema_version":"2.0","source":"research-agent@1.0.0","span_id":"a1b2c3d4e5f60005","timestamp":"2023-11-14T22:13:20.700000Z","trace_id":"4bf92f3577b34da6a3ce929d0e0e4736"}
 {"event_id":"00000000000000000000000009","event_type":"llm.cost.token.recorded","parent_span_id":"a1b2c3d4e5f60003","payload":{"cost":{"input_cost_usd":0.0016,"output_cost_usd":0.0007,"total_cost_usd":0.0023},"model":{"name":"gpt-4o","system":"openai"},"span_id":"a1b2c3d4e5f60003","token_usage":{"input_tokens":400,"output_tokens":130,"total_tokens":530}},"schema_version":"2.0","source":"research-agent@1.0.0","span_id":"a1b2c3d4e5f60009","timestamp":"2023-11-14T22:13:20.450000Z","trace_id":"4bf92f3577b34da6a3ce929d0e0e4736"}
@@ -199,18 +199,18 @@ The trace ID for all examples below is:
 
 ## 6. Loading events
 
-Every `agentobs-debug` function starts from an `EventStream` object. You load one with `load_events()`.
+Every `spanforge-debug` function starts from an `EventStream` object. You load one with `load_events()`.
 
 ```python
-import agentobs_debug as aod
+import spanforge_debug as aod
 
 stream = aod.load_events("events.jsonl")
 ```
 
-`load_events()` delegates all parsing to the AgentOBS SDK. It raises typed errors if something goes wrong:
+`load_events()` delegates all parsing to the spanforge SDK. It raises typed errors if something goes wrong:
 
 ```python
-from agentobs_debug.errors import CorruptEventError
+from spanforge_debug.errors import CorruptEventError
 
 try:
     stream = aod.load_events("events.jsonl")
@@ -345,7 +345,7 @@ agent_run product_researcher
 
 **When to use this:** Use the tree to verify that your agent's span structure matches your expectations — catches cases where a tool span is accidentally orphaned, or nesting is wrong.
 
-> **Note:** If a span has no matching parent in the trace, agentobs-debug will print a warning to stderr and attach it to the root:
+> **Note:** If a span has no matching parent in the trace, spanforge-debug will print a warning to stderr and attach it to the root:
 > ```
 > Warning: orphan span a1b2c3d4e5f60099 — attached to root
 > ```
@@ -424,7 +424,7 @@ No tool calls recorded.
 
 ## 12. Inspecting decision points
 
-`show_decisions()` prints every `x.agentobs.decision.recorded` event — the options the agent considered and which it chose.
+`show_decisions()` prints every `x.spanforge.decision.recorded` event — the options the agent considered and which it chose.
 
 ```python
 aod.show_decisions("4bf92f3577b34da6a3ce929d0e0e4736", stream=stream)
@@ -495,7 +495,7 @@ Every function described above is also available as a CLI subcommand. The CLI is
 ### General syntax
 
 ```bash
-agentobs-debug COMMAND EVENTS_FILE [OPTIONS]
+spanforge-debug COMMAND EVENTS_FILE [OPTIONS]
 ```
 
 `--trace` is required for single-trace commands (`replay`, `inspect`, `tree`, `timeline`, `tools`, `decisions`, `cost`, `attribution`).
@@ -506,47 +506,47 @@ agentobs-debug COMMAND EVENTS_FILE [OPTIONS]
 
 ```bash
 # Step-by-step replay
-agentobs-debug replay events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
+spanforge-debug replay events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
 
 # One-page trace summary
-agentobs-debug inspect events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
+spanforge-debug inspect events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
 
 # Span hierarchy tree
-agentobs-debug tree events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
+spanforge-debug tree events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
 
 # Execution timeline
-agentobs-debug timeline events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
+spanforge-debug timeline events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
 
 # Tool call list
-agentobs-debug tools events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
+spanforge-debug tools events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
 
 # Decision point list
-agentobs-debug decisions events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
+spanforge-debug decisions events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
 
 # Cost summary
-agentobs-debug cost events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
+spanforge-debug cost events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
 
 # Per-step cost and latency attribution
-agentobs-debug attribution events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
+spanforge-debug attribution events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
 
 # Batch report across all traces in a file
-agentobs-debug report events.jsonl
+spanforge-debug report events.jsonl
 
 # Batch report for selected traces only (repeat --trace)
-agentobs-debug report events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --trace aaaa0000000000000000000000000001
+spanforge-debug report events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --trace aaaa0000000000000000000000000001
 
 # Compare two traces side by side
-agentobs-debug diff events.jsonl --trace-a 4bf92f3577b34da6a3ce929d0e0e4736 --trace-b aaaa0000000000000000000000000001
+spanforge-debug diff events.jsonl --trace-a 4bf92f3577b34da6a3ce929d0e0e4736 --trace-b aaaa0000000000000000000000000001
 
 # Machine-readable output (supported by most commands)
-agentobs-debug inspect events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --format json
-agentobs-debug cost events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --format csv
+spanforge-debug inspect events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --format json
+spanforge-debug cost events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --format csv
 
 # Additional filters
-agentobs-debug replay events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --step search
-agentobs-debug timeline events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --from-ms 100 --to-ms 500 --event-type llm.trace.span
-agentobs-debug tools events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --tool-name search_api
-agentobs-debug decisions events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --decision-name tool_selection
+spanforge-debug replay events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --step search
+spanforge-debug timeline events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --from-ms 100 --to-ms 500 --event-type llm.trace.span
+spanforge-debug tools events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --tool-name search_api
+spanforge-debug decisions events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 --decision-name tool_selection
 ```
 
 ### CLI tips
@@ -554,20 +554,20 @@ agentobs-debug decisions events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 -
 **Save output to a file:**
 
 ```bash
-agentobs-debug tree events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 > tree.txt
+spanforge-debug tree events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 > tree.txt
 ```
 
 **Check the version:**
 
 ```bash
-agentobs-debug --version
-# agentobs-debug 1.0.1
+spanforge-debug --version
+# spanforge-debug 1.0.1
 ```
 
 **Pipe into a pager for long timelines:**
 
 ```bash
-agentobs-debug timeline events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 | less
+spanforge-debug timeline events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 | less
 ```
 
 ---
@@ -576,7 +576,7 @@ agentobs-debug timeline events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736 | 
 
 ### Possible exceptions
 
-All errors are subclasses of `AgentOBSDebugError`:
+All errors are subclasses of `SpanForgeDebugError`:
 
 | Exception | When raised |
 |---|---|
@@ -587,12 +587,12 @@ All errors are subclasses of `AgentOBSDebugError`:
 ### Handling errors in Python
 
 ```python
-from agentobs_debug.errors import (
-    AgentOBSDebugError,
+from spanforge_debug.errors import (
+    SpanForgeDebugError,
     CorruptEventError,
     TraceNotFoundError,
 )
-import agentobs_debug as aod
+import spanforge_debug as aod
 
 try:
     stream = aod.load_events("events.jsonl")
@@ -604,14 +604,14 @@ try:
     aod.replay("4bf92f3577b34da6a3ce929d0e0e4736", stream=stream)
 except TraceNotFoundError as e:
     print(f"Trace not found: {e}")
-except AgentOBSDebugError as e:
+except SpanForgeDebugError as e:
     # Catch-all for any other library error
     print(f"Unexpected error: {e}")
 ```
 
 ### CLI behaviour
 
-In the CLI, all `AgentOBSDebugError` subclasses are caught and printed cleanly:
+In the CLI, all `SpanForgeDebugError` subclasses are caught and printed cleanly:
 
 ```
 Error: No events found for trace_id='bad-trace-id'. Check that the correct JSONL file is loaded.
@@ -680,7 +680,7 @@ This section walks through a realistic debugging session using an events file wh
 ### Step 1 — Get the big picture
 
 ```bash
-agentobs-debug inspect events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
+spanforge-debug inspect events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
 ```
 
 ```
@@ -699,7 +699,7 @@ Status is `ok` and duration looks reasonable. Token count is moderate. No obviou
 ### Step 2 — Replay the run step by step
 
 ```bash
-agentobs-debug replay events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
+spanforge-debug replay events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
 ```
 
 ```
@@ -722,7 +722,7 @@ Two steps ran. The search step consumed significantly more tokens than the summa
 ### Step 3 — Check what the agent decided
 
 ```bash
-agentobs-debug decisions events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
+spanforge-debug decisions events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
 ```
 
 ```
@@ -736,7 +736,7 @@ The agent chose `search_api` over `knowledge_base`. If the correct answer alread
 ### Step 4 — Verify tool arguments
 
 ```bash
-agentobs-debug tools events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
+spanforge-debug tools events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
 ```
 
 ```
@@ -751,7 +751,7 @@ web_fetch(url="example.com")
 ### Step 5 — Check the span structure
 
 ```bash
-agentobs-debug tree events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
+spanforge-debug tree events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
 ```
 
 ```
@@ -767,7 +767,7 @@ Both steps have exactly one child LLM span. The tree is clean — no unexpected 
 ### Step 6 — Pinpoint the latency
 
 ```bash
-agentobs-debug timeline events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
+spanforge-debug timeline events.jsonl --trace 4bf92f3577b34da6a3ce929d0e0e4736
 ```
 
 ```
@@ -794,18 +794,18 @@ The debugging session revealed:
 1. **Decision issue** — agent chose `search_api` over the cheaper `knowledge_base`.
 2. **Latency issue** — 450 ms of the 1.1 s run is agent orchestration overhead, not model time.
 
-Both are actionable improvements in the agent code, not in `agentobs-debug`.
+Both are actionable improvements in the agent code, not in `spanforge-debug`.
 
 ---
 
 ## 18. Next steps
 
-You now know how to use every feature of `agentobs-debug` to understand and debug an agent run.
+You now know how to use every feature of `spanforge-debug` to understand and debug an agent run.
 
 **Further reading:**
 
-- [AgentOBS SDK documentation](https://github.com/agentobs) — how to instrument your agent and produce JSONL traces.
-- [AgentOBS event schema](https://github.com/agentobs) — full reference for every event type and payload field.
+- [spanforge SDK documentation](https://github.com/spanforge) — how to instrument your agent and produce JSONL traces.
+- [spanforge event schema](https://github.com/spanforge) — full reference for every event type and payload field.
 
 **Python API reference:** see `README.md` in the package root for a concise reference of all public functions and exceptions.
 

@@ -44,7 +44,7 @@ export default function PhasePageLayout({ phase, prev, next, children }) {
         </div>
       </section>
 
-      {/* Phase-specific extra content (pipeline, AgentOBS callout, etc.) */}
+      {/* Phase-specific extra content (pipeline, SpanForge callout, etc.) */}
       {children}
 
       {/* Exit gate */}
