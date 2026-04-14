@@ -71,16 +71,16 @@ export default function Home() {
               SpanForge AI Compliance Platform · Live
             </span>
             <h1 id="hero-heading" className={styles.heroH1}>
-              Where Enterprise AI<br />
-              <em className={styles.heroItalic}>Goes to</em>{' '}
-              <span className={styles.heroRed}>Production.</span>
+              Ship AI<br />
+              <em className={styles.heroItalic}>with</em>{' '}
+              <span className={styles.heroRed}>Confidence.</span>
             </h1>
 
             <p className={styles.heroCopy}>
-              SpanForge is the AI compliance platform for enterprise teams — from deciding
-              whether to build, through architecture and engineering, to governance and
-              scale. Every phase covered with the RFC-0001 SpanForge standard, regulatory
-              evidence generation, and cryptographic audit trails.
+              SpanForge is the AI compliance platform for solo developers, startups, SMBs,
+              and enterprises — from deciding whether to build, through architecture and
+              engineering, to governance and scale. Every phase covered with the RFC-0001
+              SpanForge standard, regulatory evidence generation, and cryptographic audit trails.
             </p>
 
             <div className={styles.heroCtas}>
