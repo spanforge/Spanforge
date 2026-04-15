@@ -256,6 +256,30 @@
   text-decoration: underline;
 }
 
+/* Published tools section */
+.publishedSection {
+  padding: 80px 0 64px;
+  background: var(--charcoal);
+  border-top: 1px solid var(--rule);
+}
+
+.publishedH2 {
+  font-family: var(--font-playfair);
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: 700;
+  color: var(--white);
+  margin-top: 0.4rem;
+  margin-bottom: 0.6rem;
+}
+
+.publishedDesc {
+  font-size: 0.95rem;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 540px;
+  margin-bottom: 2rem;
+}
+
 /* Locked catalog section — also used for What is being built */
 .lockedSection {
   padding: 100px 0;

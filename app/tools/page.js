@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { phaseSummary, needAreas, NEED_TOTAL } from '@/lib/tools-data'
+import { phaseSummary, needAreas, NEED_TOTAL, showcaseTools } from '@/lib/tools-data'
+import ToolsClient from './ToolsClient'
 import styles from './page.module.css'
 
 export const metadata = {
@@ -118,6 +119,20 @@ export default function ToolsPage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Published tools */}
+      <section className={styles.publishedSection} aria-labelledby="published-heading">
+        <div className="container">
+          <span className="eyebrow">Available now</span>
+          <h2 id="published-heading" className={styles.publishedH2}>
+            Published tools
+          </h2>
+          <p className={styles.publishedDesc}>
+            These tools are live and documented. Click any card to read the docs.
+          </p>
+          <ToolsClient tools={showcaseTools.filter(t => t.hasPage)} />
         </div>
       </section>
 
