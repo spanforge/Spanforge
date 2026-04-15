@@ -1,0 +1,153 @@
+/* Tool landing page — app/tools/[toolSlug]/page.module.css */
+
+/* ── Breadcrumb ────────────────────────────── */
+.breadcrumb {
+  padding: 1.25rem 0 0;
+  background: var(--dark);
+}
+
+.breadcrumbLink {
+  font-family: var(--font-dm-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  color: var(--mid);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.breadcrumbLink:hover { color: var(--light); }
+
+.breadcrumbSep {
+  color: var(--rule);
+  margin: 0 0.5rem;
+}
+
+.breadcrumbCurrent {
+  font-family: var(--font-dm-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+/* ── Hero ──────────────────────────────────── */
+.hero {
+  padding: 56px 0 80px;
+  background: var(--dark);
+  background-image:
+    radial-gradient(ellipse 700px 400px at 70% 40%, rgba(26, 111, 219, 0.07) 0%, transparent 70%);
+}
+
+.heroLabel {
+  font-family: var(--font-dm-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--red);
+  display: block;
+  margin-bottom: 0.85rem;
+}
+
+.h1 {
+  font-family: var(--font-dm-mono);
+  font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.1;
+  margin-bottom: 1.1rem;
+}
+
+.heroSub {
+  font-size: 1.05rem;
+  color: var(--muted);
+  line-height: 1.75;
+  max-width: 620px;
+  margin-bottom: 2rem;
+}
+
+/* ── Install block ─────────────────────────── */
+.installBlock {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #1A1F2E;
+  border: 1px solid #2A3145;
+  border-radius: 6px;
+  padding: 0.85rem 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.installPrompt {
+  font-family: var(--font-dm-mono);
+  font-size: 0.88rem;
+  color: var(--mid);
+  user-select: none;
+}
+
+.installCmd {
+  font-family: var(--font-dm-mono);
+  font-size: 0.88rem;
+  color: #E2E8F0;
+}
+
+/* ── CTAs ──────────────────────────────────── */
+.heroCtas {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* ── Docs section ──────────────────────────── */
+.docsSection {
+  padding: 64px 0 100px;
+  background: var(--charcoal);
+  border-top: 1px solid var(--rule);
+}
+
+.docsH2 {
+  font-family: var(--font-playfair);
+  font-size: clamp(1.4rem, 2.5vw, 1.85rem);
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 2rem;
+}
+
+.docsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1px;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--rule);
+}
+
+.docCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.1rem 1.4rem;
+  background: var(--dark);
+  text-decoration: none;
+  transition: background 0.15s;
+}
+.docCard:hover {
+  background: var(--surface-2);
+}
+.docCard:hover .docArrow {
+  transform: translateX(3px);
+}
+
+.docTitle {
+  font-family: var(--font-dm-sans);
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--light);
+}
+
+.docArrow {
+  font-family: var(--font-dm-mono);
+  font-size: 0.9rem;
+  color: var(--red);
+  transition: transform 0.15s;
+  flex-shrink: 0;
+}

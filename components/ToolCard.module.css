@@ -97,3 +97,36 @@
   font-size: 0.72rem;
   color: var(--mid);
 }
+
+/* Clickable card variant (tool.hasPage) */
+.cardLink {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.availableBadge {
+  font-family: var(--font-dm-mono, monospace);
+  font-size: 0.62rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #0e8a5a;
+  background: rgba(14, 138, 90, 0.1);
+  border: 1px solid rgba(14, 138, 90, 0.25);
+  padding: 0.18rem 0.5rem;
+  border-radius: 3px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.viewDocs {
+  font-family: var(--font-dm-mono, monospace);
+  font-size: 0.75rem;
+  color: var(--red);
+  margin-top: auto;
+  padding-top: 0.5rem;
+  transition: color 0.15s;
+}
+.cardLink:hover .viewDocs {
+  color: var(--red-light);
+}

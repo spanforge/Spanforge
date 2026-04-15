@@ -1,7 +1,34 @@
+import Link from 'next/link'
 import styles from './ToolCard.module.css'
 
 const badgeClass = { webapp: 'badge-webapp', python: 'badge-python', doc: 'badge-doc', fw: 'badge-fw', product: 'badge-product' }
 const badgeLabel = { webapp: 'Web App', python: 'Python CLI', doc: 'Document', fw: 'Framework', product: 'Product' }
+
+function CardInner({ tool, hideName }) {
+  return (
+    <>
+      <div className={styles.cardTopRow}>
+        <span className={`badge ${badgeClass[tool.type] || 'badge-doc'} ${styles.badge}`}>
+          {badgeLabel[tool.type] || tool.type}
+        </span>
+        {tool.hasPage ? (
+          <span className={styles.availableBadge}>Docs Available</span>
+        ) : (
+          <span className={styles.inBuildBadge}>In Build</span>
+        )}
+      </div>
+      {!hideName && (
+        <h3 className={styles.name}>
+          {tool.type === 'python' ? <code>{tool.name}</code> : tool.name}
+        </h3>
+      )}
+      <p className={styles.desc}>{tool.description}</p>
+      {tool.hasPage && (
+        <span className={styles.viewDocs} aria-hidden="true">View docs →</span>
+      )}
+    </>
+  )
+}
 
 export default function ToolCard({ tool, locked = false, hideName = false }) {
   if (locked) {
@@ -19,20 +46,17 @@ export default function ToolCard({ tool, locked = false, hideName = false }) {
     )
   }
 
+  if (tool.hasPage) {
+    return (
+      <Link href={`/tools/${tool.id}`} className={`${styles.card} ${styles.cardLink}`}>
+        <CardInner tool={tool} hideName={hideName} />
+      </Link>
+    )
+  }
+
   return (
     <div className={styles.card}>
-      <div className={styles.cardTopRow}>
-        <span className={`badge ${badgeClass[tool.type] || 'badge-doc'} ${styles.badge}`}>
-          {badgeLabel[tool.type] || tool.type}
-        </span>
-        <span className={styles.inBuildBadge}>In Build</span>
-      </div>
-      {!hideName && (
-        <h3 className={styles.name}>
-          {tool.type === 'python' ? <code>{tool.name}</code> : tool.name}
-        </h3>
-      )}
-      <p className={styles.desc}>{tool.description}</p>
+      <CardInner tool={tool} hideName={hideName} />
     </div>
   )
 }
