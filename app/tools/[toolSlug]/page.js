@@ -53,7 +53,7 @@ export default function ToolPage({ params }) {
 
           <div className={styles.heroCtas}>
             <Link
-              href={`/tools/${params.toolSlug}/docs/quickstart`}
+              href={`/tools/${params.toolSlug}/docs/${tool.getStartedSlug ?? 'quickstart'}`}
               className="btn-primary"
             >
               Get Started
