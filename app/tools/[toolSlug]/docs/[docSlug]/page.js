@@ -20,6 +20,19 @@ export async function generateMetadata({ params }) {
   }
 }
 
+/** Rewrite relative .md links to the correct /tools/:tool/docs/:slug route. */
+function DocLink({ href, children, toolSlug }) {
+  if (!href) return <a>{children}</a>
+  // External links — open in new tab
+  if (/^https?:\/\//.test(href)) {
+    return <a href={href} target="_blank" rel="noopener noreferrer">{children}</a>
+  }
+  // Relative .md links — strip extension and build route
+  const slug = href.replace(/\.md(#.*)?$/, (_, hash) => hash ?? '')
+  const base = `/tools/${toolSlug}/docs/${slug}`
+  return <Link href={base}>{children}</Link>
+}
+
 export default function DocPage({ params }) {
   const tool = getToolMeta(params.toolSlug)
   if (!tool) notFound()
@@ -30,6 +43,10 @@ export default function DocPage({ params }) {
   const currentIndex = tool.docs.findIndex(d => d.slug === params.docSlug)
   const prev = currentIndex > 0 ? tool.docs[currentIndex - 1] : null
   const next = currentIndex < tool.docs.length - 1 ? tool.docs[currentIndex + 1] : null
+
+  const mdComponents = {
+    a: ({ href, children }) => <DocLink href={href} toolSlug={params.toolSlug}>{children}</DocLink>,
+  }
 
   return (
     <div className={styles.pageLayout}>
@@ -72,6 +89,7 @@ export default function DocPage({ params }) {
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               rehypePlugins={[rehypeHighlight]}
+              components={mdComponents}
             >
               {doc.content}
             </ReactMarkdown>
