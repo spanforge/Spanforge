@@ -21,15 +21,20 @@ export async function generateMetadata({ params }) {
 }
 
 /** Rewrite relative .md links to the correct /tools/:tool/docs/:slug route. */
-function DocLink({ href, children, toolSlug }) {
+function DocLink({ href, children, toolSlug, docSlug }) {
   if (!href) return <a>{children}</a>
   // External links — open in new tab
   if (/^https?:\/\//.test(href)) {
     return <a href={href} target="_blank" rel="noopener noreferrer">{children}</a>
   }
-  // Relative .md links — strip extension and build route
-  const slug = href.replace(/\.md(#.*)?$/, (_, hash) => hash ?? '')
-  const base = `/tools/${toolSlug}/docs/${slug}`
+  // In-page anchor only — keep on current page
+  if (href.startsWith('#')) {
+    return <a href={`/tools/${toolSlug}/docs/${docSlug}${href}`}>{children}</a>
+  }
+  // Relative .md links — strip extension, preserve any hash fragment
+  const [file, hash] = href.split(/\.md#|(?<!\.md)#/, 2)
+  const slug = file.replace(/\.md$/, '')
+  const base = `/tools/${toolSlug}/docs/${slug}${hash ? `#${hash}` : ''}`
   return <Link href={base}>{children}</Link>
 }
 
@@ -45,7 +50,7 @@ export default function DocPage({ params }) {
   const next = currentIndex < tool.docs.length - 1 ? tool.docs[currentIndex + 1] : null
 
   const mdComponents = {
-    a: ({ href, children }) => <DocLink href={href} toolSlug={params.toolSlug}>{children}</DocLink>,
+    a: ({ href, children }) => <DocLink href={href} toolSlug={params.toolSlug} docSlug={params.docSlug}>{children}</DocLink>,
   }
 
   return (
