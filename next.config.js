@@ -46,6 +46,17 @@ const nextConfig = {
         destination: '/platform',
         permanent: true,
       },
+      // Bare /docs path (no docSlug) → first doc of each tool
+      {
+        source: '/tools/spanforge-secrets/docs',
+        destination: '/tools/spanforge-secrets/docs/installation',
+        permanent: false,
+      },
+      {
+        source: '/tools/sf-validate/docs',
+        destination: '/tools/sf-validate/docs/getting-started',
+        permanent: false,
+      },
     ]
   },
 }
