@@ -31,6 +31,32 @@ exported at the top-level package under `spanforge`.
 - [models](models.md)
 - [cache](cache.md)
 - [lint](lint.md)
+- [eval](eval.md)
+- [config](config.md)
+- [http](http.md)
+- [io](io.md)
+- [plugins](plugins.md)
+- [schema](schema.md)
+- [regression](regression.md)
+- [stats](stats.md)
+- [secrets](secrets.md)
+- [audit](audit.md)
+- [cec](cec.md)
+- [observe](observe.md)
+- [gate](gate.md)
+- [trust](trust.md)
+- [pipelines](pipelines.md)
+- [explain](explain.md)
+- [policy](policy.md)
+- [scope](scope.md)
+- [rbac](rbac.md)
+- [lineage](lineage.md)
+- [operator](operator.md)
+- [enterprise](enterprise.md)
+- [security](security.md)
+- [identity](identity.md)
+- [testing_mocks](testing_mocks.md)
+- [sdk-reference](sdk-reference.md)
 
 ## Module summary
 
@@ -41,7 +67,7 @@ exported at the top-level package under `spanforge`.
 | `spanforge.signing` | HMAC signing, `AuditStream`, chain verification |
 | `spanforge.redact` | `Redactable`, `RedactionPolicy`, PII helpers |
 | `spanforge.compliance` | `ComplianceMappingEngine`, evidence packages, regulatory framework mapping (EU AI Act, GDPR, SOC 2, HIPAA, ISO 42001, NIST AI RMF), chain integrity, scope verification |
-| `spanforge.export` | OTLP, Webhook, JSONL, Datadog, and Grafana Loki export backends |
+| `spanforge.export` | OTLP, Webhook, JSONL, Datadog, Grafana Loki, OpenInference, and SIEM export backends |
 | `spanforge.stream` | `EventStream` multiplexer with Kafka support |
 | `spanforge.validate` | JSON Schema validation helpers (version-aware: v1.0 + v2.0) |
 | `spanforge.normalizer` | `ProviderNormalizer` protocol and `GenericNormalizer` fallback |
@@ -49,7 +75,7 @@ exported at the top-level package under `spanforge`.
 | `spanforge.consumer` | `ConsumerRegistry`, `ConsumerRecord`, `IncompatibleSchemaError` |
 | `spanforge.governance` | `EventGovernancePolicy`, `GovernanceViolationError`, `GovernanceWarning` |
 | `spanforge.deprecations` | `DeprecationRegistry`, `DeprecationNotice`, `warn_if_deprecated()` |
-| `spanforge.integrations` | `LLMSchemaCallbackHandler` (LangChain), `LLMSchemaEventHandler` (LlamaIndex), `SpanForgeCrewAIHandler` (CrewAI), OpenAI `patch()` |
+| `spanforge.integrations` | OpenAI and Azure OpenAI instrumentation, LangChain and LlamaIndex handlers, LangGraph governance handler, CrewAI integration |
 | `spanforge._trace` | `Trace` dataclass and `start_trace()` high-level entry point |
 | `spanforge.debug` | `print_tree()`, `summary()`, `visualize()` debug utilities |
 | `spanforge.metrics` | `aggregate()`, `MetricsSummary`, `LatencyStats`, per-metric helpers |
@@ -66,3 +92,29 @@ exported at the top-level package under `spanforge`.
 | `spanforge.model_registry` | `ModelRegistryEntry`, model governance lifecycle (`registered` / `deprecated` / `retired`), attestation integration |
 | `spanforge.explain` | `ExplainabilityRecord`, decision explainability (`generated`), EU AI Act Art. 13 / NIST MAP 1.1 mapping |
 | `spanforge.lint` | `run_checks()`, `LintError`, AO001–AO005 checks, `SpanForgeChecker` flake8 plugin, `python -m spanforge.lint` CLI |
+| `spanforge.eval` | `record_eval_score()`, `EvalScore`, `EvalRunner`, `EvalReport`, `RegressionDetector` (mean-based), `BehaviourScorer` ABC, built-in scorers |
+| `spanforge.config` | `SpanForgeConfig`, `configure()`, `get_config()`, `interpolate_env()` — global configuration and env-var interpolation |
+| `spanforge.http` | `chat_completion()`, `ChatCompletionResponse` — zero-dependency OpenAI-compatible HTTP client with exponential-backoff retry |
+| `spanforge.io` | `write_jsonl()`, `read_jsonl()`, `append_jsonl()`, `write_events()`, `read_events()` — synchronous JSONL read/write utilities |
+| `spanforge.plugins` | `discover(group)` — Python-version-aware entry-point plugin discovery (3.9 / 3.10 / 3.12+) |
+| `spanforge.schema` | `validate()`, `validate_strict()`, `SchemaValidationError` — lightweight zero-dependency JSON Schema validator |
+| `spanforge.regression` | `RegressionDetector`, `RegressionReport`, `compare()` — pass/fail and score-drop regression detection |
+| `spanforge.stats` | `percentile()`, `latency_summary()` — latency statistics with linear-interpolation percentiles |
+| `spanforge._ansi` | `color()`, `strip_ansi()`, ANSI color constants — terminal colour helpers with `NO_COLOR` / non-TTY support |
+| `spanforge.secrets` | `SecretsScanner`, `SecretsScanResult`, `SecretHit`, `entropy_score()` — 20-pattern secrets detection engine with SARIF 2.1.0 output and zero-tolerance auto-block for 10 high-risk credential types |
+| `spanforge.sdk.secrets` | `SFSecretsClient` — SDK client with local + remote modes, `scan()`, `scan_batch()`, `SFSecretsBlockedError`, `SFSecretsError`, `SFSecretsScanError` |
+| `spanforge.sdk.audit` | `SFAuditClient` — HMAC-chained record append, schema key registry, SQLite index query, T.R.U.S.T. scorecard, Article 30 RoPA, BYOS backend routing (Phase 4) |
+| `spanforge.sdk.cec` | `SFCECClient` — signed ZIP compliance evidence bundles, 5-framework clause mapping (EU AI Act, ISO 42001, NIST AI RMF, ISO 27001, SOC 2), `verify_bundle()`, `generate_dpa()`, `get_bundle()`, `reissue_download_url()`, HMAC signing, BYOS detection (Phase 5) |
+| `spanforge.sdk.observe` | `SFObserveClient` — span export (OTLP/Datadog/Grafana/Splunk/Elastic/local), annotation store, `emit_span()` with W3C TraceContext + OTel GenAI attrs, sampling strategies, health probes (Phase 6) |
+| `spanforge.sdk.explain` | `SFExplainClient` — runtime explanation generation with signed evidence and trace-linked explanation records |
+| `spanforge.sdk.policy` | `SFPolicyClient` — bundle loading, activation, evaluation, replay, simulation, comparison, and review loops for runtime governance |
+| `spanforge.sdk.scope` | `SFScopeClient` — capability manifest registration and runtime scope enforcement with signed scope decisions |
+| `spanforge.sdk.rbac` | `SFRBACClient` — actor role manifests and runtime authorization decisions for sensitive actions |
+| `spanforge.sdk.lineage` | `SFLineageClient` — provenance capture for decision and data lineage with signed lineage records |
+| `spanforge.sdk.operator` | `SFOperatorClient` — trace inspection, timeline aggregation, and signed operator evidence export |
+| `spanforge.sdk.gate` | `SFGateClient`, `GateRunner` YAML engine, 6 gate executors (`schema_validation`, `dependency_security`, `secrets_scan`, `performance_regression`, `halluccheck_prri`, `halluccheck_trust`), `GateArtifact` store, PRRI evaluation, trust gate, 5 gate exception types (Phase 8) |
+| `spanforge.sdk.trust` | `SFTrustClient` — T.R.U.S.T. five-pillar scorecard (Transparency · Reliability · UserTrust · Security · Traceability), SVG badge generation, history time-series, configurable dimension weights, `TrustScorecardResponse`, `TrustBadgeResult`, `TrustHistoryEntry` (Phase 10) |
+| `spanforge.sdk.pipelines` | 5 HallucCheck pipeline integrations: `score_pipeline`, `bias_pipeline`, `monitor_pipeline`, `risk_pipeline`, `benchmark_pipeline` — cross-service orchestration with `PipelineResult` audit trail (Phase 10) |
+| `spanforge.sdk.enterprise` | `SFEnterpriseClient` — multi-tenant isolation (`IsolationScope`), data residency enforcement (`DataResidency`), tenant configuration (`TenantConfig`), field-level encryption (`EncryptionConfig`), air-gap mode (`AirGapConfig`), health endpoint probes (`HealthEndpointResult`) (Phase 11) |
+| `spanforge.sdk.security` | `SFSecurityClient` — OWASP Top 10 for LLM audit, STRIDE threat modelling (`ThreatModelEntry`), dependency vulnerability scanning (`DependencyVulnerability`), static analysis (`StaticAnalysisFinding`), secrets-in-logs detection, `SecurityScanResult`, `SecurityAuditResult` (Phase 11) |
+| `spanforge.sdk.identity` | `SFIdentityClient` — API keys, sessions, TOTP, magic links, SAML 2.0 (`saml_metadata()`, `saml_acs()`), SCIM 2.0 User/Group CRUD, OIDC PKCE relying party (`oidc_authorize()`, `oidc_callback()`), SSO session delegation (`sso_delegate_session()`, `sso_revoke_idp_session()`, `sso_get_session()`) (Phase 13) |

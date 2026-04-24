@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 export const metadata = {
-  title: '404 — Page Not Found',
+  title: '404 - Page Not Found',
   description: 'The page you are looking for does not exist.',
   robots: { index: false, follow: false },
 }
@@ -46,7 +46,7 @@ export default function NotFound() {
         </p>
         <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
           <Link href="/" className="btn-primary">Back to home</Link>
-          <Link href="/platform" className="btn-ghost">Explore the platform</Link>
+          <Link href="/spanforgecore" className="btn-ghost">Explore the platform</Link>
         </div>
       </div>
     </section>

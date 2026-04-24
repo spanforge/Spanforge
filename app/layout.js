@@ -1,4 +1,4 @@
-import { Nunito, Inter, JetBrains_Mono } from 'next/font/google'
+import { Space_Grotesk, Manrope, JetBrains_Mono } from 'next/font/google'
 import Script from 'next/script'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
@@ -14,10 +14,8 @@ const ORG_JSONLD = {
   url: 'https://www.getspanforge.com',
   logo: 'https://www.getspanforge.com/logo.png',
   description:
-    'SpanForge is the AI lifecycle platform for every team — from deciding whether to build, to running confidently in production.',
-  sameAs: [
-    'https://www.linkedin.com/in/spanforge',
-  ],
+    'SpanForge is the AI lifecycle platform for teams moving from early experimentation to auditable production systems.',
+  sameAs: ['https://www.linkedin.com/in/spanforge'],
   contactPoint: [
     {
       '@type': 'ContactPoint',
@@ -32,55 +30,50 @@ const ORG_JSONLD = {
   ],
 }
 
-const nunito = Nunito({
+const displayFont = Space_Grotesk({
   subsets: ['latin'],
-  weight: ['400', '600', '700', '800'],
-  variable: '--font-playfair',   /* keeps existing CSS var name */
+  weight: ['500', '700'],
+  variable: '--font-playfair',
   display: 'swap',
 })
 
-const inter = Inter({
+const bodyFont = Manrope({
   subsets: ['latin'],
-  weight: ['400', '500', '600'],
-  variable: '--font-dm-sans',    /* keeps existing CSS var name */
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-dm-sans',
   display: 'swap',
 })
 
-const jetbrainsMono = JetBrains_Mono({
+const monoFont = JetBrains_Mono({
   subsets: ['latin'],
   weight: ['400', '500'],
-  variable: '--font-dm-mono',    /* keeps existing CSS var name */
+  variable: '--font-dm-mono',
   display: 'swap',
 })
 
 export const metadata = {
   metadataBase: new URL('https://www.getspanforge.com'),
   title: {
-    template: '%s — SpanForge',
-    default: 'SpanForge — Where AI Goes to Production',
+    template: '%s | SpanForge',
+    default: 'SpanForge | AI Compliance Infrastructure for Production Systems',
   },
   description:
-    'SpanForge is the AI lifecycle platform for every team — from deciding whether to build, to running confidently in production. Standards, frameworks, CLI tools, and SpanForge production compliance across every phase.',
+    'SpanForge helps teams instrument, enforce, and prove compliance for AI systems with audit chains, policy controls, and evidence-ready workflows.',
   keywords: [
-    'AI lifecycle platform',
-    'AI lifecycle platform',
+    'AI compliance platform',
     'AI governance',
     'LLM observability',
-    'AI production',
+    'AI audit trail',
+    'PII redaction',
+    'AI security',
     'SpanForge',
-    'SpanForge Platform',
-    'T.R.U.S.T. Framework',
-    'AI governance standard',
-    'AI observability',
-    'standalone AI governance',
-    'RFC-0001 SPANFORGE',
+    'EU AI Act compliance',
   ],
   openGraph: {
     type: 'website',
     siteName: 'SpanForge',
-    title: 'SpanForge — The AI Lifecycle Platform',
-    description:
-      'Where AI goes to production. Discover. Design. Build. Govern. Scale.',
+    title: 'SpanForge | AI Compliance Infrastructure',
+    description: 'Instrument, enforce, and prove compliance across the AI lifecycle.',
   },
   twitter: {
     card: 'summary_large_image',
@@ -96,21 +89,19 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${nunito.variable} ${inter.variable} ${jetbrainsMono.variable}`}
+      className={`${displayFont.variable} ${bodyFont.variable} ${monoFont.variable}`}
     >
       <body>
         <Nav />
-          <main id="main-content">{children}</main>
-          <Footer />
+        <main id="main-content">{children}</main>
+        <Footer />
 
-        {/* Organization structured data */}
         <Script
           id="org-jsonld"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(ORG_JSONLD) }}
         />
 
-        {/* Plausible Analytics — privacy-first, no cookies */}
         <Script
           defer
           data-domain="getspanforge.com"
@@ -118,7 +109,6 @@ export default function RootLayout({ children }) {
           strategy="lazyOnload"
         />
 
-        {/* Vercel Analytics + Speed Insights */}
         <Analytics />
         <SpeedInsights />
       </body>

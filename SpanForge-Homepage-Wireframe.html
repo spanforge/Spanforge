@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpanForge — Homepage Wireframe</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #ffffff; --bg2: #f7f7f5; --bg3: #f0f0ec;
+    --text: #1a1a1a; --text2: #555; --text3: #999;
+    --border: rgba(0,0,0,0.1); --border2: rgba(0,0,0,0.18);
+    --blue: #1F4E79; --blue2: #2E75B6; --blue-l: #E6F1FB; --blue-t: #0C447C;
+    --green: #27500A; --green-l: #EAF3DE;
+    --red: #791F1F; --red-l: #FCEBEB;
+    --amber: #633806; --amber-l: #FAEEDA;
+    --purple: #3C3489; --purple-l: #EEEDFE;
+    --teal: #085041; --teal-l: #E1F5EE;
+    --radius: 8px; --radius-lg: 12px;
+    --mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
+  }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #e8e8e4; padding: 24px; }
+  .wireframe-label { font-size: 11px; color: #888; text-align: center; margin-bottom: 12px; letter-spacing: 0.06em; text-transform: uppercase; }
+  .page { max-width: 960px; margin: 0 auto; background: var(--bg); border-radius: 16px; overflow: hidden; border: 1px solid var(--border2); }
+
+  /* NAV */
+  nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 32px; background: var(--bg); border-bottom: 0.5px solid var(--border); position: sticky; top: 0; z-index: 10; }
+  .logo { display: flex; flex-direction: column; }
+  .logo-name { font-size: 15px; font-weight: 600; color: var(--blue); letter-spacing: -0.02em; }
+  .logo-sub { font-size: 9px; color: var(--text3); letter-spacing: 0.06em; text-transform: uppercase; margin-top: 1px; }
+  .nav-links { display: flex; gap: 24px; font-size: 13px; color: var(--text2); }
+  .nav-links span { cursor: pointer; }
+  .nav-links span:hover { color: var(--text); }
+  .nav-cta { font-size: 12px; padding: 7px 16px; background: var(--blue); color: #fff; border-radius: 6px; font-weight: 500; font-family: var(--mono); cursor: pointer; }
+
+  /* SECTIONS */
+  section { padding: 48px 40px; border-bottom: 0.5px solid var(--border); }
+  .sec-label { font-size: 9px; letter-spacing: 0.1em; color: var(--text3); text-transform: uppercase; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .sec-label::before { content: ''; width: 3px; height: 14px; background: var(--blue2); border-radius: 1px; flex-shrink: 0; }
+  .sec-h { font-size: 22px; font-weight: 600; color: var(--text); line-height: 1.2; margin-bottom: 8px; }
+  .sec-sh { font-size: 14px; color: var(--text2); line-height: 1.6; margin-bottom: 24px; }
+
+  /* HERO */
+  .hero { background: var(--bg); }
+  .badge { display: inline-block; font-size: 11px; padding: 3px 10px; border-radius: 20px; background: var(--green-l); color: var(--green); margin-bottom: 14px; font-weight: 500; }
+  .hero-h1 { font-size: 36px; font-weight: 700; color: var(--text); line-height: 1.15; margin-bottom: 14px; max-width: 560px; letter-spacing: -0.02em; }
+  .hero-h1 em { color: var(--blue2); font-style: normal; }
+  .hero-sub { font-size: 15px; color: var(--text2); line-height: 1.65; margin-bottom: 24px; max-width: 540px; }
+  .cta-row { display: flex; gap: 12px; margin-bottom: 28px; flex-wrap: wrap; align-items: center; }
+  .cta-p { font-size: 14px; padding: 10px 20px; background: var(--blue); color: #fff; border-radius: 8px; font-weight: 500; font-family: var(--mono); cursor: pointer; border: none; }
+  .cta-s { font-size: 14px; padding: 10px 20px; border: 1px solid var(--border2); color: var(--text); border-radius: 8px; background: transparent; cursor: pointer; }
+  .terminal { background: #0D1117; border-radius: 10px; padding: 20px 22px; font-family: var(--mono); font-size: 13px; line-height: 1.8; }
+  .t-ts { color: #5F5E5A; }
+  .t-ok { color: #97C459; font-weight: 600; }
+  .t-blk { color: #F09595; font-weight: 600; }
+  .t-rd { color: #EF9F27; font-weight: 600; }
+  .t-kw { color: #85B7EB; }
+  .t-fn { color: #EF9F27; }
+  .t-ok2 { color: #5DCAA5; }
+  .t-wh { color: #E8E8E8; }
+  .t-cm { color: #444441; }
+  .t-st { color: #97C459; }
+  .tline { display: block; }
+
+  /* CRED BAR */
+  .cred { background: var(--bg2); }
+  .cred-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .cred-card { background: var(--bg); border-radius: var(--radius); padding: 14px 16px; text-align: center; border: 0.5px solid var(--border); }
+  .cred-val { font-size: 26px; font-weight: 700; color: var(--blue); display: block; letter-spacing: -0.02em; }
+  .cred-lbl { font-size: 11px; color: var(--text3); margin-top: 2px; }
+
+  /* JOURNEY */
+  .journey-strip { display: flex; align-items: stretch; gap: 0; background: var(--bg2); border-radius: var(--radius-lg); overflow: hidden; border: 0.5px solid var(--border); }
+  .jstep { display: flex; flex-direction: column; padding: 16px 14px; flex: 1; border-right: 0.5px solid var(--border); cursor: pointer; transition: background 0.15s; }
+  .jstep:last-child { border-right: none; }
+  .jstep:hover { background: var(--blue-l); }
+  .jstep.active { background: var(--blue-l); }
+  .jnum { font-size: 10px; color: var(--text3); margin-bottom: 4px; font-variant-numeric: tabular-nums; }
+  .jlabel { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .jlabel.active-l { color: var(--blue-t); }
+  .jdesc { font-size: 11px; color: var(--text3); font-family: var(--mono); }
+  .jdetail { margin-top: 20px; padding: 16px 20px; background: var(--blue-l); border-radius: var(--radius); border-left: 3px solid var(--blue2); border-radius: 0; }
+  .jdetail p { font-size: 13px; color: var(--text); line-height: 1.6; }
+  .jdetail code { font-family: var(--mono); font-size: 12px; background: rgba(0,0,0,0.06); padding: 1px 5px; border-radius: 4px; }
+
+  /* AUDIT CHAIN */
+  .audit-bg { background: var(--bg2); }
+
+  /* SDK GRID */
+  .sdk-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .sdk-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 14px 16px; cursor: pointer; transition: border-color 0.15s; }
+  .sdk-card:hover { border-color: var(--blue2); }
+  .sdk-card.cap { border-color: var(--blue2); border-width: 1.5px; }
+  .sdk-name { font-family: var(--mono); font-size: 13px; color: var(--blue2); font-weight: 600; margin-bottom: 5px; }
+  .sdk-desc { font-size: 11px; color: var(--text2); line-height: 1.5; margin-bottom: 8px; }
+  .sdk-pills { display: flex; flex-wrap: wrap; gap: 4px; }
+  .pill { font-size: 9px; padding: 2px 7px; border-radius: 8px; font-weight: 500; }
+  .p-s { background: var(--red-l); color: var(--red); }
+  .p-c { background: var(--green-l); color: var(--green); }
+  .p-o { background: var(--amber-l); color: var(--amber); }
+  .p-d { background: var(--purple-l); color: var(--purple); }
+  .p-g { background: var(--teal-l); color: var(--teal); }
+  .sdk-footnote { font-size: 11px; color: var(--text3); margin-top: 14px; text-align: center; padding: 10px; background: var(--bg2); border-radius: var(--radius); }
+
+  /* CATCHES */
+  .catches-bg { background: var(--bg2); }
+  .catch-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .catch-card { background: var(--bg); border-radius: var(--radius); padding: 16px; }
+  .catch-card.danger { border: 1px solid #E24B4A; }
+  .catch-card.warn { border: 1px solid #BA7517; }
+  .catch-tag { font-size: 9px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+  .catch-tag.d { color: var(--red); }
+  .catch-tag.w { color: var(--amber); }
+  .catch-mono { font-family: var(--mono); font-size: 11px; color: var(--text2); background: var(--bg2); padding: 6px 8px; border-radius: 5px; margin-bottom: 8px; display: block; word-break: break-all; }
+  .catch-desc { font-size: 12px; color: var(--text2); line-height: 1.6; }
+  .catch-attr { font-size: 10px; color: var(--text3); margin-top: 6px; }
+
+  /* COMPLIANCE */
+  .comp-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .comp-table th { background: var(--blue); color: #fff; padding: 10px 14px; text-align: left; font-weight: 500; }
+  .comp-table td { padding: 10px 14px; border-bottom: 0.5px solid var(--border); color: var(--text); vertical-align: top; line-height: 1.5; }
+  .comp-table tr:nth-child(even) td { background: var(--bg2); }
+  .comp-fw { font-weight: 600; white-space: nowrap; }
+  .comp-sdk { font-family: var(--mono); font-size: 10px; color: var(--blue2); }
+  .comp-cta { margin-top: 16px; padding: 14px 18px; background: var(--green-l); border-radius: var(--radius); border-left: 3px solid #3B6D11; border-radius: 0; }
+  .comp-cta code { font-family: var(--mono); font-size: 12px; color: var(--green); }
+  .comp-cta p { font-size: 12px; color: var(--green); margin-top: 4px; }
+
+  /* DUAL CTA */
+  .dual-bg { background: var(--bg2); }
+  .dual-cta { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .cta-box { background: var(--bg); border-radius: var(--radius-lg); padding: 28px; }
+  .cta-box.dev { border-top: 3px solid var(--blue); }
+  .cta-box.ent { border-top: 3px solid var(--blue2); }
+  .cta-track-label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text3); margin-bottom: 8px; }
+  .cta-box h3 { font-size: 18px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+  .cta-box p { font-size: 13px; color: var(--text2); line-height: 1.6; margin-bottom: 18px; }
+  .cta-install-btn { font-family: var(--mono); font-size: 13px; background: var(--blue); color: #fff; padding: 10px 18px; border-radius: 7px; display: inline-block; cursor: pointer; border: none; margin-bottom: 10px; }
+  .cta-links a { display: block; font-size: 12px; color: var(--blue2); margin-bottom: 4px; text-decoration: none; }
+  .cta-brief-btn { font-size: 13px; padding: 10px 18px; border: 1px solid var(--border2); color: var(--text); border-radius: 7px; background: transparent; cursor: pointer; margin-bottom: 10px; }
+
+  /* FOOTER */
+  footer { background: #0D1117; padding: 36px 40px 24px; }
+  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 32px; margin-bottom: 28px; }
+  .footer-brand { font-size: 16px; font-weight: 600; color: #E8E8E8; margin-bottom: 4px; }
+  .footer-tag { font-size: 10px; color: #5F5E5A; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .footer-pub { font-size: 11px; color: #5F5E5A; margin-top: 12px; }
+  .footer-col h4 { font-size: 10px; font-weight: 600; color: #888780; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
+  .footer-col a { display: block; font-size: 12px; color: #5F5E5A; margin-bottom: 5px; text-decoration: none; }
+  .footer-col a:hover { color: #E8E8E8; }
+  .footer-bottom { border-top: 0.5px solid #2C2C2A; padding-top: 16px; display: flex; justify-content: space-between; align-items: center; }
+  .footer-copy { font-size: 10px; color: #444441; }
+  .footer-motto { font-size: 10px; color: #444441; font-style: italic; }
+
+  /* ANNOTATION BADGES */
+  .annotation { display: inline-block; font-size: 9px; padding: 2px 6px; border-radius: 4px; background: #fff3cd; color: #856404; border: 0.5px solid #ffc107; margin-left: 6px; vertical-align: middle; font-weight: 500; }
+</style>
+</head>
+<body>
+
+<p class="wireframe-label">SpanForge · Homepage Redesign Wireframe · April 2026 · Annotations in yellow</p>
+
+<div class="page">
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">
+      <span class="logo-name">SpanForge</span>
+      <span class="logo-sub">AI Observability SDK</span>
+    </div>
+    <div class="nav-links">
+      <span>Docs</span>
+      <span>SDK</span>
+      <span>Standard</span>
+      <span>Blog</span>
+      <span>About</span>
+      <span>GitHub</span>
+    </div>
+    <span class="nav-cta">pip install spanforge</span>
+  </nav>
+  <!-- annotation: logo sub-label changes from "AI Lifecycle Platform" → "AI Observability SDK". Nav primary CTA is now monospace install command. -->
+
+  <!-- S1: HERO -->
+  <section class="hero">
+    <div class="sec-label">S1 · Hero <span class="annotation">above the fold</span></div>
+    <span class="badge">v2.0.10 — GA 2 May 2026</span>
+    <h1 class="hero-h1">The AI observability SDK that <em>actually</em> enforces compliance.</h1>
+    <p class="hero-sub">One pip install. HMAC audit chains, PII redaction, secrets scanning, drift detection, and 6-gate CI/CD — production-ready, zero required dependencies.</p>
+    <div class="cta-row">
+      <button class="cta-p">pip install spanforge</button>
+      <button class="cta-s">Read the standard →</button>
+    </div>
+    <div class="terminal">
+      <span class="tline"><span class="t-ts">$&nbsp;</span><span class="t-wh">pip install spanforge</span></span>
+      <span class="tline">&nbsp;</span>
+      <span class="tline"><span class="t-kw">import</span><span class="t-wh"> spanforge</span></span>
+      <span class="tline"><span class="t-kw">from</span><span class="t-wh"> spanforge.sdk </span><span class="t-kw">import</span><span class="t-wh"> sf_audit, sf_pii, sf_secrets</span></span>
+      <span class="tline">&nbsp;</span>
+      <span class="tline"><span class="t-fn">@spanforge.trace</span></span>
+      <span class="tline"><span class="t-kw">def</span><span class="t-wh"> score_output(text: </span><span class="t-st">str</span><span class="t-wh">) -&gt; </span><span class="t-st">dict</span><span class="t-wh">:</span></span>
+      <span class="tline"><span class="t-wh">&nbsp;&nbsp;&nbsp;&nbsp;sf_pii.scan(text)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="t-cm"># GDPR, HIPAA, CCPA, DPDP — auto-redact</span></span>
+      <span class="tline"><span class="t-wh">&nbsp;&nbsp;&nbsp;&nbsp;sf_secrets.scan(text)&nbsp;&nbsp;&nbsp;</span><span class="t-cm"># 20 patterns, entropy scoring, auto-block</span></span>
+      <span class="tline"><span class="t-wh">&nbsp;&nbsp;&nbsp;&nbsp;result </span><span class="t-kw">=</span><span class="t-wh"> run_model(text)</span></span>
+      <span class="tline"><span class="t-wh">&nbsp;&nbsp;&nbsp;&nbsp;sf_audit.append(result, </span><span class="t-st">"halluccheck.score.v1"</span><span class="t-wh">)</span><span class="t-cm">  # HMAC-signed</span></span>
+      <span class="tline"><span class="t-kw">&nbsp;&nbsp;&nbsp;&nbsp;return</span><span class="t-wh"> result</span></span>
+    </div>
+  </section>
+
+  <!-- S2: CRED BAR -->
+  <section class="cred">
+    <div class="sec-label">S2 · Credibility bar <span class="annotation">replaces "Comply. Prove. Scale." strip</span></div>
+    <div class="cred-grid">
+      <div class="cred-card"><span class="cred-val">143k</span><span class="cred-lbl">lines of code</span></div>
+      <div class="cred-card"><span class="cred-val">5,301</span><span class="cred-lbl">test functions</span></div>
+      <div class="cred-card"><span class="cred-val">90%+</span><span class="cred-lbl">coverage enforced at CI</span></div>
+      <div class="cred-card"><span class="cred-val">8</span><span class="cred-lbl">AI provider integrations</span></div>
+      <div class="cred-card"><span class="cred-val">11</span><span class="cred-lbl">export backends</span></div>
+      <div class="cred-card"><span class="cred-val">20</span><span class="cred-lbl">secrets patterns</span></div>
+      <div class="cred-card"><span class="cred-val">6</span><span class="cred-lbl">compliance frameworks</span></div>
+      <div class="cred-card"><span class="cred-val">0</span><span class="cred-lbl">required dependencies</span></div>
+    </div>
+  </section>
+
+  <!-- S3: JOURNEY -->
+  <section>
+    <div class="sec-label">S3 · Developer journey <span class="annotation">replaces DISCOVER→DESIGN→BUILD→GOVERN→SCALE</span></div>
+    <h2 class="sec-h">From install to regulator-ready in 5 steps.</h2>
+    <p class="sec-sh">No briefing required. No sales process. Start with pip install, end with a signed compliance evidence package.</p>
+    <div class="journey-strip">
+      <div class="jstep active">
+        <span class="jnum">01</span>
+        <span class="jlabel active-l">Install</span>
+        <span class="jdesc">pip install spanforge</span>
+      </div>
+      <div class="jstep">
+        <span class="jnum">02</span>
+        <span class="jlabel">Instrument</span>
+        <span class="jdesc">@spanforge.trace</span>
+      </div>
+      <div class="jstep">
+        <span class="jnum">03</span>
+        <span class="jlabel">Enforce</span>
+        <span class="jdesc">sf_pii · sf_secrets</span>
+      </div>
+      <div class="jstep">
+        <span class="jnum">04</span>
+        <span class="jlabel">Audit</span>
+        <span class="jdesc">sf_audit · WORM</span>
+      </div>
+      <div class="jstep" style="border-right:none;">
+        <span class="jnum">05</span>
+        <span class="jlabel">Prove</span>
+        <span class="jdesc">sf_cec.build_bundle()</span>
+      </div>
+    </div>
+    <div class="jdetail">
+      <p><strong>Step 01 — Install:</strong> <code>pip install spanforge</code> — zero required dependencies. Works in any Python 3.9–3.12 environment. Local fallback mode means you can develop without any SpanForge backend. <a href="#" style="color:var(--blue2);font-size:13px;">Install documentation →</a></p>
+    </div>
+  </section>
+
+  <!-- S4: AUDIT CHAIN -->
+  <section class="audit-bg">
+    <div class="sec-label">S4 · Live audit chain <span class="annotation">auto-scrolling on live site — replaces static AgentOBS terminal</span></div>
+    <h2 class="sec-h">Every LLM call. Every decision. Every violation. Signed.</h2>
+    <p class="sec-sh">SpanForge instruments every event into a cryptographically-signed, tamper-evident audit chain — before regulators, users, or incident reports find the problem first.</p>
+    <div class="terminal">
+      <span class="tline"><span class="t-ts">[14:32:07.114] </span><span class="t-ok">SIGNED &nbsp;</span><span class="t-wh"> llm.trace.started&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="t-cm">chain:4821 prev:4820 hmac:a3f7c2d1… ✓</span></span>
+      <span class="tline"><span class="t-ts">[14:32:07.441] </span><span class="t-ok">SIGNED &nbsp;</span><span class="t-wh"> llm.cost.recorded&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="t-cm">gpt-4o · $0.0043 · 1,720 tokens · proj:loan-v2</span></span>
+      <span class="tline"><span class="t-ts">[14:32:07.891] </span><span class="t-blk">BLOCKED</span><span class="t-wh"> llm.secrets.detected&nbsp;&nbsp;</span><span class="t-rd">STRIPE_LIVE_KEY · entropy:5.1bits/char · auto-blocked ✕</span></span>
+      <span class="tline"><span class="t-ts">[14:32:08.203] </span><span class="t-rd">REDACT &nbsp;</span><span class="t-wh"> llm.pii.detected&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="t-rd">EMAIL → [REDACTED:pii] · GDPR Art.5(1)(f) ✓</span></span>
+      <span class="tline"><span class="t-ts">[14:32:08.550] </span><span class="t-ok">SIGNED &nbsp;</span><span class="t-wh"> llm.guard.evaluated&nbsp;&nbsp;&nbsp;</span><span class="t-cm">confidence:0.41 &lt; threshold:0.70 → HITL queue</span></span>
+      <span class="tline"><span class="t-ts">[14:32:08.890] </span><span class="t-ok">SIGNED &nbsp;</span><span class="t-wh"> llm.trace.completed&nbsp;&nbsp;&nbsp;</span><span class="t-cm">chain:4822 hmac:c8e2f1a3… latency:778ms ✓</span></span>
+      <span class="tline"><span class="t-ts">[14:32:09.110] </span><span class="t-ok2">VERIFY &nbsp;</span><span class="t-wh"> chain verified&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="t-ok2">4,822 events · 0 gaps · 0 tampering · EU AI Act Art.12 ✓</span></span>
+    </div>
+  </section>
+
+  <!-- S5: SDK SERVICES -->
+  <section>
+    <div class="sec-label">S5 · SDK services <span class="annotation">replaces "102 tools planned" grid</span></div>
+    <h2 class="sec-h">9 services. One SDK. Zero required dependencies.</h2>
+    <p class="sec-sh">Every service ships with local fallback mode, mypy --strict, ≥90% test coverage enforced at CI, and full .pyi type stubs.</p>
+    <div class="sdk-grid">
+      <div class="sdk-card">
+        <p class="sdk-name">sf_identity</p>
+        <p class="sdk-desc">API keys (sf_live_*), JWT HS256/RS256, TOTP RFC 6238, magic links, IP allowlists, brute-force lockout, JWKS endpoint</p>
+        <div class="sdk-pills"><span class="pill p-s">security</span></div>
+      </div>
+      <div class="sdk-card">
+        <p class="sdk-name">sf_pii</p>
+        <p class="sdk-desc">Presidio NLP + regex, 5 sensitivity levels, flag/redact/block pipeline, GDPR · HIPAA · CCPA · DPDP · PIPL · China PIPL</p>
+        <div class="sdk-pills"><span class="pill p-c">compliance</span></div>
+      </div>
+      <div class="sdk-card">
+        <p class="sdk-name">sf_secrets</p>
+        <p class="sdk-desc">20 detection patterns, Shannon entropy scoring, SARIF 2.1.0 output, Vault migration hints, auto-block policy table</p>
+        <div class="sdk-pills"><span class="pill p-s">security</span></div>
+      </div>
+      <div class="sdk-card">
+        <p class="sdk-name">sf_audit</p>
+        <p class="sdk-desc">HMAC-SHA256 chain, WORM S3/GCS/Azure, SQLite index, 7-year retention, tombstone erasure, verify_chain()</p>
+        <div class="sdk-pills"><span class="pill p-c">compliance</span></div>
+      </div>
+      <div class="sdk-card">
+        <p class="sdk-name">sf_observe</p>
+        <p class="sdk-desc">OTel GenAI Semantic Conventions v1.27+, OTLP · Datadog · Grafana · Splunk · Elastic, W3C Baggage, SLO tracking</p>
+        <div class="sdk-pills"><span class="pill p-o">ops</span></div>
+      </div>
+      <div class="sdk-card">
+        <p class="sdk-name">sf_alert</p>
+        <p class="sdk-desc">Topic-based publish, 5-min dedup, Slack · Teams · PagerDuty · OpsGenie · VictorOps, HMAC-signed webhooks, escalation</p>
+        <div class="sdk-pills"><span class="pill p-o">ops</span></div>
+      </div>
+      <div class="sdk-card">
+        <p class="sdk-name">sf_gate</p>
+        <p class="sdk-desc">6-gate YAML pipeline engine, PRRI governance gate, trust gate (HRI + PII + secrets), SLSA Level 2 provenance</p>
+        <div class="sdk-pills"><span class="pill p-d">devops</span></div>
+      </div>
+      <div class="sdk-card">
+        <p class="sdk-name">sf_cec</p>
+        <p class="sdk-desc">Signed ZIP evidence bundles, EU AI Act · SOC 2 · ISO 42001 · NIST AI RMF · ISO 27001 clause mapping, PDF attestation</p>
+        <div class="sdk-pills"><span class="pill p-c">compliance</span></div>
+      </div>
+      <div class="sdk-card cap">
+        <p class="sdk-name">sf_trust ★</p>
+        <p class="sdk-desc">T.R.U.S.T. scorecard — 5 dimensions (Transparency, Reliability, UserTrust, Security, Traceability), badge SVG, trend API</p>
+        <div class="sdk-pills"><span class="pill p-g">governance</span></div>
+      </div>
+    </div>
+    <p class="sdk-footnote">All 9 services: local fallback mode · mypy --strict · ≥90% test coverage · .pyi type stubs · mock_all_services() for testing</p>
+  </section>
+
+  <!-- S6: CATCHES -->
+  <section class="catches-bg">
+    <div class="sec-label">S6 · What SpanForge catches <span class="annotation">new section — concrete real output, not feature copy</span></div>
+    <h2 class="sec-h">Don't take our word for it. Here's what SpanForge caught.</h2>
+    <p class="sec-sh">Real output. Real catches. Before your users, auditors, or regulators found them first.</p>
+    <div class="catch-grid">
+      <div class="catch-card danger">
+        <p class="catch-tag d">BLOCKED — secrets detected</p>
+        <span class="catch-mono">sk_live_4xK9mR2p8vB3nQ...</span>
+        <p class="catch-desc">Stripe live key in LLM output. Auto-blocked before storage. Never written to audit log. Raw output discarded. Confidence: 0.97.</p>
+        <p class="catch-attr">Entropy: 5.1 bits/char · Vault hint: vault kv put secret/stripe key=...</p>
+      </div>
+      <div class="catch-card warn">
+        <p class="catch-tag w">REDACTED — PII detected</p>
+        <span class="catch-mono">user@company.com → [REDACTED:email]</span>
+        <p class="catch-desc">Email address in model response. Redacted before HMAC chain write. Audit metadata injected: __redacted_at, __redaction_count.</p>
+        <p class="catch-attr">GDPR Article 5(1)(f) satisfied · Confidence: 0.94</p>
+      </div>
+      <div class="catch-card warn">
+        <p class="catch-tag w">ALERT — behavioural drift RED</p>
+        <span class="catch-mono">drift_score: 0.31 (threshold: 0.20)</span>
+        <p class="catch-desc">Output distribution shifted 3.1σ from baseline. PagerDuty notified in 847ms. Agent paused. Playbook GDPR-002 triggered automatically.</p>
+        <p class="catch-attr">EU AI Act Art.15 (accuracy monitoring) · sf_alert.publish() called</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- S7: COMPLIANCE -->
+  <section>
+    <div class="sec-label">S7 · Compliance surface <span class="annotation">replaces abstract "regulatory evidence generation" copy</span></div>
+    <h2 class="sec-h">Built for regulated AI. Every framework. Every article.</h2>
+    <p class="sec-sh">SpanForge maps to 6 regulatory frameworks at the article level — not just the framework name.</p>
+    <table class="comp-table">
+      <thead>
+        <tr><th style="width:18%">Framework</th><th style="width:55%">Articles / clauses SpanForge maps to</th><th style="width:27%">SDK surface</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="comp-fw">EU AI Act</span></td>
+          <td>Art.9 Risk Management · Art.10 Data Governance · Art.12 Record-keeping · Art.13 Transparency · Art.14 Human Oversight · Art.15 Accuracy & Robustness</td>
+          <td><span class="comp-sdk">sf_gate · sf_audit · sf_cec · HITL queue</span></td>
+        </tr>
+        <tr>
+          <td><span class="comp-fw">GDPR</span></td>
+          <td>Art.5 data minimisation (PII redaction) · Art.17 right to erasure (tombstone events) · Art.28 DPA generation · Art.30 Records of Processing</td>
+          <td><span class="comp-sdk">sf_pii · sf_audit · sf_cec</span></td>
+        </tr>
+        <tr>
+          <td><span class="comp-fw">HIPAA</span></td>
+          <td>18 PHI identifiers per 45 CFR §164.514(b)(2) (Safe Harbor de-identification) · audit trail requirements · access logging per §164.312</td>
+          <td><span class="comp-sdk">sf_pii · sf_audit · sf_identity</span></td>
+        </tr>
+        <tr>
+          <td><span class="comp-fw">SOC 2 Type II</span></td>
+          <td>CC6 logical access controls · CC7 system operations monitoring · CC9 risk mitigation — all mapped via CEC bundle for auditor attachment</td>
+          <td><span class="comp-sdk">sf_audit · sf_gate · sf_cec</span></td>
+        </tr>
+        <tr>
+          <td><span class="comp-fw">ISO/IEC 42001</span></td>
+          <td>Clauses 6.1 (risk assessment) · 8.3 (AI system impact assessment) · 9.1 (monitoring and measurement) · 10 (improvement)</td>
+          <td><span class="comp-sdk">sf_cec · sf_trust</span></td>
+        </tr>
+        <tr>
+          <td><span class="comp-fw">NIST AI RMF</span></td>
+          <td>GOVERN (policies, accountability) · MAP (context, risk identification) · MEASURE (evaluation, monitoring) · MANAGE (response, recovery)</td>
+          <td><span class="comp-sdk">sf_gate · sf_cec · sf_trust</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="comp-cta">
+      <code>sf_cec.build_bundle(project_id, date_range, frameworks=["eu-ai-act","soc2","iso42001"])</code>
+      <p>Generates a HMAC-signed ZIP containing evidence records, clause mapping, chain proof, and PDF attestation — ready for your auditor. <a href="#" style="color:var(--green);">See the CEC documentation →</a></p>
+    </div>
+  </section>
+
+  <!-- S8: DUAL CTA -->
+  <section class="dual-bg">
+    <div class="sec-label">S8 · Dual CTA <span class="annotation">replaces single "Request a Briefing" — serves both audiences</span></div>
+    <div class="dual-cta">
+      <div class="cta-box dev">
+        <p class="cta-track-label">For developers</p>
+        <h3>Start building in 5 minutes.</h3>
+        <p>Zero required dependencies. Works in any Python 3.9–3.12 environment. Local fallback mode means no account needed to start instrumenting your AI.</p>
+        <button class="cta-install-btn">pip install spanforge</button>
+        <div class="cta-links">
+          <a href="#">Read the quickstart guide →</a>
+          <a href="#">Browse the SDK reference →</a>
+          <a href="#">Read RFC-0001 standard →</a>
+        </div>
+      </div>
+      <div class="cta-box ent">
+        <p class="cta-track-label">For enterprises</p>
+        <h3>Need a compliance briefing?</h3>
+        <p>If you need a walkthrough of the compliance evidence chain, regulatory framework mapping, or enterprise deployment options — let's talk.</p>
+        <button class="cta-brief-btn">Request a briefing →</button>
+        <div class="cta-links">
+          <a href="#">Or email hello@getspanforge.com</a>
+          <a href="#">Enterprise features →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div>
+        <p class="footer-brand">SpanForge</p>
+        <p class="footer-tag">AI Observability SDK · getspanforge.com</p>
+        <p style="font-size:11px;color:#5F5E5A;">Where AI goes to production.</p>
+        <p class="footer-pub">Built in public. <a href="#" style="color:#888780;">Follow on LinkedIn ↗</a></p>
+      </div>
+      <div class="footer-col">
+        <h4>SDK</h4>
+        <a href="#">Documentation</a>
+        <a href="#">SDK reference</a>
+        <a href="#">RFC-0001 standard</a>
+        <a href="#">GitHub</a>
+        <a href="#">Changelog</a>
+      </div>
+      <div class="footer-col">
+        <h4>Platform</h4>
+        <a href="#">T.R.U.S.T. Framework</a>
+        <a href="#">Compliance evidence chain</a>
+        <a href="#">6-gate CI/CD pipeline</a>
+        <a href="#">Tools catalog</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About</a>
+        <a href="#">Blog</a>
+        <a href="#">Contact</a>
+        <a href="#">Privacy policy</a>
+        <a href="#">Terms</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© SpanForge 2026 · getspanforge.com</p>
+      <p class="footer-motto">The AI observability SDK that actually enforces compliance.</p>
+    </div>
+  </footer>
+
+</div>
+
+<p style="text-align:center;font-size:11px;color:#999;margin-top:16px;padding-bottom:8px;">
+  SpanForge Homepage Wireframe · Spec document: SpanForge-Website-Redesign-Spec.docx · April 2026
+</p>
+
+</body>
+</html>

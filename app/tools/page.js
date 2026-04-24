@@ -1,23 +1,20 @@
 import Link from 'next/link'
-import { phaseSummary, needAreas, NEED_TOTAL, showcaseTools } from '@/lib/tools-data'
+import { needAreas, NEED_TOTAL, showcaseTools } from '@/lib/tools-data'
 import ToolsClient from './ToolsClient'
 import styles from './page.module.css'
 
 export const metadata = {
-  title: 'Tools & Frameworks — SpanForge',
+  title: 'Tools & SDK Services — SpanForge',
   description:
-    'SpanForge is building 100+ tools, frameworks, and standards documents across the five-phase AI lifecycle. Tools are listed here as they go live.',
+    'SpanForge ships 11 SDK services, 33 CLI commands, and a growing suite of standalone tools covering security, compliance, observability, and governance for AI systems.',
 }
 
-// Breakdown of planned tool types
-const TOOL_TYPES = [
-  { count: '85',  label: 'CLI utilities',              note: 'Python-native, zero external dependencies' },
-  { count: '20+', label: 'Web applications',           note: 'Interactive tools across Discover and Govern' },
-  { count: '40+', label: 'Standards documents',        note: 'RFC-level templates and specifications' },
-  { count: '5+',  label: 'Frameworks',                 note: 'Governance, methodology, and build standards' },
-  { count: '6',   label: 'CI/CD pipeline templates',  note: 'Six-stage pipeline integrated into your build process' },
-  { count: '1',   label: 'SpanForge Platform',       note: 'Production compliance for autonomous AI agents — in development' },
-  { count: '1',   label: 'Cost Intelligence Layer',   note: 'Design-time cost estimation and runtime token cost tracking via SpanForge llm.cost.* namespace' },
+// SDK reality breakdown
+const SDK_CATEGORIES = [
+  { count: '11',  label: 'SDK services',       note: 'sf_identity · sf_pii · sf_secrets · sf_audit · sf_observe · sf_alert · sf_gate · sf_cec · sf_trust · sf_rag · sf_feedback' },
+  { count: '33',  label: 'CLI commands',        note: 'scan · gate · trust · audit · secrets · compliance · doctor · security · enterprise · and 24 more' },
+  { count: '6',   label: 'Compliance frameworks', note: 'EU AI Act · GDPR · HIPAA · SOC 2 · ISO 42001 · NIST AI RMF — article-level mapping' },
+  { count: '91%', label: 'Test coverage',       note: '5,863 tests passing · mypy --strict · zero required dependencies' },
 ]
 
 function PriorityPip({ count, label, color }) {
@@ -30,45 +27,35 @@ function PriorityPip({ count, label, color }) {
 }
 
 export default function ToolsPage() {
-  const totalPlanned = Object.values(phaseSummary).reduce((sum, p) => sum + p.total, 0)
+  const sdkCount = showcaseTools.filter(t => t.type === 'sdk').length
+  const publishedCount = showcaseTools.filter(t => t.hasPage).length
 
   return (
     <>
       {/* Hero */}
       <section className={styles.hero}>
         <div className="container">
-          <span className="eyebrow">Tools &amp; Frameworks</span>
+          <span className="eyebrow">Tools &amp; SDK Services</span>
           <h1 className={styles.h1}>
-            {totalPlanned}+ tools planned across the lifecycle.
+            11 SDK services. 33 CLI commands.<br />Shipped.
           </h1>
           <p className={styles.heroSub}>
-            SpanForge is building a complete toolkit covering every decision, gate, and
-            deployment challenge across the five-phase AI lifecycle. Tools are published
-            to this page as they go live — check back as the platform ships.
+            spanforge ships a complete toolkit for AI compliance — from PII redaction and
+            secrets scanning at CI time, to HMAC audit chains and regulatory evidence bundles
+            in production. Every service is available today via <code>pip install spanforge</code>.
           </p>
         </div>
       </section>
 
-      {/* Phase totals */}
-      <section className={styles.counts} aria-label="Planned tools by phase">
+      {/* SDK stats */}
+      <section className={styles.counts} aria-label="SDK stats">
         <div className="container">
-          <p className={styles.countsIntro}>
-            Planned tools per phase
-          </p>
           <div className={styles.countsGrid}>
-            {Object.entries(phaseSummary).map(([phaseId, info]) => (
-              <div key={phaseId} className={styles.countCard}>
-                <span
-                  className={styles.countPhase}
-                  style={{ color: `var(--${phaseId})` }}
-                >
-                  {info.label}
-                </span>
-                <div className={styles.countRow}>
-                  <span className={styles.countTotal}>{info.total}</span>
-                </div>
-                <span className={styles.countLabel}>tools planned</span>
-                <span className={styles.countTypes}>{info.types}</span>
+            {SDK_CATEGORIES.map((cat) => (
+              <div key={cat.label} className={styles.countCard}>
+                <span className={styles.countTotal}>{cat.count}</span>
+                <span className={styles.countLabel}>{cat.label}</span>
+                <span className={styles.countTypes}>{cat.note}</span>
               </div>
             ))}
           </div>
@@ -127,34 +114,15 @@ export default function ToolsPage() {
         <div className="container">
           <span className="eyebrow">Available now</span>
           <h2 id="published-heading" className={styles.publishedH2}>
-            Published tools
+            Published tools &amp; SDK services
           </h2>
           <p className={styles.publishedDesc}>
-            These tools are live and documented. Click any card to read the docs.
+            Browse every SDK service and CLI tool that ships with spanforge. Use the filters to narrow by type or lifecycle phase.
           </p>
-          <ToolsClient tools={showcaseTools.filter(t => t.hasPage)} />
-        </div>
-      </section>
-
-      {/* What is being built */}
-      <section className={styles.lockedSection} aria-labelledby="breakdown-heading">
-        <div className={`container ${styles.lockedInner}`}>
-          <h2 id="breakdown-heading" className={styles.lockedH2}>
-            What is in the platform.
-          </h2>
-          <p className={styles.lockedDesc}>
-            The SpanForge toolkit spans six categories. Each tool maps to one phase of
-            the lifecycle and one dimension of the T.R.U.S.T. Framework.
-          </p>
-          <div className={styles.lockedFeatures}>
-            {TOOL_TYPES.map(t => (
-              <div key={t.label} className={styles.lockedFeature}>
-                <span className={styles.lockedCheck} aria-hidden="true">{t.count}</span>
-                <strong style={{ fontSize: '0.875rem', color: 'var(--light)' }}>{t.label}</strong>
-                <span style={{ fontSize: '0.8rem', color: 'var(--muted)', lineHeight: '1.5' }}>{t.note}</span>
-              </div>
-            ))}
-          </div>
+          <ToolsClient tools={[
+            ...showcaseTools.filter(t => t.type === 'sdk'),
+            ...showcaseTools.filter(t => t.hasPage),
+          ]} />
         </div>
       </section>
     </>

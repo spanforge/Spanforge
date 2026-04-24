@@ -1,85 +1,64 @@
 import Link from 'next/link'
 import styles from './Footer.module.css'
 
-const platformLinks = [
-  { label: 'Platform Overview',   href: '/platform' },
-  { label: 'Discover',            href: '/platform/discover' },
-  { label: 'Design',              href: '/platform/design' },
-  { label: 'Build',               href: '/platform/build' },
-  { label: 'Govern',              href: '/platform/govern' },
-  { label: 'Scale',               href: '/platform/scale' },
-  { label: 'T.R.U.S.T. Framework', href: '/platform/trust' },
-]
 const productLinks = [
-  { label: 'SpanForge Platform', href: '/agentobs' },
-  { label: 'Tools & Artifacts', href: '/tools' },
+  { label: 'SDK quickstart', href: '/spanforgecore/sdk' },
+  { label: 'Standard', href: '/standard' },
+  { label: 'Documentation', href: '/docs' },
+  { label: 'Tools', href: '/tools' },
 ]
+
 const companyLinks = [
-  { label: 'About',          href: '/about' },
-  { label: 'Blog',           href: '/blog' },
-  { label: 'Library',        href: '/resources' },
-  { label: 'Contact',        href: '/contact' },
-  { label: 'Privacy Policy', href: '/privacy' },
-  { label: 'Terms',          href: '/terms' },
+  { label: 'About', href: '/about' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Contact', href: '/contact' },
 ]
 
 export default function Footer() {
   return (
     <footer className={styles.footer}>
-      <div className={`container ${styles.grid}`}>
-
-        {/* Brand column */}
+      <div className={`container ${styles.top}`}>
         <div className={styles.brand}>
-          <Link href="/" className={styles.brandLogo} aria-label="SpanForge home">
-            <span className={styles.brandSpan}>Span</span>
-            <span className={styles.brandForge}>Forge</span>
-            <span className={styles.brandSub}>AI Lifecycle Platform</span>
-          </Link>
-          <p className={styles.brandTagline}>Where AI Goes to Production.</p>
-          <p className={styles.brandUrl}>getspanforge.com</p>
-          <Link href="/contact" className={styles.brandContact}>
-            Request a briefing →
-          </Link>
+          <p className={styles.brandMark}>SpanForge</p>
+          <p className={styles.brandLead}>
+            AI compliance infrastructure for teams shipping production-grade agentic systems.
+          </p>
+          <p className={styles.brandMeta}>
+            Instrument. Enforce. Prove.
+          </p>
         </div>
 
-        {/* Platform column */}
-        <div className={styles.col}>
-          <span className={styles.colHead}>Platform</span>
-          {platformLinks.map((l) => (
-            <Link key={l.href} href={l.href} className={styles.colLink}>{l.label}</Link>
-          ))}
-        </div>
-
-        {/* Products column */}
-        <div className={styles.col}>
-          <span className={styles.colHead}>Products</span>
-          {productLinks.map((l) => (
-            <Link key={l.href} href={l.href} className={styles.colLink}>{l.label}</Link>
-          ))}
-        </div>
-
-        {/* Company column */}
-        <div className={styles.col}>
-          <span className={styles.colHead}>Company</span>
-          {companyLinks.map((l) => (
-            <Link key={l.href} href={l.href} className={styles.colLink}>{l.label}</Link>
-          ))}
+        <div className={styles.columns}>
+          <div className={styles.col}>
+            <span className={styles.colHead}>Product</span>
+            {productLinks.map((link) => (
+              <Link key={link.label} href={link.href} className={styles.colLink}>
+                {link.label}
+              </Link>
+            ))}
+          </div>
+          <div className={styles.col}>
+            <span className={styles.colHead}>Company</span>
+            {companyLinks.map((link) => (
+              <Link key={link.label} href={link.href} className={styles.colLink}>
+                {link.label}
+              </Link>
+            ))}
+            <a
+              href="https://www.linkedin.com/in/spanforge"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.colLink}
+            >
+              LinkedIn
+            </a>
+          </div>
         </div>
       </div>
 
       <div className={`container ${styles.bottom}`}>
-        <p className={styles.copy}>© SpanForge 2026 — getspanforge.com</p>
-        <p className={styles.built}>
-          Built in public.{' '}
-          <a
-            href="https://www.linkedin.com/in/spanforge"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.linkedIn}
-          >
-            Follow on LinkedIn ↗
-          </a>
-        </p>
+        <p className={styles.copy}>© SpanForge 2026</p>
+        <p className={styles.motto}>Where AI goes to production.</p>
       </div>
     </footer>
   )

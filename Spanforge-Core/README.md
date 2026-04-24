@@ -1,450 +1,1007 @@
-<h1 align="center">AgentOBS</h1>
+<h1 align="center">spanforge</h1>
 
 <p align="center">
-  <strong>The reference implementation of the AGENTOBS Standard.</strong><br/>
-  A lightweight Python SDK that gives your AI applications a common, structured way to record, sign, redact, and export events — with zero mandatory dependencies.
+  <strong>The AI Compliance Platform for Agentic Systems.</strong><br/>
+  Ship AI applications that are auditable, regulator-ready, and privacy-safe — from day one.
 </p>
 
 <p align="center">
-  <em>AGENTOBS (RFC-0001) is the open event-schema standard for observability of agentic AI systems.</em>
+  <em>Built on <a href="https://www.getspanforge.com/standard">RFC-0001 — the SpanForge AI Compliance Standard</a> for agentic AI systems.</em>
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/python-3.9%2B-4c8cbf?logo=python&logoColor=white" alt="Python 3.9+"/>
-  <a href="https://pypi.org/project/agentobs/"><img src="https://img.shields.io/pypi/v/agentobs?color=4c8cbf&logo=pypi&logoColor=white" alt="PyPI"/></a>
-  <a href="https://www.getspanforge.com/standard"><img src="https://img.shields.io/badge/standard-AGENTOBS_RFC--0001-4c8cbf" alt="AGENTOBS RFC-0001"/></a>
-  <img src="https://img.shields.io/badge/coverage-93%25-brightgreen" alt="93% test coverage"/>
-  <img src="https://img.shields.io/badge/tests-3032%20passing-brightgreen" alt="3032 tests"/>
-  <img src="https://img.shields.io/badge/version-1.0.8-4c8cbf" alt="Version 1.0.8"/>
+  <a href="https://pypi.org/project/spanforge/"><img src="https://img.shields.io/pypi/v/spanforge?color=4c8cbf&logo=pypi&logoColor=white" alt="PyPI"/></a>
+  <a href="https://www.getspanforge.com/standard"><img src="https://img.shields.io/badge/standard-SpanForge_RFC--0001-4c8cbf" alt="spanforge RFC-0001"/></a>
+  <img src="https://img.shields.io/badge/coverage-90.96%25-brightgreen" alt="90.96% test coverage"/>
+  <img src="https://img.shields.io/badge/tests-6109%20passing-brightgreen" alt="6109 tests"/>
+  <img src="https://img.shields.io/badge/version-2.0.14-4c8cbf" alt="Version 2.0.14"/>
   <img src="https://img.shields.io/badge/dependencies-zero-brightgreen" alt="Zero dependencies"/>
   <a href="docs/index.md"><img src="https://img.shields.io/badge/docs-local-4c8cbf" alt="Documentation"/></a>
-  <img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT license"/>
+  <img src="https://img.shields.io/badge/license-PolyForm%20NC%201.0-blue" alt="PolyForm Noncommercial 1.0"/>
 </p>
 
 ---
 
-## What is this?
+## The problem
 
-**AgentOBS** (``agentobs``) is the **reference implementation of [RFC-0001 AGENTOBS](https://www.getspanforge.com/standard)** — the open event-schema standard for observability of agentic AI systems.
+You're building AI applications in a world where regulators are catching up fast. The EU AI Act is in force. GDPR applies to every LLM that touches personal data. SOC 2 auditors want evidence that your AI systems are governed. And your team is stitching together ad-hoc logs, hoping they'll hold up in an audit.
 
-AGENTOBS defines a structured, typed event envelope that every LLM-adjacent instrumentation tool can emit and every observability backend can consume. It covers the full lifecycle: event envelopes, agent span hierarchies, token and cost models, HMAC audit chains, PII redaction, OTLP-compatible export, and schema governance.
-
-> Think of **AgentOBS** as a **universal receipt format** for your AI application.
-> Every time your app calls a language model, makes a decision, redacts private data, or checks a guardrail — this library gives that action a consistent, structured record that any tool in your stack can read.
+**spanforge** solves this. It is a **compliance-first platform** — not a monitoring add-on — that gives every AI action in your stack a cryptographically signed, privacy-safe, regulator-ready record.
 
 ---
 
-## Why use it?
+## If you're a solo developer or early-stage startup
 
-Without a shared schema, every team invents their own log format. With ``agentobs`` (and the AGENTOBS standard it implements), your logs, dashboards, compliance reports, and monitoring tools all speak the same language — automatically.
+You might think compliance is a later problem — something to worry about when you have a legal team. Here's why it isn't:
 
-| Without AgentOBS | With AgentOBS |
-|---|---|
-| Each service logs events differently | Every event follows the same structure |
-| Hard to audit who saw what data | Built-in HMAC signing creates a tamper-proof audit trail |
-| PII scattered across logs | First-class PII redaction before data leaves your app |
-| Vendor-specific observability | OpenTelemetry-compatible — works with any monitoring stack |
-| No way to check compatibility | CLI + programmatic compliance checks in CI |
-| Complex integration glue | Zero required dependencies — just ``pip install`` |
+- **You'll hit it sooner than you think.** The first B2B customer, the first SaaS sign-up from an EU user, the first healthcare or fintech pilot — they'll ask "how do you govern your AI?" If you have no answer, you lose the deal.
+- **Retrofitting is expensive.** Adding audit trails, PII scrubbing, and signed evidence chains to an existing system takes weeks. Adding them with spanforge from day one takes minutes.
+- **It's zero-cost to start.** The entire SDK is free for noncommercial use, zero dependencies, and works in-memory with no infrastructure. You don't pay anything until you need hosted storage.
+- **It de-risks you personally.** GDPR fines apply to individuals running services, not just corporations. PII redaction and tamper-proof logs are your protection too.
+
+In short: spanforge is the `logging` import you should have added on day one — except it also signs your audit trail and maps it to the regulations that will eventually matter to you.
+
+```python
+pip install spanforge  # free for noncommercial use, zero deps
+```
+
+```python
+import spanforge
+spanforge.configure()  # that's it — you're now compliant-by-default
+```
+
+---
+
+## What spanforge does
+
+<table>
+<tr>
+<td width="50%">
+
+### Compliance & Regulatory Mapping
+- Map telemetry to **EU AI Act**, **GDPR**, **SOC 2**, **HIPAA**, **ISO 42001**, **NIST AI RMF** clauses automatically
+- Generate HMAC-signed **evidence packages** with gap analysis
+- Track **consent boundaries**, **HITL oversight**, **model registry** governance, and **explainability** coverage
+- Produce audit-ready attestations with model owner, risk tier, and status metadata
+- **Compliance Evidence Chain (sf-cec)** — signed ZIP bundles with regulatory clause maps, DPA generation, and RFC 3161 timestamps for auditor hand-off
+- **Observability SDK (sf-observe)** — span export (OTLP/Datadog/Grafana/Splunk/Elastic), W3C TraceContext, OTel GenAI attrs, sampling strategies, annotation store, and health probes
+- **CI/CD Gate Pipeline (sf-gate)** — evaluate release quality gates (schema, secrets, performance, PRRI, trust), YAML pipeline engine, artifact store, and blocking trust gate to prevent unsafe releases
+- **T.R.U.S.T. Scorecard (sf-trust)** — five-pillar trust dimensions (Transparency · Reliability · UserTrust · Security · Traceability), configurable weights, SVG badge, history time-series, and 5 HallucCheck pipeline integrations (score, bias, monitor, risk, benchmark)
+- **Enterprise Hardening (sf-enterprise)** — multi-tenancy with project-level isolation, data residency enforcement (EU/US/AP/IN), AES-256-GCM encryption at rest, envelope encryption via cloud KMS, mTLS, FIPS 140-2 mode, air-gap offline mode, and container health endpoints
+- **Security Review (sf-security)** — OWASP API Security Top 10 audit, STRIDE threat modelling, dependency vulnerability scanning, static analysis, and secrets-in-logs detection
+
+</td>
+<td width="50%">
+
+### Privacy & Audit Infrastructure- **Secrets scanning** — 20-pattern registry detects API keys, tokens, private keys; SARIF output; pre-commit hook- **PII redaction** — detect and strip sensitive data before it leaves your app
+- **HMAC audit chains** — tamper-evident, blockchain-style event signing- **Audit SDK (`sf-audit`)** — `sf_audit.append()`, schema key registry, T.R.U.S.T. scorecard, GDPR Article 30 RoPA, BYOS cloud routing- **GDPR subject erasure** — right-to-erasure with tombstone events that preserve chain integrity
+- **Air-gapped deployment** — runs fully offline with zero egress
+
+</td>
+</tr>
+<tr>
+<td>
+
+### Governance & Controls
+- **Consent boundary monitoring** — `consent.granted`, `consent.revoked`, `consent.violation` events
+- **Human-in-the-loop hooks** — `hitl.queued`, `hitl.reviewed`, `hitl.escalated`, `hitl.timeout` events
+- **Model registry** — register, deprecate, retire models; attestations auto-warn on ungoverned models
+- **Explainability tracking** — measure what % of AI decisions have explanations attached
+
+</td>
+<td>
+
+### Developer Experience
+- **Zero required dependencies** — pure Python 3.9+ stdlib
+- **One-line setup** — `spanforge.configure()` and you're compliant
+- **Integration config** — `.halluccheck.toml` config block, service registry, local fallbacks for all 11 services
+- **T.R.U.S.T. Scorecard (sf-trust)** — five-pillar trust assessment (Transparency, Reliability, UserTrust, Security, Traceability), SVG badge generation, HallucCheck pipeline integrations
+- **Mock library** — `spanforge.testing_mocks` — 11 drop-in mock service clients + `mock_all_services()` context manager for zero-network unit tests
+- **Sandbox mode** — `[spanforge] sandbox = true` routes all service calls to local in-memory sandbox
+- **`spanforge doctor`** — environment diagnostics: config valid, services reachable, patterns loaded, gate YAML valid
+- **Auto-instrumentation** — patch OpenAI, Anthropic, LangChain, CrewAI, and more; `@trace_rag` decorator and automatic LlamaIndex/LangChain retriever instrumentation for zero-change RAG tracing
+- **Async SDK** — every major SDK method now has a non-blocking `*_async()` variant (`scan_async`, `evaluate_async`, `build_bundle_async`, `get_scorecard_async`, `sso_delegate_session_async`) for seamless use in async frameworks
+- **User feedback REST endpoint** — `POST /v1/feedback` accepts star/thumbs/Likert ratings and free-text comments (SHA-256 hashed); links to T.R.U.S.T. dimensions
+- **33 CLI commands** — compliance checks, PII scans, secrets scanning, audit-chain verification, CI/CD gate pipelines, trust scorecards, config validation, enterprise health, security scanning, doctor diagnostics, all CI-ready
+
+</td>
+</tr>
+</table>
+
+---
+
+## How it compares
+
+spanforge is the only **open-standard, zero-dependency AI compliance platform**. Other tools are monitoring platforms that bolt on compliance as an afterthought. spanforge is compliance infrastructure that happens to capture the telemetry needed to prove it.
+
+| Capability | **spanforge** | LangSmith | Langfuse | OpenLLMetry | Arize Phoenix |
+|---|:---:|:---:|:---:|:---:|:---:|
+| Regulatory framework mapping (EU AI Act, GDPR, SOC 2…) | ✅ | ❌ | ❌ | ❌ | ❌ |
+| HMAC-signed evidence packages & attestations | ✅ | ❌ | ❌ | ❌ | ❌ |
+| Consent boundary monitoring | ✅ | ❌ | ❌ | ❌ | ❌ |
+| Human-in-the-loop compliance events | ✅ | ❌ | ❌ | ❌ | ❌ |
+| Model registry with risk-tier governance | ✅ | ❌ | ❌ | ❌ | ❌ |
+| Explainability coverage metrics | ✅ | ❌ | ❌ | ❌ | ❌ |
+| Built-in PII redaction | ✅ | ❌ | ❌ | ❌ | ❌ |
+| Tamper-proof audit chain | ✅ | ❌ | ❌ | ❌ | ❌ |
+| GDPR subject erasure (right-to-erasure) | ✅ | ❌ | ❌ | ❌ | ❌ |
+| Works fully offline / air-gapped | ✅ | ❌ | Self-host | Partial | Self-host |
+| Open schema standard (RFC-driven) | ✅ | ❌ | ❌ | Partial | ❌ |
+| Zero required dependencies | ✅ | ❌ | ❌ | ❌ | ❌ |
+| OTLP export (any OTel backend) | ✅ | ❌ | ✅ | ✅ | ✅ |
+| Source-available, no call-home | ✅ | Partial | ✅ | ✅ | ✅ |
+| CI/CD release quality gates (schema, secrets, PRRI, trust gate) | ✅ | ❌ | ❌ | ❌ | ❌ |
+
+> **Bottom line**: Others help you *watch* your AI. spanforge helps you *govern* it.
 
 ---
 
 ## Install
 
 ```bash
-pip install agentobs
+pip install spanforge
 ```
 
-```python
-import agentobs  # distribution name is agentobs, import name is agentobs
-```
+**Requires Python 3.9+.** Zero mandatory dependencies.
 
-**Requires Python 3.9 or later.** No other packages are required for core usage.
-
-> **Note:** The PyPI distribution is named `agentobs`. The Python import name remains `agentobs`.
+Documented CLI entrypoints, version consistency, and known stale doc patterns
+are also checked in CI so public docs drift fails fast during PR validation.
 
 ### Optional extras
 
 ```bash
-pip install "agentobs[jsonschema]"   # strict JSON Schema validation
-pip install "agentobs[openai]"       # OpenAI auto-instrumentation (patch/unpatch)
-pip install "agentobs[http]"         # Webhook + OTLP export
-pip install "agentobs[pydantic]"     # Pydantic v2 model layer
-pip install "agentobs[otel]"         # OpenTelemetry SDK integration
-pip install "agentobs[kafka]"        # EventStream.from_kafka() via kafka-python
-pip install "agentobs[langchain]"    # LangChain callback handler
-pip install "agentobs[llamaindex]"   # LlamaIndex event handler
-pip install "agentobs[crewai]"       # CrewAI callback handler
-pip install "agentobs[datadog]"      # Datadog APM + metrics exporter
-pip install "agentobs[all]"          # everything above
+pip install "spanforge[openai]"       # OpenAI auto-instrumentation
+pip install "spanforge[langchain]"    # LangChain callback handler
+pip install "spanforge[crewai]"       # CrewAI callback handler
+pip install "spanforge[http]"         # Webhook + OTLP export
+pip install "spanforge[datadog]"      # Datadog APM + metrics
+pip install "spanforge[kafka]"        # Kafka EventStream source
+pip install "spanforge[pydantic]"     # Pydantic v2 model layer
+pip install "spanforge[otel]"         # OpenTelemetry SDK integration
+pip install "spanforge[jsonschema]"   # Strict JSON Schema validation
+pip install "spanforge[llamaindex]"   # LlamaIndex event handler
+pip install "spanforge[gemini]"       # Google Gemini auto-instrumentation
+pip install "spanforge[bedrock]"      # AWS Bedrock Converse API
+pip install "spanforge[presidio]"     # Presidio-powered PII detection
+pip install "spanforge[all]"          # everything above
 ```
 
 ---
 
-## Five-minute tour
+## Runtime Governance GA Surface
 
-### 1 — Trace an LLM call with the span API
+The GA implementation spine is the runtime-governance control plane:
 
-```python
-import agentobs
+- `sf_explain` for signed runtime explanations
+- `sf_scope` for agent capability enforcement
+- `sf_rbac` for role enforcement on sensitive actions
+- `sf_rag` for grounding evidence and thresholds
+- `sf_lineage` for provenance capture
+- `sf_policy` for policy activation, replay, simulation, and review
+- `sf_operator` for trace inspection and signed operator exports
+- `sf_enterprise` for deployment posture and enterprise evidence packaging
 
-agentobs.configure(exporter="console", service_name="my-agent")
+Start here if you want the end-to-end story instead of the full product surface:
 
-with agentobs.span("call-llm") as span:
-    span.set_model(model="gpt-4o", system="openai")
-    result = call_llm(prompt)                          # your LLM call here
-    span.set_token_usage(input=512, output=128, total=640)
-    span.set_status("ok")
-```
-
-The context manager automatically records start/end times, parent-child span relationships, and emits a structured event when it exits.
+- [docs/runtime-governance.md](docs/runtime-governance.md)
+- [docs/runtime-governance-contracts.md](docs/runtime-governance-contracts.md)
+- [docs/replay-simulation.md](docs/replay-simulation.md)
+- [docs/evidence-export.md](docs/evidence-export.md)
+- [docs/enterprise-integrations.md](docs/enterprise-integrations.md)
+- [docs/competitor-comparison.md](docs/competitor-comparison.md)
+- [docs/ga-release-notes.md](docs/ga-release-notes.md)
+- [docs/demos/runtime-governance-demo.md](docs/demos/runtime-governance-demo.md)
+- [docs/demos/enterprise-evidence-demo.md](docs/demos/enterprise-evidence-demo.md)
 
 ---
 
-### 1c — Use the high-level `Trace` API (new in 2.0)
+## Quick start — compliance in 5 minutes
+
+### 1. Configure and instrument
 
 ```python
-import agentobs
+import spanforge
 
-agentobs.configure(exporter="console", service_name="my-agent")
+spanforge.configure(
+    service_name="my-agent",
+    signing_key="your-org-secret",      # HMAC audit chain — tamper-proof
+    redaction_policy="gdpr",            # PII stripped before export
+    exporter="jsonl",
+    endpoint="audit.jsonl",
+)
+```
 
-with agentobs.start_trace("research-agent") as trace:
-    with trace.llm_call("gpt-4o", temperature=0.7) as span:
-        result = call_llm(prompt)
+Every event your app emits is now **signed**, **PII-redacted**, and **stored** — with zero per-call boilerplate.
+
+### 2. Trace AI decisions
+
+```python
+with spanforge.start_trace("loan-approval-agent") as trace:
+    with trace.llm_call("gpt-4o", temperature=0.2) as span:
+        decision = call_llm(prompt)
         span.set_token_usage(input=512, output=200, total=712)
         span.set_status("ok")
-        span.add_event("tool_selected", {"name": "web_search"})
-
-    with trace.tool_call("web_search") as span:
-        output = run_search(query)
-        span.set_status("ok")
-
-# Inspect the trace in the terminal
-trace.print_tree()
-# ─ Agent Run: research-agent  [1.2s]
-#  ├─ LLM Call: gpt-4o  [0.8s]  in=512 out=200 tokens  $0.0034
-#  └─ Tool Call: web_search  [0.4s]  ok
-
-print(trace.summary())
-# {'trace_id': '...', 'agent_name': 'research-agent', 'span_count': 3, ...}
 ```
 
-The `Trace` object works with `async with` too:
+### 3. Generate compliance evidence
 
 ```python
-async with agentobs.start_trace("async-agent") as trace:
-    async with trace.llm_call("gpt-4o") as span:
-        response = await async_call_llm(prompt)
-        span.set_status("ok")
-```
+from spanforge.core.compliance_mapping import ComplianceMappingEngine
 
----
-
-### 1b — Auto-instrument the OpenAI client (zero boilerplate)
-
-```python
-from agentobs.integrations import openai as openai_integration
-import openai, agentobs
-
-# One-time setup: patch the OpenAI SDK
-openai_integration.patch()
-
-agentobs.configure(exporter="console", service_name="my-agent")
-
-client = openai.OpenAI()
-
-with agentobs.tracer.span("chat-gpt4o") as span:
-    resp = client.chat.completions.create(
-        model="gpt-4o",
-        messages=[{"role": "user", "content": "Hello"}],
-    )
-    # span.token_usage, span.cost, and span.model are now populated automatically
-```
-
-`patch()` wraps every `client.chat.completions.create()` call (sync and async)
-so that `token_usage`, `cost`, and `model` are auto-populated on the active span
-from the API response — no per-call boilerplate required.
-
-```python
-# Restore original behaviour when you're done
-openai_integration.unpatch()
-```
-
----
-
-### 2 — Record a raw event
-
-```python
-from agentobs import Event, EventType, Tags
-
-event = Event(
-    event_type=EventType.TRACE_SPAN_COMPLETED,
-    source="my-app@1.0.0",          # who emitted this
-    org_id="org_acme",              # your organisation
-    payload={
-        "model": "gpt-4o",
-        "prompt_tokens": 512,
-        "completion_tokens": 128,
-        "latency_ms": 340.5,
-    },
-    tags=Tags(env="production"),
+engine = ComplianceMappingEngine()
+package = engine.generate_evidence_package(
+    model_id="gpt-4o",
+    framework="eu_ai_act",
+    from_date="2026-01-01",
+    to_date="2026-03-31",
+    audit_events=events,
 )
 
-event.validate()         # raises if structure is invalid
-print(event.to_json())   # compact JSON string, ready to store or ship
+print(package.attestation.coverage_pct)            # e.g. 87.5%
+print(package.attestation.explanation_coverage_pct) # e.g. 75.0%
+print(package.attestation.model_risk_tier)          # e.g. "high"
+print(package.gap_report)                           # what's missing
 ```
 
-Every event gets a **ULID** (a time-sortable unique ID) automatically — no need to generate one yourself.
+Or from the CLI:
+
+```bash
+spanforge compliance generate \
+  --model-id gpt-4o \
+  --framework eu_ai_act \
+  --from 2026-01-01 --to 2026-03-31 \
+  --events-file audit.jsonl
+```
+
+### 4. Hand to your auditor
+
+The evidence package contains:
+- **Clause mappings** — which telemetry events satisfy which regulatory clauses
+- **Gap analysis** — which clauses lack evidence and need attention
+- **HMAC-signed attestation** — cryptographic proof the evidence hasn't been tampered with
+- **Model governance metadata** — owner, risk tier, status, warnings for deprecated/retired models
+- **Explanation coverage** — percentage of AI decisions with explainability records
+### 5. Package for auditors with sf-cec (v2.0.4+)
+
+Bundle your audit records into a regulator-ready, HMAC-signed ZIP:
+
+```python
+from spanforge.sdk import sf_cec
+
+# Build a compliance evidence bundle for Q1 2026
+result = sf_cec.build_bundle(
+    project_id="my-agent",
+    date_range=("2026-01-01", "2026-03-31"),
+    frameworks=["eu_ai_act", "iso_42001", "soc2"],
+)
+
+print(result.bundle_id)       # sfcec_my-agent_20260401T000000Z_abc123
+print(result.zip_path)        # /tmp/sfcec/halluccheck_cec_my-agent_2026-01-01_2026-03-31.zip
+print(result.hmac_manifest)   # hmac-sha256:a3f9…
+print(result.record_counts)   # {"halluccheck.score.v1": 214, "halluccheck.bias.v1": 87, …}
+
+# Verify bundle integrity before sharing
+verify = sf_cec.verify_bundle(result.zip_path)
+assert verify.overall_valid
+
+# Generate a GDPR Art. 28 Data Processing Agreement
+dpa = sf_cec.generate_dpa(
+    project_id="my-agent",
+    controller_details={"name": "Acme Corp", "contact": "dpo@acme.com"},
+    processor_details={"name": "ML Platform Team"},
+)
+print(dpa.document_id)  # sfcec-dpa-my-agent-20260401
+```
+
+The ZIP bundle contains:
+- `manifest.json` — record inventory with HMAC-SHA256 signature
+- `clause_map.json` — per-framework clause satisfaction (SATISFIED / PARTIAL / GAP)
+- `chain_proof.json` — audit chain verification result
+- `attestation.json` — HMAC-signed attestation metadata
+- `rfc3161_timestamp.tsr` — trusted timestamp stub (RFC 3161)
+- `score_records/`, `bias_reports/`, `prri_records/`, `drift_events/`, `pii_detections/`, `gate_evaluations/` — NDJSON evidence per schema key
+
+### 6. Observe spans with sf-observe (v2.0.5+)
+
+Export spans to any OTLP-compatible backend, emit structured annotations, and
+trace LLM calls with OTel GenAI semantic conventions:
+
+```python
+from spanforge.sdk import sf_observe
+
+# Emit a span for an LLM call — W3C traceparent + OTel GenAI attrs added automatically
+span_id = sf_observe.emit_span(
+    "chat.completion",
+    {
+        "gen_ai.system": "openai",
+        "gen_ai.request.model": "gpt-4o",
+        "gen_ai.usage.input_tokens": 512,
+        "gen_ai.usage.output_tokens": 64,
+    },
+)
+print(span_id)  # "a3f1b2c4d5e6f708"
+
+# Mark a model deployment
+annotation_id = sf_observe.add_annotation(
+    "model_deployed",
+    {"model": "gpt-4o", "environment": "production"},
+    project_id="my-agent",
+)
+
+# Health probe
+print(sf_observe.healthy)         # True
+print(sf_observe.last_export_at)  # ISO-8601 or None
+
+# Export to any OTLP endpoint per-call
+from spanforge.sdk import ReceiverConfig
+result = sf_observe.export_spans(
+    my_spans,
+    receiver_config=ReceiverConfig(
+        endpoint="https://otel.collector.example.com/v1/traces",
+        headers={"Authorization": "Bearer tok"},
+    ),
+)
+print(result.exported_count, result.backend)
+```
+
+Select backend and sampler via environment:
+
+```bash
+export SPANFORGE_OBSERVE_BACKEND=otlp          # otlp | datadog | grafana | splunk | elastic | local
+export SPANFORGE_OBSERVE_SAMPLER=trace_id_ratio
+export SPANFORGE_OBSERVE_SAMPLE_RATE=0.25
+```
 
 ---
 
-### 3 — Redact private information before logging
+### 7. Route alerts with sf-alert (v2.0.6+)
+
+Publish topic-based alerts to Slack, PagerDuty, OpsGenie, Teams, SMS, and
+custom webhooks — with built-in deduplication, escalation policy, and
+maintenance-window suppression:
 
 ```python
-from agentobs import Event, EventType
-from agentobs.redact import Redactable, RedactionPolicy, Sensitivity
+from spanforge.sdk import sf_alert
+
+# Publish a CRITICAL drift alert
+result = sf_alert.publish(
+    "halluccheck.drift.red",
+    {"model": "gpt-4o", "drift_score": 0.91},
+    severity="critical",
+    project_id="my-agent",
+)
+print(result.alert_id)    # UUID4
+print(result.suppressed)  # True if deduplicated / maintenance window
+
+# Acknowledge to cancel the 15-minute escalation timer
+sf_alert.acknowledge(result.alert_id)
+
+# Register a custom topic
+sf_alert.register_topic(
+    "myapp.pipeline.failed",
+    "ML pipeline execution failure",
+    "high",
+    runbook_url="https://runbooks.example.com/pipeline",
+)
+```
+
+Configure sinks via environment variables (zero code required):
+
+```bash
+export SPANFORGE_ALERT_TEAMS_WEBHOOK=https://xxx.webhook.office.com/...
+export SPANFORGE_ALERT_OPSGENIE_KEY=og-key-...
+export SPANFORGE_ALERT_DEDUP_SECONDS=300
+```
+
+---
+
+### 8. Enforce release gates with sf-gate (v2.0.7+)
+
+Run YAML-declared quality gates before every release. Block on schema violations,
+secrets leaks, performance regressions, unsafe PRRI scores, and trust failures
+— all in a single pipeline command:
+
+```python
+from spanforge.sdk import sf_gate
+
+# Run a full YAML gate pipeline — blocks on any FAIL gate
+result = sf_gate.run_pipeline("gates/ci-pipeline.yaml")
+for g in result.gate_results:
+    print(f"[{g.verdict.value}] {g.gate_id}")  # e.g. [PASS] schema-validation
+
+# Evaluate a single gate programmatically
+verdict = sf_gate.evaluate("schema-validation", event.to_dict())
+print(verdict.verdict)   # GateVerdict.PASS
+
+# Standalone PRRI evaluation
+prri = sf_gate.evaluate_prri(prri_score=28.5)
+print(prri.verdict)      # PRRIVerdict.GREEN
+
+# Composite trust gate — checks HRI rate, PII, and secrets windows
+trust = sf_gate.get_status()
+print(trust.healthy)     # True if all thresholds are within bounds
+```
+
+Or from CI directly:
+
+```bash
+# Runs the pipeline, exits 1 if any blocking gate fails
+spanforge gate run gates/ci-pipeline.yaml
+
+# Enforce the composite trust gate as a deployment prerequisite
+spanforge gate trust-gate --project-id my-agent
+```
+
+A minimal `ci-pipeline.yaml`:
+
+```yaml
+version: "1.0"
+gates:
+  - id: schema-validation
+    type: schema_validation
+    on_fail: block
+  - id: secrets-scan
+    type: secrets_scan
+    on_fail: block
+  - id: prri-check
+    type: halluccheck_prri
+    params:
+      red_threshold: 65
+    on_fail: block
+  - id: trust-gate
+    type: halluccheck_trust
+    on_fail: block
+```
+
+---
+
+### 9. Unified config & local fallback (v2.0.8+)
+
+Bootstrap all 8 services from a single `.halluccheck.toml` config block.
+When a remote service is unreachable, the SDK automatically falls back to
+a local-mode equivalent — no code changes required:
+
+```toml
+# .halluccheck.toml
+[spanforge]
+enabled    = true
+project_id = "my-agent"
+endpoint   = "https://api.spanforge.example.com"
+
+[spanforge.services]
+sf_pii     = true
+sf_secrets = true
+sf_audit   = true
+sf_observe = true
+
+[spanforge.local_fallback]
+enabled     = true
+max_retries = 3
+timeout_ms  = 2000
+```
+
+```python
+from spanforge.sdk import load_config_file, validate_config
+
+# Parse, validate, and apply env-var overrides in one call
+config = load_config_file()                # auto-discovers .halluccheck.toml
+errors = validate_config(config)           # [] when valid
+print(config.services.sf_pii)             # True
+print(config.local_fallback.timeout_ms)   # 2000
+```
+
+Validate from the CLI:
+
+```bash
+spanforge config validate                          # auto-discover
+spanforge config validate --file .halluccheck.toml # explicit path
+```
+
+When a service is down, fallback activates automatically:
+
+```python
+from spanforge.sdk import pii_fallback, secrets_fallback, audit_fallback
+
+# Local regex PII scan (no remote service required)
+result = pii_fallback("Contact alice@example.com")
+print(result["entities"])  # [{"type": "EMAIL", ...}]
+
+# Local secrets scan
+result = secrets_fallback("AKIA1234567890ABCDEF")
+print(result["clean"])     # False
+
+# Local HMAC-chained JSONL audit
+audit_fallback(
+    {"score": 0.92, "model": "gpt-4o"},
+    schema_key="halluccheck.score.v1",
+)
+```
+
+The `ServiceRegistry` tracks health for all services and re-checks every 60 s:
+
+```python
+from spanforge.sdk import ServiceRegistry
+
+reg = ServiceRegistry.get_instance()
+status = reg.status_response()
+# {"sf_pii": {"status": "up", "latency_ms": 45, "last_checked_at": "..."}, ...}
+```
+
+---
+
+### 10. T.R.U.S.T. Scorecard & HallucCheck pipelines (v2.0.9+)
+
+The T.R.U.S.T. scorecard aggregates five trust dimensions into a single weighted score with colour-band verdicts. Each pillar maps to existing audit telemetry:
+
+| Pillar | What it measures | Source |
+|--------|-----------------|--------|
+| **T**ransparency | Gate pass rate | `sf_gate` evaluations |
+| **R**eliability | Hallucination rate | `halluccheck.score.v1` records |
+| **U**serTrust | Bias disparity | `halluccheck.bias.v1` records |
+| **S**ecurity | PII + secrets hygiene | `sf_pii` / `sf_secrets` scans |
+| **T**raceability | Compliance posture | Attestation coverage |
+
+Colour bands: **green** ≥ 80, **amber** ≥ 60, **red** < 60.
+
+```python
+from spanforge.sdk import sf_trust
+
+# Full scorecard with all five dimensions
+scorecard = sf_trust.get_scorecard(project_id="my-agent")
+print(scorecard.overall_score)   # 82.5
+print(scorecard.colour_band)     # "green"
+print(scorecard.reliability)     # TrustDimension(score=90.0, trend="up", ...)
+
+# SVG badge for dashboards / README shields
+badge = sf_trust.get_badge(project_id="my-agent")
+with open("trust-badge.svg", "w") as f:
+    f.write(badge.svg)
+
+# Historical time-series (10 buckets)
+history = sf_trust.get_history(project_id="my-agent", buckets=10)
+for entry in history:
+    print(entry.timestamp, entry.overall)
+```
+
+Five HallucCheck pipeline integrations orchestrate cross-service workflows:
+
+```python
+from spanforge.sdk.pipelines import (
+    score_pipeline,
+    bias_pipeline,
+    monitor_pipeline,
+    risk_pipeline,
+    benchmark_pipeline,
+)
+
+# Score pipeline: PII scan → secrets scan → observe span → audit append
+result = score_pipeline("The model output to check", model="gpt-4o")
+print(result.audit_id, result.details)
+
+# Risk pipeline: PRRI evaluation → alert if RED → gate block → CEC bundle
+result = risk_pipeline(prri_score=75.0, project_id="my-agent")
+print(result.details["verdict"])  # "RED"
+```
+
+From the CLI:
+
+```bash
+# T.R.U.S.T. scorecard (text table)
+spanforge trust scorecard --project-id my-agent
+
+# SVG badge to stdout
+spanforge trust badge --project-id my-agent > trust.svg
+
+# Composite trust gate (exit 1 = trust below threshold)
+spanforge trust gate --project-id my-agent
+```
+
+---
+
+### 11. Test with zero-network mocks (v2.0.11+)
+
+Drop-in mock service clients for every SpanForge SDK service — no network,
+no configuration, no side-effects:
+
+```python
+from spanforge.testing_mocks import mock_all_services
+
+with mock_all_services():
+    from spanforge.sdk import sf_pii, sf_audit, sf_gate
+
+    # All calls are local, recorded, and return sensible defaults
+    result = sf_pii.scan_text("Contact alice@example.com")
+    assert result.clean  # mock returns clean=True by default
+
+    sf_audit.append({"score": 0.92}, schema_key="halluccheck.score.v1")
+    assert len(sf_audit.calls) == 1  # inspect recorded calls
+
+    prri = sf_gate.evaluate_prri(prri_score=28.5)
+    assert prri.allow  # GREEN by default
+```
+
+Override default returns per-method:
+
+```python
+from spanforge.testing_mocks import MockSFPII
+
+mock = MockSFPII()
+mock.configure_response("scan_text", {"clean": False, "entities": ["EMAIL"]})
+result = mock.scan_text("test")
+assert not result["clean"]
+```
+
+Run `spanforge doctor` for a full environment diagnostic:
+
+```bash
+spanforge doctor
+# ✅ Config valid
+# ✅ All 11 services reachable
+# ✅ API key not expired
+# ✅ PII/secrets patterns loaded
+# ✅ Gate YAML valid
+```
+
+---
+
+## Regulatory framework coverage
+
+The `ComplianceMappingEngine` maps your telemetry events to specific regulatory clauses:
+
+| Framework | Clause | Mapped events | What it proves |
+|-----------|--------|---------------|----------------|
+| **GDPR** | Art. 22 | `consent.*`, `hitl.*` | Automated decisions have consent + human oversight |
+| **GDPR** | Art. 25 | `llm.redact.*`, `consent.*` | Privacy by design — PII handled before export |
+| **EU AI Act** | Art. 13 | `explanation.*` | AI decisions are transparent and explainable |
+| **EU AI Act** | Art. 14 | `hitl.*`, `consent.*` | Human oversight of high-risk AI |
+| **EU AI Act** | Annex IV.5 | `llm.guard.*`, `llm.audit.*`, `hitl.*` | Technical documentation — safety + oversight |
+| **SOC 2** | CC6.1 | `llm.audit.*`, `llm.trace.*`, `model_registry.*` | Logical access controls + model governance |
+| **NIST AI RMF** | MAP 1.1 | `llm.trace.*`, `llm.eval.*`, `model_registry.*`, `explanation.*` | Risk identification and mapping |
+| **HIPAA** | §164.312 | `llm.redact.*`, `llm.audit.*` | PHI access controls and audit |
+| **ISO 42001** | A.5–A.10 | Full event set | AI management system controls |
+
+---
+
+## Compliance event types
+
+spanforge defines purpose-built event types for AI governance — these aren't afterthought log messages, they are first-class compliance primitives:
+
+| Category | Event types | Purpose |
+|----------|------------|---------|
+| **Consent** | `consent.granted`, `consent.revoked`, `consent.violation` | Track user consent for automated processing |
+| **Human-in-the-Loop** | `hitl.queued`, `hitl.reviewed`, `hitl.escalated`, `hitl.timeout` | Prove human oversight of AI decisions |
+| **Model Registry** | `model_registry.registered`, `model_registry.deprecated`, `model_registry.retired` | Govern model lifecycle and risk |
+| **Explainability** | `explanation.generated` | Attach explanations to AI decisions |
+| **Guardrails** | `llm.guard.*` | Safety classifier outputs and block decisions |
+| **PII** | `llm.redact.*` | Audit trail of what PII was found and removed |
+| **Audit** | `llm.audit.*` | Access logs and chain-of-custody records |
+| **Traces** | `llm.trace.*` | Model calls, tokens, latency, cost |
+
+---
+
+## Core capabilities
+
+### Tamper-proof audit chains
+
+Every event is HMAC-SHA256 signed and chained to its predecessor — the same principle as certificate chains. Alter one event and the entire chain breaks.
+
+```python
+from spanforge.signing import AuditStream, verify_chain
+
+stream = AuditStream(org_secret="your-secret")
+for event in events:
+    stream.append(event)
+
+result = verify_chain(stream.events, org_secret="your-secret")
+assert result.valid  # any tampering → False
+```
+
+### PII redaction
+
+Strip personal data before events leave your application boundary. Deep scanning with Luhn and Verhoeff validation for credit cards and Aadhaar numbers, SSN range validation (`_is_valid_ssn`), calendar validation for dates of birth (`_is_valid_date`), and built-in patterns for `date_of_birth` and street `address`.
+
+```python
+from spanforge.redact import RedactionPolicy, Sensitivity
 
 policy = RedactionPolicy(min_sensitivity=Sensitivity.PII, redacted_by="policy:gdpr-v1")
-
-# Wrap any string that might contain PII
-event = Event(
-    event_type=EventType.TRACE_SPAN_COMPLETED,
-    source="my-app@1.0.0",
-    payload={"prompt": Redactable("Call me at 555-867-5309", Sensitivity.PII)},
-)
 result = policy.apply(event)
-# result.event.payload["prompt"] -> "[REDACTED by policy:gdpr-v1]"
+# All PII fields → "[REDACTED by policy:gdpr-v1]"
 ```
 
-``Redactable`` is a string wrapper. You mark fields as sensitive at the point where they are created; the policy decides what to remove before the event is written to any log.
+### Model registry governance
 
-> **Tip — auto-redact every span:** pass `redaction_policy=policy` to
-> `agentobs.configure()` and the policy runs automatically inside `_dispatch()`
-> before any exporter sees the event.
+Register models with ownership and risk metadata. Attestations automatically warn when models are deprecated, retired, or unregistered.
+
+```python
+from spanforge.model_registry import ModelRegistry
+
+registry = ModelRegistry()
+registry.register("gpt-4o", owner="ml-platform", risk_tier="high")
+registry.deprecate("gpt-3.5-turbo", reason="Successor available")
+
+# Evidence packages now include:
+#   model_owner: "ml-platform"
+#   model_risk_tier: "high"
+#   model_status: "active"
+#   model_warnings: []  (or ["model 'gpt-3.5-turbo' is deprecated"])
+```
+
+### Explainability tracking
+
+Measure what percentage of your AI decisions have explanations attached:
+
+```python
+from spanforge.explain import generate_explanation
+
+explanation = generate_explanation(
+    decision_event_id="evt_01HX...",
+    method="feature_importance",
+    content="Top factors: credit_score (0.42), income (0.31)...",
+)
+# explanation_coverage_pct in attestations = explained / total decisions
+```
+
+### GDPR subject erasure
+
+Right-to-erasure with tombstone events that preserve audit chain integrity:
+
+```bash
+spanforge audit erase audit.jsonl --subject-id user123
+```
 
 ---
 
-### 4 — Sign events for tamper-proof audit trails
+## Auto-instrumentation
+
+Patch supported providers once — compliance data flows automatically:
 
 ```python
-from agentobs.signing import sign, verify_chain, AuditStream
+# Instrument all installed providers in one call
+import spanforge.auto
+spanforge.auto.setup()
 
-# Sign a single event
-signed = sign(event, org_secret="my-org-secret")
-
-# Or build a chain — every event references the one before it,
-# so any gap or modification is immediately detectable.
-stream = AuditStream(org_secret="my-org-secret")
-for e in events:
-    stream.append(e)
-
-result = verify_chain(stream.events, org_secret="my-org-secret")
+# Or patch individually
+from spanforge.integrations import openai as sf_openai
+sf_openai.patch()    # every OpenAI call → signed, redacted, compliant
+sf_openai.unpatch()  # restore original behaviour
 ```
 
-This is the same principle used in certificate chains and blockchain — each event's signature covers the previous event's signature, so you cannot alter history without breaking the chain.
-> **Tip — auto-sign every span:** pass `signing_key="your-secret"` to
-> `agentobs.configure()` and every emitted span is signed and chained
-> automatically, with no per-event boilerplate.
+**Supported providers:** OpenAI, Anthropic, Google Gemini, AWS Bedrock, Ollama, Groq, Together AI
+
+**Supported frameworks:** LangChain, LlamaIndex, CrewAI
+
 ---
 
-### 5 — Export to anywhere
+## Using SpanForge alongside OpenTelemetry
+
+spanforge is not an OTel replacement. OTel handles performance monitoring. spanforge adds the compliance layer OTel cannot provide — audit chains, PII redaction, consent tracking, and regulator-ready attestations.
 
 ```python
-from agentobs.stream import EventStream
-from agentobs.export.jsonl import JSONLExporter
-from agentobs.export.webhook import WebhookExporter
-from agentobs.export.otlp import OTLPExporter
-from agentobs.export.datadog import DatadogExporter
-from agentobs.export.grafana import GrafanaLokiExporter
+# Your existing OTel pipeline stays untouched
+from opentelemetry.sdk.trace import TracerProvider
+provider = TracerProvider()
+
+# Add spanforge's compliance layer alongside it
+import spanforge
+spanforge.configure(mode="otel_passthrough")
+
+# Dual-stream: OTel for monitoring, spanforge for compliance
+spanforge.configure(exporters=["otel_passthrough", "jsonl"], endpoint="audit.jsonl")
+```
+
+---
+
+## Export
+
+Ship compliance events to any backend:
+
+```python
+from spanforge.stream import EventStream
+from spanforge.export.jsonl import JSONLExporter
+from spanforge.export.otlp import OTLPExporter
+from spanforge.export.datadog import DatadogExporter
+from spanforge.export.grafana import GrafanaLokiExporter
+from spanforge.export.cloud import CloudExporter
+from spanforge.export.siem_splunk import SplunkHECExporter
+from spanforge.export.siem_syslog import SyslogExporter
 
 stream = EventStream(events)
 
-# Write everything to a local file
-await stream.drain(JSONLExporter("events.jsonl"))
+await stream.drain(JSONLExporter("audit.jsonl"))                    # local file
+await stream.drain(OTLPExporter("http://collector:4318/v1/traces")) # OTel collector
+await stream.drain(DatadogExporter(service="my-app"))               # Datadog APM
+await stream.drain(GrafanaLokiExporter(url="http://loki:3100"))     # Grafana Loki
+await stream.drain(CloudExporter(api_key="sf_live_xxx"))            # spanforge Cloud
+await stream.drain(SplunkHECExporter())                             # Splunk HEC (env-var config)
+await stream.drain(SyslogExporter())                                # Syslog/CEF (env-var config)
+```
 
-# Ship to your OpenTelemetry collector
-await stream.drain(OTLPExporter("http://otel-collector:4318/v1/traces"))
+Fan-out routing for compliance alerting:
 
-# Send to Datadog APM (traces + metrics)
-await stream.drain(DatadogExporter(
-    service="my-app",
-    env="production",
-    agent_url="http://dd-agent:8126",
-    api_key="your-dd-api-key",
-))
+```python
+from spanforge.export.webhook import WebhookExporter
 
-# Push to Grafana Loki
-await stream.drain(GrafanaLokiExporter(
-    url="http://loki:3100",
-    labels={"app": "my-app", "env": "production"},
-))
-
-# Fan-out: guard-blocked events -> Slack webhook
+# Route guardrail violations to Slack
 await stream.route(
     WebhookExporter("https://hooks.slack.com/your-webhook"),
-  predicate=lambda e: e.event_type == "llm.guard.output.blocked",
+    predicate=lambda e: e.event_type == "llm.guard.output.blocked",
 )
 ```
 
-#### Kafka source
-
-```python
-from agentobs.stream import EventStream
-
-# Drain a Kafka topic directly into an EventStream
-stream = EventStream.from_kafka(
-    topic="llm-events",
-    bootstrap_servers="kafka:9092",
-    group_id="analytics",
-    max_messages=5000,
-)
-await stream.drain(exporter)
-```
-
 ---
 
-### 6 — Sync exporters for non-async workflows
+## CLI
 
-```python
-from agentobs.exporters.jsonl import SyncJSONLExporter
-from agentobs.exporters.console import SyncConsoleExporter
-
-# Log all events to a JSONL file synchronously
-exporter = SyncJSONLExporter("events.jsonl")
-exporter.export(event)
-exporter.close()
-
-# Pretty-print events to the terminal during development
-console = SyncConsoleExporter()
-console.export(event)
-```
-
----
-
-### 7b — Register lifecycle hooks (new in 2.0)
-
-```python
-import agentobs
-
-@agentobs.hooks.on_llm_call
-def log_llm(span):
-    print(f"LLM called: {span.model}  temp={span.temperature}")
-
-@agentobs.hooks.on_tool_call
-def log_tool(span):
-    print(f"Tool called: {span.name}")
-
-# Hooks fire automatically for every span of the matching type
-```
-
----
-
-### 7c — Aggregate metrics from a trace file (new in 2.0)
-
-```python
-import agentobs
-from agentobs.stream import EventStream
-
-events = list(EventStream.from_file("events.jsonl"))
-summary = agentobs.metrics.aggregate(events)
-
-print(f"Traces:  {summary.trace_count}")
-print(f"Success: {summary.agent_success_rate:.0%}")
-print(f"p95 LLM: {summary.llm_latency_ms.p95:.0f} ms")
-print(f"Cost:    ${summary.total_cost_usd:.4f}")
-```
-
----
-
-### 7d — Visualize a Gantt timeline (new in 2.0)
-
-```python
-from agentobs.debug import visualize
-
-html = visualize(trace.spans, path="trace.html")
-# Opens trace.html in a browser — self-contained, no external deps
-```
-
----
-
-### 8a — Semantic cache — skip redundant LLM calls
-
-```python
-from agentobs.cache import SemanticCache, InMemoryBackend
-
-cache = SemanticCache(
-    backend=InMemoryBackend(max_size=1024),
-    similarity_threshold=0.92,   # cosine similarity cutoff
-    ttl_seconds=3600,
-    namespace="responses",
-    emit_events=True,            # emits llm.cache.hit/miss/written events
-)
-
-# Or use the @cached decorator on any async function
-from agentobs.cache import cached
-
-@cached(threshold=0.92, ttl=3600, emit_events=True)
-async def call_llm(prompt: str) -> str:
-    # ... real LLM call only on cache miss
-    return response
-
-reply = await call_llm("Summarise the AGENTOBS RFC in one sentence.")
-# Second call with a semantically identical prompt → instant cache hit, zero tokens spent
-reply2 = await call_llm("Give me a one-sentence summary of the AGENTOBS RFC.")
-```
-
----
-
-### 8b — Lint your instrumentation in CI
-
-```python
-from agentobs.lint import run_checks
-
-source = open("myapp/pipeline.py").read()
-errors = run_checks(source, filename="myapp/pipeline.py")
-
-for err in errors:
-    print(f"{err.filename}:{err.line}:{err.col}: {err.code} {err.message}")
-# myapp/pipeline.py:42:12: AO002 actor_id receives a bare str; wrap with Redactable()
-```
-
-Or run the CLI against a whole directory:
+32 commands — all CI-pipeline ready:
 
 ```bash
-python -m agentobs.lint myapp/
-# AO001  Event() missing required field 'payload'     myapp/pipeline.py:17
-# AO004  LLM call outside tracer span context         myapp/pipeline.py:53
-# 2 errors in 1 file.
+# Compliance
+spanforge compliance generate --model-id gpt-4o --framework eu_ai_act \
+  --from 2026-01-01 --to 2026-03-31 --events-file events.jsonl
+spanforge compliance check --framework eu_ai_act \
+  --from 2026-01-01 --to 2026-03-31 --events-file events.jsonl
+spanforge compliance validate-attestation evidence.json
+spanforge compliance status --events-file events.jsonl   # compliance summary JSON
 
-# Plug into flake8 / ruff automatically (entry-point registered in pyproject.toml):
-flake8 myapp/
+# Audit chain
+spanforge audit-chain events.jsonl             # verify chain integrity
+spanforge audit erase events.jsonl --subject-id user123  # GDPR erasure
+spanforge audit rotate-key events.jsonl        # key rotation
+spanforge audit verify --input events.jsonl    # verify integrity
+
+# Privacy & Secrets
+spanforge scan events.jsonl --fail-on-match    # CI-gate PII scan
+spanforge secrets scan <file>                  # scan file for secrets (exit 0=clean, 1=found)
+spanforge secrets scan <file> --format sarif   # SARIF output for GitHub Code Scanning
+spanforge secrets scan <file> --redact         # print redacted version to stdout
+
+# Validation
+spanforge check                                # end-to-end health check
+spanforge check-compat events.json             # v2.0 compatibility
+spanforge validate events.jsonl                # JSON Schema validation
+
+# Configuration
+spanforge config validate                      # validate .halluccheck.toml (auto-discover)
+spanforge config validate --file path/to.toml  # validate specific config file
+
+# Analysis
+spanforge stats events.jsonl                   # counts, tokens, cost
+spanforge inspect <EVENT_ID> events.jsonl      # pretty-print one event
+spanforge cost events.jsonl                    # token spend report
+spanforge cost run --run-id <id> --input events.jsonl  # per-run cost report
+
+# Evaluation
+spanforge eval save --input events.jsonl --output dataset.jsonl  # extract eval dataset
+spanforge eval run --file dataset.jsonl --scorers faithfulness,pii_leakage  # run scorers
+
+# Migration
+spanforge migrate events.jsonl --sign          # v1→v2 migration
+spanforge migrate-langsmith export.jsonl       # LangSmith → SpanForge conversion
+spanforge list-deprecated                      # deprecated event types
+spanforge migration-roadmap                    # v2 migration plan
+spanforge check-consumers                      # consumer compatibility
+
+# CI/CD Gate Pipeline
+spanforge gate run gates/ci-pipeline.yaml               # run YAML gate pipeline (exit 1 = blocking gate failed)
+spanforge gate run gates/ci-pipeline.yaml --format json  # JSON output for CI dashboards
+spanforge gate evaluate schema-validation --payload event.json  # evaluate single gate
+spanforge gate trust-gate --project-id my-agent         # composite trust gate check
+
+# T.R.U.S.T. Scorecard
+spanforge trust scorecard --project-id my-agent         # five-pillar trust scorecard (text table)
+spanforge trust badge --project-id my-agent             # SVG badge to stdout
+spanforge trust gate --project-id my-agent              # composite trust gate (exit 1 = below threshold)
+
+# Enterprise (Phase 11)
+spanforge enterprise status                            # enterprise subsystem status JSON
+spanforge enterprise health                            # enterprise health check (all services)
+
+# Security (Phase 11)
+spanforge security owasp                               # OWASP API Security Top 10 audit
+spanforge security scan                                # full security scan (deps + static + secrets-in-logs)
+spanforge security threat-model                        # STRIDE threat model summary
+spanforge security audit-logs --path /var/log/myapp/   # secrets-in-logs detection
+
+# Developer Experience (Phase 12)
+spanforge doctor                                       # environment diagnostics (config, services, keys, patterns)
+
+# Viewer
+spanforge serve                                # local SPA trace viewer
+spanforge ui                                   # standalone HTML viewer
 ```
 
 ---
 
-### 9 — Check compliance and inspect events from the command line
+## Event namespaces
 
-```bash
-agentobs check                           # end-to-end health check (config → export → trace store)
-agentobs check-compat events.json        # v2.0 compatibility checklist
-agentobs validate events.jsonl           # JSON Schema validation per event
-agentobs audit-chain events.jsonl        # verify HMAC signing chain integrity
-agentobs inspect <EVENT_ID> events.jsonl # pretty-print a single event
-agentobs stats events.jsonl              # summary: counts, tokens, cost, timestamps
-agentobs list-deprecated                 # list all deprecated event types
-agentobs migration-roadmap [--json]      # v2 migration roadmap
-agentobs check-consumers                 # consumer registry compatibility check
-```
+Every event carries a typed ``payload``. The built-in namespaces:
+
+| Prefix | Dataclass | What it records |
+|---|---|---|
+| `consent.*` | `ConsentPayload` | User consent grants, revocations, violations |
+| `hitl.*` | `HITLPayload` | Human-in-the-loop review, escalation, timeout |
+| `model_registry.*` | `ModelRegistryEntry` | Model registration, deprecation, retirement |
+| `explanation.*` | `ExplainabilityRecord` | Explainability records for AI decisions |
+| `llm.trace.*` | `SpanPayload` | Model calls — tokens, latency, cost **(frozen v2)** |
+| `llm.guard.*` | `GuardPayload` | Safety classifier outputs, block decisions |
+| `llm.redact.*` | `RedactPayload` | PII audit — what was found and removed |
+| `llm.audit.*` | `AuditChainPayload` | Access logs and chain-of-custody |
+| `llm.eval.*` | `EvalScenarioPayload` | Scores, labels, evaluator identity |
+| `llm.cost.*` | `CostPayload` | Per-call cost in USD |
+| `llm.cache.*` | `CachePayload` | Cache hit/miss, backend, TTL |
+| `llm.prompt.*` | `PromptPayload` | Prompt template version, rendered text |
+| `llm.fence.*` | `FencePayload` | Topic constraints, allow/block lists |
+| `llm.diff.*` | `DiffPayload` | Prompt/response delta between events |
+| `llm.template.*` | `TemplatePayload` | Template registry metadata |
+
+---
+
+## Architecture
 
 ```
-CHK-1  All required fields present          (500 / 500 events)
-CHK-2  Event types valid                    (500 / 500 events)
-CHK-3  Source identifiers well-formed       (500 / 500 events)
-CHK-5  Event IDs are valid ULIDs            (500 / 500 events)
-All checks passed.
+spanforge/
++-- core/
+│   +-- compliance_mapping.py  — ComplianceMappingEngine, evidence packages, attestations
++-- compliance/                — Programmatic compliance test suite
++-- signing.py                 — HMAC audit chains, key management, multi-tenant KeyResolver
++-- redact.py                  — PII detection + redaction policies
++-- model_registry.py          — Model lifecycle governance
++-- explain.py                 — Explainability records
++-- consent.py                 — Consent boundary events
++-- hitl.py                    — Human-in-the-loop events
++-- governance.py              — Policy-based event gating
++-- event.py                   — Event envelope
++-- types.py                   — EventType enum (consent.*, hitl.*, model_registry.*, explanation.*, llm.*)
++-- config.py                  — configure() / get_config()
++-- _span.py                   — Span, AgentRun, AgentStep context managers
++-- _trace.py                  — Trace + start_trace()
++-- _tracer.py                 — Top-level tracing entry point
++-- _stream.py                 — Internal dispatch: sample — redact — sign — export
++-- _store.py                  — TraceStore ring buffer
++-- _hooks.py                  — HookRegistry (lifecycle hooks)
++-- _server.py                 — HTTP server (/traces, /compliance/summary)
++-- _cli.py                    ← 25 CLI sub-commands
++-- cost.py                    — CostTracker, BudgetMonitor, @budget_alert
++-- cache.py                   — SemanticCache, @cached decorator
++-- retry.py                   — @retry, FallbackChain, CircuitBreaker
++-- toolsmith.py               — @tool, ToolRegistry
++-- http.py                    — Zero-dependency OpenAI-compatible HTTP client
++-- io.py                      — JSONL read/write/append utilities
++-- plugins.py                 — Entry-point plugin discovery
++-- schema.py                  — Lightweight zero-dependency JSON Schema validator
++-- regression.py              — Pass/fail regression detector
++-- stats.py                   — Percentile, latency summary utilities
++-- presidio_backend.py        — Optional Presidio-powered PII detection
++-- _ansi.py                   — ANSI color helpers (NO_COLOR aware)
++-- lint/                      — AST-based instrumentation linter (AO000–AO005)
++-- export/                    — JSONL, OTLP, Webhook, Datadog, Grafana Loki, Cloud, Redis, Splunk HEC, Syslog/CEF
++-- integrations/              — OpenAI, Anthropic, Gemini, Bedrock, LangChain, LlamaIndex, CrewAI, Ollama, Groq, Together
++-- namespaces/                — Typed payload dataclasses
++-- gate.py                    — GateRunner YAML pipeline engine, 6 gate executors, artifact store (Phase 8)
++-- sdk/                       — Service SDK clients (sf-identity, sf-pii, sf-secrets, sf-audit, sf-cec, sf-observe, sf-alert, sf-gate, sf-trust, sf-enterprise, sf-security)
+│   +-- identity.py            —   SFIdentityClient – keys, JWT, TOTP, MFA, magic-link
+│   +-- pii.py                 —   SFPIIClient – scan, redact, anonymize
+│   +-- secrets.py             —   SFSecretsClient – 20-pattern secret scanning, SARIF output
+│   +-- audit.py               —   SFAuditClient – HMAC-chained records, T.R.U.S.T. scorecard, Article 30, BYOS
+│   +-- cec.py                 —   SFCECClient – signed CEC ZIP bundles, clause mapping, DPA generation (Phase 5)
+│   +-- observe.py             —   SFObserveClient – span export, OTel GenAI attrs, W3C TraceContext, sampling (Phase 6)
+│   +-- alert.py               —   SFAlertClient – topic-based routing, dedup, escalation policy, 6 sink integrations (Phase 7)
+│   +-- gate.py                —   SFGateClient – YAML pipeline runner, evaluate(), evaluate_prri(), trust-gate, artifact management (Phase 8)
+│   +-- config.py              —   .halluccheck.toml parser, SFConfigBlock, SFServiceToggles, SFLocalFallbackConfig, validate_config() (Phase 9)
+│   +-- registry.py            —   ServiceRegistry singleton, health checks, background checker, status_response() (Phase 9)
+│   +-- fallback.py            —   8 local fallback implementations: pii, secrets, audit, observe, alert, identity, gate, cec (Phase 9)
+│   +-- trust.py               —   SFTrustClient – T.R.U.S.T. five-pillar scorecard, SVG badge, history time-series, configurable weights (Phase 10)
+│   +-- pipelines.py           —   5 HallucCheck pipeline integrations: score, bias, monitor, risk, benchmark (Phase 10)
+│   +-- enterprise.py          —   SFEnterpriseClient – multi-tenancy, encryption, air-gap, health probes (Phase 11)
+│   +-- security.py            —   SFSecurityClient – OWASP audit, STRIDE threat model, dependency/static scanning, secrets-in-logs (Phase 11)
+│   +-- testing_mocks.py       —   11 mock service clients, _MockBase, mock_all_services() context manager (Phase 12)
+│   +-- _base.py               —   SFClientConfig, SFServiceClient, circuit breaker, sandbox mode (Phase 12)
+│   +-- _types.py              —   SecretStr, APIKeyBundle, JWTClaims, BundleResult, ClauseMapEntry, ExportResult, Annotation, AlertSeverity, …
+│   +-- _exceptions.py         —   SFError hierarchy (incl. SFConfigError, SFConfigValidationError, SFStartupError, SFServiceUnavailableError, SFTrustComputeError, SFPipelineError)
+│   +-- __init__.py            —   sf_identity / sf_pii / sf_secrets / sf_audit / sf_cec / sf_observe / sf_alert / sf_gate / sf_trust / sf_enterprise / sf_security / sf_rag / sf_feedback singletons + configure()
++-- migrate.py                 — Schema migration (v1 — v2), LangSmith migration
 ```
-
-Drop any of these into your CI pipeline to catch schema drift, signing failures, or schema-breaking migrations before they reach production.
 
 ---
 
@@ -456,353 +1013,350 @@ Drop any of these into your CI pipeline to catch schema drift, signing failures,
 </thead>
 <tbody>
 <tr>
-  <td><code>agentobs.event</code></td>
-  <td>The core <code>Event</code> envelope — the one structure all tools share</td>
-  <td>Everyone</td>
+  <td><strong>Compliance & Governance</strong></td><td colspan="2"></td>
 </tr>
 <tr>
-  <td><code>agentobs.types</code></td>
-  <td>All built-in event type strings (trace, cost, cache, eval, guard…)</td>
-  <td>Everyone</td>
+  <td><code>spanforge.compliance</code></td>
+  <td><code>ComplianceMappingEngine</code> maps telemetry to regulatory frameworks (EU AI Act, ISO 42001, NIST AI RMF, GDPR, SOC 2, HIPAA). Generates evidence packages with HMAC-signed attestations. Consent, HITL, model registry, and explainability events integrated into clause mappings. Attestations include model owner, risk tier, status, warnings, and <code>explanation_coverage_pct</code>. Also: programmatic v2.0 compatibility checks — no pytest required.</td>
+  <td>Compliance / legal / platform teams</td>
 </tr>
 <tr>
-  <td><code>agentobs.config</code></td>
-  <td><code>configure()</code> and <code>get_config()</code> — global SDK configuration</td>
-  <td>Everyone</td>
-</tr>
-<tr>
-  <td><code>agentobs._span</code></td>
-  <td>Span, AgentRun, AgentStep context managers — the runtime tracing API. Uses <code>contextvars</code> for safe async/thread context propagation. Supports <code>async with</code>, <code>span.add_event()</code>, <code>span.set_timeout_deadline()</code></td>
-  <td>App developers</td>
-</tr>
-<tr>
-  <td><code>agentobs._trace</code></td>
-  <td><code>Trace</code> object and <code>start_trace()</code> — high-level, imperative tracing entry point; accumulates all child spans</td>
-  <td>App developers</td>
-</tr>
-<tr>
-  <td><code>agentobs.debug</code></td>
-  <td><code>print_tree()</code>, <code>summary()</code>, <code>visualize()</code> — terminal tree, stats dict, and self-contained HTML Gantt timeline</td>
-  <td>App developers</td>
-</tr>
-<tr>
-  <td><code>agentobs.metrics</code></td>
-  <td><code>aggregate()</code> and <code>MetricsSummary</code> — compute success rates, latency percentiles, token totals, and cost breakdowns from any <code>Iterable[Event]</code></td>
-  <td>Data / analytics engineers</td>
-</tr>
-<tr>
-  <td><code>agentobs._store</code></td>
-  <td><code>TraceStore</code> — in-memory ring buffer; <code>get_trace()</code>, <code>list_tool_calls()</code>, <code>list_llm_calls()</code></td>
-  <td>Platform / tooling engineers</td>
-</tr>
-<tr>
-  <td><code>agentobs._hooks</code></td>
-  <td><code>HookRegistry</code> / <code>hooks</code> — global span lifecycle hooks: <code>@hooks.on_llm_call</code>, <code>@hooks.on_tool_call</code>, <code>@hooks.on_agent_start</code>, <code>@hooks.on_agent_end</code>. Async variants: <code>@hooks.on_llm_call_async</code>, <code>@hooks.on_tool_call_async</code>, <code>@hooks.on_agent_start_async</code>, <code>@hooks.on_agent_end_async</code> — fired via <code>asyncio.ensure_future()</code>.</td>
-  <td>App developers / platform</td>
-</tr>
-<tr>
-  <td><code>agentobs._cli</code></td>
-  <td>9 CLI sub-commands: <code>check</code>, <code>check-compat</code>, <code>validate</code>, <code>audit-chain</code>, <code>inspect</code>, <code>stats</code>, <code>list-deprecated</code>, <code>migration-roadmap</code>, <code>check-consumers</code></td>
-  <td>DevOps / CI teams</td>
-</tr>
-<tr>
-  <td><code>agentobs.redact</code></td>
-  <td>PII detection, sensitivity levels, redaction policies</td>
-  <td>Data privacy / GDPR teams</td>
-</tr>
-<tr>
-  <td><code>agentobs.signing</code></td>
-  <td>HMAC-SHA256 event signing and tamper-evident audit chains</td>
+  <td><code>spanforge.signing</code></td>
+  <td>HMAC-SHA256 event signing, tamper-evident audit chains, key strength validation, key expiry checks, environment-isolated key derivation, multi-tenant <code>KeyResolver</code> protocol, and <code>AsyncAuditStream</code></td>
   <td>Security / compliance teams</td>
 </tr>
 <tr>
-  <td><code>agentobs.compliance</code></td>
-  <td>Programmatic v2.0 compatibility checks — no pytest required</td>
-  <td>Platform / DevOps teams</td>
+  <td><code>spanforge.redact</code></td>
+  <td>PII detection, sensitivity levels, redaction policies, deep <code>scan_payload()</code> with Luhn / Verhoeff / SSN-range / date-calendar validation, built-in <code>date_of_birth</code> and <code>address</code> patterns, and <code>contains_pii()</code> / <code>assert_redacted()</code> with raw string scanning</td>
+  <td>Data privacy / GDPR teams</td>
 </tr>
 <tr>
-  <td><code>agentobs.export</code></td>
-  <td>Ship events to files (JSONL), HTTP webhooks, OTLP collectors, Datadog APM, or Grafana Loki</td>
-  <td>Infra / observability teams</td>
+  <td><code>spanforge.secrets</code></td>
+  <td><code>SecretsScanner</code> — 20-pattern registry (7 spec-defined + 13 industry-standard), Shannon entropy scoring, three-tier confidence model, zero-tolerance auto-block for 10 high-risk types, <code>SecretsScanResult</code> with <code>to_dict()</code> and SARIF 2.1.0 output, span deduplication, configurable allowlist</td>
+  <td>Security / DevSecOps teams</td>
 </tr>
 <tr>
-  <td><code>agentobs.exporters</code></td>
-  <td>Sync exporters — <code>SyncJSONLExporter</code> and <code>SyncConsoleExporter</code> for non-async code</td>
-  <td>App developers</td>
-</tr>
-<tr>
-  <td><code>agentobs.stream</code></td>
-  <td>Fan-out router — one <code>drain()</code> call reaches multiple backends; Kafka source via <code>from_kafka()</code></td>
-  <td>Platform engineers</td>
-</tr>
-<tr>
-  <td><code>agentobs.validate</code></td>
-  <td>JSON Schema validation against the published v2.0 schema</td>
-  <td>All teams</td>
-</tr>
-<tr>
-  <td><code>agentobs.consumer</code></td>
-  <td>Declare schema-namespace dependencies; fail fast at startup if version requirements are not met</td>
-  <td>Platform / integration teams</td>
-</tr>
-<tr>
-  <td><code>agentobs.governance</code></td>
+  <td><code>spanforge.governance</code></td>
   <td>Policy-based event gating — block prohibited types, warn on deprecated usage, enforce custom rules</td>
   <td>Platform / compliance teams</td>
 </tr>
 <tr>
-  <td><code>agentobs.deprecations</code></td>
-  <td>Register and surface per-event-type deprecation notices at runtime</td>
-  <td>Library maintainers</td>
+  <td><strong>Instrumentation & Tracing</strong></td><td colspan="2"></td>
 </tr>
 <tr>
-  <td><code>agentobs.testing</code></td>
-  <td>Test utilities: <code>MockExporter</code>, <code>capture_events()</code> context manager, <code>assert_event_schema_valid()</code>, and <code>trace_store()</code> isolated store context manager. Write unit tests for your AI pipeline without real exporters.</td>
-  <td>App developers / test authors</td>
+  <td><code>spanforge.event</code></td>
+  <td>The core <code>Event</code> envelope — the one structure all tools share</td>
+  <td>Everyone</td>
 </tr>
 <tr>
-  <td><code>agentobs.auto</code></td>
-  <td>Integration auto-discovery: <code>agentobs.auto.setup()</code> auto-patches every installed LLM integration (OpenAI, Anthropic, Ollama, Groq, Together AI). <code>setup()</code> must be called explicitly; <code>agentobs.auto.teardown()</code> cleanly unpatches all.</td>
+  <td><code>spanforge.types</code></td>
+  <td>All built-in event types — compliance events (<code>consent.*</code>, <code>hitl.*</code>, <code>model_registry.*</code>, <code>explanation.*</code>) and telemetry events (<code>llm.trace.*</code>, <code>llm.guard.*</code>, etc.)</td>
+  <td>Everyone</td>
+</tr>
+<tr>
+  <td><code>spanforge._span</code></td>
+  <td>Span, AgentRun, AgentStep context managers. <code>contextvars</code>-based async/thread-safe propagation. <code>async with</code>, <code>span.add_event()</code>, <code>span.set_timeout_deadline()</code></td>
   <td>App developers</td>
 </tr>
 <tr>
-  <td><code>agentobs.integrations</code></td>
-  <td>Plug-in adapters for OpenAI (auto-instrumentation via <code>patch()</code>), LangChain, LlamaIndex, Anthropic, Groq, Ollama, Together, and <strong>CrewAI</strong> (<code>AgentOBSCrewAIHandler</code> + <code>patch()</code>). <code>agentobs.integrations._pricing</code> ships a static USD/1M-token pricing table for all current OpenAI models.</td>
+  <td><code>spanforge._trace</code></td>
+  <td><code>Trace</code> + <code>start_trace()</code> — high-level tracing entry point; accumulates child spans</td>
   <td>App developers</td>
 </tr>
 <tr>
-  <td><code>agentobs.namespaces</code></td>
-  <td>Typed payload dataclasses for all 10 built-in event namespaces</td>
-  <td>Tool authors</td>
+  <td><code>spanforge.config</code></td>
+  <td><code>configure()</code> and <code>get_config()</code> — signing key, redaction policy, exporters, sample rate</td>
+  <td>Everyone</td>
 </tr>
 <tr>
-  <td><code>agentobs.models</code></td>
-  <td>Optional Pydantic v2 models for teams that prefer validated schemas</td>
-  <td>API / backend teams</td>
+  <td><strong>Export & Integration</strong></td><td colspan="2"></td>
 </tr>
 <tr>
-  <td><code>agentobs.trace</code></td>
-  <td><code>@trace()</code> decorator — wraps sync/async functions, auto-emits span start/end events with timing and error capture. <code>agentobs.export.otlp_bridge</code> converts spans to OTLP proto dicts.</td>
+  <td><code>spanforge.export</code></td>
+  <td>Ship events to JSONL, HTTP webhooks, OTLP collectors, Datadog APM, Grafana Loki, Splunk HEC, Syslog/CEF, Redis, or spanforge Cloud</td>
+  <td>Infra / compliance teams</td>
+</tr>
+<tr>
+  <td><code>spanforge.export.siem_splunk</code></td>
+  <td><code>SplunkHECExporter</code> — thread-safe batched Splunk HTTP Event Collector exporter; env-var config; HEC token never logged; <code>SplunkHECError</code> on delivery failure</td>
+  <td>Security / compliance teams</td>
+</tr>
+<tr>
+  <td><code>spanforge.export.siem_syslog</code></td>
+  <td><code>SyslogExporter</code> — RFC 5424 and ArcSight CEF exporter over UDP or TCP; severity derived from event type; CEF extension values properly escaped; <code>SyslogExporterError</code> on socket failure</td>
+  <td>Security / compliance teams</td>
+</tr>
+<tr>
+  <td><code>spanforge.stream</code></td>
+  <td>Fan-out router — one <code>drain()</code> call reaches multiple backends; Kafka source</td>
+  <td>Platform engineers</td>
+</tr>
+<tr>
+  <td><code>spanforge.integrations</code></td>
+  <td>Auto-instrumentation for OpenAI, Anthropic, LangChain, LlamaIndex, CrewAI, Groq, Ollama, Together</td>
   <td>App developers</td>
 </tr>
 <tr>
-  <td><code>agentobs.cost</code></td>
-  <td><code>CostTracker</code>, <code>BudgetMonitor</code>, <code>@budget_alert</code>, <code>emit_cost_event()</code>, <code>cost_summary()</code> — track and alert on token spend across a session</td>
+  <td><code>spanforge.auto</code></td>
+  <td><code>setup()</code> auto-patches all installed LLM integrations; <code>teardown()</code> cleanly unpatches</td>
+  <td>App developers</td>
+</tr>
+<tr>
+  <td><strong>Developer Tools</strong></td><td colspan="2"></td>
+</tr>
+<tr>
+  <td><code>spanforge.cost</code></td>
+  <td><code>CostTracker</code>, <code>BudgetMonitor</code>, <code>@budget_alert</code> — track and alert on token spend</td>
   <td>App developers / FinOps</td>
 </tr>
 <tr>
-  <td><code>agentobs.inspect</code></td>
-  <td><code>InspectorSession</code> context manager + <code>inspect_trace()</code> — intercept and record tool call arguments, results, latency, and errors within a trace</td>
-  <td>Platform / debugging</td>
+  <td><code>spanforge.cache</code></td>
+  <td><code>SemanticCache</code> + <code>@cached</code> — deduplicate LLM calls via cosine similarity; <code>InMemoryBackend</code>, <code>SQLiteBackend</code>, <code>RedisBackend</code></td>
+  <td>App developers / FinOps</td>
 </tr>
 <tr>
-  <td><code>agentobs.toolsmith</code></td>
-  <td><code>@tool</code> decorator + <code>ToolRegistry</code> — register functions as typed tools; <code>build_openai_schema()</code> / <code>build_anthropic_schema()</code> render JSON schemas for function-calling APIs</td>
-  <td>App developers</td>
-</tr>
-<tr>
-  <td><code>agentobs.retry</code></td>
-  <td><code>@retry</code> with exponential back-off, <code>FallbackChain</code>, <code>CircuitBreaker</code>, <code>CostAwareRouter</code> — resilient LLM provider routing with observability events at each step</td>
+  <td><code>spanforge.retry</code></td>
+  <td><code>@retry</code>, <code>FallbackChain</code>, <code>CircuitBreaker</code>, <code>CostAwareRouter</code> — resilient LLM routing with compliance events</td>
   <td>App developers / SREs</td>
 </tr>
 <tr>
-  <td><code>agentobs.cache</code></td>
-  <td><code>SemanticCache</code> + <code>@cached</code> decorator — deduplicate LLM calls via cosine-similarity matching; pluggable backends: <code>InMemoryBackend</code>, <code>SQLiteBackend</code>, <code>RedisBackend</code>; emits <code>llm.cache.*</code> events</td>
-  <td>App developers / FinOps</td>
+  <td><code>spanforge.toolsmith</code></td>
+  <td><code>@tool</code> + <code>ToolRegistry</code> — register functions as typed tools; render JSON schemas for function-calling APIs</td>
+  <td>App developers</td>
 </tr>
 <tr>
-  <td><code>agentobs.lint</code></td>
-  <td><code>run_checks(source, filename)</code> — AST-based instrumentation linter; five AO-codes (AO001–AO005); flake8 plugin; <code>python -m agentobs.lint</code> CLI</td>
-  <td>All teams / CI pipelines</td>
+  <td><code>spanforge.lint</code></td>
+  <td>AST-based instrumentation linter; AO001–AO005 codes; flake8 plugin; CLI</td>
+  <td>All teams / CI</td>
+</tr>
+<tr>
+  <td><strong>Utilities (v2.0.2+)</strong></td><td colspan="2"></td>
+</tr>
+<tr>
+  <td><code>spanforge.http</code></td>
+  <td><code>chat_completion()</code> — zero-dependency, synchronous OpenAI-compatible HTTP client with retry and back-off</td>
+  <td>App developers</td>
+</tr>
+<tr>
+  <td><code>spanforge.io</code></td>
+  <td><code>read_jsonl()</code>, <code>write_jsonl()</code>, <code>append_jsonl()</code>, <code>write_events()</code>, <code>read_events()</code> — JSONL I/O utilities</td>
+  <td>Everyone</td>
+</tr>
+<tr>
+  <td><code>spanforge.schema</code></td>
+  <td>Lightweight zero-dependency JSON Schema validator — <code>validate()</code>, <code>validate_strict()</code></td>
+  <td>Tool authors / CI</td>
+</tr>
+<tr>
+  <td><code>spanforge.regression</code></td>
+  <td><code>RegressionDetector</code> — per-case pass/fail regression detection between baseline and current eval runs</td>
+  <td>ML / eval teams</td>
+</tr>
+<tr>
+  <td><code>spanforge.stats</code></td>
+  <td><code>percentile()</code>, <code>latency_summary()</code> — statistical utilities for eval and performance analysis</td>
+  <td>Analytics engineers</td>
+</tr>
+<tr>
+  <td><code>spanforge.plugins</code></td>
+  <td><code>discover(group)</code> — entry-point plugin discovery across Python 3.9–3.12+</td>
+  <td>Plugin authors</td>
+</tr>
+<tr>
+  <td><code>spanforge.presidio_backend</code></td>
+  <td>Optional Presidio-powered PII detection backend — <code>presidio_scan_payload()</code> with standard <code>PIIScanResult</code></td>
+  <td>Data privacy teams</td>
+</tr>
+<tr>
+  <td><code>spanforge.eval</code></td>
+  <td>Built-in scorers: <code>FaithfulnessScorer</code>, <code>RefusalDetectionScorer</code>, <code>PIILeakageScorer</code>, <code>BehaviourScorer</code> base class</td>
+  <td>ML / eval teams</td>
+</tr>
+<tr>
+  <td><code>spanforge.debug</code></td>
+  <td><code>print_tree()</code>, <code>summary()</code>, <code>visualize()</code> — terminal tree, stats dict, HTML Gantt timeline</td>
+  <td>App developers</td>
+</tr>
+<tr>
+  <td><code>spanforge.metrics</code></td>
+  <td><code>aggregate()</code> — success rates, latency percentiles, token totals, cost breakdowns</td>
+  <td>Analytics engineers</td>
+</tr>
+<tr>
+  <td><code>spanforge.testing</code></td>
+  <td><code>MockExporter</code>, <code>capture_events()</code>, <code>assert_event_schema_valid()</code>, <code>trace_store()</code></td>
+  <td>Test authors</td>
+</tr>
+<tr>
+  <td><code>spanforge.testing_mocks</code></td>
+  <td>11 drop-in mock service clients (<code>MockSFIdentity</code>, <code>MockSFPII</code>, <code>MockSFSecrets</code>, <code>MockSFAudit</code>, <code>MockSFObserve</code>, <code>MockSFGate</code>, <code>MockSFCEC</code>, <code>MockSFAlert</code>, <code>MockSFTrust</code>, <code>MockSFEnterprise</code>, <code>MockSFSecurity</code>). <code>mock_all_services()</code> context manager patches all 11 singletons. <code>_MockBase</code> with <code>.calls</code> recording and <code>.configure_response()</code>. 100% test coverage. <em>(Phase 12, v2.0.11+)</em></td>
+  <td>Test authors / all teams</td>
+</tr>
+<tr>
+  <td><code>spanforge.validate</code></td>
+  <td>JSON Schema validation against the published v2.0 schema</td>
+  <td>All teams</td>
+</tr>
+<tr>
+  <td><code>spanforge.namespaces</code></td>
+  <td>Typed payload dataclasses for all built-in event namespaces</td>
+  <td>Tool authors</td>
+</tr>
+<tr>
+  <td><code>spanforge.models</code></td>
+  <td>Optional Pydantic v2 models for validated schemas</td>
+  <td>API / backend teams</td>
+</tr>
+<tr>
+  <td><code>spanforge.consumer</code></td>
+  <td>Declare schema-namespace dependencies; fail fast at startup if version requirements are not met</td>
+  <td>Platform teams</td>
+</tr>
+<tr>
+  <td><code>spanforge.deprecations</code></td>
+  <td>Per-event-type deprecation notices at runtime</td>
+  <td>Library maintainers</td>
+</tr>
+<tr>
+  <td><code>spanforge._hooks</code></td>
+  <td>Lifecycle hooks: <code>@hooks.on_llm_call</code>, <code>@hooks.on_tool_call</code>, <code>@hooks.on_agent_start</code> (sync + async)</td>
+  <td>App developers / platform</td>
+</tr>
+<tr>
+  <td><code>spanforge._store</code></td>
+  <td><code>TraceStore</code> ring buffer — <code>get_trace()</code>, <code>list_tool_calls()</code>, <code>list_llm_calls()</code></td>
+  <td>Platform / tooling engineers</td>
+</tr>
+<tr>
+  <td><code>spanforge._cli</code></td>
+  <td>CLI sub-commands including eval, compliance status, migrate-langsmith, cost run, and more</td>
+  <td>DevOps / CI teams</td>
+</tr>
+<tr>
+  <td><strong>Service SDK (v2.0.3+)</strong></td><td colspan="2"></td>
+</tr>
+<tr>
+  <td><code>spanforge.sdk.identity</code></td>
+  <td><code>SFIdentityClient</code> — API key lifecycle (<code>issue_api_key</code>, <code>rotate_api_key</code>, <code>revoke_api_key</code>), session JWT (HS256 stdlib / RS256 remote), magic-link issuance + single-use exchange, TOTP enrolment + verification (RFC 6238, 6-digit, 30 s), backup codes, per-key IP allowlist, sliding-window rate limiting, brute-force lockout. Fully local-mode capable — no external service required.</td>
+  <td>Security / platform teams</td>
+</tr>
+<tr>
+  <td><code>spanforge.sdk.pii</code></td>
+  <td><code>SFPIIClient</code> — <code>scan_text()</code>, <code>anonymise()</code>, <code>scan_batch()</code>, <code>apply_pipeline_action()</code>, <code>get_status()</code>, <code>erase_subject()</code> (GDPR Art. 17), <code>export_subject_data()</code> (CCPA DSAR), <code>safe_harbor_deidentify()</code> (HIPAA 18-PHI), <code>audit_training_data()</code> (EU AI Act Art. 10), <code>get_pii_stats()</code>. PIPL patterns for Chinese national ID / mobile / bank card. Pipeline action routing (<code>flag</code> / <code>redact</code> / <code>block</code>) with confidence threshold gate. Scan results never include raw PII — only type labels, field paths, and SHA-256 hashes. Runs locally or delegates to a remote sf-pii service.</td>
+  <td>Data privacy / GDPR teams</td>
+</tr>
+<tr>
+  <td><code>spanforge.sdk.secrets</code></td>
+  <td><code>SFSecretsClient</code> — <code>scan(text)</code> → <code>SecretsScanResult</code>, <code>scan_batch(texts)</code> with asyncio parallel execution. 20-pattern registry covering all spec-required types plus 13 industry-standard additions. Three-tier confidence model (0.75 / 0.90 / 0.97). Zero-tolerance auto-block for 10 high-risk secret types. SARIF 2.1.0 output. Runs fully locally — no external service required.</td>
+  <td>Security / DevSecOps teams</td>
+</tr>
+<tr>
+  <td><code>spanforge.sdk.audit</code></td>
+  <td><code>SFAuditClient</code> — <code>append(record, schema_key)</code> with HMAC-SHA256 chaining, <code>query()</code> SQLite index with full-text and date-range filters, <code>verify_chain()</code> tamper detection, <code>get_trust_scorecard()</code> T.R.U.S.T. dimensions (hallucination · PII hygiene · secrets hygiene · gate pass-rate · compliance posture), <code>generate_article30_record()</code> GDPR Article 30 RoPA, <code>export()</code> JSONL/CSV/compressed, <code>sign()</code>, <code>get_status()</code>. BYOS routing via <code>SPANFORGE_AUDIT_BYOS_PROVIDER</code> (S3 / Azure / GCS / R2). Strict-schema mode, configurable retention years, optional SQLite persistence. 123 tests, 85 % coverage, mypy strict clean.</td>
+  <td>Compliance / security / audit teams</td>
+</tr>
+<tr>
+  <td><code>spanforge.sdk.observe</code></td>
+  <td><code>SFObserveClient</code> — <code>emit_span(name, attributes)</code> builds OTel-compliant spans with W3C traceparent / baggage injection and OTel GenAI semantic attributes; <code>export_spans(spans, receiver_config=...)</code> routes to <code>local</code> / <code>otlp</code> / <code>datadog</code> / <code>grafana</code> / <code>splunk</code> / <code>elastic</code>; <code>add_annotation(event_type, payload)</code> / <code>get_annotations(event_type, from_dt, to_dt)</code> annotation store; <code>get_status()</code>, <code>healthy</code>, <code>last_export_at</code> health probes. Sampling via <code>SPANFORGE_OBSERVE_SAMPLER</code> (<code>always_on</code> / <code>always_off</code> / <code>parent_based</code> / <code>trace_id_ratio</code>). 139 tests, 97% coverage, mypy strict + bandit clean. <em>(Phase 6, v2.0.5+)</em></td>
+  <td>Platform / MLOps / observability teams</td>
+</tr>
+<tr>
+  <td><code>spanforge.sdk.alert</code></td>
+  <td><code>SFAlertClient</code> — <code>publish(topic, payload, *, severity, project_id) → PublishResult</code> routes to all configured sinks with deduplication, rate-limiting, alert grouping, and maintenance-window suppression; <code>acknowledge(alert_id)</code> cancels CRITICAL escalation; <code>register_topic()</code> custom topic registry; <code>set_maintenance_window()</code> / <code>remove_maintenance_windows()</code>; <code>get_alert_history()</code> with filtering; <code>get_status()</code> / <code>healthy</code> health probes. Built-in sinks: <code>WebhookAlerter</code> (HMAC), <code>OpsGenieAlerter</code>, <code>VictorOpsAlerter</code>, <code>IncidentIOAlerter</code>, <code>SMSAlerter</code> (Twilio), <code>TeamsAdaptiveCardAlerter</code>. Auto-discovery from <code>SPANFORGE_ALERT_*</code> env vars. Per-sink circuit breakers. 95 tests, mypy strict + bandit clean. <em>(Phase 7, v2.0.6+)</em></td>
+  <td>Platform / SRE / on-call teams</td>
+</tr>
+<tr>
+  <td><code>spanforge.sdk.gate</code></td>
+  <td><code>SFGateClient</code> — <code>evaluate(gate_id, payload) → GateEvaluationResult</code>, <code>evaluate_prri(prri_score) → PRRIResult</code>, <code>run_pipeline(gate_config_path) → GateRunResult</code>, <code>get_artifact(gate_id)</code>, <code>list_artifacts()</code>, <code>purge_artifacts(older_than_days)</code>, <code>get_status() → GateStatusInfo</code>, <code>configure(config)</code>. Six built-in gate executors: <code>schema_validation</code>, <code>dependency_security</code>, <code>secrets_scan</code>, <code>performance_regression</code>, <code>halluccheck_prri</code>, <code>halluccheck_trust</code>. PRRI three-tier verdict (<code>GREEN</code>/<code>AMBER</code>/<code>RED</code>), <code>GateArtifact</code> store with configurable retention, composite trust gate (HRI rate + PII window + secrets window), five exception types. 174 tests, mypy strict + bandit clean. <em>(Phase 8, v2.0.7+)</em></td>
+  <td>DevOps / CI / platform teams</td>
+</tr>
+<tr>
+  <td><code>spanforge.sdk.config</code></td>
+  <td><code>load_config_file(path?)</code> — auto-discovers <code>.halluccheck.toml</code> or falls back to env-var defaults. <code>validate_config(block)</code> / <code>validate_config_strict(block)</code> schema validation. <code>SFConfigBlock</code>, <code>SFServiceToggles</code>, <code>SFLocalFallbackConfig</code>, <code>SFPIIConfig</code>, <code>SFSecretsConfig</code> typed dataclasses. Env-var overrides: <code>SPANFORGE_ENDPOINT</code>, <code>SPANFORGE_API_KEY</code>, <code>SPANFORGE_PROJECT_ID</code>, <code>SPANFORGE_PII_THRESHOLD</code>, <code>SPANFORGE_SECRETS_AUTO_BLOCK</code>, <code>SPANFORGE_LOCAL_TOKEN</code>, <code>SPANFORGE_FALLBACK_TIMEOUT_MS</code>. <em>(Phase 9, v2.0.8+)</em></td>
+  <td>All teams / platform engineers</td>
+</tr>
+<tr>
+  <td><code>spanforge.sdk.registry</code></td>
+  <td><code>ServiceRegistry.get_instance()</code> — thread-safe singleton holding all 11 service clients. <code>run_startup_check()</code> pings all enabled services (status: up / degraded / down). <code>status_response()</code> returns per-service <code>{status, latency_ms, last_checked_at}</code>. <code>start_background_checker()</code> launches a daemon thread re-checking every 60 s. <code>ServiceHealth</code>, <code>ServiceStatus</code> typed enums. <em>(Phase 9, v2.0.8+)</em></td>
+  <td>Platform / SRE teams</td>
+</tr>
+<tr>
+  <td><code>spanforge.sdk.fallback</code></td>
+  <td>8 local-mode fallback implementations: <code>pii_fallback()</code> (regex scan), <code>secrets_fallback()</code> (regex scan), <code>audit_fallback()</code> (HMAC-chained JSONL), <code>observe_fallback()</code> (OTLP JSON to stdout), <code>alert_fallback()</code> (log to stderr), <code>identity_fallback()</code> (trust local token), <code>gate_fallback()</code> (local gate engine), <code>cec_fallback()</code> (local JSONL). All emit WARNING when active. <em>(Phase 9, v2.0.8+)</em></td>
+  <td>All teams (automatic)</td>
+</tr>
+<tr>
+  <td><code>spanforge.sdk.trust</code></td>
+  <td><code>SFTrustClient</code> — <code>get_scorecard(project_id, *, from_dt, to_dt, weights) → TrustScorecardResponse</code> aggregates five T.R.U.S.T. dimensions (Transparency · Reliability · UserTrust · Security · Traceability) with configurable weights. <code>get_badge(project_id) → TrustBadgeResult</code> generates an SVG badge with colour-band (green ≥ 80, amber ≥ 60, red &lt; 60). <code>get_history(project_id, *, buckets) → list[TrustHistoryEntry]</code> returns time-series snapshots. <code>get_status()</code> health probe. Reads from sf-audit trust records. 28 tests, mypy strict + bandit clean. <em>(Phase 10, v2.0.9+)</em></td>
+  <td>Compliance / platform / ML teams</td>
+</tr>
+<tr>
+  <td><code>spanforge.sdk.pipelines</code></td>
+  <td>5 HallucCheck ↔ SpanForge pipeline integrations: <code>score_pipeline(text)</code> (PII → secrets → observe → audit), <code>bias_pipeline(report)</code> (PII → audit → alert → anonymise), <code>monitor_pipeline(event)</code> (observe → alert → OTel export), <code>risk_pipeline(prri_score)</code> (PRRI → alert → gate → CEC), <code>benchmark_pipeline(results)</code> (audit → alert → anonymise). Each returns <code>PipelineResult</code> with audit trail. <em>(Phase 10, v2.0.9+)</em></td>
+  <td>ML / eval / platform teams</td>
+</tr>
+  <td><code>SFCECClient</code> — <code>build_bundle(project_id, date_range, frameworks)</code> assembles a signed ZIP with <code>manifest.json</code>, <code>clause_map.json</code>, <code>chain_proof.json</code>, <code>attestation.json</code>, <code>rfc3161_timestamp.tsr</code>, and 6 NDJSON evidence directories. HMAC-SHA256 manifest signing, BYOS detection. <code>verify_bundle(zip_path)</code> re-verifies HMAC + chain + timestamp. <code>generate_dpa(project_id, controller_details, processor_details)</code> produces a GDPR Article 28 Data Processing Agreement. <code>get_status()</code> returns bundle count, BYOS provider, and last bundle timestamp. Supports all 5 frameworks: <code>eu_ai_act</code>, <code>iso_42001</code>, <code>nist_ai_rmf</code>, <code>iso27001</code>, <code>soc2</code>. 148 tests, 87% coverage, mypy strict + bandit clean. <em>(Phase 5, v2.0.4+)</em></td>
+  <td>Compliance / legal / audit teams</td>
+</tr>
+<tr>
+  <td><code>spanforge.sdk</code></td>
+  <td>Pre-built <code>sf_identity</code>, <code>sf_pii</code>, <code>sf_secrets</code>, <code>sf_audit</code>, <code>sf_cec</code>, <code>sf_observe</code>, <code>sf_alert</code>, <code>sf_gate</code>, <code>sf_trust</code>, <code>sf_enterprise</code>, <code>sf_security</code>, <code>sf_rag</code>, and <code>sf_feedback</code> singletons loaded from env vars on first import. <code>SFClientConfig</code>, <code>SecretStr</code>, full exception hierarchy (<code>SFAuthError</code>, <code>SFBruteForceLockedError</code>, <code>SFPIINotRedactedError</code>, <code>SFPIIBlockedError</code>, <code>SFPIIDPDPConsentMissingError</code>, <code>SFSecretsBlockedError</code>, <code>SFAuditSchemaError</code>, <code>SFAuditAppendError</code>, <code>SFAuditQueryError</code>, <code>SFCECError</code>, <code>SFCECBuildError</code>, <code>SFCECVerifyError</code>, <code>SFCECExportError</code>, <code>SFObserveError</code>, <code>SFObserveExportError</code>, <code>SFObserveEmitError</code>, <code>SFObserveAnnotationError</code>, <code>SFAlertError</code>, <code>SFAlertPublishError</code>, <code>SFAlertRateLimitedError</code>, <code>SFAlertQueueFullError</code>, <code>SFGateError</code>, <code>SFGateEvaluationError</code>, <code>SFGatePipelineError</code>, <code>SFGateTrustFailedError</code>, <code>SFGateSchemaError</code>, <code>SFConfigError</code>, <code>SFConfigValidationError</code>, <code>SFStartupError</code>, <code>SFServiceUnavailableError</code>, <code>SFTrustComputeError</code>, <code>SFPipelineError</code>, <code>SFEnterpriseError</code>, <code>SFIsolationError</code>, <code>SFDataResidencyError</code>, <code>SFEncryptionError</code>, <code>SFFIPSError</code>, <code>SFAirGapError</code>, <code>SFSecurityScanError</code>, <code>SFSecretsInLogsError</code>, …), and all value-object types exported from the top-level package. <code>load_config_file()</code>, <code>validate_config()</code>, <code>validate_config_strict()</code>, <code>ServiceRegistry</code>, and 8 fallback functions re-exported for convenience.</td>
+  <td>All teams</td>
 </tr>
 </tbody>
 </table>
 
 ---
 
-## Event namespaces
+## Quality
 
-Every event carries a ``payload`` — a dictionary whose shape is defined by the event's **namespace**. The ten built-in namespaces cover everything from raw model traces to safety guardrails:
-
-| Namespace prefix | Dataclass | What it records |
-|---|---|---|
-| ``llm.trace.*`` | ``SpanPayload``, ``AgentRunPayload``, ``AgentStepPayload`` | Model call — tokens, latency, finish reason **(frozen v2)** |
-| ``llm.cost.*`` | ``CostPayload`` | Per-call cost in USD |
-| ``llm.cache.*`` | ``CachePayload`` | Cache hit/miss, backend, TTL |
-| ``llm.eval.*`` | ``EvalScenarioPayload`` | Scores, labels, evaluator identity |
-| ``llm.guard.*`` | ``GuardPayload`` | Safety classifier output, block decisions |
-| ``llm.fence.*`` | ``FencePayload`` | Topic constraints, allow/block lists |
-| ``llm.prompt.*`` | ``PromptPayload`` | Prompt template version, rendered text |
-| ``llm.redact.*`` | ``RedactPayload`` | PII audit record — what was found and removed |
-| ``llm.diff.*`` | ``DiffPayload`` | Prompt/response delta between two events |
-| ``llm.template.*`` | ``TemplatePayload`` | Template registry metadata |
-
-```python
-from agentobs.namespaces.trace import SpanPayload
-from agentobs import Event
-
-payload = SpanPayload(
-    span_name="call-llm",
-    span_id="abc123",
-    trace_id="def456",
-    start_time_ns=1_000_000_000,
-    end_time_ns=1_340_000_000,
-    status="ok",
-)
-
-event = Event(
-    event_type="llm.trace.span.completed",
-    source="my-app@1.0.0",
-    payload=payload.to_dict(),
-)
-```
+- **5 863 tests** passing (14 skipped) — unit, integration, property-based (Hypothesis), performance benchmarks
+- **≥ 91% line and branch coverage** — 90% minimum enforced in CI
+- **Zero required dependencies** — entire core runs on Python stdlib
+- **Typed** — full `py.typed` marker; mypy + pyright clean
+- **Frozen v2 trace schema** — `llm.trace.*` payload fields never break between minor releases
+- **Async-safe** — `contextvars`-based context propagation across asyncio, threads, and executors
 
 ---
 
-## Quality standards
-
-- **3 032 tests** (2 990 passing, 42 skipped) — unit, integration, property-based (Hypothesis), and performance benchmarks
-- **≥ 92.84 % line and branch coverage** — measured with ``pytest-cov``; 90 % minimum enforced in CI
-- **Zero required dependencies** — the entire core runs on Python's standard library alone
-- **Typed** — full ``py.typed`` marker; works with mypy and pyright out of the box
-- **Frozen v2 trace schema** — ``llm.trace.*`` payload fields will never break between minor releases
-- **async-safe context propagation** — `contextvars`-based span stacks work correctly across `asyncio` tasks, thread pools, and executors
-- **Version 1.0.7** adds: `@trace()` decorator, OTLP bridge, `CostTracker` / `BudgetMonitor`, `InspectorSession`, `ToolRegistry` / `@tool`, `@retry` / `FallbackChain` / `CircuitBreaker`, `SemanticCache` / `@cached`, and `agentobs.lint` (AO001–AO005, flake8 plugin, CLI)
-- **Version 2.0.0** adds: `Trace` / `start_trace()`, `async with`, `span.add_event()`, `print_tree()` / `summary()` / `visualize()`, sampling controls, `metrics.aggregate()`, `TraceStore`, `HookRegistry`, CrewAI integration
-- **Version 1.0.6** adds: `agentobs.testing`, `agentobs.auto`, async lifecycle hooks, `agentobs check` CLI, export retry with back-off, `unpatch()` / `is_patched()` for all integrations, frozen payload dataclasses, `assert_no_sunset_reached()`
-
----
-
-## Project structure
-
-```
-agentobs/
-├── __init__.py       <- Public API surface (start here)
-├── event.py          <- The Event envelope
-├── types.py          <- EventType enum  (+ SpanErrorCategory)
-├── config.py         <- configure() / get_config() / AgentOBSConfig
-│                        (sample_rate, always_sample_errors, include_raw_tool_io,
-│                         enable_trace_store, trace_store_size)
-├── _span.py          <- Span, AgentRun, AgentStep context managers
-│                        (contextvars stacks, async with, add_event,
-│                         record_error, set_timeout_deadline)
-├── _trace.py         <- Trace class + start_trace()          [NEW in 2.0]
-├── _tracer.py        <- Tracer — top-level tracing entry point
-├── _stream.py        <- Internal dispatch: sample → redact → sign → export
-├── _store.py         <- TraceStore ring buffer                [NEW in 2.0]
-├── _hooks.py         <- HookRegistry singleton (hooks)        [NEW in 2.0]
-├── _cli.py           <- CLI entry-point (9 sub-commands: check, check-compat, …)
-├── trace.py          <- @trace() decorator + SpanOTLPBridge   [NEW in 1.0.7]
-├── cost.py           <- CostTracker, BudgetMonitor, @budget_alert [NEW in 1.0.7]
-├── inspect.py        <- InspectorSession, inspect_trace()     [NEW in 1.0.7]
-├── toolsmith.py      <- @tool, ToolRegistry, build_openai_schema() [NEW in 1.0.7]
-├── retry.py          <- @retry, FallbackChain, CircuitBreaker [NEW in 1.0.7]
-├── cache.py          <- SemanticCache, @cached, *Backend      [NEW in 1.0.7]
-├── lint/             <- run_checks(), AO001-AO005, flake8 plugin, CLI [NEW in 1.0.7]
-│   ├── __init__.py
-│   ├── _visitor.py
-│   ├── _checks.py
-│   ├── _flake8.py
-│   └── __main__.py
-├── testing.py        <- MockExporter, capture_events(), assert_event_schema_valid(),
-│                        trace_store() — test utilities without real exporters [1.0.6]
-├── auto.py           <- Integration auto-discovery; setup() / teardown()        [1.0.6]
-├── debug.py          <- print_tree, summary, visualize        [NEW in 2.0]
-├── metrics.py        <- aggregate(), MetricsSummary, etc.     [NEW in 2.0]
-├── signing.py        <- HMAC signing & audit chains
-├── redact.py         <- PII redaction
-├── validate.py       <- JSON Schema validation
-├── consumer.py       <- Consumer registry & schema-version compatibility
-├── governance.py     <- Event governance policies
-├── deprecations.py   <- Per-event-type deprecation tracking
-├── compliance/       <- Compatibility checklist suite
-├── export/
-│   ├── jsonl.py      <- Local file export (async)
-│   ├── webhook.py    <- HTTP POST export
-│   ├── otlp.py       <- OpenTelemetry export
-│   ├── datadog.py    <- Datadog APM traces + metrics
-│   └── grafana.py    <- Grafana Loki export
-├── exporters/
-│   ├── jsonl.py      <- SyncJSONLExporter
-│   └── console.py    <- SyncConsoleExporter
-├── stream.py         <- EventStream fan-out router (+ Kafka source)
-├── integrations/
-│   ├── langchain.py  <- LangChain callback handler
-│   ├── llamaindex.py <- LlamaIndex event handler
-│   ├── openai.py     <- OpenAI tracing wrapper
-│   ├── crewai.py     <- CrewAI handler + patch()              [NEW in 2.0]
-│   └── ...           (anthropic, groq, ollama, together)
-├── namespaces/       <- Typed payload dataclasses
-│   ├── trace.py        (SpanPayload + temperature/top_p/max_tokens/error_category,
-│   │                    SpanEvent, ToolCall + arguments_raw/result_raw/retry_count)
-│   ├── cost.py
-│   ├── cache.py
-│   └── ...
-├── models.py         <- Optional Pydantic v2 models
-└── migrate.py        <- Schema migration helpers
-examples/             <- Runnable sample scripts
-├── openai_chat.py    <- OpenAI + JSONL export
-├── agent_workflow.py <- Multi-step agent + console exporter
-├── langchain_chain.py<- LangChain callback handler
-└── secure_pipeline.py<- HMAC signing + PII redaction together
-```
-
----
-
-## Development setup
+## Development
 
 ```bash
-git clone https://github.com/veerarag1973/agentobs.git
-cd agentobs
-
-python -m venv .venv
-.venv\Scripts\activate          # Windows
-# source .venv/bin/activate     # macOS / Linux
-
+git clone https://github.com/veerarag1973/spanforge.git
+cd spanforge
+python -m venv .venv && .venv\Scripts\activate
 pip install -e ".[dev]"
-pytest                          # run all 3 032 tests
+pytest                      # 5 351 tests
 ```
 
 <details>
-<summary><strong>Code quality commands</strong></summary>
+<summary><strong>Code quality</strong></summary>
 
 ```bash
-ruff check .                  # linting
-ruff format .                 # auto-format
-mypy agentobs                  # type checking
-pytest --cov                  # tests + coverage report (>=90% required)
+ruff check . && ruff format .
+mypy spanforge
+pytest --cov                # >=90% required
 ```
 
 </details>
 
 <details>
-<summary><strong>Build the docs locally</strong></summary>
+<summary><strong>Build docs</strong></summary>
 
 ```bash
 pip install -e ".[docs]"
-cd docs
-sphinx-build -b html . _build/html   # open _build/html/index.html
+cd docs && sphinx-build -b html . _build/html
 ```
 
 </details>
 
 ---
 
-## Compatibility and versioning
+## Versioning
 
-``agentobs`` implements **RFC-0001 AGENTOBS** (Observability Schema Standard for Agentic AI Systems). The current schema version is **2.0**.
+spanforge implements **RFC-0001** (AI Compliance Standard for Agentic AI Systems). Current schema version: **2.0**.
 
-This project follows [Semantic Versioning](https://semver.org/):
-
-- **Patch** releases (``1.0.x``) — bug fixes only, fully backwards-compatible
-- **Minor** releases (``1.x.0``) — new features, backwards-compatible
-- **Major** releases (``x.0.0``) — breaking changes, announced in advance
-
-The ``llm.trace.*`` namespace payload schema is **additionally frozen at v2**: even a major release will not remove or rename fields from ``SpanPayload``, ``AgentRunPayload``, or ``AgentStepPayload``.
-
----
-
-## Changelog
+This project follows [Semantic Versioning](https://semver.org/). The `llm.trace.*` namespace is additionally **frozen at v2** — even major releases won't remove fields from `SpanPayload`, `AgentRunPayload`, or `AgentStepPayload`.
 
 See [docs/changelog.md](docs/changelog.md) for the full version history.
 
@@ -810,12 +1364,18 @@ See [docs/changelog.md](docs/changelog.md) for the full version history.
 
 ## Contributing
 
-Contributions are welcome! Please read the [Contributing Guide](docs/contributing.md) first, then open an issue or pull request.
+Contributions welcome — see the [Contributing Guide](docs/contributing.md). All new code must maintain ≥ 90% coverage. Run `ruff` and `mypy` before submitting.
 
-Key rules:
-- All new code must maintain **>= 90 % test coverage**
-- Follow the existing **Google-style docstrings**
-- Run ``ruff`` and ``mypy`` before submitting
+---
+
+## Community
+
+- **[Discussions](https://github.com/veerarag1973/spanforge/discussions)** — questions, ideas, show-and-tell
+- **[Issues](https://github.com/veerarag1973/spanforge/issues)** — bug reports and feature requests
+- **[SECURITY.md](SECURITY.md)** — responsible disclosure process
+- **[Code of Conduct](CODE_OF_CONDUCT.md)** — Contributor Covenant v2.1
+
+> Topics: `ai-compliance` `ai-governance` `eu-ai-act` `gdpr` `soc2` `audit-trail` `pii-redaction` `hmac-signing` `llm-governance` `python`
 
 ---
 
@@ -826,9 +1386,11 @@ Key rules:
 ---
 
 <p align="center">
-  Made with care for the AI observability community.<br/>
-  <a href="docs/index.md">Docs</a> ·
-  <a href="docs/quickstart.md">Quickstart</a> ·
-  <a href="docs/api/index.md">API Reference</a> ·
-  <a href="https://github.com/veerarag1973/agentobs/issues">Report a bug</a>
+  Built for teams that take AI governance seriously.<br/>
+  <a href="docs/index.md">Docs</a> —
+  <a href="docs/runtime-governance.md">Runtime Governance</a> —
+  <a href="docs/quickstart.md">Quickstart</a> —
+  <a href="docs/api/index.md">API Reference</a> —
+  <a href="https://github.com/veerarag1973/spanforge/discussions">Discussions</a> —
+  <a href="https://github.com/veerarag1973/spanforge/issues">Report a bug</a>
 </p>

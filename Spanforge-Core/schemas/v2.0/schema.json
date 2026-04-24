@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://llm-toolkit-schema.dev/schemas/v2.0/schema.json",
-  "title": "SPANFORGE Event Envelope v2.0",
-  "description": "Normative JSON Schema for the SPANFORGE v2.0 Event Envelope (RFC-0001-SPANFORGE §5, Appendix A). Every event emitted by a conformant implementation MUST validate against this schema. Language-neutral portability contract per RFC §21.2.",
+  "title": "AGENTOBS Event Envelope v2.0",
+  "description": "Normative JSON Schema for the AGENTOBS v2.0 Event Envelope (RFC-0001-AGENTOBS §5, Appendix A). Every event emitted by a conformant implementation MUST validate against this schema. Language-neutral portability contract per RFC §21.2.",
   "type": "object",
   "required": [
     "schema_version",

@@ -243,3 +243,51 @@ Regex pattern that all valid event type strings (registered and custom) must mat
 ```
 - `validate_custom()` — validate a custom reverse-domain event type string (e.g. `com.example.<…>`)
 - `namespace_of()` — return the namespace prefix of a given event type string
+
+---
+
+## SDK Types — `spanforge.sdk._types`
+
+Phase 11 introduces the following dataclass types used by `SFEnterpriseClient`
+and `SFSecurityClient`.
+
+### Enterprise types
+
+| Type | Fields | Description |
+|------|--------|-------------|
+| `DataResidency` | `EU`, `US`, `AP`, `IN`, `GLOBAL` (class constants); `is_valid(value) → bool` | Data residency region constants (ENT-004 / ENT-005). |
+| `IsolationScope` | `org_id: str`, `project_id: str` | Composite key for namespace isolation (ENT-002). |
+| `TenantConfig` | `project_id: str`, `org_id: str`, `data_residency: str = "global"`, `org_secret: str = ""`, `cross_project_read: bool = False`, `allowed_project_ids: list[str] = []` | Per-project multi-tenancy configuration (ENT-001 through ENT-005). |
+| `EncryptionConfig` | `encrypt_at_rest: bool = False`, `kms_provider: str | None = None`, `mtls_enabled: bool = False`, `tls_cert_path: str = ""`, `tls_key_path: str = ""`, `tls_ca_path: str = ""`, `fips_mode: bool = False` | Encryption-at-rest and KMS configuration (ENT-010 through ENT-013). |
+| `AirGapConfig` | `offline: bool = False`, `self_hosted: bool = False`, `compose_file: str = "docker-compose.yml"`, `helm_release_name: str = "spanforge"`, `health_check_interval_s: int = 30` | Air-gap and self-hosted configuration (ENT-020 through ENT-023). |
+| `HealthEndpointResult` | `service: str`, `endpoint: str`, `status: int`, `ok: bool`, `latency_ms: float`, `checked_at: str` | Result from a container health probe (ENT-023). |
+| `EnterpriseStatusInfo` | `status: str`, `multi_tenancy_enabled: bool = False`, `encryption_at_rest: bool = False`, `fips_mode: bool = False`, `offline_mode: bool = False`, `data_residency: str = "global"`, `tenant_count: int = 0`, `last_security_scan: str | None = None` | Health and configuration summary for enterprise hardening (Phase 11). |
+
+### Security types
+
+| Type | Fields | Description |
+|------|--------|-------------|
+| `DependencyVulnerability` | `package: str`, `version: str`, `advisory_id: str`, `severity: str`, `description: str`, `fix_version: str = ""` | A single dependency vulnerability finding (ENT-033). |
+| `StaticAnalysisFinding` | `tool: str`, `rule_id: str`, `severity: str`, `file_path: str`, `line: int`, `message: str` | A single static analysis finding (ENT-034). |
+| `ThreatModelEntry` | `service: str`, `category: str`, `threat: str`, `mitigation: str`, `risk_level: str`, `reviewed_at: str` | A STRIDE threat model entry (ENT-031). |
+| `SecurityScanResult` | `dependencies: list`, `static_analysis: list`, `secrets_in_logs: int`, `pass_: bool`, `scanned_at: str` | Combined dependency + static scan results (ENT-033 / ENT-034). |
+| `SecurityAuditResult` | `categories: dict[str, dict[str, str]]`, `pass_: bool`, `audited_at: str`, `threat_model: list[ThreatModelEntry] = []` | OWASP API Security Top 10 audit result (ENT-030). |
+
+### Import
+
+```python
+from spanforge.sdk._types import (
+    DataResidency,
+    IsolationScope,
+    TenantConfig,
+    EncryptionConfig,
+    AirGapConfig,
+    HealthEndpointResult,
+    EnterpriseStatusInfo,
+    DependencyVulnerability,
+    StaticAnalysisFinding,
+    ThreatModelEntry,
+    SecurityScanResult,
+    SecurityAuditResult,
+)
+```

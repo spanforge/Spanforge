@@ -2,13 +2,13 @@ import Link from 'next/link'
 import styles from './PhaseRow.module.css'
 
 export default function PhaseRow({ phase }) {
-  const { num, id, label, colorVar, tag, tagline, summary, gate } = phase
+  const { num, label, colorVar, tag, tagline, summary, gate } = phase
 
   return (
     <Link
-      href={`/platform/${id}`}
+      href="/spanforgecore"
       className={styles.row}
-      aria-label={`Phase ${num}: ${label} — ${tagline}`}
+      aria-label={`Phase ${num}: ${label} - ${tagline}`}
     >
       <div className={styles.left} style={{ '--phase-color': `var(${colorVar})` }}>
         <span className={styles.num}>{num}</span>

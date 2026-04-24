@@ -4,25 +4,43 @@ import styles from './page.module.css'
 export const metadata = {
   title: 'About SpanForge',
   description:
-    'SpanForge is being built to close the gap between an AI prototype and a governed, auditable, production system. Who we are and why we are building this.',
+    'spanforge is the AI compliance platform for agentic systems. Ship AI applications that are auditable, regulator-ready, and privacy-safe &mdash; from day one.',
 }
 
 const VALUES = [
   {
     title: 'Build in the open.',
-    desc: 'The standards are public. The roadmap is public. The reasoning is visible. AI needs more transparency, not less.',
+    desc: 'The standard is public. The schema is public. The SDK is MIT-licensed. AI needs more transparency, not less.',
   },
   {
     title: 'Opinionated by design.',
-    desc: 'SpanForge has a clear position on how AI should be built. We would rather be useful and direct than vague and universally palatable.',
+    desc: 'spanforge has a clear position on how AI should be governed. We would rather be useful and direct than vague and universally palatable.',
   },
   {
     title: 'Production is the point.',
-    desc: 'A model in a notebook is not AI. We build for the organisations shipping to real users in regulated environments, not for the demo.',
+    desc: 'A model in a notebook is not AI. We build for teams shipping to real users in regulated environments &mdash; not for the demo.',
   },
   {
     title: 'Standards before shortcuts.',
-    desc: 'Every T.R.U.S.T. dimension exists because we have seen what happens when it is ignored. The standards are not overhead — they are the foundation.',
+    desc: 'Every SDK service exists because we have seen what happens when it is absent. Compliance infrastructure is not overhead &mdash; it is the foundation.',
+  },
+]
+
+const SDK_PILLARS = [
+  {
+    count: '01',
+    label: 'Compliance by default.',
+    detail: 'Every event your app emits is HMAC-signed, PII-redacted, and stored &mdash; with zero per-call boilerplate. spanforge.configure() and you are compliant.',
+  },
+  {
+    count: '02',
+    label: 'Regulator-ready evidence.',
+    detail: 'sf_cec generates HMAC-signed ZIP bundles mapping telemetry to EU AI Act, GDPR, SOC 2, HIPAA, ISO 42001, and NIST AI RMF at the article level &mdash; ready for auditor hand-off.',
+  },
+  {
+    count: '03',
+    label: 'Zero required dependencies.',
+    detail: 'Pure Python 3.9+ stdlib. Local fallback mode. Sandbox mode. mock_all_services() for testing. Works in air-gapped environments with no egress.',
   },
 ]
 
@@ -34,12 +52,13 @@ export default function AboutPage() {
         <div className="container">
           <span className="eyebrow">About SpanForge</span>
           <h1 className={styles.h1}>
-            Decide. Build. Trust.
+            The AI compliance platform<br />for agentic systems.
           </h1>
           <p className={styles.heroSub}>
-            SpanForge was built because too many AI projects fail after the
-            prototype. Not because the AI was wrong — because the organisation, the
-            process, and the tooling were not ready for production.
+            spanforge is compliance infrastructure &mdash; not a monitoring add-on. It gives
+            every AI action in your stack a cryptographically signed, privacy-safe,
+            regulator-ready record. Built on RFC-0001, the open event-schema standard
+            for AI governance.
           </p>
         </div>
       </section>
@@ -53,27 +72,28 @@ export default function AboutPage() {
           <div className={styles.missionGrid}>
             <div>
               <p className={styles.missionCopy}>
-                Approximately 42% of companies abandoned the majority of their AI initiatives
-                in 2025 — more than double the 17% recorded the year prior (S&P Global Market
-                Intelligence, 1,000+ enterprises). Not because the models don&rsquo;t work.
-                Because the surrounding system — the governance, the observability, the standards,
-                the process — is absent.
+                You are building AI applications in a world where regulators are
+                catching up fast. The EU AI Act is in force. GDPR applies to every LLM
+                that touches personal data. SOC 2 auditors want evidence that your AI
+                systems are governed. And your team is stitching together ad-hoc logs,
+                hoping they will hold up in an audit.
               </p>
               <p className={styles.missionCopy}>
-              SpanForge is the AI lifecycle platform for every team — from deciding
-              whether to build, to running confidently in production. It covers all five
-              phases: Discover, Design, Build, Govern, and Scale.
+                spanforge solves this. It is a compliance-first platform that gives
+                every AI action a cryptographically signed, tamper-evident record &mdash;
+                from the first pip install to the auditor hand-off.
               </p>
             </div>
             <div>
               <p className={styles.missionCopy}>
-                We build for the team that has spent three months on a proof of concept
-                and is now asking the hard questions: How do we govern this? How do we
-                audit it? How do we know when it drifts? What happens when it fails?
+                We build for teams that have shipped a working model and are now
+                asking the hard questions: How do we prove compliance? How do we audit
+                this? How do we detect drift? What happens when it fails?
               </p>
               <p className={styles.missionCopy}>
-                SpanForge answers those questions — with a structured lifecycle, governance
-                controls, and production compliance built for AI delivery.
+                spanforge answers those questions with 11 SDK services, 33 CLI commands,
+                and article-level mapping to 6 regulatory frameworks &mdash; all available
+                today via <code>pip install spanforge</code>.
               </p>
             </div>
           </div>
@@ -85,53 +105,65 @@ export default function AboutPage() {
         <div className="container">
           <span className="eyebrow">Clarity of purpose</span>
           <h2 id="isnot-heading" className={styles.missionH2}>
-            What SpanForge is — and is not.
+            What spanforge is &mdash; and is not.
           </h2>
-          <p className={styles.missionCopy} style={{ maxWidth: '640px', marginBottom: '2rem' }}>
-            Confusion about what SpanForge does — and does not do — is a risk to adoption.
-            This table clarifies the position explicitly.
-          </p>
           <div className={styles.isNotGrid}>
             <div className={styles.isNotCol}>
-              <p className={styles.isNotColHead}>SpanForge IS</p>
+              <p className={styles.isNotColHead}>spanforge IS</p>
               {[
-                'An AI delivery lifecycle platform',
-                'A governance and compliance framework engine',
-                'A production compliance platform (SpanForge)',
-                'A structured gate-based delivery system',
-                'An agent behaviour monitoring product',
-                'A risk and audit documentation system',
-                'A decision-time cost intelligence layer for infrastructure spend and runtime token cost attribution',
-                'A suite of standalone open-source CI/CD executables for individual T.R.U.S.T. gate checks (spanforge-secrets, spanforge-behaviour, spanforge-policy, spanforge-redteam)',
+                'A compliance-first SDK for agentic AI systems',
+                'HMAC-signed audit chain infrastructure (sf_audit)',
+                'PII redaction and privacy enforcement (sf_pii)',
+                'Secrets scanning with SARIF output (sf_secrets)',
+                'Regulatory evidence bundles for auditors (sf_cec)',
+                'A 6-gate CI/CD compliance pipeline (sf_gate)',
+                'A T.R.U.S.T. scorecard with SVG badge + trend API (sf_trust)',
+                'Observability to any OTLP-compatible backend (sf_observe)',
+                'RAG tracing with LlamaIndex and LangChain auto-instrumentation (sf_rag)',
+                'An open standard &mdash; RFC-0001, MIT-licensed, zero call-home',
               ].map(item => (
                 <p key={item} className={styles.isNotItem}>
-                  <span className={styles.isNotCheck} aria-hidden="true">✓</span> {item}
+                  <span className={styles.isNotCheck} aria-hidden="true">&#10003;</span> {item}
                 </p>
               ))}
             </div>
             <div className={styles.isNotCol}>
-              <p className={styles.isNotColHead}>SpanForge IS NOT</p>
+              <p className={styles.isNotColHead}>spanforge IS NOT</p>
               {[
                 'An MLOps platform (no model serving infrastructure)',
                 'A model provider or AI model builder',
                 'A cloud infrastructure platform',
-                'A project management tool',
                 'An agent framework or orchestration engine',
                 'A replacement for legal or compliance teams',
-                'A replacement for cloud billing dashboards or FinOps reporting tools',
-                'A replacement for existing CI/CD tooling — the standalone executables extend it, not replace it',
+                'A replacement for cloud billing or FinOps tools',
+                'A consulting service or advisory engagement',
+                'A replacement for existing CI/CD tooling &mdash; sf_gate extends it',
               ].map(item => (
                 <p key={item} className={styles.isNotItem}>
-                  <span className={styles.isNotCross} aria-hidden="true">✕</span> {item}
+                  <span className={styles.isNotCross} aria-hidden="true">&#10005;</span> {item}
                 </p>
               ))}
             </div>
           </div>
-          <p className={styles.missionCopy} style={{ maxWidth: '640px', marginTop: '2rem' }}>
-            SpanForge sits above infrastructure and models, and owns the lifecycle, governance,
-            and compliance layers. Teams use their existing infrastructure and models —
-            SpanForge governs how AI systems are built, validated, and run on top of them.
-          </p>
+        </div>
+      </section>
+
+      {/* SDK pillars */}
+      <section className={styles.building} aria-labelledby="sdk-heading">
+        <div className="container">
+          <span className="eyebrow">How it works</span>
+          <h2 id="sdk-heading" className={styles.buildingH2}>
+            Three things spanforge guarantees.
+          </h2>
+          <div className={styles.buildingGrid}>
+            {SDK_PILLARS.map(item => (
+              <div key={item.label} className={styles.buildingCard}>
+                <span className={styles.buildingCount}>{item.count}</span>
+                <h3 className={styles.buildingLabel}>{item.label}</h3>
+                <p className={styles.buildingDetail}>{item.detail}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -153,58 +185,23 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* How to engage SpanForge */}
-      <section className={styles.building} aria-labelledby="engage-heading">
-        <div className="container">
-          <span className="eyebrow">Working with SpanForge</span>
-          <h2 id="engage-heading" className={styles.buildingH2}>
-            Three ways to engage.
-          </h2>
-          <div className={styles.buildingGrid}>
-            {[
-              {
-                label: 'Self-serve platform',
-                detail: 'Access the full five-phase lifecycle — Discover, Design, Build, Govern, Scale — through standards, tools, and frameworks you can adopt immediately.',
-                count: '01',
-              },
-              {
-                label: 'SpanForge Platform + Cost Intelligence Layer',
-                detail: 'Deploy SpanForge for production compliance — baseline behaviour, detect drift, enforce consent boundaries, and maintain an immutable HMAC-signed audit trail via RFC-0001 SpanForge. The Cost Intelligence Layer provides design-time infrastructure cost estimation and runtime token cost tracking with full attribution across all providers.',
-                count: '02',
-              },
-              {
-                label: 'Advisory engagement',
-                detail: 'Work directly with SpanForge to assess your AI delivery posture, identify governance gaps, and build the foundations for governed production systems.',
-                count: '03',
-              },
-            ].map(item => (
-              <div key={item.label} className={styles.buildingCard}>
-                <span className={styles.buildingCount}>{item.count}</span>
-                <h3 className={styles.buildingLabel}>{item.label}</h3>
-                <p className={styles.buildingDetail}>{item.detail}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* CTA */}
-      <section className={styles.cta} aria-labelledby="contact-heading">
+      <section className={styles.cta} aria-labelledby="cta-heading">
         <div className={`container ${styles.ctaInner}`}>
-          <span className="eyebrow">Get in touch</span>
-          <h2 id="contact-heading" className={styles.ctaH2}>
+          <span className="eyebrow">Get started</span>
+          <h2 id="cta-heading" className={styles.ctaH2}>
             Ready to make your AI production-ready?
           </h2>
           <p className={styles.ctaSub}>
-            Whether you are starting from scratch or rescuing a project that never made it past
-            the prototype — SpanForge has the methodology, the tooling, and the experience.
+            One pip install. Zero required dependencies. Start instrumenting your AI
+            for compliance in under five minutes.
           </p>
           <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-            <Link href="/contact" className="btn-primary">
-              Request a Briefing →
+            <Link href="/spanforgecore/sdk" className="btn-primary">
+              Read the docs &rarr;
             </Link>
-            <Link href="/platform" className="btn-ghost">
-              Explore the Platform →
+            <Link href="/contact" className="btn-ghost">
+              Get in touch &rarr;
             </Link>
           </div>
         </div>
@@ -212,3 +209,4 @@ export default function AboutPage() {
     </>
   )
 }
+

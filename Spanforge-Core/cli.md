@@ -51,6 +51,13 @@ positional arguments:
     eval               Evaluation dataset management and scorer execution
     migrate-langsmith  Convert a LangSmith export file to SpanForge events
     ui                 Open a local HTML trace viewer in your browser
+    secrets            Secrets scanning commands (scan files for credentials)
+    gate               CI/CD gate pipeline (run YAML pipelines, evaluate gates, trust-gate)
+    config             Configuration management (validate .halluccheck.toml)
+    trust              T.R.U.S.T. scorecard (scorecard, badge, gate)
+    enterprise         Enterprise multi-tenancy, encryption, health
+    security           OWASP audit, STRIDE threat model, dependency scan
+    doctor             Environment diagnostics: config, sandbox, service health
 
 options:
   -h, --help           show this help message and exit
@@ -69,7 +76,7 @@ spanforge -V
 **Example output**
 
 ```
-spanforge 1.0.0 [spanforge-Enterprise-2.0]
+spanforge 2.0.13 [spanforge-Enterprise-2.0]
 ```
 
 The bracketed label is `CONFORMANCE_PROFILE` from `spanforge.CONFORMANCE_PROFILE`
@@ -490,10 +497,14 @@ The engine maps event prefixes to regulatory clauses including:
 - `explanation.*` → EU AI Act Art. 13, NIST MAP 1.1
 - `model_registry.*` → SOC 2 CC6.1, NIST MAP 1.1
 
+Gap clauses now include a **remediation hint** in the JSON output under
+`gap_data.remediation[<clause_id>]` — an actionable fix command you can
+run immediately to close the gap.
+
 **Usage**
 
 ```bash
-spanforge compliance generate --model MODEL_ID --framework FRAMEWORK --from FROM_DATE --to TO_DATE [EVENTS_JSONL]
+spanforge compliance generate --model-id MODEL_ID --framework FRAMEWORK --from FROM_DATE --to TO_DATE [--events-file EVENTS_JSONL]
 ```
 
 **Options**
@@ -508,18 +519,104 @@ spanforge compliance generate --model MODEL_ID --framework FRAMEWORK --from FROM
 **Example**
 
 ```bash
-spanforge compliance generate --model gpt-4o --framework eu_ai_act --from 2026-01-01 --to 2026-03-31 events.jsonl
+spanforge compliance generate --model-id gpt-4o --framework eu_ai_act --from 2026-01-01 --to 2026-03-31 --events-file events.jsonl
 ```
 
-### `compliance check`
+### `compliance report`
 
-Validate a previously generated evidence package (JSON) and verify its HMAC
-attestation signatures.
+Export a rendered compliance report to disk.
 
 **Usage**
 
 ```bash
-spanforge compliance check EVIDENCE_JSON
+spanforge compliance report --model-id MODEL_ID --framework FRAMEWORK --from FROM_DATE --to TO_DATE [--format FORMAT] [--output DIR]
+```
+
+**Options**
+
+| Option | Description |
+|--------|-------------|
+| `--format` | Output format: `json`, `pdf`, `markdown`, or `both` (default: `json`). |
+| `--output` | Output directory (default: current working directory). |
+
+Choosing `markdown` writes `<prefix>_report.md` — a human-readable
+Markdown document suitable for sharing with stakeholders or importing into
+Notion/Confluence.  Choosing `both` writes both the JSON evidence package
+and the Markdown report simultaneously.
+
+**Example**
+
+```bash
+# Markdown report for a quarterly EU AI Act review
+spanforge compliance report --model-id gpt-4o --framework eu_ai_act \
+  --from 2026-01-01 --to 2026-03-31 --format markdown
+
+# Full package: JSON + Markdown
+spanforge compliance report --model-id gpt-4o --framework soc2 \
+  --from 2026-01-01 --to 2026-03-31 --format both --output ./reports
+```
+
+### `compliance readiness`
+
+Run a **pre-audit configuration check** — no events required.  Inspects
+your current SpanForge configuration and answers: *"What do I need to turn
+on before I hire an auditor?"*
+
+**Usage**
+
+```bash
+spanforge compliance readiness [--framework FRAMEWORK]
+```
+
+**Options**
+
+| Option | Description |
+|--------|-------------|
+| `--framework` | Target framework (default: `eu_ai_act`). |
+
+**What is checked**
+
+| Check | How to fix |
+|-------|-----------|
+| Non-default signing key | `export SPANFORGE_SIGNING_KEY=$(openssl rand -hex 32)` |
+| Durable exporter (non-console) | `spanforge.configure(exporter='sqlite')` |
+| PII redaction enabled | `spanforge.configure(redact_pii=True)` |
+| Framework-specific features | Shown inline per framework |
+
+**Exit codes**
+
+| Code | Meaning |
+|------|---------|
+| `0` | All checks passed — you are ready to begin the audit engagement. |
+| `1` | One or more checks failed — fix items shown above. |
+| `2` | Unknown framework specified. |
+
+**Example**
+
+```bash
+$ spanforge compliance readiness --framework eu_ai_act
+SpanForge Compliance Readiness — EU AI Act
+========================================================
+  [✓] SPANFORGE_SIGNING_KEY is set to a non-default value
+  [✓] Durable exporter configured (current: 'sqlite')
+  [✗] PII redaction enabled (redact_pii=True)
+         Fix: spanforge.configure(redact_pii=True)
+  [✗] Drift detection enabled (drift_detection=True)
+         Fix: spanforge.configure(drift_detection=True)
+
+Readiness: 3/5 checks passing (60%)
+
+[!] Fix 2 item(s) above before starting your audit engagement.
+```
+
+### `compliance check`
+
+Run a CI-friendly compliance gate against an events file and audit period.
+
+**Usage**
+
+```bash
+spanforge compliance check --framework FRAMEWORK --from FROM_DATE --to TO_DATE [--events-file EVENTS_JSONL]
 ```
 
 ### `compliance validate-attestation`
@@ -794,7 +891,8 @@ result = scan_payload(event.payload, extra_patterns=DPDP_PATTERNS)
 ```
 
 Built-in types: `email`, `phone`, `ssn`, `credit_card`, `ip_address`,
-`uk_national_insurance`. DPDP add-on types: `aadhaar` (high), `pan` (high).
+`uk_national_insurance`, `date_of_birth` (global formats: ISO, US, day-first
+DMY, written-month), `address`. DPDP add-on types: `aadhaar` (high), `pan` (high).
 
 ---
 
@@ -1064,3 +1162,805 @@ spanforge migrate-langsmith langsmith_export.jsonl --output traces.jsonl
 | `0` | Migration completed successfully. |
 | `1` | Empty or invalid input. |
 | `2` | File not found. |
+
+---
+
+## `secrets`
+
+Secrets scanning commands. Detects credentials, API keys, private keys, and
+other sensitive material in source files before they are committed or deployed.
+
+### `secrets scan`
+
+Scan a file for secrets using the built-in 20-pattern registry. Suitable as a
+CI gate, pre-commit hook step, or standalone audit tool.
+
+**Usage**
+
+```bash
+spanforge secrets scan FILE [--format {text,json,sarif}] [--redact] [--confidence FLOAT]
+```
+
+**Positional arguments**
+
+| Argument | Description |
+|----------|-------------|
+| `FILE` | Path to the file to scan. Accepts any text-based file. |
+
+**Options**
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `--format` | `text` | Output format: `text` (human-readable), `json`, or `sarif` (SARIF 2.1.0 for GitHub Code Scanning / VS Code). |
+| `--redact` | off | Print a redacted copy of the file contents to stdout, replacing detected secrets with `[REDACTED:TYPE]`. |
+| `--confidence` | `0.85` | Minimum confidence threshold (0.0–1.0). Lower values surface more candidates; raise to reduce false positives. |
+
+**Exit codes**
+
+| Code | Meaning |
+|------|---------|
+| `0` | No secrets detected at or above the confidence threshold. |
+| `1` | One or more secrets detected. |
+| `2` | Usage error or file not found. |
+
+**Example — basic scan**
+
+```bash
+$ spanforge secrets scan config.env
+[WARN] 2 secret(s) detected in config.env
+  AWS_ACCESS_KEY  line 4   confidence=0.97  [auto-blocked]
+  STRIPE_KEY      line 9   confidence=0.90
+```
+
+**Example — SARIF output for GitHub Code Scanning**
+
+```bash
+spanforge secrets scan src/config.py --format sarif > secrets.sarif
+```
+
+Upload `secrets.sarif` as a GitHub Code Scanning result to surface findings
+directly in pull request reviews.
+
+**Example — JSON output for CI pipelines**
+
+```bash
+spanforge secrets scan .env --format json
+```
+
+```json
+{
+  "detected": true,
+  "auto_blocked": true,
+  "hits": [
+    {
+      "secret_type": "AWS_ACCESS_KEY",
+      "start": 42,
+      "end": 62,
+      "confidence": 0.97,
+      "redacted_value": "[REDACTED:AWS_ACCESS_KEY]"
+    }
+  ]
+}
+```
+
+**Example — redact mode**
+
+```bash
+spanforge secrets scan secrets.txt --redact
+# Prints file contents with secrets replaced by [REDACTED:TYPE]
+```
+
+**Pre-commit hook**
+
+Add to `.pre-commit-config.yaml`:
+
+```yaml
+repos:
+  - repo: local
+    hooks:
+      - id: spanforge-secrets-scan
+        name: SpanForge Secrets Scan
+        entry: spanforge secrets scan
+        language: python
+        types: [text]
+        stages: [pre-commit, pre-push]
+```
+
+Or use the built-in hook from `.pre-commit-hooks.yaml`:
+
+```yaml
+repos:
+  - repo: https://github.com/veerarag1973/spanforge
+    rev: v2.0.3
+    hooks:
+      - id: spanforge-secrets-scan
+```
+
+**Detected secret types**
+
+| Type | Auto-blocked | Notes |
+|------|:-----------:|-------|
+| `BEARER_TOKEN` | ✅ | `Authorization: Bearer …` header values |
+| `AWS_ACCESS_KEY` | ✅ | `AKIA…` 20-char keys |
+| `GCP_SERVICE_ACCOUNT` | ✅ | `"type": "service_account"` JSON blobs |
+| `PEM_PRIVATE_KEY` | ✅ | `-----BEGIN … PRIVATE KEY-----` blocks |
+| `SSH_PRIVATE_KEY` | ✅ | `-----BEGIN OPENSSH PRIVATE KEY-----` blocks |
+| `HC_API_KEY` | ✅ | HallucCheck API key pattern |
+| `SF_API_KEY` | ✅ | SpanForge API key pattern |
+| `GITHUB_PAT` | ✅ | `ghp_…` / `github_pat_…` tokens |
+| `STRIPE_LIVE_KEY` | ✅ | `sk_live_…` keys |
+| `NPM_TOKEN` | ✅ | `//registry.npmjs.org/:_authToken=…` |
+| `GENERIC_JWT` | — | `eyJ…` base64-encoded JWT tokens |
+| `GOOGLE_API_KEY` | — | `AIza…` keys |
+| `SLACK_TOKEN` | — | `xox[bpoas]-…` tokens |
+| `TWILIO_ACCOUNT_SID` | — | `AC…` SIDs |
+| `SENDGRID_API_KEY` | — | `SG.…` keys |
+| `AZURE_SAS_TOKEN` | — | `sig=…` URL parameters |
+| `TERRAFORM_CLOUD_TOKEN` | — | `…atlasv1.…` tokens |
+| `HASHICORP_VAULT_TOKEN` | — | `hvs.…` / `s.…` tokens |
+| `GENERIC_SECRET` | — | `secret=`, `password=`, `api_key=` patterns |
+| `OPENAI_API_KEY` | — | `sk-…` OpenAI keys |
+
+---
+
+## `gate`
+
+CI/CD gate pipeline commands. Evaluate quality gates, run YAML pipelines, and
+enforce release readiness checks before deployment.
+
+### `gate run`
+
+Parse and execute a YAML gate pipeline file. Gates with `on_fail: block`
+that evaluate to `FAIL` exit with code `1`. Artifacts are written to the
+configured artifact directory.
+
+**Usage**
+
+```bash
+spanforge gate run GATE_YAML [--context KEY=VALUE ...] [--artifact-dir DIR] [--format {text,json}]
+```
+
+**Positional arguments**
+
+| Argument | Description |
+|----------|-------------|
+| `GATE_YAML` | Path to the gate pipeline YAML file. |
+
+**Options**
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `--context` | *(none)* | One or more `KEY=VALUE` context variables for `${var}` substitution in gate commands. Repeatable. |
+| `--artifact-dir` | `SPANFORGE_GATE_ARTIFACT_DIR` | Override the artifact storage directory. |
+| `--format` | `text` | Output format: `text` (human-readable) or `json`. |
+
+**Exit codes**
+
+| Code | Meaning |
+|------|---------|
+| `0` | All gates passed (or warned). |
+| `1` | One or more blocking gates failed. |
+| `2` | Usage error, file not found, or invalid YAML schema. |
+
+**Example — passing**
+
+```bash
+$ spanforge gate run gates/ci-pipeline.yaml
+Running gate pipeline: gates/ci-pipeline.yaml
+  [PASS] schema-validation   (4.7 ms)
+  [PASS] secrets-scan        (12.3 ms)
+  [WARN] dependency-audit    (45.1 ms)  cve_count=1 severity_max=MEDIUM
+  [PASS] perf-regression     (8.9 ms)
+  [PASS] prri-check          (2.1 ms)   prri_score=28.5 verdict=GREEN
+  [PASS] trust-gate          (6.4 ms)
+Result: 5 passed, 0 failed, 1 warned
+```
+
+**Example — with context variables**
+
+```bash
+spanforge gate run gates/ci-pipeline.yaml --context project_id=my-agent --context env=staging
+```
+
+**Example — JSON output for CI dashboards**
+
+```bash
+spanforge gate run gates/ci-pipeline.yaml --format json | python -m json.tool
+```
+
+**Using in CI (GitHub Actions)**
+
+```yaml
+- name: Run SpanForge gate pipeline
+  env:
+    SPANFORGE_GATE_ARTIFACT_DIR: .sf-gate/artifacts
+    SPANFORGE_GATE_PRRI_RED_THRESHOLD: "65"
+  run: spanforge gate run gates/ci-pipeline.yaml
+```
+
+---
+
+### `gate evaluate`
+
+Evaluate a single named gate against a payload file or standard input.
+
+**Usage**
+
+```bash
+spanforge gate evaluate GATE_ID [--payload FILE] [--project-id ID] [--format {text,json}]
+```
+
+**Positional arguments**
+
+| Argument | Description |
+|----------|-------------|
+| `GATE_ID` | Identifier for the gate to evaluate. |
+
+**Options**
+
+| Option | Description |
+|--------|-------------|
+| `--payload` | Path to a JSON file to evaluate (default: reads from stdin). |
+| `--project-id` | Project scope for artifact isolation. |
+| `--format` | Output format: `text` (default) or `json`. |
+
+**Exit codes**
+
+| Code | Meaning |
+|------|---------|
+| `0` | Gate passed or warned. |
+| `1` | Gate failed. |
+| `2` | Usage error or gate ID not found. |
+
+**Example**
+
+```bash
+$ spanforge gate evaluate schema-validation --payload event.json
+[PASS] schema-validation  (4.2 ms)  valid=true violations=[]
+```
+
+---
+
+### `gate trust-gate`
+
+Run the composite trust gate check against live telemetry windows. Checks
+HRI critical rate, PII detection count, and secrets detection count. Blocks
+(exit code `1`) if any threshold is exceeded.
+
+**Usage**
+
+```bash
+spanforge gate trust-gate [--project-id ID] [--format {text,json}]
+```
+
+**Options**
+
+| Option | Description |
+|--------|-------------|
+| `--project-id` | Project scope for the trust gate check. |
+| `--format` | Output format: `text` (default) or `json`. |
+
+**Exit codes**
+
+| Code | Meaning |
+|------|---------|
+| `0` | Trust gate passed — all thresholds within bounds. |
+| `1` | Trust gate blocked — one or more thresholds exceeded. |
+
+**Example — passing**
+
+```bash
+$ spanforge gate trust-gate --project-id my-agent
+[PASS] trust-gate
+  HRI critical rate:    0.012  (threshold: 0.050)  OK
+  PII detections (24h): 0                           OK
+  Secrets detections:   0                           OK
+```
+
+**Example — blocked**
+
+```bash
+$ spanforge gate trust-gate --project-id my-agent
+[FAIL] trust-gate
+  HRI critical rate:    0.073  (threshold: 0.050)  EXCEEDED
+  PII detections (24h): 3                           EXCEEDED
+BLOCKED: 2 trust failure(s)
+```
+
+---
+
+## `config`
+
+Configuration management commands for `.halluccheck.toml` validation.
+
+### `config validate`
+
+Validate a `.halluccheck.toml` config file against the v6.0 schema.
+Auto-discovers the file from the current directory (or parent directories)
+when no explicit path is given.
+
+**Usage**
+
+```bash
+spanforge config validate [--file PATH]
+```
+
+**Options**
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `--file` | *(auto-discover)* | Path to a `.halluccheck.toml` file. When omitted, searches CWD and parent directories. |
+
+**Exit codes**
+
+| Code | Meaning |
+|------|---------|
+| `0` | Config is valid (or no file found — defaults are valid). |
+| `1` | Validation errors found (schema violations, invalid keys, bad types). |
+| `2` | File could not be parsed (I/O error or TOML syntax error). |
+
+**Example — valid config**
+
+```bash
+$ spanforge config validate
+[✓] Config is valid: .halluccheck.toml
+```
+
+**Example — explicit path**
+
+```bash
+$ spanforge config validate --file config/staging.toml
+[✓] Config is valid: config/staging.toml
+```
+
+**Example — validation errors**
+
+```bash
+$ spanforge config validate --file bad.toml
+Config validation failed (2 error(s)):
+  - Unknown key 'spanforge.foo' (not in v6.0 schema)
+  - 'pii.threshold' must be a float between 0.0 and 1.0, got '2.5'
+```
+
+**Example — parse error**
+
+```bash
+$ spanforge config validate --file broken.toml
+error: Failed to parse broken.toml: Invalid TOML at line 5
+```
+
+**Using in CI (GitHub Actions)**
+
+```yaml
+- name: Validate SpanForge config
+  run: spanforge config validate --file .halluccheck.toml
+```
+
+---
+
+## `trust`
+
+T.R.U.S.T. scorecard and trust gate commands (Phase 10).
+
+### `trust scorecard`
+
+Display the five-pillar T.R.U.S.T. scorecard as a text table.
+
+**Usage**
+
+```bash
+spanforge trust scorecard [--project-id PID]
+```
+
+**Options**
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `--project-id` | `SPANFORGE_PROJECT_ID` or `"default"` | Project to compute the scorecard for. |
+
+**Exit codes**
+
+| Code | Meaning |
+|------|---------|
+| `0` | Scorecard displayed successfully. |
+| `1` | Error computing scorecard. |
+
+**Example**
+
+```bash
+$ spanforge trust scorecard --project-id my-agent
+╔══════════════════════════════════════════════════╗
+║          T.R.U.S.T. Scorecard — my-agent         ║
+╠══════════════╦═══════╦═══════╦═══════════════════╣
+║ Dimension    ║ Score ║ Trend ║ Last Updated       ║
+╠══════════════╬═══════╬═══════╬═══════════════════╣
+║ Transparency ║  85.0 ║  up   ║ 2025-07-13T10:00Z ║
+║ Reliability  ║  90.0 ║  up   ║ 2025-07-13T09:45Z ║
+║ UserTrust    ║  78.0 ║ flat  ║ 2025-07-13T08:30Z ║
+║ Security     ║  92.0 ║  up   ║ 2025-07-13T10:00Z ║
+║ Traceability ║  88.0 ║  up   ║ 2025-07-13T09:00Z ║
+╠══════════════╬═══════╩═══════╩═══════════════════╣
+║ Overall      ║  86.6  [green]                     ║
+╚══════════════╩═══════════════════════════════════╝
+```
+
+---
+
+### `trust badge`
+
+Write the T.R.U.S.T. SVG badge to stdout.
+
+**Usage**
+
+```bash
+spanforge trust badge [--project-id PID]
+```
+
+**Options**
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `--project-id` | `SPANFORGE_PROJECT_ID` or `"default"` | Project to generate the badge for. |
+
+**Exit codes**
+
+| Code | Meaning |
+|------|---------|
+| `0` | Badge written to stdout. |
+| `1` | Error computing badge. |
+
+**Example**
+
+```bash
+$ spanforge trust badge --project-id my-agent > trust-badge.svg
+```
+
+---
+
+### `trust gate`
+
+Run the composite trust gate. Exits with code 1 if the overall T.R.U.S.T.
+score falls in the red band (< 60).
+
+**Usage**
+
+```bash
+spanforge trust gate [--project-id PID]
+```
+
+**Options**
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `--project-id` | `SPANFORGE_PROJECT_ID` or `"default"` | Project to evaluate the trust gate for. |
+
+**Exit codes**
+
+| Code | Meaning |
+|------|---------|
+| `0` | Trust gate passed (score ≥ 60). |
+| `1` | Trust gate failed (score < 60 — red band). |
+
+**Example — passing gate**
+
+```bash
+$ spanforge trust gate --project-id my-agent
+T.R.U.S.T. gate PASSED: 86.6 [green]
+```
+
+**Example — failing gate**
+
+```bash
+$ spanforge trust gate --project-id my-agent
+T.R.U.S.T. gate FAILED: 42.0 [red]
+```
+
+**Using in CI (GitHub Actions)**
+
+```yaml
+- name: T.R.U.S.T. gate check
+  run: spanforge trust gate --project-id ${{ env.PROJECT_ID }}
+```
+
+---
+
+## `enterprise`
+
+Enterprise multi-tenancy and operations commands (Phase 11).
+
+### `enterprise status`
+
+Display the enterprise subsystem status including tenants, encryption, and air-gap configuration.
+
+**Usage**
+
+```bash
+spanforge enterprise status [--json]
+```
+
+**Options**
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `--json` | `false` | Output as JSON instead of text table. |
+
+**Exit codes**
+
+| Code | Meaning |
+|------|---------|
+| `0` | Status displayed successfully. |
+| `1` | Error retrieving status. |
+
+---
+
+### `enterprise register-tenant`
+
+Register a new tenant for multi-tenant isolation.
+
+**Usage**
+
+```bash
+spanforge enterprise register-tenant --org-id ORG --project-id PROJ [--region REGION]
+```
+
+**Options**
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `--org-id` | *(required)* | Organisation identifier. |
+| `--project-id` | *(required)* | Project identifier within the org. |
+| `--region` | `"us"` | Data residency region. |
+
+**Exit codes**
+
+| Code | Meaning |
+|------|---------|
+| `0` | Tenant registered successfully. |
+| `1` | Registration error (duplicate, invalid config). |
+
+---
+
+### `enterprise list-tenants`
+
+List all registered tenants.
+
+**Usage**
+
+```bash
+spanforge enterprise list-tenants [--json]
+```
+
+---
+
+### `enterprise encrypt-config`
+
+Encrypt a configuration value using the enterprise encryption engine.
+
+**Usage**
+
+```bash
+spanforge enterprise encrypt-config --value VALUE
+```
+
+---
+
+### `enterprise health`
+
+Run enterprise health probes (/healthz and /readyz).
+
+**Usage**
+
+```bash
+spanforge enterprise health [--json]
+```
+
+**Exit codes**
+
+| Code | Meaning |
+|------|---------|
+| `0` | All probes healthy. |
+| `1` | One or more probes unhealthy. |
+
+---
+
+## `security`
+
+Supply-chain security and OWASP audit commands (Phase 11).
+
+### `security owasp`
+
+Run an OWASP Top 10 for LLM Applications audit.
+
+**Usage**
+
+```bash
+spanforge security owasp [--json]
+```
+
+**Exit codes**
+
+| Code | Meaning |
+|------|---------|
+| `0` | Audit completed, results displayed. |
+| `1` | Audit error. |
+
+---
+
+### `security threat-model`
+
+Generate a STRIDE threat model for the current project.
+
+**Usage**
+
+```bash
+spanforge security threat-model [--json]
+```
+
+---
+
+### `security scan`
+
+Run a full security scan (dependency vulnerabilities + static analysis).
+
+**Usage**
+
+```bash
+spanforge security scan [--json]
+```
+
+**Exit codes**
+
+| Code | Meaning |
+|------|---------|
+| `0` | No critical findings. |
+| `1` | Critical or high findings detected. |
+
+---
+
+### `security audit-logs`
+
+Check for secrets leaked in log files.
+
+**Usage**
+
+```bash
+spanforge security audit-logs --path PATH [--json]
+```
+
+**Options**
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `--path` | *(required)* | Path to log file or directory to scan. |
+
+**Exit codes**
+
+| Code | Meaning |
+|------|---------|
+| `0` | No secrets found in logs. |
+| `1` | Secrets detected in log output. |
+
+---
+
+## `doctor`
+
+Full environment diagnostic (Phase 12, DX-005).
+
+**Usage**
+
+```bash
+spanforge doctor
+```
+
+Checks performed:
+
+1. **Configuration validity** — Verifies `spanforge.toml` or default settings.
+2. **Sandbox mode detection** — Warns if sandbox mode is active.
+3. **Per-service health** — Pings each SDK client (`sf_pii`, `sf_audit`, `sf_observe`, `sf_cec`, `sf_gate`, `sf_identity`, `sf_secrets`, `sf_alert`, `sf_config`, `sf_trust`, `sf_security`).
+4. **PII engine** — Confirms entity types are loaded.
+5. **Connectivity** — Tests reachability of configured endpoints.
+
+**Exit codes**
+
+| Code | Meaning |
+|------|---------|
+| `0` | All checks passed. |
+| `1` | One or more checks failed. |
+
+**Example**
+
+```bash
+$ spanforge doctor
+✔ Configuration valid (spanforge.toml)
+⚠ Sandbox mode is ACTIVE — no production side effects
+✔ sf_pii .............. healthy (local mode)
+✔ sf_audit ............ healthy (local mode)
+✔ sf_observe .......... healthy (local mode)
+✔ sf_cec .............. healthy (local mode)
+✔ sf_gate ............. healthy (local mode)
+✔ sf_identity ......... healthy (local mode)
+✔ sf_secrets .......... healthy (local mode)
+✔ sf_alert ............ healthy (local mode)
+✔ sf_config ........... healthy (local mode)
+✔ sf_trust ............ healthy (local mode)
+✔ sf_security ......... healthy (local mode)
+✔ PII entity types loaded: 8
+✔ Endpoint connectivity: ok
+
+Result: 13 passed, 1 warning, 0 failed
+```
+
+---
+
+## `lint` (module entry-point)
+
+AST-based instrumentation linter (v1.0.7+, Phase F). Detects missing fields,
+bare PII strings, unknown event types, and LLM/agent context violations before
+they reach the export pipeline.
+
+> **Note:** `spanforge lint` is invoked via the Python module entry-point
+> (`python -m spanforge.lint`), not as a `spanforge` sub-command.
+
+**Usage**
+
+```bash
+# Check the current directory (recursively)
+python -m spanforge.lint .
+
+# Check specific files or directories
+python -m spanforge.lint myapp/ src/agents/
+
+# Check a single file
+python -m spanforge.lint myapp/pipeline.py
+```
+
+**Exit codes**
+
+| Code | Meaning |
+|------|---------|
+| `0` | No AO-errors found — clean. |
+| `1` | One or more AO-errors found. |
+| `2` | Internal error (bad path, permission denied, etc.). |
+
+**Error codes**
+
+| Code | Description |
+|------|-------------|
+| `AO000` | Syntax error — file could not be parsed. All other checks skipped. |
+| `AO001` | `Event()` missing required field (`event_type`, `source`, or `payload`). |
+| `AO002` | Identity field (`actor_id`, `session_id`, `user_id`) receives a bare `str` literal. |
+| `AO003` | `event_type` string literal is not a registered `EventType` value. |
+| `AO004` | LLM provider call outside a `tracer.span()` or `agent_run()` context. |
+| `AO005` | `emit_span()` / `emit_agent_*()` called outside `agent_run()` / `agent_step()`. |
+
+**Example output**
+
+```bash
+$ python -m spanforge.lint myapp/
+myapp/pipeline.py:17:1  AO001 Event() is missing required field 'payload'
+myapp/pipeline.py:42:12 AO002 actor_id receives a bare str literal; wrap with Redactable()
+myapp/pipeline.py:53:5  AO004 LLM provider call outside tracer span context
+3 errors in 1 file.
+```
+
+**CI integration**
+
+```yaml
+# GitHub Actions
+- name: spanforge lint
+  run: python -m spanforge.lint myapp/ src/
+```
+
+```makefile
+# Makefile
+lint:
+	ruff check .
+	python -m spanforge.lint myapp/
+```
+
+**flake8 / ruff plugin**
+
+Once `spanforge` is installed, AO-codes also appear in `flake8` and `ruff`
+output automatically. No extra configuration is required.
+
+**See also:** [Linting user guide](user_guide/linting.md), [API reference](api/lint.md)

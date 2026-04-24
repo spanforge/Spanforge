@@ -4,9 +4,9 @@ import { getAllPosts } from '@/lib/blog'
 import styles from './page.module.css'
 
 export const metadata = {
-  title: 'Blog — SpanForge',
+  title: 'Blog - SpanForge',
   description:
-    'Research and analysis on AI delivery — governance, observability, production operations, and the real cost of cutting corners.',
+    'Research and analysis on AI delivery, governance, observability, production operations, and the real cost of cutting corners.',
 }
 
 export default async function BlogPage() {
@@ -23,7 +23,7 @@ export default async function BlogPage() {
             Production AI, honestly.
           </h1>
           <p className={styles.heroSub}>
-            Research-grounded writing on the hard parts of production AI — governance,
+            Research-grounded writing on the hard parts of production AI: governance,
             observability, decision-making under uncertainty, and the real cost
             of cutting corners. No hype. No inflated benchmarks.
           </p>
@@ -43,13 +43,13 @@ export default async function BlogPage() {
         <div className="container">
           {rest.length === 0 && !featured ? (
             <div className={styles.empty}>
-              <p>Articles coming soon. <a href="/platform">Explore the platform</a> while you wait.</p>
+              <p>Articles coming soon. <Link href="/spanforgecore">Explore the platform</Link> while you wait.</p>
             </div>
           ) : rest.length > 0 ? (
             <>
               <p className={styles.sectionLabel}>All articles</p>
               <div className={styles.grid}>
-                {rest.map(post => (
+                {rest.map((post) => (
                   <BlogCard key={post.slug} post={post} />
                 ))}
               </div>
@@ -58,14 +58,13 @@ export default async function BlogPage() {
         </div>
       </section>
 
-      {/* Editorial CTA */}
       <section className={styles.editorialCta}>
         <div className={`container ${styles.editorialCtaInner}`}>
           <div>
             <span className={styles.editorialCtaEyebrow}>Talk to SpanForge</span>
             <p className={styles.editorialCtaTitle}>Bring the methodology to your team.</p>
           </div>
-          <Link href="/contact" className="btn-primary">Request a Briefing →</Link>
+          <Link href="/contact" className="btn-primary">Request a briefing</Link>
         </div>
       </section>
     </>

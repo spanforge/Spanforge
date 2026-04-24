@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import Link from 'next/link'
 import { getResourceBySlug, getAllResourceSlugs } from '@/lib/resources'
+import { RESOURCE_TYPE_THEME } from '@/lib/ui-theme'
 import styles from './page.module.css'
 
 export async function generateStaticParams() {
@@ -51,18 +52,11 @@ function buildResourceJsonLd(resource) {
   }
 }
 
-const TYPE_META = {
-  whitepaper:       { label: 'Whitepaper',     color: '#1565C0', bg: 'rgba(21,101,192,0.1)'  },
-  'research-paper': { label: 'Research Paper', color: '#6A1B9A', bg: 'rgba(106,27,154,0.1)' },
-  'mini-book':      { label: 'Mini Book',      color: '#1B5E20', bg: 'rgba(27,94,32,0.1)'   },
-  guide:            { label: 'Guide',          color: '#E65100', bg: 'rgba(230,81,0,0.1)'   },
-  spec:             { label: 'Spec',           color: '#B71C1C', bg: 'rgba(183,28,28,0.1)'  },
-  report:           { label: 'Report',         color: '#37474F', bg: 'rgba(55,71,79,0.1)'   },
-}
-
 function formatDate(dateStr) {
   return new Date(dateStr).toLocaleDateString('en-US', {
-    year: 'numeric', month: 'long', day: 'numeric',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
   })
 }
 
@@ -70,17 +64,16 @@ export default async function ResourcePage({ params }) {
   const resource = await getResourceBySlug(params.slug)
   if (!resource) notFound()
 
-  const typeMeta = TYPE_META[resource.type] || TYPE_META.guide
+  const typeMeta = RESOURCE_TYPE_THEME[resource.type] || RESOURCE_TYPE_THEME.guide
   const jsonLd = buildResourceJsonLd(resource)
 
   return (
     <>
-      {/* Resource JSON-LD */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      {/* Resource header */}
+
       <header className={styles.header}>
         <div className="container">
           <div className={styles.meta}>
@@ -114,13 +107,12 @@ export default async function ResourcePage({ params }) {
               rel="noopener noreferrer"
               download
             >
-              ↓ Download PDF ({resource.fileSize || 'PDF'})
+              Download PDF ({resource.fileSize || 'PDF'})
             </a>
           )}
         </div>
       </header>
 
-      {/* Resource body */}
       <article className={styles.article}>
         <div className={`container ${styles.articleInner}`}>
           <div className={styles.prose}>
@@ -131,32 +123,30 @@ export default async function ResourcePage({ params }) {
         </div>
       </article>
 
-      {/* Back link */}
       <div className={styles.backWrap}>
         <div className="container">
-          <Link href="/resources" className={styles.backLink}>← Back to Library</Link>
+          <Link href="/resources" className={styles.backLink}>Back to Library</Link>
         </div>
       </div>
 
-      {/* Editorial footer — next steps */}
       <section className={styles.editorialFooter}>
         <div className={`container ${styles.editorialInner}`}>
           <div className={styles.editorialBlock}>
             <span className={styles.editorialEyebrow}>Explore more</span>
             <p className={styles.editorialTitle}>Browse the full research library</p>
-            <a href="/resources" className={styles.editorialLink}>See all resources →</a>
+            <Link href="/resources" className={styles.editorialLink}>See all resources</Link>
           </div>
           <div className={styles.editorialDivider} aria-hidden="true" />
           <div className={styles.editorialBlock}>
             <span className={styles.editorialEyebrow}>The methodology</span>
-            <p className={styles.editorialTitle}>See the five-phase lifecycle in full</p>
-            <a href="/platform" className={styles.editorialLink}>Explore the platform →</a>
+            <p className={styles.editorialTitle}>Explore the platform and SDK in one place</p>
+            <Link href="/spanforgecore" className={styles.editorialLink}>Explore the platform</Link>
           </div>
           <div className={styles.editorialDivider} aria-hidden="true" />
           <div className={styles.editorialBlock}>
             <span className={styles.editorialEyebrow}>Talk to SpanForge</span>
             <p className={styles.editorialTitle}>Request a briefing for your team</p>
-            <a href="/contact" className={styles.editorialLink}>Get in touch →</a>
+            <Link href="/contact" className={styles.editorialLink}>Get in touch</Link>
           </div>
         </div>
       </section>

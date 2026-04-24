@@ -1,132 +1,92 @@
-/* ToolCard.module.css */
-
 .card {
-  background: var(--surface);
-  border: 1px solid var(--rule);
-  border-radius: 4px;
-  padding: 1.5rem;
-  transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
-  position: relative;
-}
-.card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  background: var(--red);
-  opacity: 0;
-  border-radius: 4px 4px 0 0;
-  transition: opacity 0.2s;
-}
-.card:hover {
-  background: var(--surface-2);
-  border-color: var(--rule);
-}
-.card:hover::before {
-  opacity: 1;
+  gap: 0.8rem;
+  height: 100%;
+  padding: 1.25rem;
+  border-radius: 1.25rem;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbfd 100%);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.045);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.badge { align-self: flex-start; }
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 24px 50px rgba(15, 23, 42, 0.08);
+}
 
 .cardTopRow {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
   flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.7rem;
 }
 
-.inBuildBadge {
-  font-family: var(--font-dm-mono, monospace);
-  font-size: 0.62rem;
-  font-weight: 400;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: #f5a623;
-  background: rgba(245, 166, 35, 0.1);
-  border: 1px solid rgba(245, 166, 35, 0.25);
-  padding: 0.18rem 0.5rem;
-  border-radius: 3px;
-  white-space: nowrap;
-  flex-shrink: 0;
+.badge {
+  align-self: flex-start;
 }
 
-.name {
-  font-family: var(--font-dm-mono, monospace);
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--light);
-}
-.name code {
-  font-family: inherit;
-  font-size: inherit;
-  color: var(--light);
-}
-
-.desc {
-  font-family: var(--font-dm-sans, sans-serif);
-  font-size: 0.82rem;
-  color: var(--muted);
-  line-height: 1.6;
-  flex: 1;
-}
-
-/* Locked state */
-.locked {
-  align-items: center;
-  justify-content: center;
-  min-height: 110px;
-  opacity: 0.35;
-  cursor: not-allowed;
-  user-select: none;
-}
-.locked:hover { background: var(--surface); }
-.locked:hover::before { opacity: 0; }
-
-.lockIcon { color: var(--mid); }
-.lockedText {
-  font-family: var(--font-dm-mono, monospace);
-  font-size: 0.8rem;
-  color: var(--mid);
-}
+.availableBadge,
+.inBuildBadge,
+.viewDocs,
+.lockedText,
 .lockedSub {
-  font-family: var(--font-dm-sans, sans-serif);
-  font-size: 0.72rem;
-  color: var(--mid);
+  font-family: var(--font-dm-mono);
 }
 
-/* Clickable card variant (tool.hasPage) */
-.cardLink {
-  text-decoration: none;
-  cursor: pointer;
+.availableBadge,
+.inBuildBadge {
+  padding: 0.28rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.64rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .availableBadge {
-  font-family: var(--font-dm-mono, monospace);
-  font-size: 0.62rem;
-  font-weight: 400;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: #0e8a5a;
-  background: rgba(14, 138, 90, 0.1);
-  border: 1px solid rgba(14, 138, 90, 0.25);
-  padding: 0.18rem 0.5rem;
-  border-radius: 3px;
-  white-space: nowrap;
-  flex-shrink: 0;
+  background: rgba(20, 184, 166, 0.14);
+  color: #115e59;
+}
+
+.inBuildBadge {
+  background: rgba(245, 158, 11, 0.14);
+  color: #92400e;
+}
+
+.name {
+  color: var(--white);
+  font-size: 1.08rem;
+  line-height: 1.15;
+}
+
+.name code {
+  color: inherit;
+}
+
+.desc {
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.75;
+  flex: 1;
 }
 
 .viewDocs {
-  font-family: var(--font-dm-mono, monospace);
-  font-size: 0.75rem;
-  color: var(--red);
-  margin-top: auto;
-  padding-top: 0.5rem;
-  transition: color 0.15s;
+  color: var(--accent);
+  font-size: 0.76rem;
 }
-.cardLink:hover .viewDocs {
-  color: var(--red-light);
+
+.cardLink {
+  text-decoration: none;
 }
+
+.locked {
+  align-items: center;
+  justify-content: center;
+  min-height: 8rem;
+  opacity: 0.45;
+}
+
+.lockIcon { color: var(--mid); }
+.lockedText { color: var(--mid); }
+.lockedSub { color: var(--mid); font-size: 0.72rem; }

@@ -5,6 +5,26 @@ event-schema standard for compliance and governance of agentic AI systems. This 
 you through creating your first event, signing an audit chain, and exporting to
 OTLP — in under five minutes.
 
+> **Note — Local mode uses in-memory storage by default**
+>
+> When running without a `SPANFORGE_ENDPOINT`, all state (spans, audit records,
+> T.R.U.S.T. history) is in-memory and lost when the process exits. This is fine
+> for development and testing.
+>
+> **Persist locally with no extra dependencies — pick one:**
+>
+> ```python
+> # Option A: SQLite — queryable, single-file, zero deps (recommended for dev/staging)
+> spanforge.configure(exporter="sqlite", endpoint="./spanforge.db")
+>
+> # Option B: append-only JSONL — human-readable, easy to grep
+> spanforge.configure(exporter="jsonl", endpoint="./spanforge-events.jsonl")
+> ```
+>
+> For hosted, multi-session storage use the [Cloud tier](https://www.getspanforge.com)
+> or point `SPANFORGE_ENDPOINT` at your own server. See [Configuration](configuration.md)
+> for all options and the full persistence progression guide.
+
 ## Installation
 
 ```bash
@@ -163,6 +183,249 @@ for hit in result.hits:
 # pan: pan (sensitivity=high)
 ```
 
+### PII service SDK (Phase 3)
+
+The `spanforge.sdk.pii` module provides a rich, regulation-aware PII client
+backed by Presidio (with regex fallback).
+
+**Scan text:**
+
+```python
+from spanforge.sdk import sf_pii
+
+result = sf_pii.scan_text("Contact alice@example.com or call +1 555-867-5309")
+print(result.detected)         # True
+for entity in result.entities:
+    print(entity.entity_type, entity.score)  # EMAIL_ADDRESS 0.95
+```
+
+**Anonymise (replace with stable pseudonyms):**
+
+```python
+anon = sf_pii.anonymise(result)
+print(anon.anonymised_text)    # "Contact <EMAIL_ADDRESS_1> or call <PHONE_NUMBER_1>"
+```
+
+**Pipeline action (flag / redact / block):**
+
+```python
+from spanforge.sdk._exceptions import SFPIIBlockedError
+
+try:
+    sf_pii.apply_pipeline_action(result, action="block", threshold=0.80)
+except SFPIIBlockedError as exc:
+    print("Blocked:", exc.entity_types)  # ["EMAIL_ADDRESS", "PHONE_NUMBER"]
+```
+
+**GDPR Art.17 — right to erasure:**
+
+```python
+receipt = sf_pii.erase_subject(subject_id="user-42")
+print(receipt.fields_erased, receipt.receipt_id)
+```
+
+**CCPA DSAR — subject data export:**
+
+```python
+export = sf_pii.export_subject_data(subject_id="user-42")
+for field in export.fields:
+    print(field.field_path, field.pii_type)
+```
+
+**HIPAA safe harbor de-identification:**
+
+```python
+safe = sf_pii.safe_harbor_deidentify({"dob": "1980-01-15", "zip": "02139"})
+print(safe.original_field_count, safe.redacted_field_count)
+```
+
+**PIPL (China) entity types:**
+
+```python
+result = sf_pii.scan_text("身份证: 110101199003077516", language="zh")
+for e in result.entities:
+    print(e.entity_type)  # PIPL_NATIONAL_ID
+```
+
+See the full reference at [spanforge.sdk.pii](api/pii.md).
+
+### Audit service SDK (Phase 4)
+
+`spanforge.sdk.audit` provides tamper-evident HMAC-chained record storage,
+schema key enforcement, and regulatory compliance reporting.
+
+**Append an audit record:**
+
+```python
+from spanforge.sdk import sf_audit
+
+result = sf_audit.append(
+    {"score": 0.92, "model": "gpt-4o", "prompt_id": "p-001"},
+    schema_key="halluccheck.score.v1",
+)
+print(result.record_id)       # uuid4
+print(result.hmac)            # "hmac-sha256:<64 hex chars>"
+```
+
+**Query and verify chain integrity:**
+
+```python
+records = sf_audit.query(schema_key="halluccheck.score.v1", limit=500)
+chain = sf_audit.query(limit=1000)
+report = sf_audit.verify_chain(chain)
+assert report["valid"]
+```
+
+**T.R.U.S.T. scorecard:**
+
+```python
+scorecard = sf_audit.get_trust_scorecard(
+    from_dt="2026-01-01T00:00:00.000000Z",
+    to_dt="2026-12-31T23:59:59.999999Z",
+)
+print(scorecard.hallucination.score)   # 0–100
+print(scorecard.overall)
+```
+
+See the full reference at [spanforge.sdk.audit](api/audit.md).
+
+### Compliance Evidence Chain SDK (Phase 5)
+
+`spanforge.sdk.cec` assembles regulator-ready signed ZIP bundles with
+multi-framework clause mapping for EU AI Act, ISO 42001, NIST AI RMF,
+ISO 27001, and SOC 2.
+
+**Build a compliance bundle:**
+
+```python
+from spanforge.sdk import sf_cec
+
+result = sf_cec.build_bundle(
+    project_id="my-agent",
+    date_range=("2026-01-01", "2026-03-31"),
+    frameworks=["eu_ai_act", "soc2"],
+)
+print(result.zip_path)        # signed ZIP ready for auditors
+print(result.hmac_manifest)   # "hmac-sha256:<64 hex chars>"
+print(result.record_counts)   # {"score_records": 120, ...}
+```
+
+**Verify a bundle:**
+
+```python
+check = sf_cec.verify_bundle(result.zip_path)
+assert check.overall_valid, check.errors
+```
+
+**Generate a GDPR Art.28 DPA:**
+
+```python
+dpa = sf_cec.generate_dpa(
+    project_id="my-agent",
+    controller_details={"name": "Acme Corp", "address": "1 Main St"},
+    processor_details={"name": "SpanForge Inc", "address": "2 Cloud Way"},
+    subject_categories=["employees", "end-users"],
+    transfer_mechanisms=["SCCs"],
+    retention_period_days=2555,
+    law_of_contract="GDPR Art.28",
+)
+print(dpa.document_id)
+```
+
+See the full reference at [spanforge.sdk.cec](api/cec.md).
+
+### Observability SDK (Phase 6)
+
+`spanforge.sdk.observe` exports spans to multiple backends, stores annotations,
+and applies W3C TraceContext / OTel GenAI semantic conventions.
+
+**Emit a span for an LLM call:**
+
+```python
+from spanforge.sdk import sf_observe
+
+span_id = sf_observe.emit_span(
+    "chat.completion",
+    {
+        "gen_ai.system": "openai",
+        "gen_ai.request.model": "gpt-4o",
+        "gen_ai.usage.input_tokens": 512,
+        "gen_ai.usage.output_tokens": 64,
+    },
+)
+print(span_id)  # 16-hex span ID
+```
+
+**Add a deploy annotation and retrieve it:**
+
+```python
+annotation_id = sf_observe.add_annotation(
+    "model_deployed",
+    {"model": "gpt-4o", "environment": "production"},
+    project_id="my-project",
+)
+
+from datetime import datetime, timedelta, timezone
+now = datetime.now(timezone.utc)
+annotations = sf_observe.get_annotations(
+    "*",
+    (now - timedelta(hours=1)).isoformat(),
+    now.isoformat(),
+)
+print(len(annotations))  # 1
+```
+
+**Export to an external OTLP endpoint:**
+
+```python
+from spanforge.sdk import ReceiverConfig
+
+result = sf_observe.export_spans(
+    my_spans,
+    receiver_config=ReceiverConfig(
+        endpoint="https://otel.collector.example.com/v1/traces",
+        headers={"Authorization": "Bearer my-token"},
+        timeout_seconds=10.0,
+    ),
+)
+print(result.exported_count, result.backend)
+```
+
+**Select backend and sampler via environment variables:**
+
+```bash
+export SPANFORGE_OBSERVE_BACKEND=otlp
+export SPANFORGE_OBSERVE_SAMPLER=trace_id_ratio
+export SPANFORGE_OBSERVE_SAMPLE_RATE=0.1
+```
+
+See the full reference at [spanforge.sdk.observe](api/observe.md).
+
+
+
+`scan_payload()` also detects dates of birth and US street addresses out of the
+box — no extra patterns required:
+
+```python
+from spanforge.redact import scan_payload
+
+result = scan_payload({
+    "dob": "04/15/1990",
+    "home": "123 Maple Street",
+})
+for hit in result.hits:
+    print(f"{hit.pii_type}: {hit.path} (sensitivity={hit.sensitivity})")
+# date_of_birth: dob (sensitivity=high)
+# address: home (sensitivity=medium)
+```
+
+The `date_of_birth` detector recognises all major global formats: ISO
+(`YYYY-MM-DD`, `YYYY.MM.DD`), US month-first (`MM/DD/YYYY`, `MM.DD.YYYY`),
+day-first (UK/EU/Asia: `DD/MM/YYYY`, `DD.MM.YYYY`), and written-month forms
+(`15 Jan 2000`, `January 15, 2000`).  Calendar-invalid dates (e.g.
+`02/30/1990`, `31/04/1990`) and SSNs in reserved ranges (area `000`, `666`,
+`900–999`) are automatically filtered out to reduce false positives.
+
 ## Exporting events
 
 ```python
@@ -311,14 +574,134 @@ See the full [Linting user guide](user_guide/linting.md) and
 
 ---
 
+## Unified config & local fallback (new in 2.0.8)
+
+Bootstrap all SDK services from a single `.halluccheck.toml` file:
+
+```toml
+# .halluccheck.toml
+[spanforge]
+enabled    = true
+project_id = "my-agent"
+endpoint   = "https://api.spanforge.example.com"
+
+[spanforge.services]
+sf_pii     = true
+sf_secrets = true
+sf_audit   = true
+sf_observe = true
+
+[spanforge.local_fallback]
+enabled     = true
+max_retries = 3
+timeout_ms  = 2000
+```
+
+Load, validate, and use in Python:
+
+```python
+from spanforge.sdk import load_config_file, validate_config
+
+config = load_config_file()          # auto-discovers .halluccheck.toml
+errors = validate_config(config)     # [] when valid
+print(config.services.sf_pii)       # True
+print(config.local_fallback.enabled) # True
+```
+
+Or validate from the command line:
+
+```bash
+spanforge config validate
+# [✓] Config is valid: .halluccheck.toml
+```
+
+When a remote service is unavailable, fallback kicks in automatically:
+
+```python
+from spanforge.sdk import pii_fallback, secrets_fallback
+
+# Local regex PII scan — no network required
+result = pii_fallback("Contact alice@example.com")
+print(result["entities"])  # [{"type": "EMAIL", ...}]
+
+# Local secrets scan
+result = secrets_fallback("AKIA1234567890ABCDEF")
+print(result["clean"])     # False
+```
+
+The service registry tracks health for all services:
+
+```python
+from spanforge.sdk import ServiceRegistry
+
+reg = ServiceRegistry.get_instance()
+reg.run_startup_check()
+status = reg.status_response()
+# {"sf_pii": {"status": "up", "latency_ms": 45}, ...}
+```
+
+See the full [Configuration reference](configuration.md) and
+[CLI documentation](cli.md#config).
+
+---
+
+## Test with zero-network mocks (new in 2.0.11)
+
+The `spanforge.testing_mocks` module provides 11 mock clients that replace
+every SDK singleton — no network, no config, no side effects:
+
+```python
+from spanforge.testing_mocks import mock_all_services
+
+def test_my_pipeline():
+    with mock_all_services() as mocks:
+        # Your code calls sf_pii, sf_audit, sf_gate, etc. as usual
+        run_pipeline()
+
+        # Assert the right services were called
+        mocks["sf_pii"].assert_called("scan")
+        mocks["sf_audit"].assert_called("append")
+        mocks["sf_gate"].assert_called("evaluate")
+
+        # Check call counts
+        assert mocks["sf_observe"].call_count("emit_span") >= 1
+```
+
+Customise return values for edge-case testing:
+
+```python
+def test_gate_blocks():
+    with mock_all_services() as mocks:
+        mocks["sf_gate"].configure_response("evaluate", {
+            "verdict": "FAIL",
+            "message": "Budget exceeded",
+        })
+        result = run_pipeline()
+        assert result.blocked is True
+```
+
+Run `spanforge doctor` to verify your local environment is healthy:
+
+```bash
+spanforge doctor
+```
+
+See the full [Testing Mocks API reference](api/testing.md#spanforgetesting_mocks--mock-service-clients-phase-12).
+
+---
+
 ## Next steps
 
+- [Runtime Governance GA Guide](runtime-governance.md) — GA services, policy actions, replay/simulation, operator workflow, evidence export
+- [Runtime Governance Demo](demos/runtime-governance-demo.md) — runnable trace-to-evidence walkthrough
+- [Enterprise Evidence Demo](demos/enterprise-evidence-demo.md) — runnable enterprise packaging walkthrough
 - [User Guide](user_guide/index.md) — in-depth guide to all features
 - [Tracing API](user_guide/tracing.md) — `Trace`, `start_trace()`, async spans, `add_event()`
 - [Debugging & Visualization](user_guide/debugging.md) — `print_tree()`, `summary()`, `visualize()`
 - [Metrics & Analytics](user_guide/metrics.md) — `metrics.aggregate()`, `TraceStore`
 - [Semantic Cache](user_guide/cache.md) — `SemanticCache`, `@cached`, backends
 - [Linting & Static Analysis](user_guide/linting.md) — AO001–AO005, flake8 plugin, CI setup
+- [SSO & Identity](api/identity.md) — SAML 2.0, SCIM 2.0, OIDC, SSO session delegation (v2.0.13)
 - [API Reference](api/index.md) — full API reference
 - [Namespace Payload Catalogue](namespaces/index.md) — typed payload catalogue
 - [CLI](cli.md) — `spanforge check-compat` command

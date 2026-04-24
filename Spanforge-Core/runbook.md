@@ -22,8 +22,8 @@ Checks:
 
 ### HTTP
 ```bash
-curl http://localhost:8888/health
-curl http://localhost:8888/ready
+curl http://localhost:8888/healthz
+curl http://localhost:8888/readyz
 ```
 
 ---
@@ -102,6 +102,72 @@ Exit codes:
 
 ---
 
+## 5a. Secrets Scanning
+
+Scan source files, configuration files, or any text for credentials before
+they are committed or deployed.
+
+```bash
+# Scan a single file (text output)
+spanforge secrets scan config.env
+
+# JSON report (CI/CD pipelines)
+spanforge secrets scan src/settings.py --format json
+
+# SARIF output (GitHub Code Scanning)
+spanforge secrets scan . --format sarif > secrets.sarif
+
+# Redacted output (review without exposing values)
+spanforge secrets scan .env --redact
+```
+
+Exit codes:
+- `0` = no secrets detected
+- `1` = secrets detected (review required)
+- `2` = file error
+
+### Incident Response: Secret Detected in Source
+
+If `spanforge secrets scan` exits with code `1` or `SFSecretsBlockedError` is raised:
+
+1. **Do NOT commit or push** the affected file.
+2. **Identify the secret type** from the scan output — auto-blocked types
+   (`BEARER_TOKEN`, `AWS_ACCESS_KEY`, `GCP_SERVICE_ACCOUNT`, `PEM_PRIVATE_KEY`,
+   `SSH_PRIVATE_KEY`, `HC_API_KEY`, `SF_API_KEY`, `GITHUB_PAT`, `STRIPE_LIVE_KEY`,
+   `NPM_TOKEN`) require immediate credential rotation.
+3. **Rotate the credential** via the issuing service before proceeding.
+4. **Remove from history** if the secret was already committed:
+   ```bash
+   # Remove the file from git history (requires BFG or git-filter-repo)
+   git filter-repo --path config.env --invert-paths
+   # Force-push after team notification
+   git push --force-with-lease
+   ```
+5. **Add to allowlist** only if the value is a known test placeholder:
+   ```shell
+   export SPANFORGE_SECRETS_ALLOWLIST="YOUR_KEY_HERE,example_token"
+   ```
+
+### Pre-commit hook setup
+
+```yaml
+# .pre-commit-config.yaml
+repos:
+  - repo: https://github.com/veerarag1973/spanforge
+    rev: v2.0.3
+    hooks:
+      - id: spanforge-secrets-scan
+```
+
+Install and run:
+```bash
+pip install pre-commit
+pre-commit install
+pre-commit run spanforge-secrets-scan --all-files
+```
+
+---
+
 ## 6. Schema Migration
 
 ```bash
@@ -120,24 +186,115 @@ spanforge audit-chain audit_v2.jsonl
 ### Generate Evidence Package
 ```bash
 spanforge compliance generate \
-  --events-file audit.jsonl \
-  --org-id "org-prod" \
-  --org-secret "$SPANFORGE_SIGNING_KEY"
+  --model-id gpt-4o \
+  --framework eu_ai_act \
+  --from 2026-01-01 \
+  --to 2026-03-31 \
+  --events-file audit.jsonl
 ```
 
 ### Generate PDF Report
 ```bash
 spanforge compliance report \
+  --model-id gpt-4o \
+  --framework eu_ai_act \
+  --from 2026-01-01 \
+  --to 2026-03-31 \
   --events-file audit.jsonl \
   --format pdf \
   --sign \
-  --output compliance_q1.pdf
+  --output reports
 ```
 
 ### Validate Attestation
 ```bash
-spanforge compliance validate-attestation audit.jsonl
+spanforge compliance validate-attestation reports/eu_ai_act_gpt-4o_2026-01-01_2026-03-31_attestation.json
 ```
+
+---
+
+## 7a. sf-audit SDK Operations (Phase 4)
+
+### Status check
+
+```python
+from spanforge.sdk import sf_audit
+
+status = sf_audit.get_status()
+print(status.status)         # "ok" | "degraded"
+print(status.backend)        # "local" | "s3" | "azure" | "gcs" | "r2"
+print(status.record_count)
+print(status.chain_length)
+print(status.last_record_at)
+```
+
+### Verify chain integrity (SDK)
+
+```python
+records = sf_audit.query(limit=10000)
+report = sf_audit.verify_chain(records)
+
+if not report["valid"]:
+    print(f"Tampered: {report['tampered_count']} records")
+    print(f"First tampered record_id: {report['first_tampered']}")
+    print(f"Sequence gaps at positions: {report['gaps']}")
+```
+
+### Export audit records
+
+```python
+# JSONL export for long-term archival
+data = sf_audit.export(format="jsonl", compress=True)
+with open("audit_export.jsonl.gz", "wb") as f:
+    f.write(data)
+```
+
+### Generate GDPR Article 30 record
+
+```python
+ropa = sf_audit.generate_article30_record(
+    controller_name="Acme Corp",
+    processor_name="SpanForge",
+    processing_purposes=["AI quality assurance"],
+    data_categories=["LLM outputs", "prompts"],
+    data_subjects=["end users"],
+    recipients=["DPO", "compliance team"],
+    third_country=False,
+    security_measures=["HMAC-SHA256 chain", "AES-256 at rest"],
+)
+import json
+print(json.dumps(ropa.__dict__, indent=2))
+```
+
+### T.R.U.S.T. scorecard
+
+```python
+scorecard = sf_audit.get_trust_scorecard(
+    from_dt="2026-01-01T00:00:00.000000Z",
+    to_dt="2026-12-31T23:59:59.999999Z",
+)
+for dim in ["hallucination", "pii_hygiene", "secrets_hygiene",
+            "gate_pass_rate", "compliance_posture"]:
+    d = getattr(scorecard, dim)
+    print(f"{dim}: {d.score:.1f} ({d.trend})")
+```
+
+### Incident: sf-audit chain tamper detected (SDK path)
+
+**Trigger:** `sf_audit.verify_chain()` returns `valid=False`.
+
+1. **Capture the report:**
+   ```python
+   report = sf_audit.verify_chain(sf_audit.query(limit=100000))
+   ```
+2. **Export for forensics before any writes:**
+   ```python
+   raw = sf_audit.export(format="jsonl")
+   with open(f"forensic_export_{int(time.time())}.jsonl", "wb") as f:
+       f.write(raw)
+   ```
+3. **Identify tampered records** from `report["first_tampered"]` and `report["gaps"]`.
+4. Follow §10 (Chain Tamper Incident Response) for investigation and remediation.
 
 ---
 
@@ -352,6 +509,377 @@ cp audit.jsonl audit.jsonl.bak
 
 ---
 
+## 12a. Configuration Validation (Phase 9)
+
+### Validate config before deployment
+
+Always validate `.halluccheck.toml` as part of your deployment checklist:
+
+```bash
+spanforge config validate --file .halluccheck.toml
+# Exit 0 = valid, 1 = validation errors, 2 = parse error
+```
+
+### Python validation in startup scripts
+
+```python
+from spanforge.sdk import load_config_file, validate_config_strict
+from spanforge.sdk._exceptions import SFConfigValidationError
+
+try:
+    config = load_config_file()
+    validate_config_strict(config)
+    print("[✓] Config valid")
+except SFConfigValidationError as exc:
+    print(f"Config invalid: {exc}")
+    sys.exit(1)
+```
+
+---
+
+## 12b. Service Registry Health (Phase 9)
+
+### Check service health at startup
+
+```python
+from spanforge.sdk import ServiceRegistry
+
+registry = ServiceRegistry.get_instance()
+registry.run_startup_check()
+status = registry.status_response()
+for svc, info in status.items():
+    print(f"  {svc}: {info['status']} ({info['latency_ms']} ms)")
+```
+
+### Monitor with background checker
+
+```python
+registry.start_background_checker()   # re-checks every 60 s in daemon thread
+# Status changes are logged at WARNING; recovery at INFO.
+# Call registry.stop_background_checker() on graceful shutdown.
+```
+
+### Incident: Service degraded or down
+
+**Trigger:** `status_response()` shows a service as `degraded` (latency > 2 s) or `down`.
+
+1. **Check logs** — Look for WARNING entries from `spanforge.sdk.registry`.
+2. **Verify endpoint** — Ensure `SPANFORGE_ENDPOINT` is correct and reachable.
+3. **Check fallback status** — If `local_fallback.enabled = true`, the SDK is
+   automatically using local fallback. No data loss occurs, but fidelity may be reduced.
+4. **Investigate root cause** — Network issue, service outage, or misconfigured API key.
+5. **Restart background checker** after resolution if it was stopped:
+   ```python
+   registry.start_background_checker()
+   ```
+
+### Incident: SFStartupError raised
+
+**Trigger:** `run_startup_check()` raises `SFStartupError` because a service is
+`down` and `local_fallback.enabled = false`.
+
+1. **Enable local fallback** as a temporary measure:
+   ```toml
+   [spanforge.local_fallback]
+   enabled = true
+   ```
+2. **Or fix the service** — Check network connectivity and service health.
+3. **Re-run startup check** after resolution.
+
+---
+
+## 13. Enterprise Operations (Phase 11)
+
+### Enterprise health check
+
+```bash
+# CLI
+spanforge enterprise health
+
+# HTTP
+curl http://localhost:8888/v1/enterprise/health
+curl http://localhost:8888/healthz
+curl http://localhost:8888/readyz
+```
+
+### Register a new tenant
+
+```bash
+spanforge enterprise register-tenant \
+  --org-id acme \
+  --project-id agent-1 \
+  --region eu
+```
+
+### Check enterprise status
+
+```bash
+spanforge enterprise status --json
+```
+
+### Python API
+
+```python
+from spanforge.sdk import sf_enterprise
+
+# Register tenant
+sf_enterprise.register_tenant(org_id="acme", project_id="agent-1", region="eu")
+
+# List tenants
+tenants = sf_enterprise.list_tenants()
+
+# Health probe
+health = sf_enterprise.health()
+print(health.healthy, health.checks)
+```
+
+### Incident: SFIsolationError raised
+
+**Trigger:** Cross-tenant data access detected.
+
+1. **Check isolation scope** — Ensure all requests include the correct `org_id` and `project_id`.
+2. **Review tenant registry** — `spanforge enterprise list-tenants --json`
+3. **Audit logs** — Look for `SFIsolationError` entries.
+
+### Incident: SFAirGapError raised
+
+**Trigger:** Outbound network call attempted in air-gap mode.
+
+1. **Verify air-gap config** — `SPANFORGE_ENTERPRISE_AIRGAP=true` should be set intentionally.
+
+---
+
+## Environment Diagnostics (Phase 12)
+
+### spanforge doctor
+
+Run a full environment diagnostic:
+
+```bash
+spanforge doctor
+```
+
+Checks performed:
+- Configuration validity (`spanforge.toml` or defaults)
+- Sandbox mode detection
+- Per-service status (`sf_pii`, `sf_audit`, `sf_observe`, etc.)
+- PII engine entity types loaded
+- Connectivity to configured endpoints
+
+Exit codes:
+- `0` = all checks passed
+- `1` = one or more checks failed
+
+### Sandbox Mode
+
+Enable sandbox mode for safe experimentation (no production side effects):
+
+```toml
+# spanforge.toml
+[spanforge]
+sandbox = true
+```
+
+Or via environment:
+```bash
+export SPANFORGE_SANDBOX=true
+```
+
+When active, `spanforge doctor` displays a warning. All service calls route to
+in-memory storage.
+2. **Check local fallback** — Ensure local-only exporters are configured.
+
+---
+
+## 14. Security Operations (Phase 11)
+
+### OWASP audit
+
+```bash
+spanforge security owasp --json
+```
+
+### Dependency scan
+
+```bash
+spanforge security scan --json
+```
+
+### STRIDE threat model
+
+```bash
+spanforge security threat-model --json
+```
+
+### Check for secrets in logs
+
+```bash
+spanforge security audit-logs --path /var/log/myapp/ --json
+```
+
+### Python API
+
+```python
+from spanforge.sdk import sf_security
+
+# OWASP audit
+owasp = sf_security.run_owasp_audit()
+print(owasp.categories)
+print(owasp.pass_)
+
+# Full scan
+scan = sf_security.run_full_scan()
+print(f"Vulnerabilities: {len(scan.dependencies)}")
+print(f"Static findings: {len(scan.static_analysis)}")
+
+# Audit logs for secrets
+audit = sf_security.audit_logs_for_secrets("/var/log/myapp/")
+if audit.secrets_in_logs > 0:
+    print("ALERT: Secrets detected in logs!")
+```
+
+### Incident: Critical vulnerability found
+
+**Trigger:** `spanforge security scan` reports HIGH or CRITICAL vulnerabilities.
+
+1. **Review findings** — `spanforge security scan --json | jq '.vulnerabilities[] | select(.severity == "CRITICAL")'`
+2. **Update dependencies** — `pip install --upgrade <package>`
+3. **Re-scan** — Verify the fix with `spanforge security scan`.
+4. **Document** — Add to the audit trail.
+
+---
+
+## 15. CEC Bundle Management (Phase 5 / 2.0.13)
+
+### Build a compliance evidence bundle
+
+```bash
+spanforge compliance generate \
+  --events-file audit.jsonl \
+  --org-id "org-prod" \
+  --org-secret "$SPANFORGE_SIGNING_KEY" \
+  --output-dir /tmp/bundles
+```
+
+Or via the SDK:
+
+```python
+from spanforge.sdk import sf_cec
+
+result = sf_cec.build_bundle(
+    project_id="proj-abc123",
+    org_id="org-prod",
+    output_dir="/tmp/bundles",
+)
+print(result.bundle_id)       # "cec-01JXXXXXXXXXXXXXXXXXX"
+print(result.download_url)    # file:// URI
+print(result.expires_at)      # UTC expiry (+24 h default)
+```
+
+### Retrieve a bundle from the session registry
+
+```python
+bundle = sf_cec.get_bundle("cec-01JXXXXXXXXXXXXXXXXXX")
+if bundle is None:
+    print("Bundle not found – was the process restarted?")
+```
+
+Or via HTTP (requires `spanforge serve`):
+
+```bash
+curl http://localhost:8888/v1/risk/cec/cec-01JXXXXXXXXXXXXXXXXXX
+```
+
+### Reissue an expired download URL
+
+Download URLs expire after 24 hours.  Extend without rebuilding the ZIP:
+
+```python
+refreshed = sf_cec.reissue_download_url("cec-01JXXXXXXXXXXXXXXXXXX")
+print(refreshed.expires_at)  # new UTC expiry (+24 h from now)
+```
+
+**Errors:** `SFCECBuildError` if the `bundle_id` is unknown or the ZIP file
+has been deleted from disk.  Rebuild the bundle in that case:
+
+```python
+from spanforge.sdk._exceptions import SFCECBuildError
+
+try:
+    refreshed = sf_cec.reissue_download_url(bundle_id)
+except SFCECBuildError:
+    # ZIP was deleted or process restarted — rebuild
+    result = sf_cec.build_bundle(project_id=..., org_id=..., output_dir=...)
+```
+
+### Verify bundle integrity
+
+```python
+report = sf_cec.verify_bundle(result.zip_path)
+if not report.overall_valid:
+    print("Bundle tampered:", report.errors)
+```
+
+---
+
+## 16. SSO Session Management (Phase 13 / 2.0.13)
+
+### Delegate an IdP session
+
+```python
+from spanforge.sdk import sf_identity
+
+session = sf_identity.sso_delegate_session(
+    idp_session_id="idp-session-xyz",
+    subject="user@example.com",
+    email="user@example.com",
+    project_id="proj-abc123",
+)
+print(session.session_id)    # spanforge session ID
+print(session.expires_at)    # UTC expiry
+```
+
+### Look up a delegated session
+
+```python
+session = sf_identity.sso_get_session(session.session_id)
+print(session.subject, session.project_id)
+```
+
+### Revoke an IdP session (all delegated sessions)
+
+```python
+revoked = sf_identity.sso_revoke_idp_session("idp-session-xyz")
+if revoked:
+    print("All delegated sessions for this IdP session have been revoked")
+```
+
+### SCIM user deprovisioning
+
+```python
+# Delete a single user
+sf_identity.scim_delete_user("user-id-from-idp")
+
+# Delete a group
+sf_identity.scim_delete_group("group-id-from-idp")
+```
+
+### Incident: Compromised IdP session
+
+1. **Revoke immediately:**
+   ```python
+   sf_identity.sso_revoke_idp_session("<idp_session_id>")
+   ```
+2. **Verify revocation** — `sso_get_session()` should now raise `SFIdentityError`.
+3. **Deprovision via SCIM** if user account is compromised:
+   ```python
+   sf_identity.scim_delete_user("<user_id>")
+   ```
+4. **Notify IdP** — Revoke the session/token in the originating IdP as well.
+5. **Audit** — Check spanforge audit log for activity during the exposure window.
+
+---
+
 ## Quick Reference
 
 | Task                      | Command                                         |
@@ -361,7 +889,155 @@ cp audit.jsonl audit.jsonl.bak
 | Rotate key                | `spanforge audit rotate-key <file>`              |
 | Erase subject             | `spanforge audit erase <file> --subject-id X`    |
 | Scan for PII              | `spanforge scan <file>`                          |
+| Scan for secrets          | `spanforge secrets scan <file>`                  |
 | Migrate schema            | `spanforge migrate <file>`                       |
 | Compliance report         | `spanforge compliance report --events-file <f>`  |
 | Start viewer              | `spanforge ui`                                   |
 | View config               | `spanforge dev config`                           |
+| Validate config           | `spanforge config validate`                      |
+| Service registry status   | `ServiceRegistry.get_instance().status_response()` |
+| Enterprise status          | `spanforge enterprise status`                     |
+| Enterprise health          | `spanforge enterprise health`                     |
+| Register tenant            | `spanforge enterprise register-tenant --org-id X --project-id Y` |
+| OWASP audit                | `spanforge security owasp`                        |
+| Security scan              | `spanforge security scan`                         |
+| Threat model               | `spanforge security threat-model`                 |
+| Audit logs for secrets     | `spanforge security audit-logs --path <dir>`      |
+| Build CEC bundle           | `sf_cec.build_bundle(project_id=..., org_id=...)` |
+| Get CEC bundle             | `sf_cec.get_bundle("<bundle_id>")`                |
+| Reissue download URL       | `sf_cec.reissue_download_url("<bundle_id>")`      |
+| Verify CEC bundle          | `sf_cec.verify_bundle("<zip_path>")`              |
+| Delegate SSO session       | `sf_identity.sso_delegate_session(...)`           |
+| Look up SSO session        | `sf_identity.sso_get_session("<session_id>")`     |
+| Revoke IdP session         | `sf_identity.sso_revoke_idp_session("<idp_id>")`  |
+| Deprovision SCIM user      | `sf_identity.scim_delete_user("<user_id>")`       |
+
+---
+
+## 5b. PII Service SDK Operations (Phase 3)
+
+The Phase 3 `spanforge.sdk.pii` module provides programmatic PII operations
+beyond what the CLI offers.  Use these in application code, Lambda functions,
+or background jobs.
+
+### Check service health
+
+```python
+from spanforge.sdk import sf_pii
+
+status = sf_pii.get_service_status()
+if status.status != "ok":
+    alert("sf-pii degraded: presidio_available=%s", status.presidio_available)
+```
+
+Or via HTTP:
+
+```bash
+curl http://localhost:8888/v1/spanforge/status | python -m json.tool
+```
+
+### Scan text via HTTP endpoint
+
+```bash
+curl -s -X POST http://localhost:8888/v1/scan/pii \
+  -H 'Content-Type: application/json' \
+  -d '{"text": "Contact alice@example.com"}'
+```
+
+Exit criteria:
+- `detected: false` — no PII found, safe to proceed
+- `detected: true`  — review `entities[]`; apply pipeline action as needed
+
+### Respond to `SFPIIBlockedError`
+
+Raised when `action=block` and PII above threshold is detected.
+
+**Triage:**
+
+```python
+from spanforge.sdk._exceptions import SFPIIBlockedError
+
+try:
+    pipeline_result = sf_pii.apply_pipeline_action(scan_result, action="block")
+except SFPIIBlockedError as exc:
+    # exc.entity_types — list of blocked PII types
+    # exc.count        — number of entities
+    logger.warning("PII_BLOCKED entity_types=%s count=%d", exc.entity_types, exc.count)
+    return http_422("PII_DETECTED", {"types": exc.entity_types})
+```
+
+**Playbook:**
+1. Log `exc.entity_types` and the request trace ID (not the raw text).
+2. Return a `422 Unprocessable Entity` to the caller with a `PII_DETECTED` error code.
+3. Do NOT log the raw text or matched spans.
+
+### GDPR Art.17 Erasure Request
+
+```python
+receipt = sf_pii.erase_subject(subject_id=user_id)
+# Store receipt.audit_log_entry in your compliance DB
+compliance_db.insert(receipt.audit_log_entry)
+print("Erased", receipt.fields_erased, "fields — receipt", receipt.receipt_id)
+```
+
+**SLA:** GDPR Art.17 requires erasure within 30 days of request.  Automate with a
+queue: on receipt of a deletion request, enqueue the `subject_id`, and a worker
+calls `sf_pii.erase_subject()` and stores the receipt.
+
+### CCPA DSAR Fulfillment
+
+```python
+export = sf_pii.export_subject_data(subject_id=user_id)
+# export.fields — list of DSARFieldEntry(field_path, pii_type, event_id)
+csv_rows = [(f.field_path, f.pii_type, f.event_id) for f in export.fields]
+send_dsar_response_email(user_email, csv_rows)
+```
+
+**SLA:** CCPA requires DSAR fulfillment within 45 days.
+
+### HIPAA Safe Harbor — de-identify training data
+
+Before fine-tuning a model on internal data:
+
+```python
+report = sf_pii.audit_training_data(training_records)
+if report.risk_score > 0.05:
+    raise ValueError(f"Training data risk score too high: {report.risk_score}")
+
+deidentified = [
+    sf_pii.safe_harbor_deidentify(row).redacted_record
+    for row in training_records
+]
+```
+
+### DPDP Consent Gate
+
+Handle missing consent for Indian personal data:
+
+```python
+from spanforge.sdk._exceptions import SFPIIDPDPConsentMissingError
+
+try:
+    sf_pii.scan_text(user_input)
+except SFPIIDPDPConsentMissingError as exc:
+    return redirect_to_consent_page(entity_types=exc.entity_types)
+```
+
+### PII Heatmap (operational monitoring)
+
+Run periodically to detect PII leakage trends:
+
+```python
+heatmap = sf_pii.generate_pii_heatmap(recent_events_payloads)
+for entry in heatmap:
+    metrics.gauge("pii.frequency", entry.frequency, tags={"type": entry.entity_type})
+```
+
+### Incident Response: PII detected in production
+
+1. Identify the entity types from `scan_text()` or `/v1/scan/pii`.
+2. Determine scope: `sf_pii.export_subject_data(subject_id)` to list affected fields.
+3. Notify the DPO if the entity count exceeds 100 records (GDPR Art.33 72-hour rule).
+4. Run `sf_pii.erase_subject()` for affected subjects and retain receipts.
+5. File the `ErasureReceipt.audit_log_entry` dicts to your immutable audit store.
+6. Re-run `sf_pii.audit_training_data()` if any training data may have been exposed.

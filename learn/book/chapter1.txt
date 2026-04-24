@@ -1,0 +1,214 @@
+Here is the **true final, print-ready version** of Chapter 1 with all micro-edits applied, wording sharpened, repetition reduced, and closing strengthened to a definitive, publication-quality standard.
+
+---
+
+# **Chapter 1 — Foundations: How SpanForge Works**
+
+Modern software systems are observable. Modern AI systems, despite appearing similar on the surface, are not—at least not with the same assumptions, tools, or guarantees. This distinction is where SpanForge begins.
+
+In a conventional service, a request produces a predictable outcome. Failures are explicit: an exception is thrown, a timeout occurs, a dependency returns an error. Observability systems are built around these properties. They capture logs, aggregate metrics, and trace execution paths under the assumption that behavior is largely deterministic and reproducible.
+
+AI systems violate these assumptions at a fundamental level. The same input may produce different outputs. A system may return a response within latency targets and still be factually incorrect. Failures are often semantic rather than operational: a hallucinated clause, a misleading summary, a subtly incorrect inference. Nothing crashes. Nothing alerts. And yet, something has gone wrong.
+
+SpanForge is designed to make such failures visible—not by inferring them after the fact, but by capturing system behavior in a form that can be reconstructed, inspected, and reasoned about.
+
+To understand how this is done, we begin with the primitives.
+
+---
+
+## **From Request to Reconstruction**
+
+Consider a contract analysis assistant. A user submits a request:
+
+> *“Summarize this contract and highlight potential risks.”*
+
+The system retrieves relevant clauses, constructs a prompt, invokes a language model, evaluates the response against guardrails, and returns a summary.
+
+Now consider a failure. The system returns a well-formed response, within acceptable latency, but includes a clause that does not exist in the source document. A hallucination has occurred.
+
+Operationally, nothing is wrong. The request succeeded. Metrics remain healthy. Yet the output is incorrect in a way that matters.
+
+The problem is no longer availability. It is **explainability**.
+
+SpanForge addresses this by transforming execution into structured events, connecting them through a trace, and preserving them in a form that can be queried later. The result is not just a record of activity, but a system that can answer a precise question:
+
+> *What happened—and why?*
+
+---
+
+## **The Event Envelope: Making Behavior Explicit**
+
+Every observable fact in SpanForge is captured inside a single structure: the **event envelope**.
+
+The envelope separates identity from meaning. Its metadata defines what the event is, when it occurred, and where it originated. Its payload describes what actually happened.
+
+Consider the moment the model generates a response:
+
+```json id="f4yq8m"
+{
+  "version": 1,
+  "event_type": "llm.completion.succeeded",
+  "event_id": "01HZY3X8K9FZ7M2Q8A1B4C5D6E",
+  "timestamp_ns": 1710000000000000000,
+  "environment": "prod",
+  "service": "contract-analyzer",
+  "payload": {
+    "model": "gpt-4",
+    "prompt_tokens": 820,
+    "completion_tokens": 210,
+    "latency_ms": 1340,
+    "response": "Summary: ..."
+  }
+}
+```
+
+This structure is deliberately strict.
+
+Each event is self-describing through its type. Every payload is validated against a known schema. If a required field is missing, the event is rejected. The result is data that can be trusted in production.
+
+The envelope is also versioned. New fields can be added without breaking existing consumers, while incompatible changes are introduced explicitly. This prevents silent schema drift—the most common cause of observability failure at scale.
+
+The envelope is not an implementation detail. It is the system’s source of truth.
+
+---
+
+## **Identity, Time, and Order**
+
+Every event envelope includes a ULID. At first glance, this appears to be a minor detail. In practice, it determines how the system scales.
+
+Unlike randomly generated identifiers, ULIDs encode time directly. When sorted lexicographically, they appear in chronological order. This allows time-based queries to be executed as simple range scans:
+
+> `WHERE event_id BETWEEN X AND Y`
+
+No secondary index is required.
+
+At millions of events per second, sorting or indexing on every query is not viable. ULIDs eliminate that cost by design.
+
+They also require no coordination. Each service generates identifiers independently. There is no central authority and no bottleneck. In distributed systems, this independence is essential.
+
+SpanForge extends ULIDs with monotonic ordering. When multiple events are created within the same millisecond, their identifiers preserve the exact sequence in which they occurred. This ensures that even high-frequency operations—such as rapid span completions—can be reconstructed precisely.
+
+---
+
+## **Traces and Spans: From Events to Structure**
+
+Event envelopes capture individual facts. Traces explain how those facts relate.
+
+A **trace** represents the full lifecycle of a request. A **span** represents a unit of work within that lifecycle.
+
+The earlier contract request produces a trace that can be represented as:
+
+```text id="l2d1mq"
+Trace: Contract Analysis Request
+│
+├── Span: Build Prompt
+│   └── attributes: {template: "risk_summary_v2"}
+│
+├── Span: Retrieval Query
+│   └── attributes: {index: "contracts_v1", top_k: 5}
+│
+├── Span: LLM Completion
+│   └── attributes: {model: "gpt-4", prompt_tokens: 820, latency_ms: 1340}
+│
+├── Span: Guardrail Check
+│   └── attributes: {policy: "hallucination_v1", result: "failed"}
+│
+└── Span: Response Formatting
+```
+
+Each span records timing and attributes. More importantly, each span is connected through a parent-child relationship, forming a structured execution tree.
+
+Context propagation ensures this structure persists across boundaries. As execution moves between threads or services, trace identifiers are carried forward, preserving continuity.
+
+When a span completes, it is deterministically converted into an event envelope. Every span produces exactly one envelope. This one-to-one mapping ensures that execution and recorded data remain perfectly aligned.
+
+Traces provide structure. Envelopes provide persistence. Together, they form a complete, queryable representation of execution.
+
+---
+
+## **Instrumentation: Capturing Without Friction**
+
+For tracing to be effective, it must be consistent and low-effort. SpanForge achieves this through a tracer abstraction and automatic instrumentation.
+
+A typical integration uses a decorator:
+
+```python id="2p3mx9"
+@trace(kind="LLM", name="llm.completion")
+def generate_summary(prompt):
+    return llm.generate(prompt)
+```
+
+When invoked, this function automatically creates a span, associates it with the active trace, records timing, and captures exceptions. Attributes such as token counts or latency can be attached without additional code.
+
+Instrumentation scales with the system, rather than becoming a maintenance burden.
+
+Lifecycle hooks provide controlled flexibility. They allow additional logic to be executed when spans are created or completed. For example, a hook might attach a user identifier, compute derived metrics, or enforce attribute requirements.
+
+---
+
+## **A Controlled Vocabulary of Events**
+
+Without constraints, observability data becomes inconsistent and difficult to query. SpanForge avoids this by defining a centralized event type registry.
+
+Each event type has a fixed schema and meaning. Examples include:
+
+* `llm.completion.started`
+* `llm.completion.succeeded`
+* `retrieval.vector.queried`
+* `guardrail.check.failed`
+
+This shared vocabulary ensures that data remains coherent across services and teams.
+
+The impact is immediate in practice. Without a registry, one system might emit `llm_response`, another `model_output`, and a third `completion_result`. Queries fail silently, analytics fragment, and meaning is lost.
+
+The registry eliminates this ambiguity. It replaces convention with contract.
+
+New event types can be introduced, but only through a controlled process. This preserves flexibility without sacrificing long-term coherence.
+
+---
+
+## **The Batch Exporter: Moving Data Efficiently**
+
+Once spans are converted into event envelopes, they must be transmitted to a backend. Sending each event individually would introduce significant overhead. SpanForge uses batching.
+
+Events are queued in memory and flushed based on two thresholds: size and time. By default, a batch is sent when either 512 events accumulate or five seconds elapse.
+
+This reduces network overhead and keeps instrumentation negligible.
+
+Batching introduces backpressure. If the backend slows—for example, from 50 ms to 500 ms per batch—the queue begins to fill. As it approaches seventy percent capacity, flush frequency increases and warnings are emitted. At ninety percent, the exporter applies an overflow policy, typically dropping new events until capacity stabilizes.
+
+If the backend becomes unavailable, a circuit breaker halts export attempts temporarily. This prevents repeated failures from affecting application performance.
+
+Observability remains non-intrusive, even under stress.
+
+---
+
+## **Sampling: Observing Enough to Understand**
+
+High-throughput systems cannot always record every trace. Sampling reduces volume while preserving meaning.
+
+SpanForge samples at the trace level. Either all spans within a trace are recorded, or none are. This avoids partial traces, which are difficult to interpret.
+
+Consider a system processing 10,000 requests per second. With a 10% sampling rate, approximately 1,000 complete traces are recorded per second. If each trace contains 1,000 spans, throughput drops from 10 million spans per second to 1 million—an order-of-magnitude reduction.
+
+Sampling strategies can be adapted. Development environments may record everything. Production systems may sample probabilistically. Critical events, such as guardrail failures, can override sampling to ensure they are always captured.
+
+In the contract example, a hallucination detected by the guardrail is preserved regardless of the base sampling rate.
+
+The objective is to capture what matters, not everything.
+
+---
+
+## **From Data to Explanation**
+
+At this point, the system is complete.
+
+A request produces a trace. The trace consists of spans. Each span becomes an event envelope. Envelopes are ordered, buffered, and exported. Sampling controls volume while preserving integrity.
+
+When a failure occurs, the system can reconstruct the full sequence of events. It can show what was retrieved, how the prompt was constructed, what the model produced, and why the guardrail flagged it.
+
+SpanForge does not simply record that something happened. It records enough to explain why.
+
+In systems where correctness cannot be assumed, the ability to explain behavior is not an enhancement.
+
+It is the system itself.

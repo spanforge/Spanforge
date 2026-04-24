@@ -2,16 +2,16 @@ import Link from 'next/link'
 import styles from './page.module.css'
 
 export const metadata = {
-  title: 'Contact — SpanForge',
+  title: 'Contact - SpanForge',
   description:
-    'Request a briefing, book a strategy conversation, or reach out to the SpanForge team about AI delivery, the SpanForge Platform, or the T.R.U.S.T. Framework.',
+    'Request a briefing, book a strategy conversation, or reach out to the SpanForge team about AI delivery, the SpanForge platform, or the T.R.U.S.T. framework.',
 }
 
 const ENGAGEMENT_PATHS = [
   {
     eyebrow: 'Advisory',
     title: 'Request a briefing',
-    desc: 'A structured 60-minute conversation for any team evaluating AI lifecycle governance, production readiness, or the T.R.U.S.T. Framework. No pitch. Focused on your context.',
+    desc: 'A structured 60-minute conversation for any team evaluating AI lifecycle governance, production readiness, or the T.R.U.S.T. framework. No pitch. Focused on your context.',
     cta: 'Request via LinkedIn',
     href: 'https://www.linkedin.com/in/spanforge',
     external: true,
@@ -20,7 +20,7 @@ const ENGAGEMENT_PATHS = [
   {
     eyebrow: 'General',
     title: 'Get in touch',
-    desc: 'Partnerships, research collaboration, press and media enquiries, or general questions about the platform. We read every message and respond to organisations within two business days.',
+    desc: 'Partnerships, research collaboration, press and media enquiries, or general questions about the platform. We read every message and respond to organizations within two business days.',
     cta: 'sriram@getspanforge.com',
     href: 'mailto:sriram@getspanforge.com',
     external: true,
@@ -42,14 +42,13 @@ const WHAT_TO_EXPECT = [
   {
     num: '03',
     title: 'No unsolicited follow-up.',
-    desc: 'If a conversation doesn\'t progress to an engagement, we will not add you to a mailing list or send unsolicited outreach.',
+    desc: 'If a conversation does not progress to an engagement, we will not add you to a mailing list or send unsolicited outreach.',
   },
 ]
 
 export default function ContactPage() {
   return (
     <>
-      {/* Hero */}
       <section className={styles.hero}>
         <div className="container">
           <span className="eyebrow">Contact SpanForge</span>
@@ -58,13 +57,12 @@ export default function ContactPage() {
           </h1>
           <p className={styles.heroSub}>
             Whether you are assessing AI lifecycle governance, evaluating SpanForge for
-            production agents, or have a question about the platform — we want to hear
+            production agents, or have a question about the platform, we want to hear
             from you.
           </p>
         </div>
       </section>
 
-      {/* Engagement paths */}
       <section className={styles.paths} aria-labelledby="paths-heading">
         <div className="container">
           <span className="eyebrow">How to engage</span>
@@ -72,7 +70,7 @@ export default function ContactPage() {
             Choose the right conversation.
           </h2>
           <div className={styles.pathsGrid}>
-            {ENGAGEMENT_PATHS.map(path => (
+            {ENGAGEMENT_PATHS.map((path) => (
               <div key={path.title} className={styles.pathCard}>
                 <span
                   className={styles.pathEyebrow}
@@ -88,7 +86,7 @@ export default function ContactPage() {
                   style={{ '--accent': path.accent }}
                   {...(path.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                 >
-                  {path.cta}{path.href.startsWith('mailto:') ? '' : ' →'}
+                  {path.cta}
                 </a>
               </div>
             ))}
@@ -96,7 +94,6 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* What to expect */}
       <section className={styles.expect} aria-labelledby="expect-heading">
         <div className="container">
           <span className="eyebrow">Our commitment</span>
@@ -104,7 +101,7 @@ export default function ContactPage() {
             What to expect.
           </h2>
           <div className={styles.expectGrid}>
-            {WHAT_TO_EXPECT.map(item => (
+            {WHAT_TO_EXPECT.map((item) => (
               <div key={item.num} className={styles.expectItem}>
                 <span className={styles.expectNum}>{item.num}</span>
                 <h3 className={styles.expectTitle}>{item.title}</h3>
@@ -115,7 +112,6 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Direct contact strip */}
       <section className={styles.directStrip}>
         <div className={`container ${styles.directInner}`}>
           <div>
@@ -133,7 +129,7 @@ export default function ContactPage() {
               rel="noopener noreferrer"
               className={styles.directSocial}
             >
-              linkedin.com/in/spanforge ↗
+              linkedin.com/in/spanforge
             </a>
           </div>
           <div className={styles.directDivider} aria-hidden="true" />
@@ -146,7 +142,6 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Bottom CTA */}
       <section className={styles.cta} aria-labelledby="cta-heading">
         <div className={`container ${styles.ctaInner}`}>
           <span className="eyebrow">Start here</span>
@@ -154,13 +149,12 @@ export default function ContactPage() {
             Not sure where to start?
           </h2>
           <p className={styles.ctaSub}>
-            The Discover phase is designed exactly for that moment. It gives you a
-            structured framework for evaluating whether an AI initiative is worth
-            building — before you commit budget or engineering time.
+            Start with the platform overview or the quickstart. Both give you a clear
+            path into the product without needing a sales-led walkthrough first.
           </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginTop: '2rem' }}>
-            <Link href="/platform/discover" className="btn-primary">Explore the Discover phase →</Link>
-            <Link href="/platform" className="btn-ghost">See the full platform →</Link>
+            <Link href="/docs/quickstart" className="btn-primary">Open the quickstart</Link>
+            <Link href="/spanforgecore" className="btn-ghost">See the platform overview</Link>
           </div>
         </div>
       </section>

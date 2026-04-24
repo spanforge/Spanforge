@@ -22,10 +22,10 @@
   <url><loc>https://www.getspanforge.com/platform/trust</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 
   <!-- AgentOBS -->
-  <url><loc>https://www.getspanforge.com/agentobs</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.getspanforge.com/spanforgecore</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://www.getspanforge.com/standard</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.getspanforge.com/agentobs/sdk</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.getspanforge.com/agentobs/debug</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.getspanforge.com/agentobs/validate</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.getspanforge.com/spanforgecore/sdk</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.getspanforge.com/spanforgecore/debug</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.getspanforge.com/spanforgecore/validate</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 
 </urlset>

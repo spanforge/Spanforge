@@ -6,7 +6,1142 @@ this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
-## 2.1.0 — 2026-06-XX
+## [2.0.14] — Unreleased
+
+**F-series + Compliance value hardening: Async SDK, RAG Auto-instrumentation, Feedback Endpoint, Gate Coverage, Batch Exporter Tests, Compliance Readiness**
+
+### Added — Compliance value hardening (session 3)
+
+- **Remediation guidance** — `_FRAMEWORK_CLAUSES` now includes `remediation_steps` for every clause across all six frameworks (SOC 2, HIPAA, GDPR, NIST AI RMF, EU AI Act, ISO 42001). Gap reports render each step as `> **Fix**: <steps>` in the Markdown output.
+- **Markdown reports** — `ComplianceEvidencePackage.to_markdown()` method added. `spanforge compliance report` now accepts `--format markdown` (writes `<prefix>_report.md`) and `--format both` (writes both JSON and Markdown in one pass).
+- **`spanforge compliance readiness` command** — scored pre-production checklist for any supported framework. Checks signing key, event store, evidence package generation, gap count, and attestation. Exits 0 (all pass), 1 (failures present), or 2 (unknown framework).
+- **Live compliance posture in `spanforge doctor`** — after the PII Engine section, doctor now queries the event store, runs `generate_evidence_package(framework="eu_ai_act")`, and prints passing/total clause count with a list of gap/partial clauses.
+
+### Tests — Compliance hardening
+
+- `TestRemediationSteps` — verifies every clause in every framework has a non-empty `remediation_steps` string (length > 20).
+- `test_gap_report_text_contains_remediation` — asserts `> **Fix**:` appears in gap report output.
+- `test_to_markdown_returns_report_text` — asserts `to_markdown()` is identical to `report_text` and contains `# spanforge Compliance Report`.
+- `TestCmdReadiness` — smoke tests for exit codes 0/1/2, all-framework acceptance, and signing-key environment variable check.
+- `test_cmd_report_markdown_format`, `test_cmd_report_both_format_writes_json_and_markdown` — coverage for the two new `--format` modes.
+- `test_compliance_readiness_registered_in_parser`, `test_dispatch_routes_readiness` — CLI wiring tests.
+- Full suite after this session: **6 109 passed**, 14 skipped, 0 failed. ruff 0 · mypy 0 · bandit 0.
+
+---
+
+### Added — Phase 7 documentation and demos
+
+- Added a new [runtime governance GA guide](runtime-governance.md) that consolidates the Phase 1 through Phase 6 runtime-governance story into one operator and buyer-facing control-plane narrative.
+- Added dedicated Phase 0/3/5/7 alignment pages:
+  - `docs/runtime-governance-contracts.md`
+  - `docs/replay-simulation.md`
+  - `docs/evidence-export.md`
+  - `docs/enterprise-integrations.md`
+  - `docs/competitor-comparison.md`
+  - `docs/ga-release-notes.md`
+- Added focused API documentation for:
+  - `spanforge.sdk.explain`
+  - `spanforge.sdk.policy`
+  - `spanforge.sdk.scope`
+  - `spanforge.sdk.rbac`
+  - `spanforge.sdk.lineage`
+  - `spanforge.sdk.operator`
+- Expanded API reference coverage for:
+  - `spanforge.integrations.azure_openai`
+  - `spanforge.integrations.langgraph`
+  - `spanforge.export.openinference`
+  - `spanforge.export.siem_schema`
+
+### Added — Phase 8 release hardening
+
+- Added `tests/test_phase8_release_hardening.py` to lock the GA release gate around:
+  - end-to-end trace-to-enterprise-evidence workflow verification
+  - enforceability of all five runtime policy actions
+  - malformed runtime policy input validation
+  - incomplete replay/comparison event rejection
+  - degraded-mode RAG behavior when the local observe path times out
+
+### Fixed — runtime governance hardening
+
+- `spanforge.runtime_policy` now raises clear `ValueError` messages for malformed bundle and rule dictionaries instead of leaking raw key errors.
+- `spanforge.sdk.policy` now validates historical replay and comparison events before evaluation, producing clearer failures for incomplete or mismatched payloads.
+- `spanforge.sdk.rag` now normalizes internal `timeout` session states to a schema-valid session summary status during `get_session()` and `end_session()`.
+- Added two runnable Phase 7 demo scripts:
+  - `examples/runtime_governance_demo.py`
+  - `examples/enterprise_evidence_demo.py`
+- Added matching walkthrough docs:
+  - `docs/demos/runtime-governance-demo.md`
+  - `docs/demos/enterprise-evidence-demo.md`
+- Added `docs/reference-architectures.md` to centralize the self-hosted, Kubernetes, and air-gapped reference deployment artifacts surfaced by enterprise evidence packaging.
+- Updated `README.md`, `docs/index.md`, `docs/quickstart.md`, `docs/api/index.md`, `docs/user_guide/index.md`, and `docs/api/enterprise.md` so the runtime-governance and enterprise evidence paths are discoverable from the main entrypoints.
+
+### Changed — CLI modularization, package-root cleanup, and guardrails
+
+- Split the large CLI router into focused command modules:
+  - `spanforge._cli_audit`
+  - `spanforge._cli_cost`
+  - `spanforge._cli_ops`
+  - `spanforge._cli_phase11`
+- Reduced top-level package import coupling in `spanforge.__init__` by moving module-style and selected grouped exports behind lazy resolution.
+- Added explicit CI drift guardrails in `.github/workflows/ci.yml` plus `tests/test_repo_guardrails.py` to fail fast on:
+  - `spanforge.__version__` / `pyproject.toml` mismatch
+  - stale known-bad documentation patterns
+  - documented CLI entrypoints that no longer parse
+
+### Fixed
+
+- `spanforge.normalizer.GenericNormalizer` now sets a valid `ModelInfo.custom_system_name` when returning `_custom` model-system metadata.
+
+### Tests
+
+- Added direct unit coverage for extracted CLI modules, especially `spanforge._cli_compliance`, so module-level coverage reflects the post-refactor architecture instead of relying only on router integration tests.
+- Added focused deep-coverage suites for:
+  - `spanforge.sdk.pipelines`
+  - `spanforge.gate`
+  - `spanforge.egress`
+  - `spanforge.normalizer`
+- Full suite status after these changes:
+  - `6 001 passed`, `14 skipped`
+  - overall coverage: `91.72%`
+
+### Added — `spanforge.auto` — RAG Auto-instrumentation (F-20)
+
+- **`trace_rag(func)` decorator** — wraps any retrieval callable; calls `sf_rag.trace_query()` before and `sf_rag.trace_retrieval()` after; fail-safe (never raises).
+- **`_patch_rag_llama_index()`** — monkey-patches `llama_index.core.retrievers.VectorIndexRetriever.retrieve` to emit RAG spans automatically when LlamaIndex is installed.
+- **`_patch_rag_langchain()`** — monkey-patches `langchain_core.retrievers.BaseRetriever.invoke` to emit RAG spans automatically when LangChain Core is installed.
+- **`setup()` extended** — now calls both RAG patches after LLM patches; returns set now includes `"llama_index:rag"` / `"langchain_core:rag"` entries.
+- **`teardown()` extended** — calls `_unpatch_rag_llama_index()` and `_unpatch_rag_langchain()` to cleanly restore original methods.
+- **`__all__`** updated to export `trace_rag`.
+- All RAG import calls wrapped in `warnings.catch_warnings(simplefilter("ignore"))` to suppress NumPy reload `RuntimeWarning` in test environments.
+
+### Added — Async SDK methods (F-10)
+
+- **`SFPIIClient.scan_async(text, *, language="en", score_threshold=0.5)`** — non-blocking async PII scan via `run_in_executor`.
+- **`SFGateClient.evaluate_async(gate_id, payload, *, project_id="", pipeline_id="")`** — non-blocking async gate evaluation.
+- **`SFCECClient.build_bundle_async(project_id, date_range, frameworks=None)`** — non-blocking async CEC bundle build.
+- **`SFTrustClient.get_scorecard_async(project_id=None, *, from_dt=None, to_dt=None, weights=None)`** — non-blocking async T.R.U.S.T. scorecard computation.
+- **`SFIdentityClient.sso_delegate_session_async(idp_session_id, subject, *, email="", project_id="default")`** — non-blocking async SSO session delegation.
+- All five async methods use `asyncio.get_event_loop().run_in_executor(None, functools.partial(...))`.
+
+### Added — `spanforge._server` — POST /v1/feedback (F-21)
+
+- **`POST /v1/feedback`** route added to the embedded HTTP server.
+- Accepts: `session_id`, `trace_id`, `rating` (required); `comment`, `user_id`, `source`, `metadata`, `linked_trust_dimension` (optional).
+- Returns: `{"feedback_id": "<ulid>", "accepted": true}` with HTTP 201.
+- Delegates to `sf_feedback.submit()`.
+
+### Added — `docs/api/drift.md`
+
+- **Note callout** added after the `BehaviouralBaseline` constructor description: LLM-only warning that `tokens` and `confidence_by_type` fields are only populated when `detector_type="llm"`.
+
+### Tests
+
+- **`tests/test_coverage_gaps.py :: TestGateExecutorSubprocessMocks`** — 27 new tests covering all 6 built-in `subprocess.run` gate executors with dedicated mocks (F-42):
+  - `_exec_schema_validation` (4): command PASS, command FAIL (with/without stderr), generic exception.
+  - `_exec_dependency_security` (6): PASS (no vulns), FAIL (critical CVEs parsed), JSON parse error, timeout, generic exception, custom command.
+  - `_exec_secrets_scan` (4): secrets detected FAIL, fallback to unstaged diff, ImportError, generic exception.
+  - `_exec_performance_regression` (3): command PASS, command FAIL, generic exception.
+  - `_exec_halluccheck_prri` (4): command + artifact combo, timeout, malformed JSON, generic exception.
+  - `_exec_halluccheck_trust` (6): SDK PASS, SDK FAIL, artifact PASS, artifact FAIL, malformed artifact, no-SDK-no-artifact WARN.
+- **`tests/test_batch_exporter.py`** — 17 new tests across 5 classes (`TestBatchExporterPutFlush`, `TestBatchExporterShutdown`, `TestBatchExporterQueueFull`, `TestBatchExporterCircuitBreaker`, `TestBatchExporterHealth`). Covers put/flush, shutdown, queue-full, circuit breaker open/half-open/reset, and aggregate health (F-45).
+- **`tests/test_prompt_registry.py`** — 19 new tests across 6 classes (`TestPromptVersion`, `TestRegister`, `TestGetList`, `TestRender`, `TestModuleFunctions`, `TestThreadSafety`). Covers version dataclass, registry CRUD, template rendering, module-level helpers, and thread-safe concurrent registration (F-45).
+- **`tests/test_sf_gate.py`** — 22 new tests: `TestInferVerdictBranches` (15) for every `_infer_verdict` branch; `TestPostEvaluateHooksSideEffects` (7) for hook execution, hook failure isolation, multi-hook ordering, and metrics access (F-42).
+- **`tests/test_sf13.py`** — 3 new test classes: `TestSF13D` (WORM upload on rotation), `TestSF13E` (rotation-by-size + no-rotation-when-zero), `TestSF13F` (append_batch count/content/empty) (F-41).
+- Total: **5 863 passed**, 14 skipped, **0 failed**. Coverage: **91.08 %**.
+
+### Fixed
+
+- `tests/test_sf_gate.py` — removed stray `timestamp` kwarg from `GateEvaluationResult()` frozen-dataclass constructor in `TestPostEvaluateHooksSideEffects.setUp`.
+- `tests/test_auto.py` — replaced `_rag_libs` wholesale deletion fixture with save/restore of `sys.modules` entries (`_rag_saved`) so RAG lib blocking works without triggering NumPy reload `RuntimeWarning` cascade.
+- `src/spanforge/auto.py` — reverted erroneous `_RAG_PATCHED.clear()` call that caused repeated LlamaIndex reimports and NumPy reload warnings.
+
+---
+
+## [2.0.13] — Unreleased
+
+**Phase 1 SSO completion + Phase 5 CEC endpoint additions**
+
+### Added — `spanforge.sdk.identity` — Full SSO Suite (ID-040–ID-043)
+
+- **SAML 2.0 ACS (ID-040)** — `saml_acs()` now processes real SAMLResponse payloads in local mode. Decodes base64 XML, extracts `NameID`, and issues a SpanForge session JWT. `saml_metadata()` now returns a complete SP metadata XML with AssertionConsumerService binding.
+- **SCIM 2.0 User provisioning (ID-041)** — Full CRUD: `scim_create_user()`, `scim_get_user()`, `scim_list_users()` (with `eq` filter), `scim_patch_user()` (active/displayName/emails), `scim_delete_user()`. Thread-safe in-memory store with `userName` uniqueness enforcement.
+- **SCIM 2.0 Group provisioning (ID-041)** — `scim_create_group()`, `scim_list_groups()`, `scim_delete_group()`. Membership is maintained bidirectionally between user and group records.
+- **OIDC relying party (ID-042)** — `oidc_authorize()` generates a PKCE authorization URL (RFC 7636, S256) with `state`, `nonce`, `code_verifier`, `code_challenge`. `oidc_callback()` validates the CSRF state, enforces a 10-minute state TTL, and issues a SpanForge session JWT.
+- **SSO session delegation (ID-043)** — `sso_delegate_session()` creates a SpanForge session bound to an IdP session id. `sso_revoke_idp_session()` propagates IdP-side revocation. `sso_get_session()` retrieves session state.
+- **New types** — `SCIMUser`, `SCIMGroup`, `SCIMListResponse`, `OIDCAuthRequest`, `OIDCTokenResult`, `SSOSession` added to `spanforge.sdk._types` and exported from `spanforge.sdk`.
+
+### Added — `spanforge.sdk.cec` — Bundle Registry & URL Re-issue (CEC-003, CEC-004)
+
+- **`build_bundle()` now registers results** in an in-memory `_bundle_registry` keyed by `bundle_id`.
+- **`get_bundle(bundle_id)`** — Retrieves a previously-built bundle from the session registry; returns `None` if not found.
+- **`reissue_download_url(bundle_id)`** — Re-issues a fresh `expires_at` (+24 h) for an existing bundle without rebuilding the ZIP. Raises `SFCECBuildError` if the bundle is unknown or the ZIP was deleted.
+
+### Added — `spanforge._server` — New REST Endpoints (CEC-003, CEC-004)
+
+- **`POST /v1/risk/cec`** — Builds a CEC compliance evidence bundle. Accepts `project_id`, `date_range`, and `frameworks` in the JSON body. Returns `bundle_id`, `download_url`, `expires_at`, `hmac_manifest`, `record_counts`. HTTP 201.
+- **`GET /v1/risk/cec/{bundle_id}`** — Re-issues a fresh download URL for an existing bundle. Returns 404 if the `bundle_id` is not in the session registry.
+
+### Tests
+
+- 38 new SSO tests across `TestSAMLStub`, `TestSCIMUsers`, `TestSCIMGroups`, `TestOIDC`, `TestSSOSessionDelegation`, `TestReissueDownloadUrl`.
+- 13 new chaos tests in `tests/chaos/test_service_unavailability.py` (DX-023): PII/secrets/audit/observe/identity fallback, no-secrets-in-logs assertions, network-partition simulation.
+- Total: **5 766 passed**, 14 skipped. Coverage: **90.01 %**.
+
+---
+
+## [2.0.12] — Unreleased
+
+**Phase 13: RAG Tracing, User Feedback, Async SDK & LangSmith Migration**
+
+### Added — `spanforge.sdk.rag` — RAG Tracing Client (Phase 13)
+
+- **`SFRAGClient`** — End-to-end tracing for Retrieval-Augmented Generation pipelines. Six methods: `trace_query()`, `trace_retrieval()`, `trace_generation()`, `end_session()`, `get_session()`, `get_status()`.
+- **`RAGStatusInfo`** — Health DTO with `healthy`, `version`, `mode`, `service`, `total_sessions`, `active_sessions`.
+- **`_RAGSession`** — Internal per-session accumulator (query span, retrieved chunks, generation span).
+- **Privacy controls** — `include_content=False` drops raw text; `include_metadata=False` drops chunk metadata; `include_query_text=False` anonymises the query.
+- **Grounding scores** — `grounding_score` (0–1) on `trace_generation()` measures answer fidelity against retrieved chunks.
+- **T.R.U.S.T. integration** — Retrieval quality + grounding scores feed the Reliability pillar of the T.R.U.S.T. scorecard.
+
+### Added — `spanforge.sdk.feedback` — User Feedback Client (Phase 13)
+
+- **`SFFeedbackClient`** — Collects, queries, and aggregates user-facing feedback on LLM responses. Five methods: `submit()`, `get_feedback()`, `get_summary()`, `link_to_trust()`, `get_status()`.
+- **`FeedbackStatusInfo`** — Health DTO with `healthy`, `version`, `mode`, `service`, `total_submissions`, `linked_trust_sessions`.
+- **`FeedbackRating`** enum (13 values) — `THUMBS_UP`, `THUMBS_DOWN`, `STAR_1`–`STAR_5`, `NPS_0`–`NPS_10` (anchors only), `CSAT_1`–`CSAT_5`.
+- **`FeedbackSubmittedPayload`** / **`FeedbackSummaryPayload`** — Namespace payload dataclasses in `spanforge.namespaces.feedback`.
+
+### Added — `spanforge.namespaces.retrieval` — RAG Namespace Payloads (Phase 13)
+
+- **5 dataclasses:** `RetrievedChunk`, `RetrievalQueryPayload`, `RetrievalResultPayload`, `RAGSpanPayload`, `RAGSessionPayload`.
+
+### Added — `spanforge.namespaces.feedback` — Feedback Namespace Payloads (Phase 13)
+
+- **`FeedbackRating`** enum with `numeric_value()` helper.
+- **`FeedbackSubmittedPayload`** and **`FeedbackSummaryPayload`** dataclasses.
+
+### Added — Async SDK methods (F-10)
+
+- **`SecretsScanner.scan_async()`** — Non-blocking async variant of `scan()` using `asyncio.to_thread`.
+- **`SFAuditClient.append_async()`** — Async append for use in async application code.
+- **`SFObserveClient.emit_span_async()`** — Async span emission.
+- **`SFAlertClient.publish_async()`** — Async alert publishing.
+
+### Added — `migrate_from_langsmith()` (F-27)
+
+- **`spanforge.migrate.migrate_from_langsmith(runs, *, source="langsmith-import")`** — Converts a list of LangSmith run dicts to SpanForge v2 event dicts. Maps `run_type` → `event_type` using a 4-entry lookup table. Stores only input/output key names (not raw values) for privacy. Truncates `error` fields to 500 characters.
+- **CLI:** `spanforge migrate-langsmith` command added.
+
+### Fixed — `DriftDetector` constructor parameters (F-09)
+
+- Renamed `zscore_threshold` → `z_threshold`.
+- Removed non-existent `circuit_breaker_reset_seconds` parameter.
+- Added `window_seconds` (int, default 3600), `auto_emit` (bool, default True), `metric_ttl_seconds` (int, default 86400).
+- Corrected default `window_size` from 100 → 500.
+
+### Quality gates
+
+- **70 new tests** — RAG client, feedback client, async methods, LangSmith migration, DriftDetector params.
+- **5 715 total** (12 skipped) — full regression pass, zero failures.
+- **Coverage:** 90.01% overall.
+- **ruff** clean.
+
+---
+
+## [Unreleased] — Cross-cutting additions
+
+### Added — `spanforge.export.siem_splunk` — Splunk HEC Exporter
+
+- **`SplunkHECExporter`** — Thread-safe, batched exporter for Splunk HTTP Event Collector. Buffers events to configurable `batch_size` (default 50) then flushes in a single HEC HTTP request. SSL verification, configurable index / source / sourcetype, context-manager support. All parameters fall back to `SPANFORGE_SPLUNK_*` environment variables.
+- **`SplunkHECError`** — Raised on permanent HEC delivery failures (HTTP errors, URL parse failure, network errors).
+- **Security** — HEC token is excluded from `repr()` and log output. HTTP to non-localhost addresses emits a `WARNING`. `verify_ssl=False` is supported for controlled lab environments only.
+- **Env vars added:** `SPANFORGE_SPLUNK_HEC_URL`, `SPANFORGE_SPLUNK_HEC_TOKEN`, `SPANFORGE_SPLUNK_INDEX`, `SPANFORGE_SPLUNK_SOURCE`, `SPANFORGE_SPLUNK_SOURCETYPE`, `SPANFORGE_SPLUNK_BATCH_SIZE`, `SPANFORGE_SPLUNK_TIMEOUT`.
+
+### Added — `spanforge.export.siem_syslog` — Syslog / CEF Exporter
+
+- **`SyslogExporter`** — Forwards events to a remote syslog receiver via UDP (default) or TCP. Supports **RFC 5424** and **ArcSight Common Event Format (CEF)** encoding. Severity derived from `event_type` prefix (`error`→3, `warn`→4, `info`→6, `debug`/`trace`→7). Facility configurable (0–23, default `16` = local0). All parameters fall back to `SPANFORGE_SYSLOG_*` environment variables.
+- **`SyslogExporterError`** — Wraps `OSError` from socket failures.
+- **CEF** — Escapes `\`, `|`, `=` in extension values. Extension fields include `event_id`, `event_type`, `source`, `ts`, and JSON-serialised `payload`.
+- **Env vars added:** `SPANFORGE_SYSLOG_HOST`, `SPANFORGE_SYSLOG_PORT`, `SPANFORGE_SYSLOG_TRANSPORT`, `SPANFORGE_SYSLOG_FORMAT`, `SPANFORGE_SYSLOG_APP_NAME`, `SPANFORGE_SYSLOG_FACILITY`.
+
+### Fixed — `spanforge.migrate` — `v1_to_v2` empty tags
+
+- **Bug:** `v1_to_v2()` returned `tags=None` when a v1 event had no tags, causing downstream code to fail on `Tags` attribute access. Now always returns `Tags(**raw_tags)` (an empty `Tags()` object when no tags are present).
+
+### Quality gates
+
+- **223 new tests** — comprehensive coverage of `siem_splunk`, `siem_syslog`, `cache`, `deprecations`, `governance`, and `lint` modules (all new test files).
+- **5 645 total** (12 skipped) — full regression pass, zero failures.
+- **Coverage:** 90.15% overall; all new modules at high branch + line coverage.
+- **ruff** clean, **mypy strict** clean, **bandit** clean.
+
+---
+
+## 2.0.11 — Unreleased
+
+**Phase 12: Developer Experience & Ecosystem**
+
+### Added — `spanforge.testing_mocks` (Phase 12)
+
+- **`MockSFIdentity`** (DX-003) — Mock for `SFIdentityClient`. All 18 methods: `issue_api_key()`, `rotate_api_key()`, `revoke_api_key()`, `validate_api_key()`, `create_session()`, `validate_session()`, `revoke_session()`, `issue_magic_link()`, `exchange_magic_link()`, `enroll_totp()`, `verify_totp()`, `generate_backup_codes()`, `set_ip_allowlist()`, `check_rate_limit()`, `get_status()`, plus `healthy` property.
+- **`MockSFPII`** (DX-003) — Mock for `SFPIIClient`. 14 methods: `scan_text()`, `anonymise()`, `scan_batch()`, `apply_pipeline_action()`, `get_status()`, `erase_subject()`, `export_subject_data()`, `safe_harbor_deidentify()`, `audit_training_data()`, `get_pii_stats()`, plus `healthy` property.
+- **`MockSFSecrets`** (DX-003) — Mock for `SFSecretsClient`. `scan()`, `scan_batch()`, `get_status()`.
+- **`MockSFAudit`** (DX-003) — Mock for `SFAuditClient`. `append()`, `query()`, `verify_chain()`, `export()`, `sign()`, `get_status()`, `get_trust_scorecard()`, `generate_article30_record()`.
+- **`MockSFObserve`** (DX-003) — Mock for `SFObserveClient`. `emit_span()`, `export_spans()`, `add_annotation()`, `get_annotations()`, `get_status()`, plus `healthy`/`last_export_at` properties.
+- **`MockSFGate`** (DX-003) — Mock for `SFGateClient`. `evaluate()`, `evaluate_prri()`, `run_pipeline()`, `get_artifact()`, `list_artifacts()`, `purge_artifacts()`, `get_status()`, `configure()`.
+- **`MockSFCEC`** (DX-003) — Mock for `SFCECClient`. `build_bundle()`, `verify_bundle()`, `generate_dpa()`, `get_status()`.
+- **`MockSFAlert`** (DX-003) — Mock for `SFAlertClient`. `publish()`, `acknowledge()`, `register_topic()`, `set_maintenance_window()`, `remove_maintenance_windows()`, `get_alert_history()`, `get_status()`, plus `healthy` property.
+- **`MockSFTrust`** (DX-003) — Mock for `SFTrustClient`. `get_scorecard()`, `get_badge()`, `get_history()`, `get_status()`.
+- **`MockSFEnterprise`** (DX-003) — Mock for `SFEnterpriseClient`. All 15 methods including `register_tenant()`, `get_isolation_scope()`, `configure_encryption()`, `encrypt_payload()`, `decrypt_payload()`, `configure_airgap()`, `assert_network_allowed()`, `check_all_services_health()`, `get_status()`, plus `healthy` property.
+- **`MockSFSecurity`** (DX-003) — Mock for `SFSecurityClient`. `run_owasp_audit()`, `add_threat()`, `generate_default_threat_model()`, `scan_dependencies()`, `run_static_analysis()`, `audit_logs_for_secrets()`, `run_full_scan()`, `get_status()`, plus `healthy` property.
+- **`_MockBase`** (DX-003) — Base class with `.calls` recording list, `.configure_response(method, value)` for overriding default returns, and `._record(method, kwargs)` / `._resolve(method, default)` helpers.
+- **`mock_all_services()`** (DX-003) — Context manager that patches all 11 `sf_*` singletons in `spanforge.sdk` with their mock counterparts. Restores originals on exit.
+
+### Added — Sandbox mode (Phase 12)
+
+- **`SFServiceClient._is_sandbox()`** (DX-004) — All service clients check `[spanforge] sandbox = true` config to route calls to local in-memory sandbox mode. No network calls, no quota consumption.
+
+### Added — CLI (Phase 12)
+
+- **`spanforge doctor`** (DX-005) — Full environment diagnostic: config validation, service reachability, API key expiry check, PII/secrets pattern loading, gate YAML validation. Coloured pass/fail output.
+
+### Fixed — Mock default return values (Phase 12)
+
+- Corrected 8 mock default return value constructors to match actual `_types.py` dataclass signatures: `ExportResult`, `ObserveStatusInfo`, `PRRIResult`, `GateStatusInfo`, `DPADocument`, `CECStatusInfo`, `AlertStatusInfo`, `EnterpriseStatusInfo`.
+
+### Fixed — Integration tests (Phase 12)
+
+- `test_audit_sign_and_verify` — Changed from `sign()` + `verify_chain()` to `append()` → `export()` → `verify_chain()` workflow to match the API contract.
+- `test_observe_export_spans` — Fixed assertion from `ExportResult.success` to `ExportResult.exported_count >= 1`.
+- `test_alert_publish_and_deduplicate` — Fixed assertion from `PublishResult.topic` to `not PublishResult.suppressed`.
+
+### Quality gates (Phase 12)
+
+- **130 new tests** — comprehensive coverage of all 11 mock service clients (every method tested), sandbox mode, doctor CLI, integration workflows
+- **5 351 total** (12 skipped) — full regression pass, zero failures
+- **Coverage**: `testing_mocks.py` 100% line + 100% branch
+- **ruff** clean, **mypy strict** clean, **bandit** clean
+
+---
+
+## 2.0.10 — Unreleased
+
+**Phase 11: Enterprise Hardening & Supply Chain Security**
+
+### Added — `spanforge.sdk.enterprise` (Phase 11)
+
+- **`SFEnterpriseClient.register_tenant(project_id, org_id, *, data_residency, cross_project_read, allowed_project_ids) → TenantConfig`** (ENT-001) — Registers a project with namespace isolation, unique HMAC chain secret, and data residency configuration.
+- **`SFEnterpriseClient.get_isolation_scope(project_id) → IsolationScope`** (ENT-002) — Returns the `(org_id, project_id)` composite key for namespace scoping.
+- **`SFEnterpriseClient.check_cross_project_access(source, targets)`** (ENT-001) — Validates cross-project read access against the allow-list.
+- **`SFEnterpriseClient.enforce_data_residency(project_id, target_region)`** (ENT-004) — Blocks data from leaving the configured region.
+- **`SFEnterpriseClient.configure_encryption(*, encrypt_at_rest, kms_provider, mtls_enabled, fips_mode) → EncryptionConfig`** (ENT-010–013) — AES-256-GCM at rest, envelope encryption via cloud KMS, mTLS, FIPS 140-2 mode.
+- **`SFEnterpriseClient.encrypt_payload(plaintext, key) → dict`** / **`decrypt_payload(...) → bytes`** (ENT-010) — AES-256-GCM encrypt/decrypt with HMAC tag verification.
+- **`SFEnterpriseClient.configure_airgap(*, offline, self_hosted) → AirGapConfig`** (ENT-020/021) — Air-gap and self-hosted deployment configuration.
+- **`SFEnterpriseClient.assert_network_allowed()`** (ENT-021) — Raises `SFAirGapError` if offline mode is active.
+- **`SFEnterpriseClient.check_all_services_health() → list[HealthEndpointResult]`** (ENT-023) — Probes `/healthz` + `/readyz` for all 8 services (16 checks total).
+- **`sf_enterprise`** singleton — pre-built `SFEnterpriseClient` in `spanforge.sdk.__init__`.
+
+### Added — `spanforge.sdk.security` (Phase 11)
+
+- **`SFSecurityClient.run_owasp_audit(...) → SecurityAuditResult`** (ENT-030) — Walks all 10 OWASP API Security Top 10 categories with pass/fail per category.
+- **`SFSecurityClient.add_threat(service, category, threat, mitigation) → ThreatModelEntry`** (ENT-031) — Adds a STRIDE threat model entry.
+- **`SFSecurityClient.generate_default_threat_model() → list[ThreatModelEntry]`** (ENT-031) — Generates 10 default threats across all 8 service boundaries.
+- **`SFSecurityClient.scan_dependencies(packages) → list[DependencyVulnerability]`** (ENT-033) — pip-audit wrapper for CVE scanning.
+- **`SFSecurityClient.run_static_analysis(source_files) → list[StaticAnalysisFinding]`** (ENT-034) — bandit + semgrep wrapper for SAST.
+- **`SFSecurityClient.audit_logs_for_secrets(log_lines) → int`** (ENT-035) — Replays log lines through 7 secret patterns (API keys, JWTs, AWS keys, GitHub tokens, OpenAI keys, Slack tokens, PEM keys).
+- **`SFSecurityClient.run_full_scan(...) → SecurityScanResult`** — Combined dependency + static + secrets scan.
+- **`sf_security`** singleton — pre-built `SFSecurityClient` in `spanforge.sdk.__init__`.
+
+### Added — Types (Phase 11)
+
+- `DataResidency`, `IsolationScope`, `TenantConfig`, `EncryptionConfig`, `AirGapConfig`, `HealthEndpointResult`, `DependencyVulnerability`, `StaticAnalysisFinding`, `ThreatModelEntry`, `SecurityScanResult`, `SecurityAuditResult`, `EnterpriseStatusInfo`.
+
+### Added — Exceptions (Phase 11)
+
+- `SFEnterpriseError` (base), `SFIsolationError`, `SFDataResidencyError`, `SFEncryptionError`, `SFFIPSError`, `SFAirGapError`, `SFSecurityScanError`, `SFSecretsInLogsError`.
+
+### Added — CLI (Phase 11)
+
+- `spanforge enterprise status|register-tenant|list-tenants|encrypt-config|health`
+- `spanforge security owasp|threat-model|scan|audit-logs`
+
+### Added — Server Endpoints (Phase 11)
+
+- `GET /healthz` — Kubernetes liveness probe.
+- `GET /readyz` — Kubernetes readiness probe (probes all 8 services).
+- `GET /v1/enterprise/status` — Enterprise hardening summary.
+- `GET /v1/enterprise/health` — All-services health probe.
+- `GET /v1/security/owasp` — OWASP audit results.
+- `GET /v1/security/threat-model` — STRIDE threat model.
+- `GET /v1/security/scan` — Full security scan.
+
+### Added — Deployment (Phase 11)
+
+- `docker-compose.selfhosted.yml` — Self-hosted Docker Compose stack (ENT-020).
+- `helm/spanforge/` — Helm chart skeleton for Kubernetes deployment (ENT-022).
+
+---
+
+## 2.0.9 — Unreleased
+
+**Phase 10: T.R.U.S.T. Scorecard & HallucCheck Contract**
+
+### Added — `spanforge.sdk.trust` (Phase 10)
+
+- **`SFTrustClient.get_scorecard(project_id, *, from_dt, to_dt, weights) → TrustScorecardResponse`** (TRS-001/005) — Aggregates trust records from sf-audit and computes the five T.R.U.S.T. dimensions (Transparency · Reliability · UserTrust · Security · Traceability) with configurable weights. Overall score is a weighted average; colour bands: green ≥ 80, amber ≥ 60, red < 60.
+- **`SFTrustClient.get_badge(project_id) → TrustBadgeResult`** (TRS-006) — Generates an SVG badge showing the T.R.U.S.T. score with colour-coded background. Returns `svg`, `overall`, `colour_band`, and `etag`.
+- **`SFTrustClient.get_history(project_id, *, from_dt, to_dt, buckets) → list[TrustHistoryEntry]`** (TRS-005) — Returns time-series snapshots by dividing the time range into equal buckets and computing a scorecard for each.
+- **`SFTrustClient.get_status() → TrustStatusInfo`** — Returns service health information including dimension count, total trust records, and pipelines registered.
+- **`sf_trust`** singleton — pre-built `SFTrustClient` instance in `spanforge.sdk.__init__`, configured from environment variables.
+
+### Added — `spanforge.sdk.pipelines` (Phase 10)
+
+- **`score_pipeline(text, *, model, project_id, pii_action) → PipelineResult`** (TRS-010) — PII scan → secrets scan → observe span → audit append. Orchestrates sf_pii, sf_secrets, sf_observe, and sf_audit in sequence.
+- **`bias_pipeline(bias_report, *, project_id, disparity_threshold) → PipelineResult`** (TRS-011) — PII scan on segments → audit append → alert if disparity exceeds threshold → anonymise before export.
+- **`monitor_pipeline(drift_event, *, project_id, alert_on_drift) → PipelineResult`** (TRS-012) — Observe drift span → alert if drift detected → OTel export.
+- **`risk_pipeline(prri_score, *, project_id, framework, policy_file) → PipelineResult`** (TRS-013) — PRRI evaluation → alert if RED → gate block → CEC bundle generation.
+- **`benchmark_pipeline(benchmark_results, *, project_id, model) → PipelineResult`** (TRS-014) — Audit append → alert if accuracy degraded → anonymise before export.
+
+### Added — CLI (Phase 10)
+
+- **`spanforge trust scorecard [--project-id PID]`** — Display the five-pillar T.R.U.S.T. scorecard as a text table.
+- **`spanforge trust badge [--project-id PID]`** — Write the T.R.U.S.T. SVG badge to stdout.
+- **`spanforge trust gate [--project-id PID]`** — Run the composite trust gate. Exit code 1 = overall score below threshold (red band).
+
+### Added — HTTP server routes (Phase 10)
+
+- **`GET /v1/trust/scorecard?project_id=…`** — Returns the T.R.U.S.T. scorecard as JSON.
+- **`GET /v1/trust/badge/{project_id}.svg`** — Returns the SVG badge with `image/svg+xml` content type.
+- **`POST /v1/trust-gate`** — Evaluates the composite trust gate and returns pass/fail.
+- **`GET /v1/audit/{record_type}`** — Query audit records by record type.
+- **`GET /v1/privacy/dsar/{subject_id}`** — DSAR data export for a subject.
+- **`POST /v1/scan/secrets`** — Secrets scanning endpoint.
+
+### New types (Phase 10)
+
+| Type | Module | Description |
+|------|--------|-------------|
+| `TrustScorecardResponse` | `spanforge.sdk._types` | Full scorecard: overall score, colour band, 5 dimensions, weights |
+| `TrustDimension` | `spanforge.sdk._types` | Single dimension: `score`, `trend`, `last_updated` |
+| `TrustDimensionWeights` | `spanforge.sdk._types` | Configurable weights for each pillar (default 1.0) |
+| `TrustHistoryEntry` | `spanforge.sdk._types` | Time-series data point: `timestamp`, `overall`, 5 dimension scores |
+| `TrustBadgeResult` | `spanforge.sdk._types` | SVG badge: `svg`, `overall`, `colour_band`, `etag` |
+| `TrustStatusInfo` | `spanforge.sdk._types` | Service health: `status`, `dimension_count`, `total_trust_records` |
+| `PipelineResult` | `spanforge.sdk._types` | Pipeline result: `pipeline`, `success`, `audit_id`, `span_id`, `details` |
+
+### New exceptions (Phase 10)
+
+| Exception | Raised when |
+|-----------|-------------|
+| `SFTrustComputeError` | Underlying audit store is unreachable or query fails |
+| `SFPipelineError` | A critical step within a pipeline fails |
+
+### Quality gates (Phase 10)
+
+- **28 new tests** — trust client, pipelines, CLI commands, server routes
+- **5 102 total** (12 skipped) — full regression pass
+- **Coverage**: `trust.py` 100% line + 100% branch, `pipelines.py` 100%/100%
+- **ruff** clean, **mypy strict** clean, **bandit** clean
+
+---
+
+## 2.0.8 — Unreleased
+
+**Phase 9: Integration Config & Local Fallback**
+
+### Added — `spanforge.sdk.config` (Phase 9)
+
+- **`load_config_file(path?) → SFConfigBlock`** (CFG-001/002) — Auto-discovers and parses `.halluccheck.toml` from the current directory, parent directories, or `$SPANFORGE_CONFIG_PATH`. Falls back to environment-variable defaults when no file is found. TOML parsing uses `tomllib` (Python 3.11+) or the vendored `tomli` fallback.
+- **`validate_config(block) → list[str]`** (CFG-005) — Validates a `SFConfigBlock` against the v6.0 schema. Returns a list of human-readable error strings (empty when valid). Checks key names, value types, ranges, and inter-field consistency.
+- **`validate_config_strict(block) → None`** (CFG-006) — Like `validate_config`, but raises `SFConfigValidationError` on the first error. Intended for startup / CI gates.
+- **`SFConfigBlock`** (CFG-003) — Typed dataclass representing the full `[spanforge]` configuration block: `enabled`, `project_id`, `endpoint`, `api_key`, `services: SFServiceToggles`, `local_fallback: SFLocalFallbackConfig`, `pii: SFPIIConfig`, `secrets: SFSecretsConfig`.
+- **`SFServiceToggles`** (CFG-003) — Per-service on/off toggles for all 8 services (`sf_pii`, `sf_secrets`, `sf_audit`, `sf_observe`, `sf_alert`, `sf_identity`, `sf_gate`, `sf_cec`).
+- **`SFLocalFallbackConfig`** (CFG-003) — Fallback settings: `enabled`, `max_retries`, `timeout_ms`.
+- **`SFPIIConfig`** / **`SFSecretsConfig`** (CFG-003) — Service-specific typed configuration blocks with `threshold` and `auto_block` settings.
+
+### Added — `spanforge.sdk.registry` (Phase 9)
+
+- **`ServiceRegistry.get_instance() → ServiceRegistry`** (CFG-010) — Thread-safe singleton holding references to all 8 service clients. Access individual clients via `registry.get("sf_pii")`.
+- **`ServiceRegistry.run_startup_check()`** (CFG-011) — Pings all enabled services and reports per-service status: `up`, `degraded` (latency > 2 s), or `down`. Raises `SFStartupError` when any service is `down` and `local_fallback.enabled=False`.
+- **`ServiceRegistry.status_response() → dict`** (CFG-012) — Returns a dict matching the `GET /v1/spanforge/status` specification. Each service entry includes `{status, latency_ms, last_checked_at}`.
+- **`ServiceRegistry.start_background_checker()`** (CFG-013) — Launches a daemon thread that re-checks all services every 60 s. Status changes logged at WARNING; recovery (down → up) at INFO.
+- **`ServiceHealth`**, **`ServiceStatus`** — Typed enums for health status tracking.
+
+### Added — `spanforge.sdk.fallback` (Phase 9)
+
+- **`pii_fallback(text)`** (CFG-020) — Local regex PII scan via `spanforge.redact`. Returns entity list without remote service dependency.
+- **`secrets_fallback(text)`** (CFG-021) — Local regex secrets scan via `spanforge.secrets`. Returns scan result.
+- **`audit_fallback(record, schema_key)`** (CFG-022) — HMAC-chained JSONL append to a local file.
+- **`observe_fallback(name, attributes)`** (CFG-023) — OTLP JSON output to stdout.
+- **`alert_fallback(topic, payload, severity)`** (CFG-024) — Logs alert to stderr at WARNING level.
+- **`identity_fallback(token?)`** (CFG-025) — Trusts `SPANFORGE_LOCAL_TOKEN` env var for CLI/local dev use.
+- **`gate_fallback(gate_id, payload)`** (CFG-026) — Runs gate evaluation locally via `spanforge.gate`.
+- **`cec_fallback(bundle_data)`** (CFG-027) — Writes CEC bundle to local JSONL file.
+
+### Added — CLI (Phase 9)
+
+- **`spanforge config validate [--file PATH]`** (CFG-007) — Validates `.halluccheck.toml` against the v6.0 schema. Exit codes: 0 = valid, 1 = validation errors, 2 = parse/I/O error.
+
+### New types (Phase 9)
+
+| Type | Module | Description |
+|------|--------|-------------|
+| `SFConfigBlock` | `spanforge.sdk.config` | Full config representation |
+| `SFServiceToggles` | `spanforge.sdk.config` | Per-service enable/disable flags |
+| `SFLocalFallbackConfig` | `spanforge.sdk.config` | Fallback settings (enabled, retries, timeout) |
+| `SFPIIConfig` | `spanforge.sdk.config` | PII-specific configuration |
+| `SFSecretsConfig` | `spanforge.sdk.config` | Secrets-specific configuration |
+| `ServiceRegistry` | `spanforge.sdk.registry` | Singleton service registry |
+| `ServiceHealth` | `spanforge.sdk.registry` | Health status data |
+| `ServiceStatus` | `spanforge.sdk.registry` | Status enum (up/degraded/down) |
+
+### New exceptions (Phase 9)
+
+| Exception | Raised when |
+|-----------|-------------|
+| `SFConfigError` | `.halluccheck.toml` cannot be parsed or I/O error |
+| `SFConfigValidationError` | Config block fails strict validation |
+| `SFStartupError` | Service is down on startup and fallback is disabled |
+| `SFServiceUnavailableError` | Service becomes unreachable at runtime |
+
+### New environment variables (Phase 9)
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `SPANFORGE_ENDPOINT` | `""` | SpanForge API endpoint URL |
+| `SPANFORGE_API_KEY` | `""` | API key for authentication |
+| `SPANFORGE_PROJECT_ID` | `"default"` | Project identifier |
+| `SPANFORGE_PII_THRESHOLD` | `0.8` | Minimum PII detection confidence |
+| `SPANFORGE_SECRETS_AUTO_BLOCK` | `true` | Auto-block high-risk secret types |
+| `SPANFORGE_LOCAL_TOKEN` | `""` | Local identity token (dev/CLI mode) |
+| `SPANFORGE_FALLBACK_TIMEOUT_MS` | `5000` | Timeout before fallback activation |
+
+### Quality gates (Phase 9)
+
+- **122 new tests** — config parser, registry lifecycle, fallback correctness, CLI validation
+- **5 074 total** (12 skipped) — full regression pass
+- **Coverage**: `config.py` 100% line + 100% branch, `fallback.py` 100%/100%, `registry.py` 99%/99%
+- **ruff** clean, **mypy strict** clean, **bandit** clean
+
+---
+
+## 2.0.7
+
+**Phase 8: CI/CD Gate Pipeline (sf-gate)**
+
+### Added — `spanforge.sdk.gate` (Phase 8)
+
+- **`SFGateClient.evaluate(gate_id, payload, *, project_id) → GateEvaluationResult`** (GAT-004) — Evaluates a single named gate against `payload`. Applies gate logic (schema validation, secrets scan, dependency audit, performance regression, or hallucination check), writes a `GateArtifact` to the artifact store, and returns the structured result immediately.
+- **`SFGateClient.evaluate_prri(prri_score, *, project_id, framework, policy_file, dimension_breakdown) → PRRIResult`** (GAT-010/011) — Evaluates a Pre-Release Readiness Index (PRRI) score against configurable thresholds. Scores ≥ `SPANFORGE_GATE_PRRI_RED_THRESHOLD` (default 70) receive `RED` verdict and block release; 30–69 = `AMBER` (warn); < 30 = `GREEN` (pass).
+- **`SFGateClient.run_pipeline(gate_config_path, *, context) → GateRunResult`** (GAT-002) — Parses and executes a YAML gate pipeline file. Gates with `on_fail: block` that evaluate to `FAIL` raise `SFGatePipelineError`. Context variables support `${var}` substitution in gate commands.
+- **`SFGateClient.get_artifact(gate_id) → GateArtifact | None`** (GAT-003) — Retrieves the most recent stored artifact for a gate. Returns `None` if no artifact is found.
+- **`SFGateClient.list_artifacts(*, project_id) → list[GateArtifact]`** — Lists all stored artifacts, optionally filtered to a project. Returns most-recent-first.
+- **`SFGateClient.purge_artifacts(*, older_than_days) → int`** — Deletes artifact files older than `older_than_days` from the store. Returns the count of files removed.
+- **`SFGateClient.get_status() → GateStatusInfo`** — Returns a live status snapshot: `{status, gate_count, artifact_count, artifact_dir, retention_days, open_circuit_breakers, healthy}`.
+- **`SFGateClient.configure(config) → None`** — Overrides gate settings at runtime. Keys not present keep their current (env-var-sourced or default) values.
+
+### Gate YAML engine (Phase 8)
+
+The `GateRunner` class parses YAML gate pipeline files and dispatches each gate to its executor. Supports sequential and parallel execution (`parallel: true`), per-gate timeouts (`timeout_seconds`), conditional skipping (`skip_on`), and three failure policies (`on_fail: block | warn | report`).
+
+**Built-in gate executors:**
+
+| Type | Description |
+|------|-------------|
+| `schema_validation` | Validates payload against the SpanForge v2.0 JSON Schema. |
+| `dependency_security` | Audits package dependencies for known CVEs via the advisory database. |
+| `secrets_scan` | Runs the built-in 20-pattern secrets scanner over target files. |
+| `performance_regression` | Compares p50/p95/p99 latencies against a stored baseline. |
+| `halluccheck_prri` | Evaluates the Pre-Release Readiness Index against policy thresholds. |
+| `halluccheck_trust` | Composite trust gate: HRI critical rate + PII window + secrets window. |
+
+### New types (Phase 8)
+
+Added to `spanforge.sdk._types` and re-exported from `spanforge.sdk`:
+
+| Type | Description |
+|------|-------------|
+| `GateVerdict` | Enum — `PASS`, `FAIL`, `WARN`, `SKIPPED`. |
+| `PRRIVerdict` | Enum — `GREEN` (< 30), `AMBER` (30–69), `RED` (≥ 70). |
+| `GateArtifact` | Immutable record written to the artifact store after each gate evaluation: `{gate_id, name, verdict, metrics, timestamp, duration_ms, artifact_path}`. |
+| `GateEvaluationResult` | Result of a single `evaluate()` call: `{gate_id, verdict, metrics, artifact_url, duration_ms, timestamp}`. |
+| `PRRIResult` | Result of `evaluate_prri()`: `{gate_id, prri_score, verdict, dimension_breakdown, framework, policy_file, timestamp, allow}`. |
+| `TrustGateResult` | Detailed trust gate outcome: `{gate_id, verdict, hri_critical_rate, hri_critical_threshold, pii_detected, pii_detections_24h, secrets_detected, secrets_detections_24h, failures, timestamp, pipeline_id, project_id}`. |
+| `GateStatusInfo` | Live status snapshot: `{status, gate_count, artifact_count, artifact_dir, retention_days, open_circuit_breakers, healthy}`. |
+
+### New exceptions (Phase 8)
+
+Added to `spanforge.sdk._exceptions` and re-exported from `spanforge.sdk`:
+
+| Exception | Base | When raised |
+|-----------|------|-------------|
+| `SFGateError` | `SpanForgeError` | Base for all gate exceptions. Never raised directly. |
+| `SFGateEvaluationError` | `SFGateError` | A single gate evaluation failed (logic error, unsupported payload, or `FAIL` with `block` policy). |
+| `SFGatePipelineError` | `SFGateError` | Pipeline runner encountered one or more blocking failures. `failed_gates: list[str]` attribute. |
+| `SFGateTrustFailedError` | `SFGateError` | Trust gate detected a blocking condition. `trust_result: TrustGateResult` attribute carries full details. |
+| `SFGateSchemaError` | `SFGateError` | YAML gate configuration is invalid (missing field, unrecognised type, or malformed pass condition). |
+
+### Environment variables (Phase 8)
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `SPANFORGE_GATE_ARTIFACT_DIR` | `.sf-gate/artifacts` | Directory for persisted `GateArtifact` JSON files. |
+| `SPANFORGE_GATE_ARTIFACT_RETENTION_DAYS` | `90` | Artifact retention period for `purge_artifacts()`. |
+| `SPANFORGE_GATE_PRRI_RED_THRESHOLD` | `70` | PRRI scores ≥ this value receive `RED` verdict and block release. |
+| `SPANFORGE_GATE_HRI_CRITICAL_THRESHOLD` | `0.05` | HRI critical rate threshold (0–1) for the trust gate. |
+| `SPANFORGE_GATE_PII_WINDOW_HOURS` | `24` | PII detection audit window in hours for the trust gate. |
+| `SPANFORGE_GATE_SECRETS_WINDOW_HOURS` | `24` | Secrets detection audit window in hours for the trust gate. |
+
+### Promoted from stub (Phase 8)
+
+`spanforge.sdk.sf_gate` — promoted from a no-op stub to a fully operational `SFGateClient` instance backed by `GateRunner`, six gate executors, and a durable JSON artifact store.
+
+### Quality gates
+
+- **174 new tests** — `tests/test_sf_gate.py` covers all 45 acceptance criteria (GAT-001 through GAT-045): single-gate evaluation, PRRI verdicts (GREEN/AMBER/RED), trust gate blocking/passing, YAML pipeline runner, parallel execution, artifact persistence, purge, status, configure, all five exception types, and 30+ edge cases.
+- **4,952 total tests** — all passing.
+- ruff, mypy, and bandit clean.
+
+---
+
+## 2.0.6 — Unreleased
+
+**Phase 7: Alert Routing Service (sf-alert)**
+
+### Added — `spanforge.sdk.alert` (Phase 7)
+
+- **`SFAlertClient.publish(topic, payload, *, severity, project_id) → PublishResult`** (ALT-001) — Publishes an alert to all configured sinks. Validates topic, checks maintenance windows, deduplicates by `(topic, project_id)`, applies per-project rate limits, and returns a `PublishResult` immediately. The first alert in a topic-prefix group is dispatched immediately; subsequent alerts within 2 minutes are coalesced.
+- **`SFAlertClient.acknowledge(alert_id) → bool`** (ALT-020) — Cancels the escalation timer for a CRITICAL alert. Returns `True` if a pending timer was found and cancelled.
+- **`SFAlertClient.register_topic(topic, description, default_severity, *, runbook_url, dedup_window_seconds) → None`** (ALT-002/003) — Registers a custom topic in the topic registry with optional runbook URL and per-topic deduplication window.
+- **`SFAlertClient.set_maintenance_window(project_id, start, end) → None`** (ALT-030) — Suppresses all alerts for a project during the specified UTC window. Appends a `spanforge.alert.maintenance.v1` audit record.
+- **`SFAlertClient.remove_maintenance_windows(project_id) → int`** — Removes all maintenance windows for a project; returns count removed.
+- **`SFAlertClient.get_alert_history(*, project_id, topic, from_dt, to_dt, status, limit) → list[AlertRecord]`** (ALT-042) — Retrieves alert history with optional filtering by project, topic, time range, and status. Returns most-recent-first, bounded by `limit` (default 100).
+- **`SFAlertClient.get_status() → AlertStatusInfo`** — Returns `{status, publish_count, suppress_count, sink_count, queue_depth, pending_escalations, healthy}`.
+- **`SFAlertClient.add_sink(alerter, name) → None`** — Dynamically adds a sink at runtime.
+- **`SFAlertClient.healthy: bool`** — `True` when the worker thread is alive.
+- **`SFAlertClient.shutdown(timeout) → None`** — Drains the dispatch queue, cancels all escalation timers, and stops the worker thread.
+- **Eight built-in topics** (ALT-003) — Pre-registered: `halluccheck.drift.red`, `halluccheck.drift.amber`, `halluccheck.pii.detected`, `halluccheck.cost.exceeded`, `halluccheck.latency.breach`, `halluccheck.audit.gap`, `halluccheck.security.violation`, `halluccheck.compliance.breach`.
+- **Deduplication** (ALT-010) — `(topic, project_id)` pairs suppressed for `dedup_window_seconds` (default: 300 s). Per-topic overrides via `register_topic`.
+- **Alert grouping** (ALT-011) — First alert in a `(topic_prefix, project_id)` group dispatched immediately; subsequent alerts within 2 minutes coalesced into one notification.
+- **CRITICAL escalation policy** (ALT-020/021) — CRITICAL alerts schedule a `threading.Timer` (default: 900 s). If not acknowledged, alert is re-dispatched with `[ESCALATED]` title prefix.
+- **Maintenance-window suppression** (ALT-030) — Per-project UTC windows; suppressed alerts are audit-logged and returned as `PublishResult(suppressed=True)`.
+- **Per-project rate limiting** (ALT-012) — Sliding window 60 alerts/minute; configurable. Strict mode raises `SFAlertRateLimitedError`.
+- **Audit integration** — Every publish, suppression, and maintenance-window event appended to `sf_audit` schema `spanforge.alert.v1` (best-effort; failures logged at DEBUG).
+- **Per-sink circuit breakers** — Each sink has its own `_CircuitBreaker` (5-failure threshold, 30 s reset). Failing sinks are bypassed without blocking other sinks.
+- **History bounded at 10,000 records** — Oldest entries discarded on overflow.
+
+### New sinks (Phase 7)
+
+All sinks in `spanforge.sdk.alert`:
+
+| Class | Protocol | Security |
+|-------|----------|----------|
+| `WebhookAlerter(url, secret, timeout)` | POST JSON | HMAC `X-SF-Signature: sha256=<hex>`, SSRF guard |
+| `OpsGenieAlerter(api_key, region, timeout)` | OpsGenie v2 Alerts API | `GenieKey` auth, P1–P5 priority map, US/EU URL |
+| `VictorOpsAlerter(rest_endpoint_url, timeout)` | VictorOps REST Endpoint | `message_type` CRITICAL/WARNING/INFO |
+| `IncidentIOAlerter(api_key, timeout)` | Incident.io v2 Alerts API | `Bearer` auth, critical/major/minor severity |
+| `SMSAlerter(account_sid, auth_token, from_number, to_numbers, timeout)` | Twilio Messages API | Basic auth, 160-char truncation, `repr=False` token |
+| `TeamsAdaptiveCardAlerter(webhook_url, timeout)` | Teams Incoming Webhook | Adaptive Card v1.3, severity colour band, FactSet, Acknowledge/Silence action buttons |
+
+### New types (Phase 7)
+
+Added to `spanforge.sdk._types` and re-exported from `spanforge.sdk`:
+
+| Type | Description |
+|------|-------------|
+| `AlertSeverity` | Enum: `INFO`, `WARNING`, `HIGH`, `CRITICAL`; `from_str()` with fallback to `WARNING` |
+| `PublishResult` | `{alert_id, routed_to, suppressed}` |
+| `TopicRegistration` | `{topic, description, default_severity, runbook_url, dedup_window_seconds}` |
+| `MaintenanceWindow` | `{project_id, start, end}` |
+| `AlertRecord` | `{alert_id, topic, severity, project_id, payload, sinks_notified, suppressed, status, timestamp}` |
+| `AlertStatusInfo` | `{status, publish_count, suppress_count, sink_count, queue_depth, pending_escalations, healthy}` |
+
+### New exceptions (Phase 7)
+
+Added to `spanforge.sdk._exceptions` and re-exported from `spanforge.sdk`:
+
+| Exception | Trigger |
+|-----------|---------|
+| `SFAlertError` | Base for all alert errors |
+| `SFAlertPublishError` | All sinks circuit-open on publish |
+| `SFAlertRateLimitedError` | Per-project rate limit exceeded (strict mode) |
+| `SFAlertQueueFullError` | Dispatch queue full (> 1 000 items) |
+
+### Environment variables (Phase 7)
+
+| Variable | Effect |
+|----------|--------|
+| `SPANFORGE_ALERT_SLACK_WEBHOOK` | Auto-register Slack sink |
+| `SPANFORGE_ALERT_TEAMS_WEBHOOK` | Auto-register Teams Adaptive Card sink |
+| `SPANFORGE_ALERT_PAGERDUTY_KEY` | Auto-register PagerDuty sink |
+| `SPANFORGE_ALERT_OPSGENIE_KEY` | Auto-register OpsGenie sink |
+| `SPANFORGE_ALERT_OPSGENIE_REGION` | OpsGenie region (`us` or `eu`, default `us`) |
+| `SPANFORGE_ALERT_VICTOROPS_URL` | Auto-register VictorOps sink |
+| `SPANFORGE_ALERT_WEBHOOK_URL` | Auto-register generic webhook sink |
+| `SPANFORGE_ALERT_WEBHOOK_SECRET` | HMAC secret for generic webhook |
+| `SPANFORGE_ALERT_DEDUP_SECONDS` | Override dedup window (default `300`) |
+| `SPANFORGE_ALERT_RATE_LIMIT` | Override rate limit per minute (default `60`) |
+| `SPANFORGE_ALERT_ESCALATION_WAIT` | Override escalation wait seconds (default `900`) |
+
+### Promoted from stub (Phase 7)
+
+- `sf_alert` — previously `_UnimplementedClient("alert")`; now `SFAlertClient(_get_config())`.
+
+---
+
+## 2.0.5 — Unreleased
+
+**Phase 6: Observability Named SDK (sf-observe)**
+
+### Added — `spanforge.sdk.observe` (Phase 6)
+
+- **`SFObserveClient.export_spans(spans, *, receiver_config=None) → ExportResult`** (OBS-001) — Exports a list of OTLP span dicts to the configured backend. Accepts a per-call `ReceiverConfig` override to route to any OTLP-compatible collector. Returns `{exported_count, failed_count, backend, exported_at}`. Falls back to the local buffer on failure when `local_fallback_enabled=True`.
+- **`SFObserveClient.add_annotation(event_type, payload, *, project_id) → str`** (OBS-002) — Stores a structured annotation (deploy marker, threshold breach, etc.) in the in-memory annotation log. Returns the generated UUID annotation ID.
+- **`SFObserveClient.get_annotations(event_type, from_dt, to_dt, *, project_id="") → list[Annotation]`** (OBS-003) — Retrieves stored annotations filtered by event type (``"*"`` for all), ISO-8601 time window, and optional project ID.
+- **`SFObserveClient.emit_span(name, attributes) → str`** (OBS-004) — Constructs a fully-formed OTLP span with W3C TraceContext, OTel GenAI attributes, and error detection; applies the active sampler; emits to the backend; returns the 16-hex span ID.
+- **`SFObserveClient.get_status() → ObserveStatusInfo`** — Returns `{status, backend, sampler_strategy, span_count, annotation_count, export_count, last_export_at, healthy}`.
+- **`SFObserveClient.healthy: bool`** (OBS-043) — `True` unless the most recent export attempt raised an unrecovered error.
+- **`SFObserveClient.last_export_at: str | None`** (OBS-043) — ISO-8601 timestamp of the last successful `export_spans` call.
+- **`make_traceparent(trace_id_hex, span_id_hex, *, sampled) → str`** (OBS-011) — Encodes a W3C `traceparent` header value (`00-<32>-<16>-{01|00}`).
+- **`extract_traceparent(traceparent) → tuple[str, str, bool]`** (OBS-011) — Parses a `traceparent` header; raises `ValueError` on malformed input.
+- **W3C Baggage injection** (OBS-012) — `emit_span` injects `project_id`, `domain`, and `tier` keys into a `baggage` span attribute when present in `attributes`.
+- **OTel GenAI semantic conventions** (OBS-010, OBS-014) — `gen_ai.*` attribute keys are forwarded unchanged; `otel.status_code`, `exception.message` handled per OTel spec.
+- **Error span detection** (OBS-015) — Sets `status.code = STATUS_CODE_ERROR` and `otel.status_code = ERROR` when `attributes["status"] == "error"` or `attributes["otel.status_code"] == "ERROR"`.
+- **OTel resource attributes** (OBS-013) — Every span carries `service.name`, `service.version`, `service.namespace`, `telemetry.sdk.name`, `telemetry.sdk.language`, `telemetry.sdk.version`, and `deployment.environment`.
+- **Sampling strategies** (OBS-031) — Configurable via `SPANFORGE_OBSERVE_SAMPLER` (`always_on` [default], `always_off`, `parent_based`, `trace_id_ratio`). Sample rate controlled by `SPANFORGE_OBSERVE_SAMPLE_RATE` (default `1.0`).
+- **Backend routing** (OBS-001, OBS-040, OBS-041) — `SPANFORGE_OBSERVE_BACKEND` selects from: `local` (bounded deque, default), `otlp` (`/v1/traces`), `datadog` (`/api/v0.2/traces`), `grafana` (`/api/v1/push`), `splunk` (HEC `/services/collector`), `elastic` (ECS `/_bulk`).
+- **Splunk HEC export** (OBS-040) — Spans serialised as `{"event": <span>, "sourcetype": "spanforge:otel"}` events.
+- **Elastic ECS export** (OBS-041) — Spans translated to Elastic Common Schema with `trace.id`, `transaction.id`, `span.name`, `event.outcome`, `@timestamp`.
+- **Local span buffer** — Bounded at 10,000 spans; oldest entries discarded on overflow.
+- **Thread safety** — `_ObserveSessionStats` protected by `threading.Lock`; annotation store uses a separate lock.
+
+### New types (Phase 6)
+
+Added to `spanforge.sdk._types` and re-exported from `spanforge.sdk`:
+
+| Type | Description |
+|------|-------------|
+| `SamplerStrategy` | Enum: `ALWAYS_ON`, `ALWAYS_OFF`, `PARENT_BASED`, `TRACE_ID_RATIO` |
+| `ReceiverConfig` | `{endpoint, headers, timeout_seconds}` — per-call OTLP receiver config |
+| `ExportResult` | `{exported_count, failed_count, backend, exported_at}` |
+| `Annotation` | `{annotation_id, event_type, payload, project_id, created_at}` |
+| `ObserveStatusInfo` | `{status, backend, sampler_strategy, span_count, annotation_count, export_count, last_export_at, healthy}` |
+
+### New exceptions (Phase 6)
+
+Added to `spanforge.sdk._exceptions` and re-exported from `spanforge.sdk`:
+
+| Exception | Trigger |
+|-----------|---------|
+| `SFObserveError` | Base for all observe errors |
+| `SFObserveExportError` | `export_spans` transport or HTTP failure |
+| `SFObserveEmitError` | `emit_span` input validation or export failure |
+| `SFObserveAnnotationError` | `add_annotation` / `get_annotations` validation failure |
+
+### Promoted from stub (Phase 6)
+
+- `sf_observe` — previously `_UnimplementedClient("observe")`; now `SFObserveClient(_get_config())`.
+
+---
+
+## 2.0.4 — Unreleased
+
+**Phase 5: Compliance Evidence Chain (sf-cec)**
+
+### Added — `spanforge.sdk.cec` (Phase 5)
+
+- **`SFCECClient.build_bundle(project_id, date_range, frameworks=None) → BundleResult`** — orchestrates a full CEC bundle: exports audit records for all 6 schema keys via `sf_audit`, runs clause mapping for each requested framework, assembles a signed ZIP, and returns `{bundle_id, zip_path, hmac_manifest, record_counts, frameworks_covered, generated_at}`.
+- **ZIP structure** — `halluccheck_cec_{project}_{from}_{to}.zip` containing:
+  - `manifest.json` — record inventory with HMAC-SHA256 signature
+  - `clause_map.json` — per-framework clause satisfaction entries (SATISFIED / PARTIAL / GAP)
+  - `chain_proof.json` — `verify_chain()` result from sf-audit
+  - `attestation.json` — HMAC-signed attestation metadata
+  - `rfc3161_timestamp.tsr` — RFC 3161 trusted timestamp stub
+  - `score_records/`, `bias_reports/`, `prri_records/`, `drift_events/`, `pii_detections/`, `gate_evaluations/` — NDJSON evidence per schema key
+- **`SFCECClient.verify_bundle(zip_path) → BundleVerificationResult`** — re-computes manifest HMAC, verifies chain proof, validates TSR presence, and returns `{bundle_id, manifest_valid, chain_valid, timestamp_valid, overall_valid, errors}`.
+- **`SFCECClient.generate_dpa(project_id, controller_details, processor_details, *, subject_categories, transfer_mechanisms, retention_period_days, law_of_contract) → DPADocument`** — generates a GDPR Article 28 Data Processing Agreement. Returns `{document_id, project_id, controller_details, processor_details, generated_at, content, subject_categories, transfer_mechanisms}`.
+- **`SFCECClient.get_status() → CECStatusInfo`** — returns `{byos_provider, bundle_count, last_bundle_at, frameworks_supported}`.
+- **Supported regulatory frameworks** — `eu_ai_act`, `iso_42001`, `nist_ai_rmf`, `iso27001`, `soc2`.
+- **Clause mapping detail per framework**:
+  - *EU AI Act* — Art.9 (Risk Management), Art.10 (Data Governance), Art.12 (Record-keeping), Art.13 (Transparency), Art.14 (Human Oversight), Art.15 (Accuracy & Robustness)
+  - *ISO/IEC 42001* — Clause 6.1 (Risk assessment), 8.3 (Impact assessment), 9.1 (Monitoring), 10 (Improvement)
+  - *NIST AI RMF* — GOVERN, MAP, MEASURE, MANAGE
+  - *ISO/IEC 27001 Annex A* — A.12.4.1, A.12.4.2, A.12.4.3
+  - *SOC 2* — CC6, CC7, CC9
+- **BYOS detection** — respects `SPANFORGE_AUDIT_BYOS_PROVIDER` env var; `get_status()` reflects provider.
+- **HMAC signing** — uses `SPANFORGE_SIGNING_KEY` env var; warns at client init if unset or using insecure default.
+- **Thread safety** — `_CECSessionStats` dataclass with `threading.Lock()` protects `bundle_count` and `last_bundle_at`.
+
+### New types (Phase 5)
+
+Added to `spanforge.sdk._types` and re-exported from `spanforge.sdk`:
+
+| Type | Description |
+|------|-------------|
+| `ClauseSatisfaction` | Enum: `SATISFIED`, `PARTIAL`, `GAP` |
+| `ClauseMapEntry` | `{framework, clause_id, clause_name, description, status, evidence_count}` |
+| `BundleResult` | Result of `build_bundle()` |
+| `BundleVerificationResult` | Result of `verify_bundle()` |
+| `DPADocument` | Result of `generate_dpa()` |
+| `CECStatusInfo` | Result of `get_status()` |
+
+### New exceptions (Phase 5)
+
+Added to `spanforge.sdk._exceptions` and re-exported from `spanforge.sdk`:
+
+| Exception | When raised |
+|-----------|-------------|
+| `SFCECError` | Base class for all sf-cec errors |
+| `SFCECBuildError` | Bundle assembly fails (ZIP write error, HMAC failure) |
+| `SFCECVerifyError` | Bundle verification fails (file not found, HMAC mismatch, tampered manifest) |
+| `SFCECExportError` | DPA generation or export fails |
+
+### SDK singleton
+
+- `sf_cec: SFCECClient` singleton registered in `spanforge.sdk`; loaded from `_get_config()` on import.
+- `configure()` now recreates `sf_cec` alongside the other service clients.
+
+### Quality Gates (Phase 5)
+
+- **148 Phase 5 tests** passing, 0 failures.
+- `ruff check` ✅ | `mypy --strict` ✅ | `bandit -r -ll` ✅
+- **4 544 total tests** passing across full suite (12 skipped).
+
+---
+
+## 2.0.3 — Unreleased
+
+**Phase 4: Audit Service High-Level API (sf-audit)**
+
+### Added — `spanforge.sdk.audit` (Phase 4)
+
+- **`SFAuditClient.append(record, schema_key, *, project_id, strict_schema) -> AuditAppendResult`** — validates schema key, appends HMAC-chained record to local store, writes T.R.U.S.T. feed on score schemas. Thread-safe.
+- **`SFAuditClient.sign(record) -> SignedRecord`** — HMAC-SHA256 sign a raw dict.
+- **`SFAuditClient.verify_chain(records) -> dict`** — re-derive and verify HMAC chain integrity; returns `{valid, verified_count, tampered_count, first_tampered, gaps}`.
+- **`SFAuditClient.query(*, schema_key, project_id, from_dt, to_dt, limit) -> list[dict]`** — O(log n) SQLite-indexed date-range query with linear fallback.
+- **`SFAuditClient.export(*, format, compress) -> bytes`** — JSONL or CSV export of full local store, with optional gzip compression.
+- **`SFAuditClient.get_trust_scorecard(*, project_id, from_dt, to_dt) -> TrustScorecard`** — aggregates T.R.U.S.T. dimensions (hallucination, PII hygiene, secrets hygiene, gate pass rate, compliance posture).
+- **`SFAuditClient.generate_article30_record(*, project_id, controller_name, ...) -> Article30Record`** — GDPR Article 30 Records of Processing Activity.
+- **`SFAuditClient.get_status() -> AuditStatusInfo`** — returns backend, record count, chain length, BYOS provider, last record timestamp.
+- Schema key registry with 13 known keys (`halluccheck.*`, `spanforge.*`); `strict_schema=False` allows custom keys.
+- BYOS routing via `SPANFORGE_AUDIT_BYOS_PROVIDER` env var (`s3`, `azure`, `gcs`, `r2`).
+- SQLite WAL-mode index for O(log n) date-range queries; in-memory fallback.
+- New exceptions: `SFAuditError`, `SFAuditSchemaError`, `SFAuditAppendError`, `SFAuditQueryError`.
+- New types: `AuditAppendResult`, `SignedRecord`, `TrustDimension`, `TrustScorecard`, `Article30Record`, `AuditStatusInfo`.
+- `sf_audit` singleton registered in `spanforge.sdk` with `configure()` support.
+
+---
+
+**Phase 3: PII Service Hardening (sf-pii)**
+
+### Added — `spanforge.sdk.pii` (Phase 3)
+
+- **`SFPIIClient.scan_text(text, *, language) -> PIITextScanResult`** — full-text PII scan
+  via Presidio with `redact` fallback; returns `{entities, redacted_text, detected}`.
+- **`SFPIIClient.anonymise(payload) -> PIIAnonymisedResult`** — recursively replaces PII in
+  all string fields with `<TYPE>` placeholders; returns `{clean_payload, redaction_manifest}`.
+- **`SFPIIClient.scan_batch(texts) -> list[PIITextScanResult]`** — parallel batch scan.
+- **`SFPIIClient.apply_pipeline_action(scan_result, action, threshold) -> PIIPipelineResult`** —
+  enforces `"flag"` / `"redact"` / `"block"` (raises `SFPIIBlockedError`); filters by
+  confidence threshold (default 0.85).
+- **`SFPIIClient.get_status() -> PIIServiceStatus`** — returns
+  `{status, presidio_available, entity_types_loaded, last_scan_at}`.
+- **`SFPIIClient.erase_subject(subject_id, project_id) -> ErasureReceipt`** — GDPR Article 17
+  erasure; subject ID SHA-256 hashed in receipt.
+- **`SFPIIClient.export_subject_data(subject_id, project_id) -> DSARExport`** — CCPA DSAR export
+  aggregating all audit events for a subject.
+- **`SFPIIClient.safe_harbor_deidentify(text) -> SafeHarborResult`** — HIPAA Safe Harbor
+  de-identification of 18 PHI identifier types (45 CFR §164.514(b)(2)); dates → year,
+  ages > 89 → "90+", ZIP → first 3 digits.
+- **`SFPIIClient.audit_training_data(dataset_path, *, max_records) -> TrainingDataPIIReport`** —
+  EU AI Act Article 10 training-data PII prevalence report.
+- **`SFPIIClient.get_pii_stats(project_id) -> list[PIIHeatMapEntry]`** — per-entity-type
+  detection stats for dashboard heat-map.
+
+- **`POST /v1/scan/pii`** HTTP endpoint — standalone PII scan; returns `{entities[], redacted_text}`.
+- **`GET /v1/spanforge/status`** — extended with `sf_pii` status block.
+
+- **New types** in `spanforge.sdk._types`:
+  `PIITextScanResult`, `PIIAnonymisedResult`, `PIIRedactionManifestEntry`,
+  `PIIPipelineResult`, `PIIServiceStatus`, `PIIHeatMapEntry`,
+  `ErasureReceipt`, `DSARExport`, `SafeHarborResult`, `TrainingDataPIIReport`,
+  `PIIEntityResult`.
+
+- **New exceptions** in `spanforge.sdk._exceptions`:
+  `SFPIIBlockedError` (HTTP 422, action=block), `SFPIIDPDPConsentMissingError`
+  (DPDP consent missing for subject).
+
+- **China PIPL patterns** in `presidio_backend.py`: Chinese national ID (`\d{17}[\dX]`),
+  Chinese mobile (`1[3-9]\d{9}`), Chinese bank card.
+
+### Quality Gates (Phase 3)
+
+- **273 Phase 3 tests** passing, 1 presidio integration skip.
+- **95% line coverage** on `sdk/pii.py`; **92.31% repo-wide**.
+- `ruff check` ✅  |  `mypy --strict` ✅  |  `bandit -r` ✅
+
+---
+
+**Phase 1: sf-identity + sf-pii Service SDK**
+
+### Added — `spanforge.sdk` (Phase 1: sf-identity + sf-pii)
+
+- **`SFIdentityClient`** (`spanforge.sdk.identity`) — full sf-identity API surface:
+  - `issue_api_key(scopes, key_format, quota_tier, ip_allowlist)` — cryptographically signed
+    key in `sf_live_*` / `sf_test_*` format (48 base62 chars).
+  - `rotate_api_key(old_key)` — atomic rotate with immediate old-key revocation.
+  - `revoke_api_key(key)` — single-use revocation; replays silently ignored.
+  - `verify_api_key(key)` — validates format, revocation state, IP allowlist, and rate limit.
+  - `create_session(api_key)` — issues HS256 JWT (RS256 when remote service configured).
+  - `verify_token(token)` — returns `JWTClaims`; raises `SFTokenInvalidError` on tampering.
+  - `introspect_token(token)` — returns `TokenIntrospectionResult` with expiry and scopes.
+  - `issue_magic_link(identifier, redirect_url)` — 15-minute HMAC-signed single-use URL.
+  - `exchange_magic_link(token)` — exchanges token for a session JWT; replays raise
+    `SFTokenInvalidError`.
+  - `enroll_totp(identifier)` — RFC 6238 TOTP (SHA-1, 6 digits, 30 s); returns
+    `TOTPEnrollResult` with provisioning URI and 8 single-use backup codes.
+  - `verify_totp(identifier, code)` — ±1 time-step drift tolerance; 5-failure lockout.
+  - `verify_backup_code(identifier, code)` — single-use; stored as SHA-256 hashes only.
+  - Brute-force lockout: 5 consecutive failures → 15-minute lockout (`SFBruteForceLockedError`).
+  - IP allowlist enforcement (`SFIPDeniedError`).
+  - Per-key sliding-window rate limiting (`SFQuotaExceededError`).
+
+- **`SFPIIClient`** (`spanforge.sdk.pii`) — full sf-pii API surface:
+  - `scan(event)` — deep regex PII scan; returns `SFPIIScanResult` (hits, field paths, types).
+  - `redact(event, policy)` — apply `RedactionPolicy`; returns `SFPIIRedactResult`.
+  - `contains_pii(event)` — boolean check; never raises.
+  - `assert_redacted(event)` — raises `SFPIINotRedactedError` with SHA-256-hashed context
+    (never raw PII) if unredacted PII remains.
+  - `anonymize(text, sensitivity)` — replaces PII patterns in raw strings; returns
+    `SFPIIAnonymizeResult` with replacement count and labels.
+  - `wrap(event)` — returns a `Redactable` wrapper for chained redaction.
+  - `make_policy(min_sensitivity, redacted_by)` — convenience `RedactionPolicy` factory.
+
+- **`spanforge.sdk._base`** — shared infrastructure:
+  - `SFClientConfig` — dataclass loaded from env vars (`SPANFORGE_ENDPOINT`,
+    `SPANFORGE_API_KEY`, `SPANFORGE_LOCAL_FALLBACK`, `SPANFORGE_TLS_VERIFY`).
+    Supports `from_env()` and `from_dict()`.
+  - `SFServiceClient` — abstract base with HTTP retry (3 attempts, exponential back-off),
+    circuit breaker (5 failures → OPEN, 30 s reset), and TLS verification.
+  - `_CircuitBreaker` — thread-safe CLOSED → OPEN → CLOSED lifecycle.
+  - `_SlidingWindowRateLimiter` — per-key, configurable window and max calls.
+
+- **`spanforge.sdk._types`** — value objects:
+  - `SecretStr` — never exposed in `__repr__` / `__str__` / pickle; equality via
+    `hmac.compare_digest`.
+  - `APIKeyBundle`, `JWTClaims`, `MagicLinkResult`, `TOTPEnrollResult`,
+    `TokenIntrospectionResult`, `RateLimitInfo`.
+  - `SFPIIScanResult`, `SFPIIHit`, `SFPIIRedactResult`, `SFPIIAnonymizeResult`.
+  - `KeyFormat`, `KeyScope`, `QuotaTier` enumerations.
+
+- **`spanforge.sdk._exceptions`** — full exception hierarchy:
+  - `SFError` base → `SFAuthError`, `SFTokenInvalidError`, `SFScopeError`,
+    `SFIPDeniedError`, `SFMFARequiredError`, `SFBruteForceLockedError`,
+    `SFQuotaExceededError`, `SFRateLimitError`, `SFServiceUnavailableError`,
+    `SFStartupError`, `SFKeyFormatError`.
+  - `SFPIIError` → `SFPIIScanError`, `SFPIINotRedactedError`, `SFPIIPolicyError`.
+
+- Pre-built `sf_identity` and `sf_pii` singletons exported from `spanforge.sdk`.
+  Configuration auto-loaded from env vars on first import; call `configure()` to override.
+
+### Changed — Code Quality
+
+- `ruff check src/` now passes with **zero errors** — 60 missing public-method docstrings
+  added across `processor.py`, `prompt_registry.py`, `redact.py`, `sampling.py`, and
+  `signing.py`; `pyproject.toml` extended with justified `ignore` and `per-file-ignores`
+  entries for rule categories that are either inapplicable (lazy imports, module-state
+  globals) or intentionally suppressed project-wide.
+
+---
+
+**Upstream utility modules from sf-behaviour**
+
+### Added — `spanforge.http`
+
+- **`chat_completion(endpoint, model, messages, …)`** — zero-dependency,
+  synchronous OpenAI-compatible HTTP client built on `urllib.request`.
+  Retries on `429 / 5xx` and network errors with exponential back-off
+  (`min(2**attempt, 8)` s, up to `max_retries` attempts).
+- **`ChatCompletionResponse`** frozen dataclass: `text`, `latency_ms`,
+  `error`, `prompt_tokens`, `completion_tokens`, `total_tokens`, `ok`.
+- Falls back to `OPENAI_API_KEY` env var when no `api_key` is supplied.
+
+### Added — `spanforge.io`
+
+- **`write_jsonl(records, path, *, mode)`** — write an iterable of dicts as
+  newline-delimited JSON; creates parent directories automatically.
+- **`read_jsonl(path, *, event_type, skip_errors)`** — read all dicts from a
+  JSONL file with optional `event_type` filtering and resilient error
+  handling.
+- **`append_jsonl(record, path)`** — single-record convenience wrapper.
+- **`write_events(payloads, path, *, event_type, source, mode)`** — wraps
+  each payload in a `{"event_type":…, "source":…, "payload":…}` envelope.
+- **`read_events(path, *, event_type)`** — reads envelopes and returns
+  unwrapped payloads filtered by type.
+
+### Added — `spanforge.plugins`
+
+- **`discover(group)`** — load all entry-point plugins registered under
+  *group*.  Handles the Python 3.9 / 3.10 / 3.12+ `entry_points()` API
+  split; silently skips broken entry points.
+
+### Added — `spanforge.schema`
+
+- **`validate(instance, schema, path)`** — lightweight, zero-dependency JSON
+  Schema validator.  Returns a list of error strings.  Supports `type`,
+  `enum`, `required`, `properties`, `items`, `minimum`, `maximum`,
+  `minLength`, `maxLength`.
+- **`validate_strict(…)`** — raises `SchemaValidationError` on any error.
+- **`SchemaValidationError`** — `ValueError` subclass carrying an `errors`
+  list.
+- Correctly distinguishes `bool` from `integer`/`number` (Python's
+  `isinstance(True, int)` is `True` but JSON Schema treats them as separate
+  types).
+
+### Added — `spanforge.regression`
+
+- **`RegressionDetector[T]`** — generic per-case pass/fail regression
+  detector.  Identifies *new failures* and *score drops* between a baseline
+  and current eval run.
+- **`RegressionReport[T]`** — result dataclass with `new_failures`,
+  `score_drops`, `has_regression`, and `summary()`.
+- **`compare(…)`** — convenience one-shot function.
+- Distinct from the existing `spanforge.eval.RegressionDetector`
+  (mean-based); exposed as `PassFailRegressionDetector` at the top-level
+  package to avoid naming collision.
+
+### Added — `spanforge.stats`
+
+- **`percentile(values, p)`** — linear-interpolation percentile; does not
+  mutate the input list.
+- **`latency_summary(values_ms)`** — returns `{count, mean, min, max, p50,
+  p95, p99}` rounded to 3 dp; returns zeroed output for empty input.
+
+### Added — `spanforge._ansi`
+
+- **`color(text, code, *, file)`** — wraps text with ANSI escape codes.
+  Suppressed automatically when `NO_COLOR` is set or the target file is not
+  a TTY.
+- **`strip_ansi(text)`** — strips all `\033[…m` sequences from a string
+  (useful in tests and log processors).
+- Color constants: `GREEN`, `RED`, `YELLOW`, `CYAN`, `BOLD`, `RESET`.
+
+### Added — `spanforge.eval.BehaviourScorer`
+
+- **`BehaviourScorer`** abstract base class — pluggable scorer for named
+  test-case workflows.  Subclasses implement
+  `score(case, response) -> (float, reason)`.  Distinct from the existing
+  `EvalScorer` Protocol (which scores full `dict` examples).
+- Registered via `spanforge.scorers` entry-point group for third-party
+  scorer packages.
+
+### Added — `spanforge.config.interpolate_env()`
+
+- **`interpolate_env(data)`** — recursively walks `str`/`dict`/`list`
+  structures and replaces `${VAR}` / `${VAR:default}` placeholders with
+  environment variable values.  Non-string leaves are returned unchanged.
+  Unresolved variables with no default are left as-is.
+
+### Exposed at top-level (`spanforge.*`)
+
+All new symbols are exported from the top-level `spanforge` package:
+`BehaviourScorer`, `ChatCompletionResponse`, `JsonSchemaValidationError`,
+`PassFailRegressionDetector`, `RegressionReport`, `ansi_color`,
+`append_jsonl`, `chat_completion`, `compare_regressions`, `discover_plugins`,
+`interpolate_env`, `latency_summary`, `percentile`, `read_events`,
+`read_jsonl`, `strip_ansi`, `validate_json_schema`,
+`validate_json_schema_strict`, `write_events`, `write_jsonl`.
+
+---
+
+**Phase 2: sf-secrets — Secrets Scanning Engine**
+
+### Added — `spanforge.secrets` (Phase 2)
+
+- **`SecretsScanner`** — standalone secrets detection engine; no network calls required.
+  - `scan(text, *, confidence_threshold=0.85)` → `SecretsScanResult`
+  - `scan_batch(texts)` → `list[SecretsScanResult]` (asyncio parallel execution)
+  - 20-pattern registry: 7 spec-defined types + 13 industry-standard additions
+    (GitHub PAT, npm token, Slack token, Stripe key, Twilio, SendGrid, Azure SAS,
+    SSH private key, Google API key, Terraform Cloud, HashiCorp Vault token, generic JWT,
+    SpanForge API key)
+  - Shannon entropy scorer (`entropy_score(s)`) — bits/char; boosts confidence for
+    high-entropy tokens (≥ 3.5 bits/char, ≥ 32 chars)
+  - Three-tier confidence model: pattern-only → 0.75; + entropy → 0.90; + context keyword → 0.97
+  - Zero-tolerance auto-block for 10 high-risk types (Bearer Token, AWS Access Key,
+    GCP Service Account, PEM Private Key, SSH Private Key, HallucCheck API key,
+    SpanForge API key, GitHub PAT, Stripe live key, npm token)
+  - Configurable allowlist suppresses known test/placeholder values
+  - Span deduplication: highest-confidence hit wins per overlapping region
+
+- **`SecretHit`** — frozen dataclass: `secret_type`, `start`, `end`, `confidence`,
+  `redacted_value` (`[REDACTED:TYPE]` replacement)
+
+- **`SecretsScanResult`** — result dataclass:
+  - `detected: bool`, `hits: list[SecretHit]`, `auto_blocked: bool`, `redacted_text: str`
+  - `to_dict()` — JSON-serialisable dict
+  - `to_sarif()` — SARIF 2.1.0 log object for GitHub Code Scanning / VS Code
+
+- **`entropy_score(s)`** — Shannon entropy in bits/char; importable as a standalone utility
+
+### Added — `spanforge.sdk.secrets` (Phase 2)
+
+- **`SFSecretsClient`** — SDK client with local + remote modes:
+  - `scan(text)` → `SecretsScanResult` — runs `SecretsScanner` locally; if remote endpoint
+    configured, POST `/v1/scan/secrets` with local fallback
+  - `scan_batch(texts)` → `list[SecretsScanResult]` — asyncio parallel with sequential fallback
+  - Inherits retry, circuit breaker, and TLS verification from `SFServiceClient`
+
+- **`sf_secrets`** singleton exported from `spanforge.sdk` — eager-initialised from
+  env vars alongside `sf_identity` and `sf_pii`
+
+- **Three new exceptions** added to `spanforge.sdk._exceptions`:
+  - `SFSecretsError` — base class for all sf-secrets errors
+  - `SFSecretsBlockedError(secret_types, count)` — raised when auto-block policy fires;
+    `message` includes detected type list
+  - `SFSecretsScanError` — wraps unexpected scanner failures
+
+### Added — CLI command `spanforge secrets scan` (Phase 2)
+
+```
+spanforge secrets scan <file> [--format text|json|sarif] [--redact] [--confidence FLOAT]
+```
+
+| Flag | Description |
+|------|-------------|
+| `--format` | Output format: `text` (default), `json`, or `sarif` (SARIF 2.1.0) |
+| `--redact` | Print redacted version of the file to stdout |
+| `--confidence` | Override minimum confidence threshold (default: `0.85`) |
+
+Exit codes: `0` = clean, `1` = secrets detected, `2` = error / file not found
+
+### Added — Pre-commit hook `.pre-commit-hooks.yaml` (Phase 2)
+
+```yaml
+- id: spanforge-secrets-scan
+  name: SpanForge Secrets Scan
+  entry: spanforge secrets scan
+  language: python
+  types: [text]
+  stages: [pre-commit, pre-push]
+```
+
+Covers Python, JavaScript/TypeScript, YAML, JSON, TOML, INI, and `.env` files.
+
+### Changed — `spanforge.sdk` (Phase 2)
+
+- `sf_secrets: SFSecretsClient` singleton added alongside `sf_identity` and `sf_pii`
+- `configure()` updated to accept secrets-specific overrides
+- Baseline absent-service note for `sf-secrets` is now resolved — full implementation complete
+
+### Quality gates (Phase 2)
+
+- **120 new tests** (all passing) — `tests/test_sf_secrets.py`
+- **4 147 total tests** passing, 11 skipped
+- **92.28% line coverage** (≥ 90% gate enforced in CI)
+- Ruff clean — zero errors across all Phase 2 files
+
+---
+
+## 2.0.2 — 2026-04-14
 
 **Compliance Integration Hardening & CostGuard Enhancements**
 
@@ -105,6 +1240,45 @@ this project adheres to [Semantic Versioning](https://semver.org/).
   (Person, Company, Trust, etc.).
 - Both types mapped to sensitivity `"high"` in `_SENSITIVITY_MAP`.
 - Exported from the top-level `spanforge` package.
+
+### Added — Extended PII Pattern Coverage
+
+- **`date_of_birth` pattern** — detects dates of birth across all major global
+  formats (centuries 1900–2099):
+  - ISO / year-first: `YYYY-MM-DD`, `YYYY/MM/DD`, `YYYY.MM.DD`
+  - US month-first: `MM/DD/YYYY`, `MM-DD-YYYY`, `MM.DD.YYYY`
+  - Day-first (UK, EU, Germany, Asia, Australia, Latin America): `DD/MM/YYYY`,
+    `DD-MM-YYYY`, `DD.MM.YYYY`
+  - Written day-first: `15 Jan 2000`, `15-Jan-2000`, `15 January 2000`
+  - Written month-first: `Jan 15, 2000`, `January 15 2000`
+
+  Secondary calendar validation via `_is_valid_date()` rejects impossible dates
+  (e.g. `02/30/1990`, `31/04/1990`).  Mapped to sensitivity `"high"`.
+- **`address` pattern** — detects street addresses (`<number> <name> <suffix>`)
+  with a curated suffix list (Street/St, Avenue/Ave, Road/Rd, Boulevard/Blvd,
+  Drive/Dr, Lane/Ln, Court/Ct, Way, Place/Pl, Circle/Cir, Trail/Trl,
+  Terrace/Ter, Parkway/Pkwy, Highway/Hwy, Route/Rte).  Mapped to sensitivity
+  `"medium"`.
+- **`_is_valid_ssn(ssn_str)`** — SSA range validator applied post-regex to every
+  SSN match in `scan_payload()`.  Rejects area `000`, area `666`, areas
+  `900–999` (ITIN-reserved), group `00`, and serial `0000`, eliminating the
+  most common false-positive ranges.
+- **`_is_valid_date(date_str)`** — calendar correctness validator applied
+  post-regex to every `date_of_birth` match.  Tries 15 `strptime` format
+  strings covering all numeric and written-month orderings; delegates to
+  `datetime.strptime` for accurate month-length and leap-year enforcement.
+- Both validators follow the same pattern as existing `_luhn_check()` and
+  `_verhoeff_check()` — applied inside `scan_payload._walk()` after the regex
+  pass.
+
+### Fixed — Compliance Attestation with Missing Signing Key
+
+- `generate_evidence_package()`, `to_pdf()`, and `verify_attestation_signature()`
+  previously raised `ValueError` when `SPANFORGE_SIGNING_KEY` was not set in
+  the environment.  They now emit a `logging.WARNING` and fall back to an
+  insecure internal default (`_INSECURE_DEFAULT_KEY`).  **Production
+  deployments must always set `SPANFORGE_SIGNING_KEY`; the default key exists
+  only for development and CI environments.**
 
 ### Added — Compliance Dashboard in SPA Viewer
 

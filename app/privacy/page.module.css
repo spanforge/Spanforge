@@ -1,83 +1,67 @@
 .page {
-  padding: 56px 0 100px;
-  background: var(--dark);
+  padding: 4.8rem 0;
+  background:
+    radial-gradient(circle at 12% 12%, rgba(18, 102, 241, 0.1), transparent 24%),
+    linear-gradient(180deg, #f7fbfd 0%, #eef5f9 100%);
   min-height: 80vh;
 }
 
 .inner {
-  max-width: 760px;
+  max-width: 54rem;
+}
+
+.header,
+.section {
+  padding: 1.35rem;
+  border-radius: 1.25rem;
+  background: rgba(255, 255, 255, 0.84);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.045);
 }
 
 .header {
-  margin-bottom: 3rem;
-  padding-bottom: 2rem;
-  border-bottom: 1px solid var(--rule);
+  margin-bottom: 1.2rem;
 }
 
 .h1 {
-  font-family: var(--font-playfair);
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 700;
+  margin: 0.85rem 0 0.55rem;
   color: var(--white);
-  line-height: 1.15;
-  margin-top: 0.75rem;
-  margin-bottom: 0.5rem;
+  font-size: clamp(2.6rem, 5vw, 4rem);
+  line-height: 0.98;
+  letter-spacing: -0.06em;
 }
 
 .lastUpdated {
-  font-family: var(--font-dm-mono);
-  font-size: 0.72rem;
   color: var(--mid);
+  font-family: var(--font-dm-mono);
+  font-size: 0.76rem;
 }
 
-/* Content */
 .content {
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
+  display: grid;
+  gap: 1rem;
 }
 
 .section h2 {
-  font-family: var(--font-dm-sans);
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: var(--light);
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.7rem;
+  color: var(--white);
+  font-size: 1.18rem;
+  line-height: 1.12;
 }
 
-.section p {
-  font-size: 0.95rem;
+.section p,
+.section li {
   color: var(--muted);
-  line-height: 1.75;
-  margin-bottom: 0.75rem;
-}
-
-.section p:last-child {
-  margin-bottom: 0;
+  line-height: 1.8;
 }
 
 .section ul {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  padding-left: 1rem;
-  border-left: 2px solid var(--rule);
-  margin-top: 0.75rem;
-}
-
-.section li {
-  font-size: 0.95rem;
-  color: var(--muted);
-  line-height: 1.7;
+  padding-left: 1.3rem;
+  margin-top: 0.6rem;
 }
 
 .section a {
-  color: var(--red);
+  color: var(--accent);
   text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.section a:hover {
-  color: var(--red-light, #E8574A);
+  text-underline-offset: 0.2rem;
 }
