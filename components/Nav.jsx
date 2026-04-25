@@ -12,6 +12,7 @@ const NAV_LINKS = [
   { label: 'Blog', href: '/blog' },
   { label: 'Learn', href: '/learn' },
   { label: 'About', href: '/about' },
+  { label: 'Consulting', href: 'https://consulting.getspanforge.com/', external: true },
 ]
 
 export default function Nav() {
@@ -61,6 +62,19 @@ export default function Nav() {
 
           <div className={styles.links} role="navigation" aria-label="Primary">
             {NAV_LINKS.map((link) => {
+              if (link.external) {
+                return (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.link}
+                  >
+                    {link.label}
+                  </a>
+                )
+              }
               const active = isActive(link.href)
               return (
                 <Link
@@ -114,6 +128,20 @@ export default function Nav() {
 
           <nav id="mobile-nav" className={styles.mobileLinks} aria-label="Mobile navigation">
             {NAV_LINKS.map((link) => {
+              if (link.external) {
+                return (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.mobileLink}
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    {link.label}
+                  </a>
+                )
+              }
               const active = isActive(link.href)
               return (
                 <Link

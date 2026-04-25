@@ -31,6 +31,10 @@ Desktop.ini
 _legacy-src/
 vite.config.js
 
+# Internal strategy docs (never commit)
+plannedproducts.md
+spanforge-ts-migration.md
+
 # Office documents & PDFs (working files, not source)
 *.docx
 *.xlsx
