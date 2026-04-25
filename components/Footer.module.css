@@ -18,12 +18,33 @@
 }
 
 .brandMark {
-  margin-bottom: 0.9rem;
-  color: #fff;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0;
+  margin-bottom: 0.3rem;
   font-family: var(--font-playfair, sans-serif);
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 700;
+  line-height: 1;
   letter-spacing: -0.05em;
+  text-decoration: none;
+}
+
+.brandSpan {
+  color: #fff;
+}
+
+.brandForge {
+  color: var(--accent);
+}
+
+.brandSub {
+  margin-bottom: 0.9rem;
+  color: #7d8ea8;
+  font-family: var(--font-dm-mono, monospace);
+  font-size: 0.64rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .brandLead {

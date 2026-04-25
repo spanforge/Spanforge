@@ -19,7 +19,10 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={`container ${styles.top}`}>
         <div className={styles.brand}>
-          <p className={styles.brandMark}>SpanForge</p>
+          <Link href="/" className={styles.brandMark} aria-label="SpanForge home">
+            <span className={styles.brandSpan}>Span</span><span className={styles.brandForge}>Forge</span>
+          </Link>
+          <p className={styles.brandSub}>AI compliance infrastructure</p>
           <p className={styles.brandLead}>
             AI compliance infrastructure for teams shipping production-grade agentic systems.
           </p>

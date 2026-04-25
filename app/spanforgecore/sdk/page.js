@@ -4,36 +4,53 @@ import styles from '@/components/agentObsPage.module.css'
 export const metadata = {
   title: 'SpanForge SDK — SpanForge',
   description:
-    'The reference implementation of the spanforge standard. pip install spanforge — zero required dependencies, Python 3.9+, all 15 compliance and governance namespaces, CLI, and integrations for OpenAI, LangChain, LlamaIndex, CrewAI, and Datadog.',
+    'The reference implementation of the spanforge standard. pip install spanforge — zero required dependencies, Python 3.9+, all compliance and governance namespaces, CLI, and integrations for OpenAI, Anthropic, Azure OpenAI, LangChain, LangGraph, LlamaIndex, CrewAI, and more.',
 }
 
 const EXTRAS = [
   { extra: '[jsonschema]',  desc: 'Enables runtime schema validation of every emitted event against the published JSON Schema.' },
-  { extra: '[openai]',      desc: 'Auto-instrumentation for the openai Python client — wraps chat completions, embeddings, and responses.' },
+  { extra: '[identity]',    desc: 'SFIdentityClient RS256 JWT support via cryptography; required when connecting to a remote sf-identity service (local mode uses stdlib HS256).' },
+  { extra: '[openai]',      desc: 'Auto-instrumentation for the openai Python client — wraps chat completions, embeddings, and responses. Includes unified pricing table covering OpenAI, Anthropic, Groq, and Together AI.' },
+  { extra: '[anthropic]',   desc: 'Anthropic Claude SDK integration — instrumented Claude calls with cost normalisation and cross-provider trace context.' },
+  { extra: '[gemini]',      desc: 'Google Gemini SDK integration — instrumented Gemini calls with full trace context.' },
+  { extra: '[bedrock]',     desc: 'AWS Bedrock integration — instrumented Bedrock model calls.' },
+  { extra: '[ollama]',      desc: 'Ollama local model integration — instrumented local inference calls.' },
+  { extra: '[groq]',        desc: 'Groq inference integration — high-speed inference tracing with cost normalisation.' },
+  { extra: '[together]',    desc: 'Together AI integration — instrumented Together AI model calls.' },
   { extra: '[http]',        desc: 'OTLP/HTTP export and webhook export targets.' },
   { extra: '[pydantic]',    desc: 'Pydantic v2 model support for typed payload validation.' },
-  { extra: '[otel]',        desc: 'Full OpenTelemetry SDK integration — exports spans as OTLP proto via grpc or http.' },
+  { extra: '[otel]',        desc: 'Full OpenTelemetry SDK integration — exports spans as OTLP proto via gRPC or HTTP.' },
   { extra: '[kafka]',       desc: 'Apache Kafka export backend for streaming event pipelines.' },
   { extra: '[langchain]',   desc: 'LangChain callback handler — instruments chain, tool, and LLM calls automatically.' },
   { extra: '[llamaindex]',  desc: 'LlamaIndex event handler — instruments query, retrieval, and LLM calls.' },
   { extra: '[crewai]',      desc: 'CrewAI task-and-agent lifecycle instrumentation.' },
+  { extra: '[presidio]',    desc: 'Presidio NLP PII backend — 15 entity types (SSN, email, phone, AADHAAR, PAN, UK NI, credit card, IBAN, and more) with ≥ 95% true-positive rate and < 0.5% false-positive rate. Requires python -m spacy download en_core_web_lg.' },
+  { extra: '[redis]',       desc: 'RedisExporter and RedisBackend for semantic cache.' },
+  { extra: '[compliance]',  desc: 'Extended compliance mapping dependencies for framework clause engines.' },
+  { extra: '[worm-s3]',     desc: 'Append-only S3 export backend with Object Lock (WORM) for tamper-proof audit storage.' },
+  { extra: '[worm-gcs]',    desc: 'Append-only GCS export backend (WORM) for tamper-proof audit storage.' },
   { extra: '[datadog]',     desc: 'Datadog exporter — ships events to DD APM as custom spans.' },
   { extra: '[all]',         desc: 'Installs all optional extras in a single command.' },
 ]
 
 const CLI_COMMANDS = [
-  { cmd: 'check',           desc: 'End-to-end health check: config, event creation, schema validation, export pipeline, trace store.' },
-  { cmd: 'check-compat',    desc: 'Validate a batch of events against the v1.0 compatibility checklist (CHK-1 through CHK-5).' },
-  { cmd: 'validate',        desc: 'Validate every event in a JSONL file against the published JSON Schema.' },
-  { cmd: 'audit-chain',     desc: 'Verify HMAC-SHA256 signing chain integrity of events in a JSONL file.' },
-  { cmd: 'compliance',      desc: 'Generate HMAC-signed compliance evidence packages mapped to EU AI Act, GDPR, SOC 2, ISO 42001, and NIST AI RMF.' },
-  { cmd: 'audit',           desc: 'Audit chain management: erase, rotate-key, check-health, verify.' },
-  { cmd: 'scan',            desc: 'Scan a JSONL file for PII using built-in regex detectors.' },
-  { cmd: 'inspect',         desc: 'Pretty-print a single event by event_id from a JSONL file.' },
-  { cmd: 'stats',           desc: 'Print event-type counts, trace count, and time range for a JSONL file.' },
-  { cmd: 'report',          desc: 'Generate a static HTML trace report from a JSONL events file.' },
-  { cmd: 'serve',           desc: 'Start a local HTTP trace viewer at /traces (default port 8888).' },
-  { cmd: 'check-consumers', desc: 'Assert all registered consumers are compatible with the installed schema.' },
+  { cmd: 'check',               desc: 'End-to-end health check: config, event creation, schema validation, export pipeline, trace store.' },
+  { cmd: 'check-compat',        desc: 'Validate a batch of events against the v1.0 compatibility checklist (CHK-1 through CHK-5).' },
+  { cmd: 'validate',            desc: 'Validate every event in a JSONL file against the published JSON Schema.' },
+  { cmd: 'audit-chain',         desc: 'Verify HMAC-SHA256 signing chain integrity of events in a JSONL file.' },
+  { cmd: 'compliance',          desc: 'Generate HMAC-signed compliance evidence packages mapped to EU AI Act, GDPR, SOC 2, HIPAA, ISO 42001, and NIST AI RMF.' },
+  { cmd: 'compliance readiness',desc: 'Scored pre-production readiness checklist for any supported framework — exits 0 (all pass), 1 (failures), or 2 (unknown framework).' },
+  { cmd: 'compliance report',   desc: 'Generate a compliance gap report in JSON, Markdown, or both formats, including remediation steps for every open clause.' },
+  { cmd: 'operator inspect',    desc: 'Inspect a trace: review the policy decision, explanation, grounding, scope, RBAC, and lineage evidence.' },
+  { cmd: 'operator export',     desc: 'Export a signed operator evidence package from a trace for auditor hand-off.' },
+  { cmd: 'audit',               desc: 'Audit chain management: erase, rotate-key, check-health, verify.' },
+  { cmd: 'scan',                desc: 'Scan a JSONL file for PII using built-in regex detectors.' },
+  { cmd: 'doctor',              desc: 'Health check including live compliance posture: EU AI Act clause pass/total count and gap summary.' },
+  { cmd: 'inspect',             desc: 'Pretty-print a single event by event_id from a JSONL file.' },
+  { cmd: 'stats',               desc: 'Print event-type counts, trace count, and time range for a JSONL file.' },
+  { cmd: 'report',              desc: 'Generate a static HTML trace report from a JSONL events file.' },
+  { cmd: 'serve',               desc: 'Start a local HTTP trace viewer at /traces (default port 8888).' },
+  { cmd: 'check-consumers',     desc: 'Assert all registered consumers are compatible with the installed schema.' },
 ]
 
 const INTEGRATIONS = [
@@ -43,9 +60,24 @@ const INTEGRATIONS = [
     desc: 'One-line auto-instrumentation for the openai Python client. Wraps chat completions, embeddings, and the Responses API. Emits llm.trace.span and llm.cost.* events automatically.',
   },
   {
+    label: 'Anthropic',
+    extra: '[anthropic]',
+    desc: 'Anthropic Claude SDK integration with cross-provider cost normalisation and full trace context propagation.',
+  },
+  {
+    label: 'Azure OpenAI',
+    extra: '[openai]',
+    desc: 'Instance-level instrumentation for Azure-hosted OpenAI clients via spanforge.integrations.azure_openai — token, model, and cost telemetry attached automatically to active spans.',
+  },
+  {
     label: 'LangChain',
     extra: '[langchain]',
     desc: 'Drop-in callback handler. Instruments chain invocations, tool calls, and LLM calls. Compatible with LangChain v0.1 and v0.2.',
+  },
+  {
+    label: 'LangGraph',
+    extra: '[langchain]',
+    desc: 'Governance-aware agent graph instrumentation — node-level scope, RBAC, and lineage coverage for agentic workflow tracing.',
   },
   {
     label: 'LlamaIndex',

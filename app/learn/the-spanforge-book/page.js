@@ -325,7 +325,7 @@ export default function SpanForgeBookPage() {
       <section className={styles.footerNote}>
         <div className="container">
           <p className={styles.footerText}>
-            Based on SpanForge&#8209;Core v2.0.10 · 47 chapters · 8 parts · ~120 hours · 6 concept tracks
+            Based on SpanForge&#8209;Core v2.0.14 · 47 chapters · 8 parts · ~120 hours · 6 concept tracks
           </p>
         </div>
       </section>

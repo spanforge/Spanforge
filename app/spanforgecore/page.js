@@ -21,23 +21,53 @@ const FEATURES = [
   },
   {
     num: '03',
-    title: 'PII redaction before export',
-    desc: 'First-class PII detection and redaction via the llm.redact.* namespace. Sensitivity levels, custom redaction policies, and field-level re-identification risk — before any event reaches a backend.',
+    title: 'PII redaction & secrets scanning',
+    desc: 'First-class PII detection and redaction including a Presidio NLP backend covering 15 entity types with ≥ 95% true-positive rate. Secrets scanning with a 20-pattern registry detects API keys, tokens, and private keys before they leave your app.',
   },
   {
     num: '04',
     title: 'Regulatory framework mapping',
-    desc: 'ComplianceMappingEngine maps events to obligations under EU AI Act, GDPR, SOC 2, ISO 42001, and NIST AI RMF. HMAC-signed evidence packages are generated on demand for auditors and regulators.',
+    desc: 'ComplianceMappingEngine maps events to obligations under EU AI Act, GDPR, SOC 2, ISO 42001, HIPAA, and NIST AI RMF. HMAC-signed evidence packages with remediation guidance and Markdown reports generated on demand for auditors.',
   },
   {
     num: '05',
-    title: 'Schema governance',
-    desc: 'Consumer registry, deprecation tracking, and schema migration tooling. Block or warn on disallowed event types, declare schema dependencies, and ensure every consumer is compatible before you ship.',
+    title: 'Runtime governance control plane',
+    desc: 'Five runtime policy actions — allow, allow+log, redact, block, human_review — enforced by sf_policy, sf_scope, sf_rbac, sf_rag, and sf_lineage. Every decision is signed and attached to explainability evidence for operator review.',
   },
   {
     num: '06',
+    title: 'Compliance Evidence Chain (sf-cec)',
+    desc: 'Signed ZIP compliance bundles with five-framework clause mapping, DPA generation, RFC 3161 timestamps, and verifiable HMAC signing — ready for auditor hand-off.',
+  },
+  {
+    num: '07',
+    title: 'T.R.U.S.T. Scorecard (sf-trust)',
+    desc: 'Five-pillar trust dimensions — Transparency, Reliability, UserTrust, Security, Traceability — with configurable weights, SVG badge output, history time-series, and HallucCheck pipeline integrations.',
+  },
+  {
+    num: '08',
+    title: 'CI/CD Gate Pipeline (sf-gate)',
+    desc: 'YAML-driven quality gate pipeline with six gate executors covering schema, secrets, performance, PRRI, and trust. Blocking trust gate prevents unsafe releases from reaching production.',
+  },
+  {
+    num: '09',
+    title: 'Enterprise hardening (sf-enterprise)',
+    desc: 'Multi-tenancy with project-level isolation, data residency enforcement (EU/US/AP/IN), AES-256-GCM encryption at rest, envelope encryption via cloud KMS, mTLS, FIPS 140-2 mode, and air-gap offline deployment.',
+  },
+  {
+    num: '10',
+    title: 'SSO & Identity (sf-identity)',
+    desc: 'SFIdentityClient with SAML 2.0, SCIM 2.0 User/Group CRUD, OIDC PKCE relying party, API key management, TOTP, magic links, and SSO session delegation.',
+  },
+  {
+    num: '11',
+    title: 'Alert routing (sf-alert)',
+    desc: 'Topic-based publish with deduplication, rate limiting, escalation policy, and maintenance windows. Sinks for Slack, Teams, PagerDuty, OpsGenie, VictorOps, Incident.io, SMS, and Webhook.',
+  },
+  {
+    num: '12',
     title: 'Export to any backend',
-    desc: 'OTLP, Webhook, JSONL, Datadog, Grafana Loki, and Cloud export backends. EventStream multiplexer with Apache Kafka support for streaming compliance pipelines.',
+    desc: 'OTLP, Webhook, JSONL, Datadog, Grafana Loki, Splunk, Elastic, SIEM (CEF/Syslog), OpenInference, and WORM-compliant S3/GCS backends. EventStream multiplexer with Apache Kafka support.',
   },
 ]
 
@@ -45,7 +75,7 @@ const HOW_IT_WORKS = [
   {
     step: '01',
     title: 'Instrument',
-    desc: 'pip install spanforge and emit RFC-0001 events from every LLM call, tool invocation, and decision point. Zero required dependencies.',
+    desc: 'pip install spanforge and emit RFC-0001 events from every LLM call, tool invocation, and decision point. Zero required dependencies. One-line setup with spanforge.configure().',
   },
   {
     step: '02',
@@ -54,13 +84,13 @@ const HOW_IT_WORKS = [
   },
   {
     step: '03',
-    title: 'Validate',
-    desc: 'Run spanforge validate in CI. Catch non-compliant events, schema violations, and broken audit chains at build time — not post-incident.',
+    title: 'Govern',
+    desc: 'Runtime policy actions (allow, block, redact, human_review) enforced by sf_policy, sf_scope, sf_rbac, sf_rag, and sf_lineage — coordinated through one signed control plane.',
   },
   {
     step: '04',
     title: 'Prove',
-    desc: 'ComplianceMappingEngine generates HMAC-signed evidence packages mapped to EU AI Act, GDPR, SOC 2, ISO 42001, and NIST AI RMF.',
+    desc: 'ComplianceMappingEngine generates HMAC-signed evidence packages mapped to EU AI Act, GDPR, SOC 2, HIPAA, ISO 42001, and NIST AI RMF. Export operator packages and enterprise bundles for auditors.',
   },
 ]
 

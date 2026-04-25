@@ -41,6 +41,18 @@ const NAV = [
     ],
   },
   {
+    group: 'Runtime Governance',
+    items: [
+      { label: 'GA Guide', href: '/docs/runtime-governance' },
+      { label: 'GA Release Notes', href: '/docs/ga-release-notes' },
+      { label: 'Governance Contracts', href: '/docs/runtime-governance-contracts' },
+      { label: 'Replay & Simulation', href: '/docs/replay-simulation' },
+      { label: 'Evidence Export', href: '/docs/evidence-export' },
+      { label: 'Enterprise Integrations', href: '/docs/enterprise-integrations' },
+      { label: 'Comparison Guide', href: '/docs/competitor-comparison' },
+    ],
+  },
+  {
     group: 'CLI Reference',
     items: [
       { label: 'CLI Commands', href: '/docs/cli' },
@@ -102,6 +114,12 @@ const NAV = [
       { label: 'rag', href: '/docs/api/rag' },
       { label: 'feedback', href: '/docs/api/feedback' },
       { label: 'sdk-reference', href: '/docs/api/sdk-reference' },
+      { label: 'explain', href: '/docs/api/explain' },
+      { label: 'lineage', href: '/docs/api/lineage' },
+      { label: 'operator', href: '/docs/api/operator' },
+      { label: 'policy', href: '/docs/api/policy' },
+      { label: 'rbac', href: '/docs/api/rbac' },
+      { label: 'scope', href: '/docs/api/scope' },
     ],
   },
   {

@@ -41,11 +41,11 @@
 }
 
 .logoSpan {
-  color: var(--accent);
+  color: #000;
 }
 
 .logoForge {
-  color: #000;
+  color: var(--accent);
 }
 
 .logoSub {
