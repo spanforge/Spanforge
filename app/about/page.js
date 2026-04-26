@@ -136,7 +136,7 @@ export default function AboutPage() {
                 'An agent framework or orchestration engine',
                 'A replacement for legal or compliance teams',
                 'A replacement for cloud billing or FinOps tools',
-                'A consulting service or advisory engagement',
+                'A detached consulting business that sits outside the product',
                 'A replacement for existing CI/CD tooling &mdash; sf_gate extends it',
               ].map(item => (
                 <p key={item} className={styles.isNotItem}>

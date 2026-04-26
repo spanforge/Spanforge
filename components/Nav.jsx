@@ -6,13 +6,14 @@ import { usePathname } from 'next/navigation'
 import styles from './Nav.module.css'
 
 const NAV_LINKS = [
+  { label: 'Advisory', href: '/advisory' },
   { label: 'Docs', href: '/docs' },
   { label: 'SDK', href: '/spanforgecore' },
   { label: 'Standard', href: '/standard' },
+  { label: 'Tools', href: '/tools' },
   { label: 'Blog', href: '/blog' },
   { label: 'Learn', href: '/learn' },
   { label: 'About', href: '/about' },
-  { label: 'Consulting', href: 'https://consulting.getspanforge.com/', external: true },
 ]
 
 export default function Nav() {
@@ -20,6 +21,7 @@ export default function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const pathname = usePathname()
   const closeBtnRef = useRef(null)
+  const overlayRef = useRef(null)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)
@@ -47,6 +49,27 @@ export default function Nav() {
     }
   }, [mobileOpen])
 
+  useEffect(() => {
+    if (!mobileOpen) return
+    function trapFocus(e) {
+      if (e.key !== 'Tab') return
+      const overlay = overlayRef.current
+      if (!overlay) return
+      const focusable = overlay.querySelectorAll(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      )
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      if (e.shiftKey) {
+        if (document.activeElement === first) { e.preventDefault(); last.focus() }
+      } else {
+        if (document.activeElement === last) { e.preventDefault(); first.focus() }
+      }
+    }
+    document.addEventListener('keydown', trapFocus)
+    return () => document.removeEventListener('keydown', trapFocus)
+  }, [mobileOpen])
+
   const isActive = (href) => pathname === href || pathname.startsWith(`${href}/`)
 
   return (
@@ -60,7 +83,7 @@ export default function Nav() {
             <span className={styles.logoSub}>AI compliance infrastructure</span>
           </Link>
 
-          <div className={styles.links} role="navigation" aria-label="Primary">
+          <div className={styles.links}>
             {NAV_LINKS.map((link) => {
               if (link.external) {
                 return (
@@ -108,7 +131,7 @@ export default function Nav() {
       </nav>
 
       {mobileOpen && (
-        <div className={styles.overlay} role="dialog" aria-modal="true" aria-label="Navigation menu">
+        <div className={styles.overlay} role="dialog" aria-modal="true" aria-label="Navigation menu" ref={overlayRef}>
           <div className={styles.overlayHeader}>
             <Link href="/" className={styles.logo} onClick={() => setMobileOpen(false)}>
               <span className={styles.logoMark}>SpanForge</span>

@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import JourneyStrip from '@/components/JourneyStrip'
 import AuditTerminal from '@/components/AuditTerminal'
+import GABanner from '@/components/GABanner'
 import styles from './page.module.css'
 
 export const metadata = {
@@ -20,27 +21,35 @@ const PLATFORM_PILLARS = [
   {
     title: 'Instrument every model interaction',
     body: 'Trace prompts, outputs, latency, token cost, retrieval behavior, and human review events in one event model built for agentic systems.',
+    href: '/docs/api/observe',
+    cta: 'Explore sf_observe',
   },
   {
     title: 'Enforce policy before risk lands',
     body: 'Block secrets, redact sensitive data, catch drift, and route low-confidence decisions to humans before records are persisted.',
+    href: '/docs/api/pii',
+    cta: 'Explore sf_pii & sf_secrets',
   },
   {
     title: 'Prove compliance with evidence',
     body: 'Generate signed bundles with framework mappings, chain verification, and auditor-friendly artifacts without manual spreadsheet work.',
+    href: '/docs/api/cec',
+    cta: 'Explore sf_cec',
   },
 ]
 
 const SDK_SERVICES = [
-  { name: 'sf_identity', desc: 'Keys, JWT, magic links, SAML, SCIM, OIDC PKCE, session delegation, and brute-force lockout controls.', tags: [{ label: 'security', cls: 'tagSec' }] },
-  { name: 'sf_pii', desc: 'Sensitive-data detection and redaction pipelines across GDPR, HIPAA, CCPA, DPDP, and PIPL-aligned policies.', tags: [{ label: 'compliance', cls: 'tagComp' }] },
-  { name: 'sf_secrets', desc: 'Pattern and entropy-based secret scanning with SARIF output, vault migration hints, and policy-driven blocking.', tags: [{ label: 'security', cls: 'tagSec' }] },
-  { name: 'sf_audit', desc: 'Tamper-evident HMAC-SHA256 audit chains with WORM storage patterns, retention support, and chain verification.', tags: [{ label: 'compliance', cls: 'tagComp' }] },
-  { name: 'sf_observe', desc: 'OpenTelemetry-aligned tracing with exporter support for Datadog, Grafana, Splunk, Elastic, and OTLP backends.', tags: [{ label: 'ops', cls: 'tagOps' }] },
-  { name: 'sf_alert', desc: 'Alert routing for Slack, Teams, PagerDuty, OpsGenie, and signed webhook automation with deduplication.', tags: [{ label: 'ops', cls: 'tagOps' }] },
-  { name: 'sf_gate', desc: 'A governance pipeline that turns policy into release criteria across code review, testing, provenance, and compliance checks.', tags: [{ label: 'devops', cls: 'tagDev' }] },
-  { name: 'sf_cec', desc: 'Evidence bundles with clause mapping, attestations, and exportable artifacts for audits and enterprise reviews.', tags: [{ label: 'compliance', cls: 'tagComp' }] },
-  { name: 'sf_trust', desc: 'A configurable T.R.U.S.T. scorecard spanning transparency, reliability, user trust, security, and traceability.', tags: [{ label: 'governance', cls: 'tagGov' }], featured: true },
+  { name: 'sf_identity', desc: 'Keys, JWT, magic links, SAML, SCIM, OIDC PKCE, session delegation, and brute-force lockout controls.', tags: [{ label: 'security', cls: 'tagSec' }], href: '/tools/sdk-sf-identity' },
+  { name: 'sf_pii', desc: 'Sensitive-data detection and redaction pipelines across GDPR, HIPAA, CCPA, DPDP, and PIPL-aligned policies.', tags: [{ label: 'compliance', cls: 'tagComp' }], href: '/tools/sdk-sf-pii' },
+  { name: 'sf_secrets', desc: 'Pattern and entropy-based secret scanning with SARIF output, vault migration hints, and policy-driven blocking.', tags: [{ label: 'security', cls: 'tagSec' }], href: '/tools/sdk-sf-secrets' },
+  { name: 'sf_audit', desc: 'Tamper-evident HMAC-SHA256 audit chains with WORM storage patterns, retention support, and chain verification.', tags: [{ label: 'compliance', cls: 'tagComp' }], href: '/tools/sdk-sf-audit' },
+  { name: 'sf_observe', desc: 'OpenTelemetry-aligned tracing with exporter support for Datadog, Grafana, Splunk, Elastic, and OTLP backends.', tags: [{ label: 'ops', cls: 'tagOps' }], href: '/tools/sdk-sf-observe' },
+  { name: 'sf_alert', desc: 'Alert routing for Slack, Teams, PagerDuty, OpsGenie, and signed webhook automation with deduplication.', tags: [{ label: 'ops', cls: 'tagOps' }], href: '/tools/sdk-sf-alert' },
+  { name: 'sf_gate', desc: 'A governance pipeline that turns policy into release criteria across code review, testing, provenance, and compliance checks.', tags: [{ label: 'devops', cls: 'tagDev' }], href: '/tools/sdk-sf-gate' },
+  { name: 'sf_cec', desc: 'Evidence bundles with clause mapping, attestations, and exportable artifacts for audits and enterprise reviews.', tags: [{ label: 'compliance', cls: 'tagComp' }], href: '/tools/sdk-sf-cec' },
+  { name: 'sf_trust', desc: 'A configurable T.R.U.S.T. scorecard spanning transparency, reliability, user trust, security, and traceability.', tags: [{ label: 'governance', cls: 'tagGov' }], featured: true, href: '/tools/sdk-sf-trust' },
+  { name: 'sf_rag', desc: 'RAG tracing with retrieval scoring, grounding metrics, and auto-instrumentation for LlamaIndex and LangChain.', tags: [{ label: 'ops', cls: 'tagOps' }], href: '/tools/sdk-sf-rag' },
+  { name: 'sf_feedback', desc: 'Structured feedback collection — NPS, CSAT, thumbs, Likert — linked to T.R.U.S.T. dimensions and audit records.', tags: [{ label: 'governance', cls: 'tagGov' }], href: '/tools/sdk-sf-feedback' },
 ]
 
 const CATCHES = [
@@ -79,13 +88,7 @@ const COMPLIANCE = [
 export default function Home() {
   return (
     <>
-      <div className={styles.gaBanner} role="banner" aria-label="General Availability announcement">
-        <span className={styles.gaBannerDot} aria-hidden="true" />
-        <span>
-          <strong>SpanForge GA is launching May 2nd, 2026</strong> — General Availability is almost here. Sign up to be notified on launch day.
-        </span>
-        <Link href="/contact" className={styles.gaBannerLink}>Get notified →</Link>
-      </div>
+      <GABanner />
       <section className={styles.hero} aria-labelledby="hero-heading">
         <div className="container">
           <div className={styles.heroGrid}>
@@ -156,8 +159,8 @@ export default function Home() {
             <span className={styles.sectionLabel}>Platform overview</span>
             <h2 id="pillars-heading" className={styles.secH}>A cleaner path from experimentation to accountable production.</h2>
             <p className={styles.secSh}>
-              The site now emphasizes the product narrative: instrumentation, enforcement, and proof.
-              Those three motions define how teams evaluate and adopt a platform like this.
+              Instrument every AI action, enforce policy automatically, and generate evidence your auditors
+              can verify — all from a single SDK surface with zero required dependencies.
             </p>
           </div>
           <div className={styles.pillarsGrid}>
@@ -166,6 +169,7 @@ export default function Home() {
                 <span className={styles.pillarIndex}>0{index + 1}</span>
                 <h3>{pillar.title}</h3>
                 <p>{pillar.body}</p>
+                <Link href={pillar.href} className={styles.pillarLink}>{pillar.cta} →</Link>
               </article>
             ))}
           </div>
@@ -218,13 +222,17 @@ export default function Home() {
             <span className={styles.sectionLabel}>SDK surface</span>
             <h2 id="sdk-heading" className={styles.secH}>Core services designed to feel like one product, not a patchwork of utilities.</h2>
             <p className={styles.secSh}>
-              The most valuable shift in the redesign is hierarchy: fewer cramped cards, more readable summaries,
-              and stronger separation between core value areas.
+              Eleven services covering observability, redaction, secrets, audit chains, compliance evidence,
+              identity, alerting, gate pipelines, and trust scoring — all from <code className={styles.inlineCode}>pip install spanforge</code>.
             </p>
           </div>
           <div className={styles.sdkGrid}>
             {SDK_SERVICES.map((service) => (
-              <article key={service.name} className={`${styles.sdkCard} ${service.featured ? styles.sdkCardFeatured : ''}`}>
+              <Link
+                key={service.name}
+                href={service.href}
+                className={`${styles.sdkCard} ${service.featured ? styles.sdkCardFeatured : ''}`}
+              >
                 <div className={styles.sdkCardTop}>
                   <p className={styles.sdkName}>{service.name}</p>
                   <div className={styles.sdkPills}>
@@ -234,7 +242,8 @@ export default function Home() {
                   </div>
                 </div>
                 <p className={styles.sdkDesc}>{service.desc}</p>
-              </article>
+                <span className={styles.sdkCardArrow} aria-hidden="true">View docs →</span>
+              </Link>
             ))}
           </div>
         </div>
@@ -246,7 +255,8 @@ export default function Home() {
             <span className={styles.sectionLabel}>Risk detection</span>
             <h2 id="catches-heading" className={styles.secH}>Examples of the kinds of failures the platform is meant to intercept.</h2>
             <p className={styles.secSh}>
-              Instead of marketing claims alone, the homepage now shows concrete failure modes and what the system does with them.
+              SpanForge intercepts real failure modes before they reach storage, downstream systems, or your
+              audit record — with full context preserved for incident response.
             </p>
           </div>
           <div className={styles.catchGrid}>
@@ -268,7 +278,8 @@ export default function Home() {
             <span className={styles.sectionLabel}>Framework coverage</span>
             <h2 id="comp-heading" className={styles.secH}>Built for regulated AI programs, security reviews, and enterprise buying conversations.</h2>
             <p className={styles.secSh}>
-              The table treatment has been simplified and given more breathing room so the compliance story reads as product capability, not a wall of text.
+              Map your AI operations to article-level obligations across six regulatory frameworks.
+              Signed evidence packages ready for auditor hand-off — no manual spreadsheet work.
             </p>
           </div>
           <div className={styles.tableWrap}>

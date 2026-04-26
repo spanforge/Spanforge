@@ -78,13 +78,16 @@ export default function JourneyStrip() {
 
   return (
     <div>
-      <div className={styles.strip}>
+      <div className={styles.strip} role="tablist" aria-label="Developer workflow steps">
         {STEPS.map((step, index) => (
           <button
             key={step.num}
+            id={`journey-tab-${index}`}
+            role="tab"
+            aria-selected={active === index}
+            aria-controls={`journey-panel-${index}`}
             className={`${styles.step} ${active === index ? styles.stepActive : ''}`}
             onClick={() => setActive(index)}
-            aria-pressed={active === index}
           >
             <span className={styles.num}>{step.num}</span>
             <span className={styles.label}>{step.label}</span>
@@ -92,7 +95,12 @@ export default function JourneyStrip() {
           </button>
         ))}
       </div>
-      <div className={styles.detail} role="region" aria-live="polite">
+      <div
+        id={`journey-panel-${active}`}
+        role="tabpanel"
+        aria-labelledby={`journey-tab-${active}`}
+        className={styles.detail}
+      >
         <p>{STEPS[active].detail}</p>
       </div>
     </div>

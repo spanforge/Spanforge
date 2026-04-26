@@ -28,8 +28,6 @@ function CardInner({ tool, hideName }) {
         </span>
         {tool.hasPage ? (
           <span className={styles.availableBadge}>Docs Available</span>
-        ) : tool.type === 'sdk' ? (
-          <span className={styles.availableBadge}>Shipped</span>
         ) : (
           <span className={styles.inBuildBadge}>In Build</span>
         )}
@@ -41,7 +39,7 @@ function CardInner({ tool, hideName }) {
       )}
       <p className={styles.desc}>{tool.description}</p>
       {tool.hasPage && (
-        <span className={styles.viewDocs} aria-hidden="true">View docs -&gt;</span>
+        <span className={styles.viewDocs} aria-hidden="true">Explore &rarr;</span>
       )}
     </>
   )

@@ -3,6 +3,7 @@ import styles from './Footer.module.css'
 
 const productLinks = [
   { label: 'SDK quickstart', href: '/spanforgecore/sdk' },
+  { label: 'Advisory', href: '/advisory' },
   { label: 'Standard', href: '/standard' },
   { label: 'Documentation', href: '/docs' },
   { label: 'Tools', href: '/tools' },
@@ -11,7 +12,10 @@ const productLinks = [
 const companyLinks = [
   { label: 'About', href: '/about' },
   { label: 'Blog', href: '/blog' },
+  { label: 'Resources', href: '/resources' },
   { label: 'Contact', href: '/contact' },
+  { label: 'Privacy', href: '/privacy' },
+  { label: 'Terms', href: '/terms' },
 ]
 
 export default function Footer() {

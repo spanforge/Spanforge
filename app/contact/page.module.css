@@ -1,4 +1,5 @@
 .hero,
+.formSection,
 .paths,
 .expect,
 .directStrip,
@@ -41,6 +42,10 @@
 .paths,
 .cta {
   background: var(--dark);
+}
+
+.formSection {
+  background: linear-gradient(180deg, #ffffff 0%, #f7fbfd 100%);
 }
 
 .expect,
@@ -136,4 +141,16 @@
   .directInner {
     grid-template-columns: 1fr;
   }
+}
+
+.formIntro {
+  max-width: 44rem;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.75;
+  margin: 0.4rem 0 1.8rem;
+}
+
+.formWrap {
+  max-width: 52rem;
 }

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import ContactForm from '@/components/ContactForm'
 import styles from './page.module.css'
 
 export const metadata = {
@@ -60,6 +61,22 @@ export default function ContactPage() {
             production agents, or have a question about the platform, we want to hear
             from you.
           </p>
+        </div>
+      </section>
+
+      <section className={styles.formSection} aria-labelledby="form-heading">
+        <div className="container">
+          <span className="eyebrow">Send a message</span>
+          <h2 id="form-heading" className={styles.sectionH2}>
+            Start a conversation directly.
+          </h2>
+          <p className={styles.formIntro}>
+            Fill in the form below and we&apos;ll open your email client with everything pre-filled.
+            No forms data is stored — your message goes straight to the team.
+          </p>
+          <div className={styles.formWrap}>
+            <ContactForm />
+          </div>
         </div>
       </section>
 

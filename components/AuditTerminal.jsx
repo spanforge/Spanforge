@@ -36,15 +36,15 @@ export default function AuditTerminal() {
   }, [])
 
   return (
-    <div className={styles.terminal} ref={containerRef} aria-label="Live audit chain feed" aria-live="polite">
+    <div className={styles.terminal} ref={containerRef} aria-label="Live audit chain feed">
       <div className={styles.header}>
         <span className={styles.dot} style={{ background: '#F09595' }} />
         <span className={styles.dot} style={{ background: '#EF9F27' }} />
         <span className={styles.dot} style={{ background: '#97C459' }} />
         <span className={styles.title}>spanforge audit-chain &mdash; live</span>
-        <span className={styles.badge}>&#9679; live</span>
+        <span className={styles.badge} aria-hidden="true">&#9679; live</span>
       </div>
-      <div className={styles.lines}>
+      <div className={styles.lines} aria-live="off" aria-atomic="false">
         {visible.map((lineIdx, i) => {
           const l = LOG_LINES[lineIdx]
           const isNew = animating === lineIdx && i === visible.length - 1

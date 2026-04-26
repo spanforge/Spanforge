@@ -227,3 +227,118 @@
     align-items: start;
   }
 }
+
+/* ── SDK service section ─────────────────────────────────────────────────── */
+
+.sdkSection {
+  padding: 4.5rem 0 6rem;
+  background: linear-gradient(180deg, rgba(17, 20, 29, 1) 0%, rgba(12, 14, 22, 1) 100%);
+  border-top: 1px solid var(--rule);
+  color: var(--light);
+}
+
+.sdkGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.sdkCodeCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sdkCodeBlock {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  padding: 1.25rem 1.5rem;
+}
+
+.sdkCodeLabel {
+  display: block;
+  font-family: var(--font-dm-mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--red);
+  margin-bottom: 0.75rem;
+}
+
+.sdkCodeLine {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.sdkCodePrompt {
+  font-family: var(--font-dm-mono);
+  font-size: 0.88rem;
+  color: #8ea0bf;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.sdkCode {
+  font-family: var(--font-dm-mono);
+  font-size: 0.88rem;
+  color: #eef4ff;
+  overflow-wrap: anywhere;
+}
+
+.sdkLinksCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sdkLinkCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.35rem 1.5rem;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  text-decoration: none;
+  transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+}
+
+.sdkLinkCard:hover,
+.sdkLinkCard:focus-visible {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.055);
+  border-color: rgba(199, 85, 69, 0.36);
+}
+
+.sdkLinkTitle {
+  display: block;
+  font-family: var(--font-dm-sans);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #eef4ff;
+  margin-bottom: 0.35rem;
+}
+
+.sdkLinkDesc {
+  display: block;
+  font-size: 0.85rem;
+  color: #b4c0d6;
+  line-height: 1.6;
+}
+
+.sdkLinkArrow {
+  font-family: var(--font-dm-mono);
+  font-size: 1rem;
+  color: var(--red);
+  flex-shrink: 0;
+}
+
+@media (max-width: 860px) {
+  .sdkGrid {
+    grid-template-columns: 1fr;
+  }
+}

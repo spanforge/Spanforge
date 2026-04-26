@@ -12,7 +12,7 @@
   --charcoal: #eef4f8;
   --white: #0f172a;
   --light: #162033;
-  --muted: #526075;
+  --muted: #475569;
   --mid: #7c8ba1;
   --rule: rgba(100, 116, 139, 0.18);
   --rule2: rgba(18, 102, 241, 0.18);
@@ -48,6 +48,12 @@
   --track-advanced-bg: #fef3c7;
   --track-testing: #0369a1;
   --track-testing-bg: #e0f2fe;
+
+  /* ── Semantic aliases ── */
+  --text-primary: var(--white);
+  --text-muted: var(--muted);
+  --page-bg: var(--dark);
+  --danger: #dc2626;
 }
 
 *, *::before, *::after {
@@ -166,8 +172,8 @@ input, textarea, select {
 }
 
 .btn-ghost {
-  border: 1px solid var(--rule);
-  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(100, 116, 139, 0.35);
+  background: rgba(255, 255, 255, 0.85);
   color: var(--white);
   font-weight: 600;
 }

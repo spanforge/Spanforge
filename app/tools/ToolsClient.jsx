@@ -7,7 +7,6 @@ import styles from './page.module.css'
 const ALL_TYPES = [
   { id: 'all', label: 'All' },
   { id: 'sdk', label: 'SDK Services' },
-  { id: 'python', label: 'Python CLI' },
   { id: 'webapp', label: 'Web Apps' },
   { id: 'doc', label: 'Documents' },
   { id: 'fw', label: 'Frameworks' },
@@ -24,7 +23,7 @@ export default function ToolsClient({ tools }) {
       const matchSearch =
         !query ||
         tool.name.toLowerCase().includes(query) ||
-        tool.desc.toLowerCase().includes(query)
+        (tool.description || '').toLowerCase().includes(query)
 
       return matchType && matchSearch
     })
