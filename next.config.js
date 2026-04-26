@@ -22,9 +22,10 @@ const securityHeaders = [
       "img-src 'self' data: https:",
       "font-src 'self' data:",
       `connect-src 'self' https://plausible.io https://vitals.vercel-insights.com${process.env.NODE_ENV === 'development' ? ' ws://localhost:3000' : ''}`,
+      "frame-src https://spanforge.substack.com",
       "frame-ancestors 'none'",
       "base-uri 'self'",
-      "form-action 'self'",
+      "form-action 'self' https://spanforge.substack.com",
     ].join('; '),
   },
 ]

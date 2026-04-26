@@ -2,6 +2,7 @@ import Link from 'next/link'
 import JourneyStrip from '@/components/JourneyStrip'
 import AuditTerminal from '@/components/AuditTerminal'
 import GABanner from '@/components/GABanner'
+import NewsletterSignup from '@/components/NewsletterSignup'
 import styles from './page.module.css'
 
 export const metadata = {
@@ -309,6 +310,12 @@ export default function Home() {
               <Link href="/spanforgecore/sdk" className={styles.compCtaLink}> View the SDK documentation.</Link>
             </p>
           </div>
+        </div>
+      </section>
+
+      <section className={styles.newsletterSection} aria-labelledby="newsletter-heading">
+        <div className="container">
+          <NewsletterSignup />
         </div>
       </section>
 

@@ -1,6 +1,7 @@
 import BlogCard from '@/components/BlogCard'
 import Link from 'next/link'
 import { getAllPosts } from '@/lib/blog'
+import NewsletterSignup from '@/components/NewsletterSignup'
 import styles from './page.module.css'
 
 export const metadata = {
@@ -55,6 +56,12 @@ export default async function BlogPage() {
               </div>
             </>
           ) : null}
+        </div>
+      </section>
+
+      <section className={styles.newsletterWrap}>
+        <div className="container">
+          <NewsletterSignup />
         </div>
       </section>
 

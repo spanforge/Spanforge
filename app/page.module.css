@@ -261,6 +261,7 @@
 .journeySection,
 .sdkSection,
 .compSection,
+.newsletterSection,
 .dualCtaSection {
   background: var(--dark);
 }
@@ -276,6 +277,7 @@
 .sdkSection,
 .catchesSection,
 .compSection,
+.newsletterSection,
 .dualCtaSection {
   padding: 5rem 0;
 }

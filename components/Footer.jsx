@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import NewsletterSignup from './NewsletterSignup'
 import styles from './Footer.module.css'
 
 const productLinks = [
@@ -33,6 +34,9 @@ export default function Footer() {
           <p className={styles.brandMeta}>
             Instrument. Enforce. Prove.
           </p>
+          <div className={styles.newsletterWrap}>
+            <NewsletterSignup variant="inline" dark />
+          </div>
         </div>
 
         <div className={styles.columns}>
