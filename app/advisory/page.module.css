@@ -1,7 +1,52 @@
+/* ── Urgency Banner ── */
+.urgencyBanner {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem var(--side-padding);
+  background: #1e3a5f;
+  color: #bfdbfe;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  flex-wrap: wrap;
+  justify-content: center;
+  text-align: center;
+}
+
+.urgencyDot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #60a5fa;
+  flex-shrink: 0;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.urgencyLink {
+  color: #93c5fd;
+  font-weight: 600;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.urgencyLink:hover {
+  color: #bfdbfe;
+}
+
+/* ── Base layout ── */
 .hero,
 .gapSection,
 .lifecycleSection,
 .engagementSection,
+.trustSection,
+.icpSection,
+.doctrineSection,
 .ctaSection {
   position: relative;
 }
@@ -57,11 +102,12 @@
   font-size: 1.08rem;
 }
 
+/* ── Hero sub — remove heroAnchor ── */
 .heroAnchor {
-  margin-top: 1rem;
-  color: var(--white);
-  font-weight: 600;
+  display: none;
 }
+
+/* ── Remove old heroAnchor styles from heroSub ── */
 
 .heroActions {
   display: flex;
@@ -136,6 +182,16 @@
 .ctaSection {
   padding: 5rem 0 5.4rem;
   background: var(--dark);
+}
+
+.heroCopy {
+  display: flex;
+  flex-direction: column;
+}
+
+.funnelBar {
+  display: flex;
+  align-items: center;
 }
 
 .sectionIntro {
@@ -231,12 +287,20 @@
   font-size: 0.76rem;
 }
 
-.powerGrid,
-.outcomeList {
+.powerGrid {
   display: flex;
   gap: 0.7rem;
   flex-wrap: wrap;
   margin-top: 0.85rem;
+}
+
+/* ── Outcome list (engagement cards) ── */
+.outcomeList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
 }
 
 .powerPill,
@@ -255,17 +319,23 @@
   border: 1px solid rgba(18, 102, 241, 0.12);
 }
 
-.engagementEyebrow {
-  color: var(--accent);
-  font-size: 0.72rem;
+/* outcomePill used as list item */
+.outcomePill {
+  background: #edf4f8;
+  color: var(--light);
+  border: 1px solid rgba(100, 116, 139, 0.12);
+  border-radius: 0.5rem;
+  font-size: 0.88rem;
+  padding: 0.4rem 0.7rem;
 }
 
-.cardLink {
-  display: inline-flex;
-  margin-top: 1.1rem;
-  color: var(--accent-strong);
-  font-weight: 700;
+.outcomePill::before {
+  content: '→';
+  margin-right: 0.45rem;
+  color: var(--accent);
+  font-size: 0.8rem;
 }
+
 
 .outcomePill {
   background: #edf4f8;
@@ -288,11 +358,371 @@
   margin: 1rem auto 0;
 }
 
+.engagementEyebrow {
+  color: var(--accent);
+  font-size: 0.72rem;
+}
+
+.cardLink {
+  display: inline-flex;
+  margin-top: 1.1rem;
+  color: var(--accent-strong);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.cardLink:hover {
+  text-decoration: underline;
+}
+
+/* -- Failure Funnel -- */
+.funnelBlock {
+  margin-top: 3rem;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  background: rgba(255, 255, 255, 0.86);
+}
+
+.funnelHeading {
+  font-family: var(--font-dm-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+}
+
+.funnelList {
+  display: grid;
+  gap: 0;
+}
+
+.funnelRow {
+  display: grid;
+  grid-template-columns: 14rem 1fr 1fr;
+  gap: 1rem;
+  align-items: baseline;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid rgba(100, 116, 139, 0.1);
+}
+
+.funnelRowLast {
+  border-bottom: none;
+  padding-top: 1rem;
+}
+
+.funnelStage {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--white);
+}
+
+.funnelLost {
+  font-size: 0.9rem;
+  color: #dc2626;
+}
+
+.funnelLost strong {
+  font-weight: 700;
+}
+
+.funnelReach {
+  font-size: 0.9rem;
+  color: var(--accent-strong);
+}
+
+.funnelReach strong {
+  font-weight: 700;
+}
+
+.funnelCause {
+  font-size: 0.84rem;
+  color: var(--muted);
+}
+
+.funnelNote {
+  margin-top: 1.2rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(100, 116, 139, 0.1);
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+/* -- T.R.U.S.T. Section -- */
+.trustSection {
+  padding: 5.2rem 0;
+  background: linear-gradient(180deg, #e9f1f7 0%, #f2f7fb 100%);
+}
+
+.trustGrid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.trustCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.4rem 1.2rem;
+  border-radius: 1.2rem;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.trustLetter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 0.7rem;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--font-dm-mono);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.trustName {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 0.3rem;
+}
+
+.trustBody {
+  font-size: 0.87rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.trustNote {
+  margin-top: 2rem;
+  padding: 1.2rem 1.5rem;
+  border-radius: 1rem;
+  background: rgba(18, 102, 241, 0.06);
+  border: 1px solid rgba(18, 102, 241, 0.1);
+}
+
+.trustNote p {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+/* -- Gate block inside stage cards -- */
+.gateBlock {
+  margin-top: 1rem;
+  padding: 0.8rem 1rem;
+  border-radius: 0.75rem;
+  background: rgba(15, 23, 42, 0.04);
+  border: 1px solid rgba(100, 116, 139, 0.12);
+}
+
+.gateLabel {
+  font-family: var(--font-dm-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.3rem;
+}
+
+.gateCondition {
+  font-size: 0.84rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* -- ICP Section -- */
+.icpSection {
+  padding: 5rem 0;
+  background: linear-gradient(180deg, #f7fbfd 0%, #ffffff 100%);
+}
+
+.icpGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.icpTitle {
+  font-size: clamp(1.6rem, 3vw, 2.3rem);
+  color: var(--white);
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  margin: 0.7rem 0 1.2rem;
+}
+
+.icpList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.icpList li {
+  padding-left: 1.4rem;
+  position: relative;
+  font-size: 0.95rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.icpList li::before {
+  content: '?';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.icpNot {
+  padding: 1.6rem;
+  border-radius: 1.2rem;
+  border: 1px solid rgba(100, 116, 139, 0.14);
+  background: rgba(255, 255, 255, 0.86);
+}
+
+.icpNotLabel {
+  font-family: var(--font-dm-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.9rem;
+}
+
+.icpNotList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.icpNotList li {
+  padding-left: 1.2rem;
+  position: relative;
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.icpNotList li::before {
+  content: '�';
+  position: absolute;
+  left: 0;
+  color: var(--muted);
+}
+
+.icpNotNote {
+  font-size: 0.85rem;
+  color: var(--mid);
+  line-height: 1.6;
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(100, 116, 139, 0.1);
+}
+
+/* -- Doctrine Section -- */
+.doctrineSection {
+  padding: 5rem 0;
+  background: #0f172a;
+}
+
+.doctrineSection .sectionTitle {
+  color: #f1f5f9;
+}
+
+.doctrineSection .sectionIntro .eyebrow,
+.doctrineSection span.eyebrow {
+  color: #64748b;
+}
+
+.doctrineGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+
+.doctrineCard {
+  padding: 1.6rem;
+  border-radius: 1.2rem;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.doctrineLabel {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  margin-bottom: 0.6rem;
+  letter-spacing: -0.02em;
+}
+
+.doctrineBody {
+  font-size: 0.88rem;
+  color: #94a3b8;
+  line-height: 1.7;
+}
+
+/* -- CTA extras -- */
+.ctaBox {
+  padding: 2rem;
+  max-width: 52rem;
+  margin: 0 auto;
+  text-align: center;
+  background:
+    radial-gradient(circle at top, rgba(18, 102, 241, 0.12), transparent 34%),
+    rgba(255, 255, 255, 0.96);
+}
+
+.ctaText {
+  max-width: 38rem;
+  margin: 1rem auto 0;
+}
+
+.ctaHomeLink {
+  display: inline-flex;
+  align-items: center;
+  color: var(--muted);
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.ctaHomeLink:hover {
+  color: var(--accent);
+}
+
+/* -- Responsive -- */
+@media (max-width: 1140px) {
+  .trustGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 1040px) {
   .heroGrid,
   .gapGrid,
-  .engagementGrid {
+  .engagementGrid,
+  .icpGrid {
     grid-template-columns: 1fr;
+  }
+
+  .doctrineGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .funnelRow {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+  }
+
+  .funnelCause {
+    grid-column: 1 / -1;
   }
 }
 
@@ -308,5 +738,17 @@
   .stageNumber {
     width: 60px;
     height: 60px;
+  }
+
+  .trustGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .doctrineGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .funnelRow {
+    grid-template-columns: 1fr;
   }
 }

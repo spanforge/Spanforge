@@ -34,12 +34,17 @@ vite.config.js
 # Internal strategy docs (never commit)
 plannedproducts.md
 spanforge-ts-migration.md
+STYLE-GUIDE.md
+archanddesign.md
 
-# Office documents & PDFs (working files, not source)
+# Office documents, archives & PDFs (working files, not source)
 *.docx
 *.xlsx
 *.pptx
 *.pdf
+*.zip
+*.tar.gz
+*.rar
 # Allow PDFs served from public/ (must come after all ignore rules)
 !public/
 !public/downloads/
