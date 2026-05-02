@@ -9,7 +9,7 @@ const NAV_LINKS = [
   { label: 'Advisory', href: '/advisory' },
   { label: 'Docs', href: '/docs' },
   { label: 'SDK', href: '/spanforgecore' },
-  { label: 'Standard', href: '/standard' },
+  { label: 'Standards', href: '/standards' },
   { label: 'Tools', href: '/tools' },
   { label: 'Blog', href: '/blog' },
   { label: 'Learn', href: '/learn' },

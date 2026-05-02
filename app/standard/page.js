@@ -62,7 +62,7 @@ export default function StandardPage() {
     <>
       <div className={styles.breadcrumb}>
         <div className="container">
-          <Link href="/spanforgecore" className={styles.breadcrumbLink}>SpanForge Platform</Link>
+          <Link href="/standards" className={styles.breadcrumbLink}>Standards</Link>
           <span className={styles.breadcrumbSep} aria-hidden="true">/</span>
           <span className={styles.breadcrumbCurrent}>RFC-0001 SPANFORGE</span>
         </div>
