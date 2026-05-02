@@ -45,6 +45,7 @@ const CLI_COMMANDS = [
   { cmd: 'operator export',     desc: 'Export a signed operator evidence package from a trace for auditor hand-off.' },
   { cmd: 'audit',               desc: 'Audit chain management: erase, rotate-key, check-health, verify.' },
   { cmd: 'scan',                desc: 'Scan a JSONL file for PII using built-in regex detectors.' },
+  { cmd: 'validate --dataset',  desc: 'Training Data Compliance Scanner — scan a training dataset JSONL for PII, consent records, and data provenance. New in v1.0.1.' },
   { cmd: 'doctor',              desc: 'Health check including live compliance posture: EU AI Act clause pass/total count and gap summary.' },
   { cmd: 'inspect',             desc: 'Pretty-print a single event by event_id from a JSONL file.' },
   { cmd: 'stats',               desc: 'Print event-type counts, trace count, and time range for a JSONL file.' },
@@ -116,7 +117,7 @@ export default function SdkPage() {
       {/* Hero */}
       <section className={styles.hero}>
         <div className="container">
-          <span className={styles.heroLabel}>spanforge · Python 3.9+ · In Development</span>
+          <span className={styles.heroLabel}>spanforge · Python 3.9+ · Generally Available</span>
           <h1 className={styles.h1}>
             The reference implementation.
           </h1>
@@ -157,7 +158,7 @@ export default function SdkPage() {
                 <span className={styles.codeBlockLang}>bash</span>
               </div>
               <pre className={styles.codeBlockBody}>{`spanforge --version
-# spanforge 1.0.8 [spanforge-Full-2.0]`}</pre>
+# spanforge 1.0.1`}</pre>
             </div>
 
             <h3 style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.95rem', fontWeight: 600, color: 'var(--light)', marginTop: '2.5rem', marginBottom: '0.75rem' }}>

@@ -13,9 +13,9 @@
   <img src="https://img.shields.io/badge/python-3.9%2B-4c8cbf?logo=python&logoColor=white" alt="Python 3.9+"/>
   <a href="https://pypi.org/project/spanforge/"><img src="https://img.shields.io/pypi/v/spanforge?color=4c8cbf&logo=pypi&logoColor=white" alt="PyPI"/></a>
   <a href="https://www.getspanforge.com/standard"><img src="https://img.shields.io/badge/standard-SpanForge_RFC--0001-4c8cbf" alt="spanforge RFC-0001"/></a>
-  <img src="https://img.shields.io/badge/coverage-90.96%25-brightgreen" alt="90.96% test coverage"/>
-  <img src="https://img.shields.io/badge/tests-6138%20passing-brightgreen" alt="6138 tests"/>
-  <img src="https://img.shields.io/badge/version-2.0.14-4c8cbf" alt="Version 2.0.14"/>
+  <img src="https://img.shields.io/badge/coverage-91%25-brightgreen" alt="91% test coverage"/>
+  <img src="https://img.shields.io/badge/tests-6541%20passing-brightgreen" alt="6541 tests"/>
+  <img src="https://img.shields.io/badge/version-1.0.1-4c8cbf" alt="Version 1.0.1"/>
   <img src="https://img.shields.io/badge/dependencies-zero-brightgreen" alt="Zero dependencies"/>
   <a href="docs/index.md"><img src="https://img.shields.io/badge/docs-local-4c8cbf" alt="Documentation"/></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-PolyForm%20NC%201.0-blue" alt="PolyForm Noncommercial 1.0"/></a>
@@ -66,7 +66,8 @@ spanforge.configure()  # that's it — you're now compliant-by-default
 - Generate HMAC-signed **evidence packages** with gap analysis
 - Track **consent boundaries**, **HITL oversight**, **model registry** governance, and **explainability** coverage
 - Produce audit-ready attestations with model owner, risk tier, and status metadata
-- **Compliance Evidence Chain (sf-cec)** — signed ZIP bundles with regulatory clause maps, DPA generation, and RFC 3161 timestamps for auditor hand-off
+- **Compliance Evidence Chain (sf-cec)** — signed ZIP bundles with regulatory clause maps, DPA generation, and RFC 3161 timestamps for auditor hand-off; `spanforge audit cec generate` CLI generates CEC bundles without Python code
+- **Human-in-the-Loop Workflow Engine (`spanforge.workflow`)** — approval workflows for gate reviews, policy sign-offs, and escalations; full state machine (PENDING → APPROVED / REJECTED → CLOSED) with SLA auto-escalation and role-based action matrix
 - **Observability SDK (sf-observe)** — span export (OTLP/Datadog/Grafana/Splunk/Elastic), W3C TraceContext, OTel GenAI attrs, sampling strategies, annotation store, and health probes
 - **CI/CD Gate Pipeline (sf-gate)** — evaluate release quality gates (schema, secrets, performance, PRRI, trust), YAML pipeline engine, artifact store, and blocking trust gate to prevent unsafe releases
 - **T.R.U.S.T. Scorecard (sf-trust)** — five-pillar trust dimensions (Transparency · Reliability · UserTrust · Security · Traceability), configurable weights, SVG badge, history time-series, and 5 HallucCheck pipeline integrations (score, bias, monitor, risk, benchmark)
@@ -105,7 +106,7 @@ spanforge.configure()  # that's it — you're now compliant-by-default
 - **Auto-instrumentation** — patch OpenAI, Anthropic, LangChain, CrewAI, and more; `@trace_rag` decorator and automatic LlamaIndex/LangChain retriever instrumentation for zero-change RAG tracing
 - **Async SDK** — every major SDK method now has a non-blocking `*_async()` variant (`scan_async`, `evaluate_async`, `build_bundle_async`, `get_scorecard_async`, `sso_delegate_session_async`) for seamless use in async frameworks
 - **User feedback REST endpoint** — `POST /v1/feedback` accepts star/thumbs/Likert ratings and free-text comments (SHA-256 hashed); links to T.R.U.S.T. dimensions
-- **33 CLI commands** — compliance checks, PII scans, secrets scanning, audit-chain verification, CI/CD gate pipelines, trust scorecards, config validation, enterprise health, security scanning, doctor diagnostics, all CI-ready
+- **38 CLI commands** — compliance checks, PII scans, secrets scanning, audit-chain verification, event generation, audit log extraction, CEC bundle generation, gap detection, gate policy audit, CI/CD gate pipelines, trust scorecards, config validation, enterprise health, security scanning, doctor diagnostics, all CI-ready
 
 </td>
 </tr>
@@ -175,9 +176,9 @@ pip install "spanforge[all]"          # everything above
 
 The GA implementation spine is the runtime-governance control plane:
 
-- `sf_explain` for signed runtime explanations
-- `sf_scope` for agent capability enforcement
-- `sf_rbac` for role enforcement on sensitive actions
+- `sf_explain` for signed runtime explanations — now with `ExplainModelType` classification (LLM, RAG, MULTI_AGENT, CLASSIFIER, EMBEDDING), configurable retry, and fail-safe emit
+- `sf_scope` for agent capability enforcement — now with circuit-breaker fail-secure mode and `ACTION_CATEGORIES` dictionary
+- `sf_rbac` for role enforcement on sensitive actions — now with `STANDARD_ROLE_MATRIX` (10 canonical actor types), YAML manifest loading, and JWT claim extraction
 - `sf_rag` for grounding evidence and thresholds
 - `sf_lineage` for provenance capture
 - `sf_policy` for policy activation, replay, simulation, and review
@@ -835,7 +836,7 @@ await stream.route(
 
 ## CLI
 
-32 commands — all CI-pipeline ready:
+38 commands — all CI-pipeline ready:
 
 ```bash
 # Compliance
@@ -851,6 +852,9 @@ spanforge audit-chain events.jsonl             # verify chain integrity
 spanforge audit erase events.jsonl --subject-id user123  # GDPR erasure
 spanforge audit rotate-key events.jsonl        # key rotation
 spanforge audit verify --input events.jsonl    # verify integrity
+spanforge audit extract events.jsonl --type llm.trace.span.completed --since 2026-01-01  # filter & extract
+spanforge audit cec generate --project-id my-agent --sign  # CEC compliance bundle ZIP
+spanforge audit gap-finder events.jsonl --threshold-minutes 30  # detect time gaps + missing fields
 
 # Privacy & Secrets
 spanforge scan events.jsonl --fail-on-match    # CI-gate PII scan
@@ -858,10 +862,17 @@ spanforge secrets scan <file>                  # scan file for secrets (exit 0=c
 spanforge secrets scan <file> --format sarif   # SARIF output for GitHub Code Scanning
 spanforge secrets scan <file> --redact         # print redacted version to stdout
 
+# Event generation
+spanforge event create --type llm.trace.span.completed --count 10 --format jsonl  # generate test events
+
 # Validation
-spanforge check                                # end-to-end health check
+spanforge check                                # 9-step end-to-end health check (--verbose for timing)
 spanforge check-compat events.json             # v2.0 compatibility
 spanforge validate events.jsonl                # JSON Schema validation
+spanforge validate events.jsonl --report detailed --format json  # detailed report
+spanforge validate --dataset training.jsonl                    # scan JSONL training data for PII
+spanforge validate --dataset training.jsonl --fail-on-violations  # exit 1 if PII/schema issues found
+spanforge validate --dataset training.jsonl --required-fields prompt,response --format json  # required fields + JSON output
 
 # Configuration
 spanforge config validate                      # validate .halluccheck.toml (auto-discover)
@@ -869,7 +880,9 @@ spanforge config validate --file path/to.toml  # validate specific config file
 
 # Analysis
 spanforge stats events.jsonl                   # counts, tokens, cost
+spanforge stats events.jsonl --group-by model --format json  # grouped stats, JSON output
 spanforge inspect <EVENT_ID> events.jsonl      # pretty-print one event
+spanforge inspect <EVENT_ID> events.jsonl --format csv  # CSV export
 spanforge cost events.jsonl                    # token spend report
 spanforge cost run --run-id <id> --input events.jsonl  # per-run cost report
 
@@ -889,6 +902,7 @@ spanforge gate run gates/ci-pipeline.yaml               # run YAML gate pipeline
 spanforge gate run gates/ci-pipeline.yaml --format json  # JSON output for CI dashboards
 spanforge gate evaluate schema-validation --payload event.json  # evaluate single gate
 spanforge gate trust-gate --project-id my-agent         # composite trust gate check
+spanforge gate audit events.jsonl --fail-on-violation   # policy audit of gate records (CI gate)
 
 # T.R.U.S.T. Scorecard
 spanforge trust scorecard --project-id my-agent         # five-pillar trust scorecard (text table)
@@ -963,7 +977,8 @@ spanforge/
 +-- _store.py                  — TraceStore ring buffer
 +-- _hooks.py                  — HookRegistry (lifecycle hooks)
 +-- _server.py                 — HTTP server (/traces, /compliance/summary)
-+-- _cli.py                    ← 25 CLI sub-commands
++-- _cli.py                    ← 38 CLI sub-commands
++-- workflow.py                — Human-in-the-Loop Workflow Engine (CORE-15); WorkflowEngine, WorkflowType, state machine, SLA escalation
 +-- cost.py                    — CostTracker, BudgetMonitor, @budget_alert
 +-- cache.py                   — SemanticCache, @cached decorator
 +-- retry.py                   — @retry, FallbackChain, CircuitBreaker
@@ -982,6 +997,9 @@ spanforge/
 +-- namespaces/                — Typed payload dataclasses
 +-- gate.py                    — GateRunner YAML pipeline engine, 6 gate executors, artifact store (Phase 8)
 +-- sdk/                       — Service SDK clients (sf-identity, sf-pii, sf-secrets, sf-audit, sf-cec, sf-observe, sf-alert, sf-gate, sf-trust, sf-enterprise, sf-security)
+│   +-- explain.py             —   SFExplainClient – ExplainModelType enum (LLM/RAG/MULTI_AGENT/CLASSIFIER/EMBEDDING), signed explanations, retry+timeout emit (Phase 1B)
+│   +-- scope.py               —   SFScopeClient – ACTION_CATEGORIES (5 categories), circuit-breaker fail-secure, resolve_action_category() (Phase 1B)
+│   +-- rbac.py                —   SFRBACClient – STANDARD_ROLE_MATRIX (10 actor types), register_actor_from_yaml(), register_actor_from_jwt() (Phase 1C)
 │   +-- identity.py            —   SFIdentityClient – keys, JWT, TOTP, MFA, magic-link
 │   +-- pii.py                 —   SFPIIClient – scan, redact, anonymize
 │   +-- secrets.py             —   SFSecretsClient – 20-pattern secret scanning, SARIF output

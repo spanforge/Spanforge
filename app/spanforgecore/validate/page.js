@@ -38,7 +38,7 @@ export default function ValidatePage() {
       {/* Hero */}
       <section className={styles.hero}>
         <div className="container">
-          <span className={styles.heroLabel}>spanforge validate · Compliance Tool · In Development</span>
+          <span className={styles.heroLabel}>spanforge validate · Compliance Tool · Generally Available</span>
           <h1 className={styles.h1}>
             Schema compliance. In CI.
           </h1>

@@ -6,9 +6,122 @@ this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
-## [2.0.14] — Unreleased
+## [1.0.1] — 2026-05-02
+
+**Phase 1B/1C SDK Production-Hardening: Explain model types, Scope circuit breaker, Validate enforcement modes, RBAC standard roles + JWT, Training Data Compliance Scanner**
+
+---
+
+### Added — `sf_explain` Production Hardening (1B-1)
+
+- **`ExplainModelType` enum** — five typed model classifications for explanation records: `LLM`, `RAG`, `MULTI_AGENT`, `CLASSIFIER`, `EMBEDDING`. Pass as the new `model_type` parameter on `sf_explain.generate()` — stored under `metadata["model_type"]` in the signed record. Raw strings are also accepted for forward compatibility.
+- **Retry + timeout on emit** — `SFExplainClient.__init__()` now accepts `max_retries: int = 3` and `emit_timeout_sec: float = 5.0`. The internal `_emit_signed_record()` retries with exponential back-off (1 s → 2 s → 4 s) and honours the deadline. Emit failures are logged at `WARNING` level and never propagate to the caller — a fail-safe guarantee that explainability tracking never breaks the request path.
+
+### Added — `sf_scope` Circuit Breaker + Action Categories (1B-2)
+
+- **`ACTION_CATEGORIES` dict** — module-level mapping of five canonical categories to frozensets of action strings:
+  - `read` — `{"read", "list", "get", "describe", "view", "query", "fetch", "download"}`
+  - `write` — `{"write", "create", "update", "delete", "patch", "put", "append", "insert", "remove"}`
+  - `execute` — `{"execute", "run", "invoke", "trigger", "call", "dispatch", "submit"}`
+  - `admin` — `{"admin", "configure", "deploy", "restart", "scale", "shutdown", "grant", "revoke", "manage"}`
+  - `stream` — `{"stream", "subscribe", "publish", "consume", "emit", "broadcast"}`
+- **`SFScopeClient.resolve_action_category(action)`** — static method returning the category name for a given action string, or `None` if the action is not in any category.
+- **Circuit-breaker integration** — `SFScopeClient.__init__()` now accepts `cb_threshold: int = 5` and `cb_reset_seconds: float = 30.0`. When the internal emit store raises repeatedly, the circuit opens and `evaluate()` immediately returns `allowed=False` with `outcome="block"` and `reason="circuit breaker is open; failing secure"` — no manifest lookup, no network call. Circuit recovers automatically after `cb_reset_seconds`.
+
+### Added — `sf_validate` Enforcement Modes + HMAC Signing (1C-1)
+
+- **`EnforcementMode` enum** — four validation enforcement levels: `STRICT` (raise on first violation), `LENIENT` (raise with full violation list), `WARN` (log warnings, never raise), `CORRECT` (auto-correct and return corrected document without raising).
+- **`ValidationResult` dataclass** — structured result from `enforce_event()`: `valid: bool`, `mode: EnforcementMode`, `violations: list[str]`, `corrected_doc: dict | None`.
+- **`enforce_event(event, mode=EnforcementMode.STRICT) -> ValidationResult`** — dispatches to `validate_event()` and returns a `ValidationResult` according to the chosen mode.
+- **`correct_event(doc: dict) -> dict`** — correction pass that: strips unknown top-level keys, removes `None`-valued optional fields (`trace_id`, `span_id`, `tags`, `checksum`, `signature`), and normalises `schema_version` to the current default when the value is unrecognised.
+- **`sign_event_hmac(event: Event, key: str) -> Event`** — HMAC-SHA256 signing using stdlib `hmac`. Returns a new `Event` with `signature = "hmac-sha256:<64hex>"`. Raises `ValueError` on empty key.
+
+### Added — `sf_rbac` Standard Role Matrix + YAML + JWT (1C-2)
+
+- **`STANDARD_ROLE_MATRIX`** — module-level dict of ten canonical actor configurations:
+
+  | Actor type | Roles | Notes |
+  |------------|-------|-------|
+  | `viewer` | `["viewer"]` | Read-only |
+  | `editor` | `["viewer", "editor"]` | Read + write |
+  | `admin` | `["viewer", "editor", "admin"]` | Full tenant control |
+  | `operator` | `["viewer", "operator"]` | Operational tasks, no admin |
+  | `auditor` | `["viewer", "auditor"]` | Audit access |
+  | `developer` | `["viewer", "editor", "developer"]` | Dev access |
+  | `deployer` | `["viewer", "deployer"]` | Deployment tasks |
+  | `reviewer` | `["viewer", "reviewer"]` | Review / approve |
+  | `service_account` | `["service_account"]` | Machine identity |
+  | `superadmin` | `["viewer", "editor", "admin", "superadmin"]` | Super-admin |
+
+- **`SFRBACClient.register_actor_from_yaml(yaml_str: str) -> RBACManifest`** — parses a YAML actor manifest and registers the actor. Requires `actor_id`; validates `roles` is a list when PyYAML is available. Falls back to a minimal stdlib YAML parser for flat manifests when PyYAML is not installed.
+- **`SFRBACClient.register_actor_from_jwt(token, *, verify=False) -> RBACManifest`** — decodes the JWT payload segment (base64url, no signature verification in default mode), extracts `sub` → `actor_id`, `roles` → roles, `resource_roles` → resource roles, and remaining claims → metadata. Raises `ValueError` for malformed tokens or missing `sub`.
+
+### Added — Training Data Compliance Scanner (1C-4)
+
+- **`scan_dataset(rows, *, check_pii_field_names, check_pii_values, required_fields) -> DatasetScanReport`** — scans a list of record dicts for compliance issues. Detects:
+  - PII field names (email, phone, SSN, passport, IP address, biometric, GPS, and 10+ more) via compiled regex.
+  - PII values: email addresses, US phone numbers, and SSNs via distinct compiled patterns.
+  - Required field violations when `required_fields` is supplied.
+- **`DatasetScanFinding` dataclass** — `row` (1-based), `field`, `issue_type` (`pii_field_name` / `pii_value` / `schema_violation` / `parse_error`), `detail`.
+- **`DatasetScanReport` dataclass** — `total_rows`, `total_findings`, `clean_rows`, `pii_hits`, `schema_violations`, `parse_errors`, `findings`.
+- **`spanforge validate --dataset PATH`** CLI subcommand — scans a JSONL training dataset file:
+  - `--fail-on-violations` exits with code 1 when any finding is present (CI-gate compatible).
+  - `--required-fields FIELDS` comma-separated list of required fields per record.
+  - `--format json` emits machine-readable JSON summary for pipeline consumption.
+  - `--format text` (default) prints a human-readable summary with per-finding detail.
+
+### Tests · 2026-05-02
+
+- Full suite: **6 541 passed**, 0 failed, 19 skipped. Combined branch+statement coverage: **90%** (25 757 / 28 762); statement coverage: **91%** (20 591 / 22 574).
+- 99 new tests across 6 test files:
+  - `tests/test_sf_explain.py` — `TestExplainModelTypes` (8 tests): 5 model type enum variants, raw string acceptance, no-model-type preservation, fail-safe emit.
+  - `tests/test_sf_scope.py` — `TestCircuitBreaker` (5 tests) + `TestActionCategories` (7 tests).
+  - `tests/test_validate.py` — `TestEnforcementModes` (6) + `TestCorrectionPass` (5) + `TestSignEventHmac` (5).
+  - `tests/test_sf_rbac.py` — `TestRegisterActorFromYAML` (5) + `TestRegisterActorFromJWT` (5) + `TestStandardRoleMatrix` (10).
+  - `tests/test_dataset_scanner.py` — `TestScanDatasetClean` (3) + `TestScanDatasetPII` (7) + `TestScanDatasetRequiredFields` (2) + `TestScanDatasetSummaryCounts` (2) + `TestCLIDatasetScanner` (7).
+  - `tests/test_e2e_cli.py` — Flows 26–32 (22 tests): `TestAuditEraseWorkflow` (4), `TestAuditCheckHealthWorkflow` (5), `TestAuditVerifyWorkflow` (3), `TestAuditRotateKeyWorkflow` (3), `TestTrustBadgeWorkflow` (3), `TestTrustGateWorkflow` (3), `TestDoctorWorkflow` (1). Full E2E coverage of `audit erase`, `audit check-health`, `audit verify`, `audit rotate-key`, `trust badge`, `trust gate`, and `doctor` CLI commands via in-process `main()` invocation.
+
+---
+
+## [1.0.0] — 2026-04-28
 
 **F-series + Compliance value hardening: Async SDK, RAG Auto-instrumentation, Feedback Endpoint, Gate Coverage, Batch Exporter Tests, Compliance Readiness, Presidio NLP PII Backend**
+
+---
+
+### Added — Workflow Engine (CORE-15) · 2026-05-01
+
+- **`spanforge.workflow` — Human-in-the-Loop Workflow Engine** — Orchestrates approval workflows for gate reviews, policy escalations, and compliance sign-offs. Every action is written to the tamper-evident audit trail as a `workflow.*` structured event.
+  - **`WorkflowType.GATE_REVIEW`** — gate execution approval; requires `required_approvals` distinct approvals before the gate proceeds.
+  - **`WorkflowType.POLICY_APPROVAL`** — new policy-version sign-off; requires security, compliance, and business roles to all approve.
+  - **`WorkflowType.ESCALATION`** — drift detected or cost overrun; requires CTO/executive sign-off before auto-remediation proceeds.
+  - **State machine**: `PENDING → ASSIGNED → IN_PROGRESS → APPROVED / REJECTED → CLOSED`, with automatic SLA promotion to `ESCALATED` via `check_and_auto_escalate()`.
+  - **Role-based action matrix**: `compliance_officer` (approve, request_info, reject, delegate), `cto` (approve, override, escalate, reject, delegate), `security` (approve, reject, request_info, delegate), `business` (approve, reject, request_info, delegate), `system` (auto_approve, escalate, close).
+  - `WorkflowEngine` accepts `workflow_type`, `trigger_event`, `assignees`, `sla_hours`, and `escalation_after_hours` at construction.
+- 142 unit tests covering all workflow types, state transitions, role constraints, multi-approval quorum, delegation chains, and SLA auto-escalation paths.
+
+### Added — CLI toolset expansion · 2026-05-01
+
+- **`spanforge event create`** — Generate compliant test/sample events from the CLI. Flags: `--type` (event type), `--payload` (JSON string), `--count` (N events, default 1), `--output` (file path), `--format json|jsonl`. Auto-generates ULID event IDs. Useful for integration testing, CI seed data, and schema-validation pipelines.
+- **`spanforge audit extract`** — Filter and extract events from a JSONL audit file. Flags: `--type` (filter by event type), `--since` / `--until` (ISO-8601 date range), `--limit` (max records), `--format jsonl|json`. Exit code 0 on success; 2 on file errors.
+- **`spanforge audit cec generate`** — Generate a Compliance Evidence Chain (CEC) bundle ZIP from the CLI without the Python SDK. Produces a 6-file HMAC-signed archive: `manifest.json`, `compliance_mapping.json`, `trust_scorecard.json`, `audit_trail_sample.jsonl`, `ropa_article_30.json`, `timestamp.json`. Optional `--sign` flag activates HMAC bundle signing using `SPANFORGE_SIGNING_KEY`.
+- **`spanforge audit gap-finder`** — Data quality audit for JSONL event logs. Detects: time gaps exceeding a configurable threshold, missing required event fields, and duplicate `event_id` values. Flags: `--threshold-minutes` (gap detection, default 60), `--required-fields`, `--format text|json`. Exit code 1 when gaps found — suitable as a CI quality gate.
+- **`spanforge gate audit`** — Policy auditor for gate execution records. Audits a JSONL events file against gate policy rules. Falls back to 5 built-in schema rules when no gate YAML is present. Flags: `--gate` (target gate ID), `--format text|json`, `--fail-on-violation` (CI exit code 1 on any violation). Uses `GateRunner` when a gate YAML config is found.
+
+### Enhanced — CLI command polish · 2026-05-01
+
+- **`spanforge check`** expanded from 5 to 9 health checks. New checks include signing-key entropy, event-store capacity, export-pipeline throughput, and schema-registry coverage. Added `--verbose` flag that prints per-check timing in milliseconds.
+- **`spanforge validate`** — new `--report summary|detailed` flag generates a human-readable validation report in addition to pass/fail output; new `--format text|json` flag (dest `output_format`) for CI pipeline integration.
+- **`spanforge inspect`** — new `--format json|pretty|csv` flag. `pretty` mode adds ANSI colour-coded field types. `csv` mode exports all event fields as a single-row CSV suitable for spreadsheet import.
+- **`spanforge stats`** — new `--group-by type|model|user` flag for dimension-based aggregation; new `--format table|json` flag for machine-readable output from CI dashboards.
+
+### Tests · 2026-05-01
+
+- Full suite: **6 136 passed**, 0 failed, 19 skipped.
+- 142 new tests for `spanforge.workflow` (Workflow Engine, CORE-15).
+- New CLI integration tests for `event create`, `audit extract`, `audit cec generate`, `audit gap-finder`, and `gate audit` subcommands.
+
+---
 
 ### Added — Presidio NLP PII Backend (Phase 0 GA gate)
 

@@ -14,7 +14,7 @@ const SDK_CATEGORIES = [
   { count: '11',  label: 'SDK services',       note: 'sf_identity · sf_pii · sf_secrets · sf_audit · sf_observe · sf_alert · sf_gate · sf_cec · sf_trust · sf_rag · sf_feedback' },
   { count: '33',  label: 'CLI commands',        note: 'scan · gate · trust · audit · secrets · compliance · doctor · security · enterprise · and 24 more' },
   { count: '6',   label: 'Compliance frameworks', note: 'EU AI Act · GDPR · HIPAA · SOC 2 · ISO 42001 · NIST AI RMF — article-level mapping' },
-  { count: '91%', label: 'Test coverage',       note: '5,863 tests passing · mypy --strict · zero required dependencies' },
+  { count: '91%', label: 'Test coverage',       note: '6,541 tests passing · mypy --strict · zero required dependencies' },
 ]
 
 export default function ToolsPage() {

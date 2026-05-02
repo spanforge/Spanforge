@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import JourneyStrip from '@/components/JourneyStrip'
 import AuditTerminal from '@/components/AuditTerminal'
-import GABanner from '@/components/GABanner'
 import NewsletterSignup from '@/components/NewsletterSignup'
 import styles from './page.module.css'
 
@@ -89,14 +88,13 @@ const COMPLIANCE = [
 export default function Home() {
   return (
     <>
-      <GABanner />
       <section className={styles.hero} aria-labelledby="hero-heading">
         <div className="container">
           <div className={styles.heroGrid}>
             <div className={styles.heroCopy}>
               <div className={styles.eyebrowRow}>
                 <span className={styles.badge}>General Availability</span>
-                <span className={styles.heroMeta}>SpanForge SDK v2.0.14</span>
+                <span className={styles.heroMeta}>SpanForge SDK v1.0.1</span>
               </div>
               <h1 id="hero-heading" className={styles.heroH1}>
                 Compliance infrastructure for AI teams shipping real systems.

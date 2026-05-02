@@ -76,7 +76,7 @@ export default function DebugPage() {
       {/* Hero */}
       <section className={styles.hero}>
         <div className="container">
-          <span className={styles.heroLabel}>spanforge · Developer Tool · In Development</span>
+          <span className={styles.heroLabel}>spanforge · Developer Tool · Generally Available</span>
           <h1 className={styles.h1}>
             See inside every agent run.
           </h1>

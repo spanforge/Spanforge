@@ -147,9 +147,57 @@ const NAV = [
     ],
   },
   {
+    group: 'Namespace Payloads',
+    collapsible: true,
+    items: [
+      { label: 'Overview', href: '/docs/namespaces' },
+      { label: 'trace', href: '/docs/namespaces/trace' },
+      { label: 'prompt', href: '/docs/namespaces/prompt' },
+      { label: 'consent', href: '/docs/namespaces/consent' },
+      { label: 'guard', href: '/docs/namespaces/guard' },
+      { label: 'fence', href: '/docs/namespaces/fence' },
+      { label: 'hitl', href: '/docs/namespaces/hitl' },
+      { label: 'eval', href: '/docs/namespaces/eval' },
+      { label: 'explanation', href: '/docs/namespaces/explanation' },
+      { label: 'retrieval', href: '/docs/namespaces/retrieval' },
+      { label: 'redact', href: '/docs/namespaces/redact' },
+      { label: 'cost', href: '/docs/namespaces/cost' },
+      { label: 'diff', href: '/docs/namespaces/diff' },
+      { label: 'feedback', href: '/docs/namespaces/feedback' },
+      { label: 'template', href: '/docs/namespaces/template' },
+      { label: 'cache', href: '/docs/namespaces/cache' },
+      { label: 'audit', href: '/docs/namespaces/audit' },
+      { label: 'model-registry', href: '/docs/namespaces/model-registry' },
+    ],
+  },
+  {
+    group: 'Migrations',
+    items: [
+      { label: 'From Langfuse', href: '/docs/migrations/from-langfuse' },
+      { label: 'From LangSmith', href: '/docs/migrations/from-langsmith' },
+      { label: 'From OpenLLMetry', href: '/docs/migrations/from-openllmetry' },
+      { label: 'v5 → v6 Upgrade', href: '/docs/migrations/v5-to-v6' },
+    ],
+  },
+  {
+    group: 'Deployment',
+    items: [
+      { label: 'Kubernetes', href: '/docs/deployment/kubernetes' },
+      { label: 'Air-Gapped', href: '/docs/deployment/air-gapped' },
+    ],
+  },
+  {
+    group: 'Demos',
+    items: [
+      { label: 'Runtime Governance Demo', href: '/docs/demos/runtime-governance' },
+      { label: 'Enterprise Evidence Demo', href: '/docs/demos/enterprise-evidence' },
+    ],
+  },
+  {
     group: 'Contributing',
     items: [
       { label: 'Contributing Guide', href: '/docs/contributing' },
+      { label: 'Reference Architectures', href: '/docs/reference-architectures' },
     ],
   },
 ]
@@ -163,11 +211,28 @@ const FLAT_ITEMS = NAV.flatMap((section) =>
 
 export default function DocsSidebar() {
   const pathname = usePathname()
-  const [apiOpen, setApiOpen] = useState(() => pathname.startsWith('/docs/api'))
+  const [openSections, setOpenSections] = useState(() => {
+    const initial = {}
+    NAV.forEach((s) => {
+      if (s.collapsible) initial[s.group] = pathname.startsWith('/docs/api') && s.group === 'API Reference'
+        || pathname.startsWith('/docs/namespaces') && s.group === 'Namespace Payloads'
+    })
+    return initial
+  })
   const apiSectionId = useId()
+  const namespaceSectionId = useId()
+
+  const toggleSection = (group) =>
+    setOpenSections((prev) => ({ ...prev, [group]: !prev[group] }))
 
   const isActive = (href) => pathname === href
   const activeItem = FLAT_ITEMS.find((item) => isActive(item.href))
+
+  const getSectionId = (group) => {
+    if (group === 'API Reference') return apiSectionId
+    if (group === 'Namespace Payloads') return namespaceSectionId
+    return undefined
+  }
 
   return (
     <>
@@ -200,9 +265,9 @@ export default function DocsSidebar() {
         <nav className={styles.nav}>
           {NAV.map((section) => {
             const isCollapsible = section.collapsible
-            const isOpen = isCollapsible ? apiOpen : true
+            const isOpen = isCollapsible ? !!openSections[section.group] : true
             const hasActive = section.items.some((item) => isActive(item.href))
-            const sectionId = isCollapsible ? apiSectionId : undefined
+            const sectionId = isCollapsible ? getSectionId(section.group) : undefined
 
             return (
               <div key={section.group} className={styles.section}>
@@ -210,7 +275,7 @@ export default function DocsSidebar() {
                   <button
                     type="button"
                     className={`${styles.groupLabel} ${styles.groupToggle} ${hasActive ? styles.groupActive : ''}`}
-                    onClick={() => setApiOpen((open) => !open)}
+                    onClick={() => toggleSection(section.group)}
                     aria-expanded={isOpen}
                     aria-controls={sectionId}
                   >

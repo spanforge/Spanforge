@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import styles from './NewsletterSignup.module.css'
 
 const SUBSTACK_EMBED = 'https://spanforge.substack.com/embed'
@@ -53,7 +54,8 @@ export default function NewsletterSignup({ variant = 'section', dark = false }) 
           >
             Substack
           </a>
-          . Unsubscribe any time.
+          . Unsubscribe any time. By subscribing, you agree to our{' '}
+          <Link href="/privacy" className={styles.substackLink}>Privacy Policy</Link>.
         </p>
       </div>
     </div>

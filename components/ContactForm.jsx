@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import styles from './ContactForm.module.css'
 
 const SUBJECTS = [
@@ -183,6 +184,11 @@ export default function ContactForm() {
           <p className={styles.error} role="alert">{serverError}</p>
         )}
         <p className={styles.note}>We respond within two business days. No automated follow-up.</p>
+        <p className={styles.legal}>
+          By submitting this form, you agree to our{' '}
+          <Link href="/privacy">Privacy Policy</Link> and{' '}
+          <Link href="/terms">Terms of Service</Link>.
+        </p>
         <button type="submit" className={`btn-primary ${styles.submit}`} disabled={loading}>
           {loading ? 'Sending…' : 'Send message →'}
         </button>
