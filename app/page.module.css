@@ -227,32 +227,33 @@
 
 .panelStep strong {
   display: block;
-  color: var(--white);
-  font-size: 0.9rem;
-  font-weight: 700;
-  margin-bottom: 0.2rem;
+  color: var(--accent);
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.25rem;
 }
 
 .panelStep p {
   margin: 0;
-  color: var(--muted);
-  font-size: 0.84rem;
+  color: var(--mid);
+  font-size: 0.82rem;
   line-height: 1.6;
 }
 
 .panelStep code {
   font-family: var(--font-dm-mono, monospace);
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   color: var(--accent);
-  background: rgba(14, 164, 114, 0.08);
+  background: rgba(18, 102, 241, 0.08);
   padding: 0.05em 0.35em;
   border-radius: 4px;
 }
 
 .panelStepNum {
   flex-shrink: 0;
-  width: 1.8rem;
-  height: 1.8rem;
+  width: 2rem;
+  height: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -260,10 +261,11 @@
   background: linear-gradient(135deg, #1266f1, #0ea472);
   color: #fff;
   font-family: var(--font-dm-mono, monospace);
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.02em;
-  margin-top: 0.1rem;
+  margin-top: 0.05rem;
+  box-shadow: 0 2px 8px rgba(18, 102, 241, 0.25);
 }
 
 .codeCard {
@@ -827,33 +829,39 @@
   line-height: 1.75;
 }
 
-.ctaInstallBtn,
+.ctaInstallLink {
+  display: inline-flex;
+  align-items: center;
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: rgba(18, 102, 241, 0.3);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.18s;
+}
+
+.ctaInstallLink:hover {
+  text-decoration-color: var(--accent);
+}
+
 .ctaBriefBtn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 2.9rem;
-  padding: 0.85rem 1.15rem;
+  padding: 0.7rem 1.35rem;
   border-radius: 999px;
-  font-weight: 600;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.88rem;
+  font-weight: 500;
+  transition: border-color 0.18s, color 0.18s;
 }
 
-.ctaInstallBtn {
-  background: #1266f1;
-  color: #fff;
-  box-shadow: 0 14px 30px rgba(18, 102, 241, 0.22);
-}
-
-.ctaBriefBtn {
-  background: #ecfeff;
-  color: #0f172a;
-  border: 1px solid rgba(20, 184, 166, 0.24);
-}
-
-.ctaInstallBtn:hover,
 .ctaBriefBtn:hover {
-  transform: translateY(-1px);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 @media (max-width: 1080px) {
@@ -935,12 +943,13 @@
 }
 
 .heroAudienceTag {
-  margin-top: 0;
-  margin-bottom: 1rem;
-  color: var(--muted);
-  font-size: 0.88rem;
-  font-weight: 500;
-  font-style: italic;
+  margin-top: 0.25rem;
+  margin-bottom: 0.6rem;
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .audienceLine {

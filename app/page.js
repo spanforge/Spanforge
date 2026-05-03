@@ -127,11 +127,11 @@ export default function Home() {
                 <span className={styles.badge}>General Availability</span>
                 <span className={styles.heroMeta}>SpanForge SDK v1.0.1</span>
               </div>
+              <p className={styles.heroAudienceTag}>For compliance officers &amp; AI engineering teams building regulated AI.</p>
               <h1 id="hero-heading" className={styles.heroH1}>
                 Turn every AI decision into tamper-proof evidence.
               </h1>
               <p className={styles.heroPersona}>From instrumentation to a signed, regulator-ready audit bundle in under 5 minutes &mdash; no manual spreadsheets, no compliance backlog.</p>
-              <p className={styles.heroAudienceTag}>For compliance officers and AI engineering teams building regulated AI.</p>
               <p className={styles.heroSub}>
                 SpanForge instruments every AI action at the SDK layer, enforces policy before risk lands, and hands your compliance team an evidence bundle they can give directly to regulators &mdash; without slowing engineering.
               </p>
@@ -181,7 +181,7 @@ export default function Home() {
                 </li>
                 <li className={styles.panelStep}>
                   <span className={styles.panelStepNum}>05</span>
-                  <div><strong>Export</strong><p>Generate a regulator-ready evidence bundle mapped to EU AI Act, HIPAA, and SOC 2.</p></div>
+                  <div><strong>Export</strong><p>Hand your compliance team a signed evidence bundle they can give directly to auditors — no spreadsheets, no chasing engineers.</p></div>
                 </li>
               </ol>
             </div>
@@ -466,7 +466,7 @@ export default function Home() {
               <p className={styles.ctaBoxP}>
                 Install the SDK, instrument your first AI action, and validate the compliance workflow on a real system — before you involve procurement.
               </p>
-              <Link href="/spanforgecore/sdk" className={styles.ctaInstallBtn}>Open the quickstart</Link>
+              <Link href="/spanforgecore/sdk" className={styles.ctaInstallLink}>Open the quickstart &rarr;</Link>
             </div>
             <div className={`${styles.ctaBox} ${styles.ctaBoxEnt}`}>
               <p className={styles.ctaTrackLabel}>For enterprise teams</p>
