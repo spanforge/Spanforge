@@ -339,7 +339,6 @@
 }
 
 .pillarsSection,
-.journeySection,
 .auditSection,
 .sdkSection,
 .catchesSection,
@@ -421,19 +420,30 @@
 }
 
 .pillarLink {
-  display: inline-block;
-  margin-top: 1.1rem;
-  padding: 0.35rem 0;
+  display: none; /* consolidated into section footer link */
+}
+
+.pillarLink:hover {
+  color: var(--accent);
+  text-decoration-color: var(--accent);
+}
+
+.pillarsSectionFooter {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.sectionTextLink {
   color: var(--muted);
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 500;
   text-decoration: underline;
   text-decoration-color: rgba(148, 163, 184, 0.35);
   text-underline-offset: 3px;
-  transition: color 0.18s;
+  transition: color 0.18s, text-decoration-color 0.18s;
 }
 
-.pillarLink:hover {
+.sectionTextLink:hover {
   color: var(--accent);
   text-decoration-color: var(--accent);
 }
@@ -610,6 +620,48 @@
 .tagOps { background: #fef3c7; color: #92400e; }
 .tagDev { background: #dbeafe; color: #1d4ed8; }
 .tagGov { background: #cffafe; color: #155e75; }
+
+/* ── Progressive disclosure ─────────────────────────── */
+.sdkDisclosure,
+.compDisclosure {
+  margin-top: 1.25rem;
+}
+
+.sdkDisclosure > summary,
+.compDisclosure > summary {
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: rgba(148, 163, 184, 0.35);
+  text-underline-offset: 3px;
+  transition: color 0.18s;
+  user-select: none;
+}
+
+.sdkDisclosure > summary::-webkit-details-marker,
+.compDisclosure > summary::-webkit-details-marker {
+  display: none;
+}
+
+.sdkDisclosure > summary:hover,
+.compDisclosure > summary:hover {
+  color: var(--accent);
+  text-decoration-color: var(--accent);
+}
+
+.sdkDisclosureGrid {
+  margin-top: 1rem;
+}
+
+.compDisclosure > .tableWrap {
+  margin-top: 1rem;
+}
 
 .catchGrid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -875,11 +927,20 @@
 /* ── Persona tag + audience line ─────────────────────────────── */
 .heroPersona {
   margin-top: 0.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   color: var(--accent);
   font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.01em;
+}
+
+.heroAudienceTag {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: var(--muted);
+  font-size: 0.88rem;
+  font-weight: 500;
+  font-style: italic;
 }
 
 .audienceLine {

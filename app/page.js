@@ -130,16 +130,10 @@ export default function Home() {
               <h1 id="hero-heading" className={styles.heroH1}>
                 Turn every AI decision into tamper-proof evidence.
               </h1>
-              <p className={styles.heroPersona}>Audit-ready AI evidence for regulated teams. Instantly record, enforce, and prove compliance.</p>
-              <p className={styles.heroRoleBadges} aria-label="Designed for">
-                <span className={styles.roleBadge}>Compliance Leaders</span>
-                <span className={styles.roleSep} aria-hidden="true">&middot;</span>
-                <span className={styles.roleBadge}>ML Engineers</span>
-                <span className={styles.roleSep} aria-hidden="true">&middot;</span>
-                <span className={styles.roleBadge}>Ops Teams</span>
-              </p>
+              <p className={styles.heroPersona}>From instrumentation to a signed, regulator-ready audit bundle in under 5 minutes &mdash; no manual spreadsheets, no compliance backlog.</p>
+              <p className={styles.heroAudienceTag}>For compliance officers and AI engineering teams building regulated AI.</p>
               <p className={styles.heroSub}>
-                Guarantee regulator-ready proof of every AI decision &mdash; fast, auditable, and handed directly to your compliance team.
+                SpanForge instruments every AI action at the SDK layer, enforces policy before risk lands, and hands your compliance team an evidence bundle they can give directly to regulators &mdash; without slowing engineering.
               </p>
               <div className={styles.ctaRow}>
                 <Link href="/spanforgecore/sdk" className="btn-primary">Start Your First Audit</Link>
@@ -300,24 +294,12 @@ export default function Home() {
                 <span className={styles.pillarIndex}>0{index + 1}</span>
                 <h3>{pillar.title}</h3>
                 <p>{pillar.body}</p>
-                <Link href={pillar.href} className={styles.pillarLink}>{pillar.cta} →</Link>
               </article>
             ))}
           </div>
-        </div>
-      </section>
-
-      <section className={styles.journeySection} aria-labelledby="journey-heading">
-        <div className="container">
-          <div className={styles.sectionIntro}>
-            <span className={styles.sectionLabel}>Developer workflow</span>
-            <h2 id="journey-heading" className={styles.secH}>From install to regulator-ready in five deliberate steps.</h2>
-            <p className={styles.secSh}>
-              No enterprise ceremony required. Start with <code className={styles.inlineCode}>pip install spanforge</code>,
-              then move from instrumentation to signed evidence on a single progression.
-            </p>
-          </div>
-          <JourneyStrip />
+          <p className={styles.pillarsSectionFooter}>
+            <Link href="/spanforgecore/sdk" className={styles.sectionTextLink}>Explore the full SDK surface &rarr;</Link>
+          </p>
         </div>
       </section>
 
@@ -358,7 +340,7 @@ export default function Home() {
             </p>
           </div>
           <div className={styles.sdkGridCompact}>
-            {SDK_SERVICES.map((service) => (
+            {SDK_SERVICES.slice(0, 4).map((service) => (
               <Link
                 key={service.name}
                 href={service.href}
@@ -377,6 +359,29 @@ export default function Home() {
               </Link>
             ))}
           </div>
+          <details className={styles.sdkDisclosure}>
+            <summary className={styles.sdkDisclosureSummary}>View all {SDK_SERVICES.length} SDK services →</summary>
+            <div className={`${styles.sdkGridCompact} ${styles.sdkDisclosureGrid}`}>
+              {SDK_SERVICES.slice(4).map((service) => (
+                <Link
+                  key={service.name}
+                  href={service.href}
+                  className={`${styles.sdkCardCompact} ${service.featured ? styles.sdkCardFeatured : ''}`}
+                >
+                  <div className={styles.sdkCardTop}>
+                    <p className={styles.sdkName}>{service.name}</p>
+                    <div className={styles.sdkPills}>
+                      {service.tags.map((tag) => (
+                        <span key={tag.label} className={`${styles.pill} ${styles[tag.cls]}`}>{tag.label}</span>
+                      ))}
+                    </div>
+                  </div>
+                  <p className={styles.sdkDesc}>{service.desc}</p>
+                  <span className={styles.sdkCardArrow} aria-hidden="true">View docs →</span>
+                </Link>
+              ))}
+            </div>
+          </details>
         </div>
       </section>
 
@@ -413,33 +418,36 @@ export default function Home() {
               Signed evidence packages ready for auditor hand-off — no manual spreadsheet work.
             </p>
           </div>
-          <div className={styles.tableWrap}>
-            <table className={styles.compTable}>
-              <thead>
-                <tr>
-                  <th>Framework</th>
-                  <th>Coverage focus</th>
-                  <th>Relevant SDK surface</th>
-                </tr>
-              </thead>
-              <tbody>
-                {COMPLIANCE.map((row) => (
-                  <tr key={row.framework}>
-                    <td className={styles.compFw}>{row.framework}</td>
-                    <td>{row.articles}</td>
-                    <td className={styles.compSdk}>{row.sdk}</td>
+          <details className={styles.compDisclosure}>
+            <summary className={styles.compDisclosureSummary}>View framework coverage table →</summary>
+            <div className={styles.tableWrap}>
+              <table className={styles.compTable}>
+                <thead>
+                  <tr>
+                    <th>Framework</th>
+                    <th>Coverage focus</th>
+                    <th>Relevant SDK surface</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div className={styles.compCta}>
-            <code className={styles.compCode}>sf_cec.build_bundle(project_id, date_range, frameworks=[&quot;eu_ai_act&quot;, &quot;iso_42001&quot;, &quot;soc2&quot;])</code>
-            <p>
-              Generate a signed evidence bundle with chain proof, framework mappings, and attestation artifacts.
-              <Link href="/spanforgecore/sdk" className={styles.compCtaLink}> View the SDK documentation.</Link>
-            </p>
-          </div>
+                </thead>
+                <tbody>
+                  {COMPLIANCE.map((row) => (
+                    <tr key={row.framework}>
+                      <td className={styles.compFw}>{row.framework}</td>
+                      <td>{row.articles}</td>
+                      <td className={styles.compSdk}>{row.sdk}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className={styles.compCta}>
+              <code className={styles.compCode}>sf_cec.build_bundle(project_id, date_range, frameworks=[&quot;eu_ai_act&quot;, &quot;iso_42001&quot;, &quot;soc2&quot;])</code>
+              <p>
+                Generate a signed evidence bundle with chain proof, framework mappings, and attestation artifacts.
+                <Link href="/spanforgecore/sdk" className={styles.compCtaLink}> View the SDK documentation.</Link>
+              </p>
+            </div>
+          </details>
         </div>
       </section>
 
