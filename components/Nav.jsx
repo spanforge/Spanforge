@@ -5,23 +5,29 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import styles from './Nav.module.css'
 
-const NAV_LINKS = [
+const NAV_PRIMARY = [
+  { label: 'Product', href: '/spanforgecore' },
   { label: 'Advisory', href: '/advisory' },
+  { label: 'Resources', href: '/blog' },
+  { label: 'About', href: '/about' },
+]
+
+const DEV_LINKS = [
   { label: 'Docs', href: '/docs' },
-  { label: 'SDK', href: '/spanforgecore' },
+  { label: 'SDK Reference', href: '/spanforgecore/sdk' },
   { label: 'Standards', href: '/standards' },
   { label: 'Tools', href: '/tools' },
-  { label: 'Blog', href: '/blog' },
   { label: 'Learn', href: '/learn' },
-  { label: 'About', href: '/about' },
 ]
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [devOpen, setDevOpen] = useState(false)
   const pathname = usePathname()
   const closeBtnRef = useRef(null)
   const overlayRef = useRef(null)
+  const devMenuRef = useRef(null)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)
@@ -31,7 +37,19 @@ export default function Nav() {
 
   useEffect(() => {
     setMobileOpen(false)
+    setDevOpen(false)
   }, [pathname])
+
+  useEffect(() => {
+    if (!devOpen) return
+    function handleClickOutside(e) {
+      if (devMenuRef.current && !devMenuRef.current.contains(e.target)) {
+        setDevOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [devOpen])
 
   useEffect(() => {
     const handler = (event) => {
@@ -84,20 +102,7 @@ export default function Nav() {
           </Link>
 
           <div className={styles.links}>
-            {NAV_LINKS.map((link) => {
-              if (link.external) {
-                return (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.link}
-                  >
-                    {link.label}
-                  </a>
-                )
-              }
+            {NAV_PRIMARY.map((link) => {
               const active = isActive(link.href)
               return (
                 <Link
@@ -110,11 +115,39 @@ export default function Nav() {
                 </Link>
               )
             })}
+            <div className={styles.devDropdown} ref={devMenuRef}>
+              <button
+                className={`${styles.link} ${styles.devToggle} ${devOpen ? styles.devToggleOpen : ''}`}
+                onClick={() => setDevOpen((o) => !o)}
+                aria-expanded={devOpen}
+                aria-haspopup="true"
+              >
+                Developer
+                <svg className={styles.devChevron} width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                  <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+              {devOpen && (
+                <div className={styles.devMenu} role="menu">
+                  {DEV_LINKS.map((link) => (
+                    <Link
+                      key={link.label}
+                      href={link.href}
+                      className={styles.devMenuItem}
+                      role="menuitem"
+                      onClick={() => setDevOpen(false)}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           <div className={styles.right}>
-            <Link href="/contact" className={styles.talkLink}>Talk to us</Link>
-            <Link href="/spanforgecore/sdk" className={styles.installBtn}>Explore SDK</Link>
+            <Link href="/contact" className={styles.talkLink}>Schedule a call</Link>
+            <Link href="/spanforgecore/sdk" className={styles.installBtn}>Explore the SDK</Link>
             <button
               className={styles.hamburger}
               onClick={() => setMobileOpen(true)}
@@ -150,21 +183,7 @@ export default function Nav() {
           </div>
 
           <nav id="mobile-nav" className={styles.mobileLinks} aria-label="Mobile navigation">
-            {NAV_LINKS.map((link) => {
-              if (link.external) {
-                return (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.mobileLink}
-                    onClick={() => setMobileOpen(false)}
-                  >
-                    {link.label}
-                  </a>
-                )
-              }
+            {NAV_PRIMARY.map((link) => {
               const active = isActive(link.href)
               return (
                 <Link
@@ -178,12 +197,27 @@ export default function Nav() {
                 </Link>
               )
             })}
+            <p className={styles.mobileSectionLabel}>Developer</p>
+            {DEV_LINKS.map((link) => {
+              const active = isActive(link.href)
+              return (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  aria-current={active ? 'page' : undefined}
+                  className={`${styles.mobileLink} ${styles.mobileLinkIndent} ${active ? styles.mobileLinkActive : ''}`}
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              )
+            })}
             <div className={styles.mobileActions}>
               <Link href="/spanforgecore/sdk" className={styles.mobileInstallBtn} onClick={() => setMobileOpen(false)}>
-                Explore SDK
+                Explore the SDK
               </Link>
               <Link href="/contact" className={styles.mobileGhostBtn} onClick={() => setMobileOpen(false)}>
-                Request a briefing
+                Schedule Advisory Call
               </Link>
             </div>
           </nav>

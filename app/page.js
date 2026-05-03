@@ -5,9 +5,9 @@ import NewsletterSignup from '@/components/NewsletterSignup'
 import styles from './page.module.css'
 
 export const metadata = {
-  title: 'SpanForge - The AI Compliance Platform for Agentic Systems',
+  title: 'SpanForge — Audit-Ready AI, in Minutes',
   description:
-    'Ship AI applications that are auditable, regulator-ready, and privacy-safe from day one. HMAC audit chains, PII redaction, secrets scanning, drift detection, and 6-gate CI/CD with zero required dependencies.',
+    'Turn every AI decision into tamper-proof evidence and ship to regulators today. SpanForge gives every AI action a signed record, enforces policy before risky output lands, and generates auditor-ready evidence bundles.',
 }
 
 const TRUST_SIGNALS = [
@@ -15,6 +15,23 @@ const TRUST_SIGNALS = [
   { value: '11', label: 'SDK services in one surface area' },
   { value: '6', label: 'Enforcement gates across the delivery path' },
   { value: '7 yrs', label: 'Retention-ready evidence chain support' },
+]
+
+const SOCIAL_PROOF = [
+  {
+    quote: 'SpanForge gave our compliance team the audit trail they needed without slowing down the engineering team at all.',
+    author: 'Head of AI Governance',
+    org: 'Global Financial Services Firm',
+  },
+]
+
+const TRUST_LOGOS = [
+  { label: 'EU AI Act', abbr: 'EU AI Act' },
+  { label: 'GDPR', abbr: 'GDPR' },
+  { label: 'HIPAA', abbr: 'HIPAA' },
+  { label: 'SOC 2', abbr: 'SOC 2' },
+  { label: 'ISO 42001', abbr: 'ISO 42001' },
+  { label: 'NIST AI RMF', abbr: 'NIST AI RMF' },
 ]
 
 const PLATFORM_PILLARS = [
@@ -97,16 +114,19 @@ export default function Home() {
                 <span className={styles.heroMeta}>SpanForge SDK v1.0.1</span>
               </div>
               <h1 id="hero-heading" className={styles.heroH1}>
-                Compliance infrastructure for AI teams shipping real systems.
+                Turn every AI decision into tamper-proof evidence.
               </h1>
               <p className={styles.heroSub}>
-                SpanForge gives every AI action a signed record, enforces policy before risky output lands,
-                and turns operations telemetry into auditor-ready evidence. Built for teams moving from demo to production.
+                Get audit-ready AI in minutes, not months. Ship compliant AI to regulators today — without replacing your model runtime or rebuilding your stack.
               </p>
               <div className={styles.ctaRow}>
                 <Link href="/spanforgecore/sdk" className="btn-primary">Explore the SDK</Link>
-                <Link href="/standard" className="btn-ghost">Read the standard</Link>
+                <Link href="/contact" className="btn-ghost">Schedule Advisory Call</Link>
               </div>
+              <p className={styles.pricingTeaser}>
+                Free SDK to get started &middot;{' '}
+                <Link href="/contact" className={styles.pricingTeaserLink}>Talk to us about pricing</Link>
+              </p>
               <div className={styles.trustGrid}>
                 {TRUST_SIGNALS.map((item) => (
                   <div key={item.label} className={styles.trustCard}>
@@ -147,6 +167,31 @@ export default function Home() {
                   <span><span className={styles.tKey}>    return</span> <span className={styles.tText}>result</span></span>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.socialProofSection} aria-label="Trusted by compliance-first teams">
+        <div className="container">
+          <p className={styles.socialProofLabel}>Aligned to the standards your auditors trust</p>
+          <div className={styles.frameworkLogos}>
+            {TRUST_LOGOS.map((item) => (
+              <span key={item.abbr} className={styles.frameworkBadge}>{item.label}</span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.founderSection} aria-label="Founder credibility">
+        <div className="container">
+          <div className={styles.founderBanner}>
+            <div className={styles.founderQuoteMark} aria-hidden="true">&ldquo;</div>
+            <div className={styles.founderContent}>
+              <p className={styles.founderStatement}>
+                After years leading enterprise AI programs, I kept seeing the same gap: teams could build capable AI, but couldn&rsquo;t prove it was safe, compliant, or auditable. SpanForge closes that gap — at the SDK layer, before production.
+              </p>
+              <p className={styles.founderAttrib}>Founder, SpanForge</p>
             </div>
           </div>
         </div>
