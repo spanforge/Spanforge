@@ -131,8 +131,15 @@ export default function Home() {
                 Turn every AI decision into tamper-proof evidence.
               </h1>
               <p className={styles.heroPersona}>Audit-ready AI evidence for regulated teams. Instantly record, enforce, and prove compliance.</p>
+              <p className={styles.heroRoleBadges} aria-label="Designed for">
+                <span className={styles.roleBadge}>Compliance Leaders</span>
+                <span className={styles.roleSep} aria-hidden="true">&middot;</span>
+                <span className={styles.roleBadge}>ML Engineers</span>
+                <span className={styles.roleSep} aria-hidden="true">&middot;</span>
+                <span className={styles.roleBadge}>Ops Teams</span>
+              </p>
               <p className={styles.heroSub}>
-                SpanForge instruments every AI action, enforces policy before risk lands, and generates signed audit bundles your compliance team hands directly to regulators.
+                Guarantee regulator-ready proof of every AI decision &mdash; fast, auditable, and handed directly to your compliance team.
               </p>
               <div className={styles.ctaRow}>
                 <Link href="/spanforgecore/sdk" className="btn-primary">Start Your First Audit</Link>
@@ -176,7 +183,7 @@ export default function Home() {
                 </li>
                 <li className={styles.panelStep}>
                   <span className={styles.panelStepNum}>04</span>
-                  <div><strong>Sign</strong><p>Append tamper-proof HMAC-SHA256 records to the audit chain automatically.</p></div>
+                  <div><strong>Sign</strong><p>Every event is cryptographically chained &mdash; giving regulators verifiable, tamper-proof proof of every decision.</p></div>
                 </li>
                 <li className={styles.panelStep}>
                   <span className={styles.panelStepNum}>05</span>

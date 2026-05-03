@@ -423,17 +423,19 @@
 .pillarLink {
   display: inline-block;
   margin-top: 1.1rem;
-  padding: 0.45rem 0;
-  color: var(--accent);
-  font-size: 0.875rem;
-  font-weight: 600;
-  border-bottom: 1px solid rgba(18, 102, 241, 0.3);
-  transition: border-color 0.18s, color 0.18s;
+  padding: 0.35rem 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: rgba(148, 163, 184, 0.35);
+  text-underline-offset: 3px;
+  transition: color 0.18s;
 }
 
 .pillarLink:hover {
-  border-color: var(--accent);
-  color: var(--accent-strong);
+  color: var(--accent);
+  text-decoration-color: var(--accent);
 }
 
 .auditLayout {
@@ -906,6 +908,35 @@
   border-color: rgba(14, 164, 114, 0.4);
 }
 
+/* ── Hero role badges ──────────────────────────────── */
+.heroRoleBadges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1.1rem;
+}
+
+.roleBadge {
+  display: inline-block;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(14, 164, 114, 0.1);
+  border: 1px solid rgba(14, 164, 114, 0.22);
+  color: #0a7a55;
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.roleSep {
+  color: var(--muted);
+  font-size: 0.75rem;
+  line-height: 1;
+  opacity: 0.5;
+}
+
 /* ── Why SpanForge executive summary ─────────────────────────── */
 .whySection {
   padding: 3rem 0;
@@ -1222,8 +1253,9 @@
 /* ── Founder statement ──────────────────────────────────────── */
 .founderSection {
   padding: 3rem 0;
-  background: linear-gradient(180deg, #f7fbff 0%, #eef5fb 100%);
-  border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+  background: var(--dark);
+  border-top: 1px solid rgba(148, 163, 184, 0.1);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
 }
 
 .founderBanner {
@@ -1234,10 +1266,9 @@
   margin: 0 auto;
   padding: 2rem;
   border-radius: 1.4rem;
-  background: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(18, 102, 241, 0.1);
-  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
-  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
 }
 
 .founderQuoteMark {
