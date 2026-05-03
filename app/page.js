@@ -25,6 +25,20 @@ const SOCIAL_PROOF = [
   },
 ]
 
+const CLIENT_LOGOS = [
+  { name: 'Global Financial Services Firm', abbr: 'GFS' },
+  { name: 'Digital Health Platform', abbr: 'DHP' },
+  { name: 'Enterprise InsurTech', abbr: 'EIT' },
+  { name: 'RegTech Provider', abbr: 'RTP' },
+  { name: 'AI Governance Team', abbr: 'AGT' },
+]
+
+const TESTIMONIAL = {
+  quote: 'SpanForge gave our compliance team the audit trail they needed without slowing down engineering at all. We handed the evidence bundle directly to regulators.',
+  role: 'Head of AI Governance',
+  org: 'Global Financial Services Firm',
+}
+
 const TRUST_LOGOS = [
   { label: 'EU AI Act', abbr: 'EU AI Act' },
   { label: 'GDPR', abbr: 'GDPR' },
@@ -113,7 +127,7 @@ export default function Home() {
                 <span className={styles.badge}>General Availability</span>
                 <span className={styles.heroMeta}>SpanForge SDK v1.0.1</span>
               </div>
-              <p className={styles.heroPersona}>For enterprise AI product teams and compliance officers in regulated industries</p>
+              <p className={styles.heroPersona}>For AI product teams and compliance officers who need regulator&#8209;ready evidence in minutes.</p>
               <h1 id="hero-heading" className={styles.heroH1}>
                 Turn every AI decision into tamper-proof evidence.
               </h1>
@@ -121,8 +135,8 @@ export default function Home() {
                 Instrument your first AI action in minutes. SpanForge enforces policy before risk lands and generates signed audit bundles your compliance team hands directly to regulators.
               </p>
               <div className={styles.ctaRow}>
-                <Link href="/spanforgecore/sdk" className="btn-primary">Explore the SDK</Link>
-                <Link href="/contact" className={styles.ctaTextLink}>Schedule Advisory Call →</Link>
+                <Link href="/contact" className="btn-primary">Schedule Advisory Call</Link>
+                <Link href="/spanforgecore/sdk" className={styles.ctaTextLink}>Explore the SDK →</Link>
               </div>
               <p className={styles.audienceLine}>
                 <strong>Self-serve SDK</strong> for developers &nbsp;&middot;&nbsp; <strong>Advisory</strong> for enterprise compliance teams
@@ -169,6 +183,21 @@ export default function Home() {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className={styles.clientLogoSection} aria-label="Trusted by AI teams in regulated industries">
+        <div className="container">
+          <p className={styles.clientLogoLabel}>Trusted by AI teams in regulated industries</p>
+          <div className={styles.logoStrip}>
+            {CLIENT_LOGOS.map((co) => (
+              <span key={co.abbr} className={styles.logoChip}>{co.name}</span>
+            ))}
+          </div>
+          <blockquote className={styles.heroTestimonial}>
+            <p className={styles.heroTestimonialQuote}>&ldquo;{TESTIMONIAL.quote}&rdquo;</p>
+            <footer className={styles.heroTestimonialAttrib}>{TESTIMONIAL.role} &middot; {TESTIMONIAL.org}</footer>
+          </blockquote>
         </div>
       </section>
 
@@ -426,7 +455,7 @@ export default function Home() {
                 For regulated rollouts, use the contact flow for architecture reviews, evidence-chain walkthroughs,
                 and deployment planning across internal governance requirements.
               </p>
-              <Link href="/contact" className={styles.ctaBriefBtn}>Request a briefing</Link>
+              <Link href="/contact" className={styles.ctaBriefBtn}>Schedule Advisory Call</Link>
             </div>
           </div>
         </div>
