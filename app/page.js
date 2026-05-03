@@ -130,7 +130,7 @@ export default function Home() {
               <h1 id="hero-heading" className={styles.heroH1}>
                 Turn every AI decision into tamper-proof evidence.
               </h1>
-              <p className={styles.heroPersona}>For AI product teams and compliance officers in regulated industries &mdash; regulator-ready evidence in minutes.</p>
+              <p className={styles.heroPersona}>Audit-ready AI evidence for regulated teams. Instantly record, enforce, and prove compliance.</p>
               <p className={styles.heroSub}>
                 SpanForge instruments every AI action, enforces policy before risk lands, and generates signed audit bundles your compliance team hands directly to regulators.
               </p>
@@ -161,26 +161,28 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className={styles.codeCard} aria-label="SpanForge code example">
-                <div className={styles.codeHeader}>
-                  <span className={styles.codeDot} />
-                  <span className={styles.codeDot} />
-                  <span className={styles.codeDot} />
-                  <span className={styles.codeTitle}>quickstart.py</span>
-                </div>
-                <div className={styles.codeBody}>
-                  <span><span className={styles.tMuted}>$</span> <span className={styles.tStrong}>pip install spanforge</span></span>
-                  <span className={styles.tSpacer} />
-                  <span><span className={styles.tKey}>from</span> <span className={styles.tText}>spanforge.sdk</span> <span className={styles.tKey}>import</span> <span className={styles.tText}>sf_audit, sf_pii, sf_secrets</span></span>
-                  <span><span className={styles.tTag}>@spanforge.trace</span></span>
-                  <span><span className={styles.tKey}>def</span> <span className={styles.tText}>score_output</span><span className={styles.tMuted}>(</span><span className={styles.tText}>text</span><span className={styles.tMuted}>):</span></span>
-                  <span><span className={styles.tText}>    sf_pii.scan(text)</span> <span className={styles.tComment}># redact before persistence</span></span>
-                  <span><span className={styles.tText}>    sf_secrets.scan(text)</span> <span className={styles.tComment}># block accidental key leaks</span></span>
-                  <span><span className={styles.tText}>    result = run_model(text)</span></span>
-                  <span><span className={styles.tText}>    sf_audit.append(result, </span><span className={styles.tString}>"policy.score.v1"</span><span className={styles.tText}>)</span></span>
-                  <span><span className={styles.tKey}>    return</span> <span className={styles.tText}>result</span></span>
-                </div>
-              </div>
+              <ol className={styles.panelSteps}>
+                <li className={styles.panelStep}>
+                  <span className={styles.panelStepNum}>01</span>
+                  <div><strong>Install</strong><p>Add SpanForge to any Python project with zero runtime dependencies.</p></div>
+                </li>
+                <li className={styles.panelStep}>
+                  <span className={styles.panelStepNum}>02</span>
+                  <div><strong>Instrument</strong><p>Wrap AI actions with <code>@spanforge.trace</code> to capture every decision event.</p></div>
+                </li>
+                <li className={styles.panelStep}>
+                  <span className={styles.panelStepNum}>03</span>
+                  <div><strong>Enforce</strong><p>Apply PII redaction, secrets scanning, and drift policies before output persists.</p></div>
+                </li>
+                <li className={styles.panelStep}>
+                  <span className={styles.panelStepNum}>04</span>
+                  <div><strong>Sign</strong><p>Append tamper-proof HMAC-SHA256 records to the audit chain automatically.</p></div>
+                </li>
+                <li className={styles.panelStep}>
+                  <span className={styles.panelStepNum}>05</span>
+                  <div><strong>Export</strong><p>Generate a regulator-ready evidence bundle mapped to EU AI Act, HIPAA, and SOC 2.</p></div>
+                </li>
+              </ol>
             </div>
           </div>
         </div>
@@ -188,7 +190,7 @@ export default function Home() {
 
       <section className={styles.clientLogoSection} aria-label="Trusted by leading AI teams">
         <div className="container">
-          <p className={styles.clientLogoLabel}>Trusted by leading AI teams &mdash; <Link href="/resources" className={styles.clientLogoLink}>read their stories</Link></p>
+          <p className={styles.clientLogoLabel}>Trusted by leading AI teams</p>
           <div className={styles.logoStrip}>
             {CLIENT_LOGOS.map((co) => (
               <span key={co.abbr} className={styles.logoChip}>{co.name}</span>
@@ -205,9 +207,13 @@ export default function Home() {
               <span key={item.abbr} className={styles.frameworkBadge}>{item.label}</span>
             ))}
           </div>
-          <p className={styles.frameworkFootnote}>
-            <Link href="/docs/compliance" className={styles.frameworkFootnoteLink}>View evidence schema &amp; framework mappings →</Link>
-          </p>
+          <div className={styles.complianceBadgeStrip}>
+            {['EU AI Act-Ready', 'HIPAA-Aligned', 'GDPR-Ready', 'SOC 2 Framework', 'ISO 42001'].map((b) => (
+              <span key={b} className={styles.complianceBadgeItem}>
+                <span className={styles.complianceBadgeCheck} aria-hidden="true">✓</span>{b}
+              </span>
+            ))}
+          </div>
         </div>
       </section>
 
