@@ -14,8 +14,8 @@ const ORG_JSONLD = {
   url: 'https://www.getspanforge.com',
   logo: 'https://www.getspanforge.com/logo.png',
   description:
-    'SpanForge is the AI lifecycle platform for teams moving from early experimentation to auditable production systems.',
-  sameAs: ['https://www.linkedin.com/in/spanforge'],
+    'SpanForge is an AI audit SDK. It gives compliance teams a signed, ready-to-submit evidence bundle for every AI decision — so your team passes audits without slowing engineers.',
+  sameAs: ['https://www.linkedin.com/company/spanforge', 'https://github.com/spanforge'],
   contactPoint: [
     {
       '@type': 'ContactPoint',

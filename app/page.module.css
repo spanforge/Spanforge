@@ -1382,6 +1382,38 @@
   line-height: 1.6;
 }
 
+/* ── Hero proof chips (above-fold credentials) ───────────────── */
+.heroProofChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.heroProofChip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(14, 164, 114, 0.1);
+  border: 1px solid rgba(14, 164, 114, 0.28);
+  color: #0ea472;
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ── Founder mission line ────────────────────────────────────── */
+.founderMission {
+  margin-bottom: 0.65rem;
+  color: var(--accent);
+  font-family: var(--font-dm-mono, monospace);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
 /* ── CTA support line ────────────────────────────────────────── */
 .ctaSupportLine {
   margin-top: 1.25rem;
@@ -1398,6 +1430,47 @@
 
 .ctaSupportLink:hover {
   color: #0ea472;
+}
+
+.ctaSupportLine {
+  margin-top: 1.25rem;
+  color: rgba(148, 163, 184, 0.6);
+  font-size: 0.82rem;
+}
+
+.ctaSupportLink {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
+  transition: color 0.15s;
+}
+
+.ctaSupportLink:hover {
+  color: #0ea472;
+}
+
+/* ── Momentum strip ──────────────────────────────────────────── */
+.momentumStrip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem 1rem;
+  margin-top: 2rem;
+  padding: 0.9rem 1.5rem;
+  background: rgba(14, 164, 114, 0.06);
+  border: 1px solid rgba(14, 164, 114, 0.15);
+  border-radius: 10px;
+  font-size: 0.82rem;
+  color: rgba(148, 163, 184, 0.75);
+}
+
+.momentumItem {
+  white-space: nowrap;
+}
+
+.momentumSep {
+  color: rgba(148, 163, 184, 0.35);
 }
 
 /* ── FAQ section ─────────────────────────────────────────────── */

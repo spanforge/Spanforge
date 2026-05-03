@@ -151,17 +151,22 @@ export default function Home() {
                 <span className={styles.heroMeta}>SpanForge SDK v1.0.1</span>
               </div>
               <h1 id="hero-heading" className={styles.heroH1}>
-                Compliance teams get audit-ready AI evidence in 5 minutes.
+                Ship AI that passes audits. Signed evidence in 5 minutes.
               </h1>
-              <p className={styles.heroPersona}>SpanForge is an AI audit SDK that gives compliance teams a signed, ready-to-submit evidence bundle for every AI decision &mdash; without slowing the engineers who build them.</p>
+              <p className={styles.heroPersona}>SpanForge is an AI audit SDK. It gives compliance teams a signed, ready-to-submit evidence bundle for every AI decision &mdash; without slowing the engineers who build them.</p>
               <p className={styles.heroSub}>
                 Most teams spend weeks assembling evidence after an AI incident. SpanForge captures proof continuously at the SDK layer &mdash; so your compliance team always has a signed bundle ready for auditors, from day one.
               </p>
+              <div className={styles.heroProofChips}>
+                <span className={styles.heroProofChip}>✓ EU AI Act-ready</span>
+                <span className={styles.heroProofChip}>✓ HIPAA-aligned</span>
+                <span className={styles.heroProofChip}>✓ SOC 2 framework</span>
+                <span className={styles.heroProofChip}>✓ MIT licensed</span>
+              </div>
               <div className={styles.ctaRow}>
                 <Link href="/spanforgecore/sdk" className="btn-primary">Start Your First Audit</Link>
-                <Link href="/contact" className={styles.ctaTextLink}>Talk to the team &rarr;</Link>
               </div>
-              <p className={styles.heroTrustLine}>Trusted by compliance teams at financial services, healthcare, and regulated tech &middot; MIT licensed &middot; Free to start</p>
+              <p className={styles.heroTrustLine}>Trusted by compliance teams at financial services, healthcare, and regulated tech &middot; Free to start &middot; No contract required</p>
             </div>
 
             <div className={styles.heroPanel}>
@@ -228,7 +233,17 @@ export default function Home() {
           </div>          <div className={styles.testimonialCard} style={{marginTop: '2rem'}}>
             <p className={styles.testimonialQuote}>&ldquo;{TESTIMONIAL.quote}&rdquo;</p>
             <p className={styles.testimonialAttrib}>&mdash; {TESTIMONIAL.role}, {TESTIMONIAL.org}</p>
-          </div>        </div>
+          </div>
+          <div className={styles.momentumStrip}>
+            <span className={styles.momentumItem}>SDK v1.0.1 Generally Available</span>
+            <span className={styles.momentumSep} aria-hidden="true">&middot;</span>
+            <span className={styles.momentumItem}>Launched May 2026</span>
+            <span className={styles.momentumSep} aria-hidden="true">&middot;</span>
+            <span className={styles.momentumItem}>6 compliance frameworks mapped on day one</span>
+            <span className={styles.momentumSep} aria-hidden="true">&middot;</span>
+            <span className={styles.momentumItem}>0 hours assembling evidence before your next audit</span>
+          </div>
+        </div>
       </section>
 
       <section className={styles.whySection} aria-labelledby="why-heading">
@@ -241,11 +256,11 @@ export default function Home() {
             </div>
             <div className={styles.whyPoint}>
               <strong className={styles.whyPointLabel}>Auditors want evidence chains</strong>
-              <p className={styles.whyPointText}>Regulators expect machine-readable records with framework mappings — not screenshots and manually assembled spreadsheets.</p>
+              <p className={styles.whyPointText}>Regulators expect machine-readable records with framework mappings &mdash; not screenshots and manually assembled spreadsheets. SpanForge generates them automatically.</p>
             </div>
             <div className={styles.whyPoint}>
-              <strong className={styles.whyPointLabel}>Prevention costs less</strong>
-              <p className={styles.whyPointText}>Retrofitting compliance after a model is in production costs far more in engineering time and remediation resources than instrumenting from day one.</p>
+              <strong className={styles.whyPointLabel}>Prevention costs less than recovery</strong>
+              <p className={styles.whyPointText}>Unlike custom logging or manual evidence assembly, SpanForge captures cryptographically signed proof at the SDK layer from day one &mdash; before a regulator ever asks.</p>
             </div>
           </div>
         </div>
@@ -257,8 +272,10 @@ export default function Home() {
           <div className={styles.founderBanner}>
             <div className={styles.founderQuoteMark} aria-hidden="true">&ldquo;</div>
             <div className={styles.founderContent}>
+              <p className={styles.founderMission}>Our mission: make AI compliance infrastructure as automatic as security scanning.</p>
+              <p className={styles.founderMission}>Our mission: make AI compliance infrastructure as automatic as security scanning.</p>
               <p className={styles.founderStatement}>
-                After years leading enterprise AI programs, I kept seeing the same gap: teams could build capable AI, but couldn&rsquo;t prove it was safe, compliant, or auditable. SpanForge closes that gap &mdash; at the SDK layer, before production.
+                After years leading enterprise AI programs, I kept seeing the same gap: teams built capable AI but couldn&rsquo;t prove it was safe, compliant, or auditable. SpanForge closes that gap &mdash; at the SDK layer, before production.
               </p>
               <p className={styles.founderAttrib}>Founder, SpanForge (est. 2024) &middot; 10+ years enterprise AI program leadership</p>
             </div>
@@ -320,7 +337,7 @@ export default function Home() {
           <div className={styles.auditLayout}>
             <div className={styles.auditCopy}>
               <span className={styles.sectionLabel}>Live evidence chain</span>
-              <h2 id="audit-heading" className={styles.secH}>Every LLM call, policy event, and review decision can be signed.</h2>
+              <h2 id="audit-heading" className={styles.secH}>Every LLM call, policy event, and review decision is signed and stored.</h2>
               <p className={styles.secSh}>
                 SpanForge turns AI operations into a traceable ledger of actions. That means better incident response,
                 cleaner reviews with compliance stakeholders, and fewer blind spots when a model starts behaving differently in production.
@@ -489,10 +506,10 @@ export default function Home() {
       <section className={styles.dualCtaSection} aria-labelledby="cta-heading">
         <div className="container">
           <div className={styles.ctaBlock}>
-            <p className={styles.ctaEyebrow}>Open source &middot; MIT licensed &middot; pip install spanforge</p>
-            <h2 id="cta-heading" className={styles.ctaBlockH2}>Start your first audit in under five minutes.</h2>
+            <p className={styles.ctaEyebrow}>Open source &middot; MIT licensed &middot; pip install spanforge &middot; GA v1.0.1 &middot; Released May 2026</p>
+            <h2 id="cta-heading" className={styles.ctaBlockH2}>Get signed AI evidence in under five minutes.</h2>
             <p className={styles.ctaBlockSub}>
-              Install the SDK, instrument an AI action, and get a signed evidence bundle — before you involve procurement.
+              Install the SDK, instrument an AI action, and generate a signed evidence bundle &mdash; before you involve procurement. Community support on GitHub. Enterprise teams get priority response.
             </p>
             <div className={styles.ctaActions}>
               <Link href="/spanforgecore/sdk" className="btn-primary">Get Started Free</Link>

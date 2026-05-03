@@ -9,25 +9,14 @@ const NAV_PRIMARY = [
   { label: 'SDK', href: '/spanforgecore' },
   { label: 'Compliance', href: '/advisory' },
   { label: 'Pricing', href: '/pricing' },
-  { label: 'About', href: '/about' },
-]
-
-const DEV_LINKS = [
   { label: 'Docs', href: '/docs' },
-  { label: 'Blog', href: '/blog' },
-  { label: 'Learn', href: '/learn' },
-  { label: 'Tools', href: '/tools' },
-  { label: 'Standards', href: '/standards' },
+  { label: 'About', href: '/about' },
 ]
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [devOpen, setDevOpen] = useState(false)
   const pathname = usePathname()
-  const closeBtnRef = useRef(null)
-  const overlayRef = useRef(null)
-  const devMenuRef = useRef(null)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)
@@ -37,19 +26,7 @@ export default function Nav() {
 
   useEffect(() => {
     setMobileOpen(false)
-    setDevOpen(false)
   }, [pathname])
-
-  useEffect(() => {
-    if (!devOpen) return
-    function handleClickOutside(e) {
-      if (devMenuRef.current && !devMenuRef.current.contains(e.target)) {
-        setDevOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [devOpen])
 
   useEffect(() => {
     const handler = (event) => {
@@ -114,34 +91,6 @@ export default function Nav() {
                 </Link>
               )
             })}
-            <div className={styles.devDropdown} ref={devMenuRef}>
-              <button
-                className={`${styles.link} ${styles.devToggle} ${devOpen ? styles.devToggleOpen : ''}`}
-                onClick={() => setDevOpen((o) => !o)}
-                aria-expanded={devOpen}
-                aria-haspopup="true"
-              >
-                Resources
-                <svg className={styles.devChevron} width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                  <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-              {devOpen && (
-                <div className={styles.devMenu} role="menu">
-                  {DEV_LINKS.map((link) => (
-                    <Link
-                      key={link.label}
-                      href={link.href}
-                      className={styles.devMenuItem}
-                      role="menuitem"
-                      onClick={() => setDevOpen(false)}
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
           </div>
 
           <div className={styles.right}>
@@ -194,8 +143,8 @@ export default function Nav() {
                 </Link>
               )
             })}
-            <p className={styles.mobileSectionLabel}>Resources</p>
-            {DEV_LINKS.map((link) => {
+            <p className={styles.mobileSectionLabel}>More</p>
+            {[{ label: 'Blog', href: '/blog' }, { label: 'Tools', href: '/tools' }, { label: 'Standards', href: '/standards' }].map((link) => {
               const active = isActive(link.href)
               return (
                 <Link
