@@ -98,7 +98,6 @@ export default function Nav() {
         <div className={`container ${styles.inner}`}>
           <Link href="/" className={styles.logo} aria-label="SpanForge home">
             <span className={styles.logoMark}><span className={styles.logoSpan}>Span</span><span className={styles.logoForge}>Forge</span></span>
-            <span className={styles.logoSub}>AI compliance infrastructure</span>
           </Link>
 
           <div className={styles.links}>
@@ -168,7 +167,6 @@ export default function Nav() {
           <div className={styles.overlayHeader}>
             <Link href="/" className={styles.logo} onClick={() => setMobileOpen(false)}>
               <span className={styles.logoMark}>SpanForge</span>
-              <span className={styles.logoSub}>AI compliance infrastructure</span>
             </Link>
             <button
               ref={closeBtnRef}

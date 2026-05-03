@@ -113,19 +113,19 @@ export default function Home() {
                 <span className={styles.badge}>General Availability</span>
                 <span className={styles.heroMeta}>SpanForge SDK v1.0.1</span>
               </div>
+              <p className={styles.heroPersona}>For AI product teams in regulated industries</p>
               <h1 id="hero-heading" className={styles.heroH1}>
                 Turn every AI decision into tamper-proof evidence.
               </h1>
               <p className={styles.heroSub}>
-                Get audit-ready AI in minutes, not months. Ship compliant AI to regulators today — without replacing your model runtime or rebuilding your stack.
+                SpanForge instruments your AI actions, enforces policy before risky output lands, and generates signed audit bundles your compliance team can verify.
               </p>
               <div className={styles.ctaRow}>
                 <Link href="/spanforgecore/sdk" className="btn-primary">Explore the SDK</Link>
                 <Link href="/contact" className="btn-ghost">Schedule Advisory Call</Link>
               </div>
-              <p className={styles.pricingTeaser}>
-                Free SDK to get started &middot;{' '}
-                <Link href="/contact" className={styles.pricingTeaserLink}>Talk to us about pricing</Link>
+              <p className={styles.audienceLine}>
+                <strong>Self-serve SDK</strong> for developers &nbsp;&middot;&nbsp; <strong>Advisory</strong> for enterprise compliance teams
               </p>
               <div className={styles.trustGrid}>
                 {TRUST_SIGNALS.map((item) => (
