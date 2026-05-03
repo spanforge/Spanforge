@@ -131,9 +131,9 @@ export default function Home() {
               <h1 id="hero-heading" className={styles.heroH1}>
                 Turn every AI decision into tamper-proof evidence.
               </h1>
-              <p className={styles.heroPersona}>From instrumentation to a signed, regulator-ready audit bundle in under 5 minutes &mdash; no manual spreadsheets, no compliance backlog.</p>
+              <p className={styles.heroPersona}>From first install to a signed audit bundle in under 5 minutes &mdash; no spreadsheets, no compliance sprint, no interrupting engineering.</p>
               <p className={styles.heroSub}>
-                SpanForge instruments every AI action at the SDK layer, enforces policy before risk lands, and hands your compliance team an evidence bundle they can give directly to regulators &mdash; without slowing engineering.
+                Most teams spend weeks assembling evidence after an AI incident. SpanForge captures proof continuously at the SDK layer &mdash; so your compliance team always has a signed, ready-to-submit bundle without slowing a single sprint.
               </p>
               <div className={styles.ctaRow}>
                 <Link href="/spanforgecore/sdk" className="btn-primary">Start Your First Audit</Link>

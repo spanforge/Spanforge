@@ -7,17 +7,16 @@ import styles from './Nav.module.css'
 
 const NAV_PRIMARY = [
   { label: 'Product', href: '/spanforgecore' },
-  { label: 'Advisory', href: '/advisory' },
-  { label: 'About', href: '/about' },
+  { label: 'Compliance', href: '/advisory' },
 ]
 
 const DEV_LINKS = [
   { label: 'Docs', href: '/docs' },
-  { label: 'SDK Reference', href: '/spanforgecore/sdk' },
-  { label: 'Standards', href: '/standards' },
-  { label: 'Tools', href: '/tools' },
-  { label: 'Blog & Resources', href: '/blog' },
+  { label: 'Blog', href: '/blog' },
   { label: 'Learn', href: '/learn' },
+  { label: 'Tools', href: '/tools' },
+  { label: 'Standards', href: '/standards' },
+  { label: 'About', href: '/about' },
 ]
 
 export default function Nav() {
@@ -121,7 +120,7 @@ export default function Nav() {
                 aria-expanded={devOpen}
                 aria-haspopup="true"
               >
-                Developer
+                Resources
                 <svg className={styles.devChevron} width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                   <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
@@ -194,7 +193,7 @@ export default function Nav() {
                 </Link>
               )
             })}
-            <p className={styles.mobileSectionLabel}>Developer</p>
+            <p className={styles.mobileSectionLabel}>Resources</p>
             {DEV_LINKS.map((link) => {
               const active = isActive(link.href)
               return (
