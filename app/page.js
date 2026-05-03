@@ -113,16 +113,16 @@ export default function Home() {
                 <span className={styles.badge}>General Availability</span>
                 <span className={styles.heroMeta}>SpanForge SDK v1.0.1</span>
               </div>
-              <p className={styles.heroPersona}>For AI product teams in regulated industries</p>
+              <p className={styles.heroPersona}>For enterprise AI product teams and compliance officers in regulated industries</p>
               <h1 id="hero-heading" className={styles.heroH1}>
                 Turn every AI decision into tamper-proof evidence.
               </h1>
               <p className={styles.heroSub}>
-                SpanForge instruments every AI action, enforces policy before risk lands, and generates signed audit bundles your compliance team hands directly to regulators.
+                Instrument your first AI action in minutes. SpanForge enforces policy before risk lands and generates signed audit bundles your compliance team hands directly to regulators.
               </p>
               <div className={styles.ctaRow}>
                 <Link href="/spanforgecore/sdk" className="btn-primary">Explore the SDK</Link>
-                <Link href="/contact" className="btn-ghost">Schedule Advisory Call</Link>
+                <Link href="/contact" className={styles.ctaTextLink}>Schedule Advisory Call →</Link>
               </div>
               <p className={styles.audienceLine}>
                 <strong>Self-serve SDK</strong> for developers &nbsp;&middot;&nbsp; <strong>Advisory</strong> for enterprise compliance teams
@@ -183,6 +183,26 @@ export default function Home() {
         </div>
       </section>
 
+      <section className={styles.whySection} aria-labelledby="why-heading">
+        <div className="container">
+          <p className={styles.whySectionLabel} id="why-heading">Why SpanForge?</p>
+          <div className={styles.whyGrid}>
+            <div className={styles.whyPoint}>
+              <strong className={styles.whyPointLabel}>Regulatory risk is live</strong>
+              <p className={styles.whyPointText}>EU AI Act enforcement began August 2025. HIPAA and GDPR apply to every AI system handling personal data. Compliance is no longer optional.</p>
+            </div>
+            <div className={styles.whyPoint}>
+              <strong className={styles.whyPointLabel}>Auditors want evidence chains</strong>
+              <p className={styles.whyPointText}>Regulators expect machine-readable records with framework mappings — not screenshots and manually assembled spreadsheets.</p>
+            </div>
+            <div className={styles.whyPoint}>
+              <strong className={styles.whyPointLabel}>Prevention costs less</strong>
+              <p className={styles.whyPointText}>Retrofitting compliance after a model is in production costs far more in engineering time and remediation resources than instrumenting from day one.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className={styles.founderSection} aria-label="Founder credibility">
         <div className="container">
           <div className={styles.founderBanner}>
@@ -191,7 +211,7 @@ export default function Home() {
               <p className={styles.founderStatement}>
                 After years leading enterprise AI programs, I kept seeing the same gap: teams could build capable AI, but couldn&rsquo;t prove it was safe, compliant, or auditable. SpanForge closes that gap — at the SDK layer, before production.
               </p>
-              <p className={styles.founderAttrib}>Founder, SpanForge</p>
+              <p className={styles.founderAttrib}>Founder, SpanForge &middot; Enterprise AI program leader</p>
             </div>
           </div>
         </div>

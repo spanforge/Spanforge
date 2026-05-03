@@ -790,6 +790,74 @@
   color: var(--white);
 }
 
+.ctaTextLink {
+  display: inline-flex;
+  align-items: center;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.ctaTextLink:hover {
+  color: var(--accent);
+  border-color: rgba(14, 164, 114, 0.4);
+}
+
+/* ── Why SpanForge executive summary ─────────────────────────── */
+.whySection {
+  padding: 3rem 0;
+  background: #fff;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+}
+
+.whySectionLabel {
+  margin-bottom: 1.75rem;
+  color: var(--muted);
+  font-family: var(--font-dm-mono, monospace);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-align: center;
+}
+
+.whyGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.whyPoint {
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background: rgba(248, 250, 252, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+}
+
+.whyPointLabel {
+  display: block;
+  margin-bottom: 0.6rem;
+  color: var(--white);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.whyPointText {
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.7;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .whyGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
 /* ── Social proof strip ──────────────────────────────────────── */
 .socialProofSection {
   padding: 2.5rem 0 2rem;
