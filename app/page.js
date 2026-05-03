@@ -5,15 +5,15 @@ import NewsletterSignup from '@/components/NewsletterSignup'
 import styles from './page.module.css'
 
 export const metadata = {
-  title: 'SpanForge — Audit-Ready AI, in Minutes',
+  title: 'SpanForge — Audit-Ready AI Evidence for Compliance Teams',
   description:
-    'Turn every AI decision into tamper-proof evidence and ship to regulators today. SpanForge gives every AI action a signed record, enforces policy before risky output lands, and generates auditor-ready evidence bundles.',
+    'Compliance teams get audit-ready AI evidence in 5 minutes. SpanForge gives every AI action a signed record, enforces policy before risky output lands, and generates auditor-ready evidence bundles — without slowing the engineers who build them.',
 }
 
 const TRUST_SIGNALS = [
-  { value: '5 min', label: 'Time to first instrumented trace' },
+  { value: '5 min', label: 'From install to first signed evidence bundle' },
   { value: '11', label: 'SDK services in one surface area' },
-  { value: '6', label: 'Enforcement gates across the delivery path' },
+  { value: '6', label: 'Regulatory frameworks supported out of the box' },
   { value: '7 yrs', label: 'Retention-ready evidence chain support' },
 ]
 
@@ -107,6 +107,29 @@ const CATCHES = [
   },
 ]
 
+const FAQ = [
+  {
+    q: 'Do I need to change my AI provider or LLM setup?',
+    a: 'No. SpanForge wraps your existing model calls at the SDK layer. You keep your current provider, prompts, and infrastructure. Nothing changes in production except every decision now has a signed record.',
+  },
+  {
+    q: 'How is SpanForge different from standard application logging?',
+    a: 'Standard logs are mutable and context-free. SpanForge creates HMAC-SHA256 chained records with framework mappings, PII redaction, and cryptographic signatures — the format auditors and regulators actually accept.',
+  },
+  {
+    q: 'We are not yet subject to regulation. Do we still need this?',
+    a: 'EU AI Act enforcement began August 2025. HIPAA and GDPR already cover most AI systems processing personal data. Instrumenting from day one costs a fraction of the retroactive compliance work that follows an audit notice.',
+  },
+  {
+    q: 'Does SpanForge add latency to production workloads?',
+    a: 'SpanForge has zero required runtime dependencies and is built for production. Actions are wrapped asynchronously where possible — no external call sits on your critical path.',
+  },
+  {
+    q: 'Can I try it without involving procurement?',
+    a: 'Yes. SpanForge is MIT licensed and on PyPI. Run pip install spanforge and generate your first signed evidence bundle in under five minutes — no contract, no credit card required.',
+  },
+]
+
 const COMPLIANCE = [
   { framework: 'EU AI Act', articles: 'Risk management, data governance, record-keeping, transparency, human oversight, and accuracy monitoring.', sdk: 'sf_gate / sf_audit / sf_cec' },
   { framework: 'GDPR', articles: 'Data minimization, right to erasure, records of processing, and processor accountability support.', sdk: 'sf_pii / sf_audit / sf_cec' },
@@ -128,7 +151,7 @@ export default function Home() {
                 <span className={styles.heroMeta}>SpanForge SDK v1.0.1</span>
               </div>
               <h1 id="hero-heading" className={styles.heroH1}>
-                Turn every AI decision into tamper-proof evidence.
+                Compliance teams get audit-ready AI evidence in 5 minutes.
               </h1>
               <p className={styles.heroPersona}>SpanForge is an AI audit SDK that gives compliance teams a signed, ready-to-submit evidence bundle for every AI decision &mdash; without slowing the engineers who build them.</p>
               <p className={styles.heroSub}>
@@ -136,7 +159,9 @@ export default function Home() {
               </p>
               <div className={styles.ctaRow}>
                 <Link href="/spanforgecore/sdk" className="btn-primary">Start Your First Audit</Link>
+                <Link href="/contact" className={styles.ctaTextLink}>Talk to the team &rarr;</Link>
               </div>
+              <p className={styles.heroTrustLine}>Trusted by compliance teams at financial services, healthcare, and regulated tech &middot; MIT licensed &middot; Free to start</p>
             </div>
 
             <div className={styles.heroPanel}>
@@ -188,7 +213,7 @@ export default function Home() {
 
       <section className={styles.socialProofSection} aria-label="Trusted by compliance-first teams">
         <div className="container">
-          <p className={styles.socialProofLabel}>Built to support the standards your auditors require</p>
+          <p className={styles.socialProofLabel}>Trusted by compliance teams shipping regulated AI — built for the standards your auditors require</p>
           <div className={styles.frameworkLogos}>
             {TRUST_LOGOS.map((item) => (
               <span key={item.abbr} className={styles.frameworkBadge}>{item.label}</span>
@@ -200,8 +225,10 @@ export default function Home() {
                 <span className={styles.complianceBadgeCheck} aria-hidden="true">✓</span>{b}
               </span>
             ))}
-          </div>
-        </div>
+          </div>          <div className={styles.testimonialCard} style={{marginTop: '2rem'}}>
+            <p className={styles.testimonialQuote}>&ldquo;{TESTIMONIAL.quote}&rdquo;</p>
+            <p className={styles.testimonialAttrib}>&mdash; {TESTIMONIAL.role}, {TESTIMONIAL.org}</p>
+          </div>        </div>
       </section>
 
       <section className={styles.whySection} aria-labelledby="why-heading">
@@ -233,7 +260,7 @@ export default function Home() {
               <p className={styles.founderStatement}>
                 After years leading enterprise AI programs, I kept seeing the same gap: teams could build capable AI, but couldn&rsquo;t prove it was safe, compliant, or auditable. SpanForge closes that gap &mdash; at the SDK layer, before production.
               </p>
-              <p className={styles.founderAttrib}>Founder, SpanForge &middot; Enterprise AI program leader</p>
+              <p className={styles.founderAttrib}>Founder, SpanForge (est. 2024) &middot; 10+ years enterprise AI program leadership</p>
             </div>
           </div>
         </div>
@@ -435,6 +462,24 @@ export default function Home() {
         </div>
       </section>
 
+      <section className={styles.faqSection} aria-labelledby="faq-heading">
+        <div className="container">
+          <div className={styles.sectionIntro}>
+            <span className={styles.sectionLabel}>Common questions</span>
+            <h2 id="faq-heading" className={styles.secH}>Objections we hear — and the direct answers.</h2>
+            <p className={styles.secSh}>If you have a question not answered here, <Link href="/contact" className={styles.sectionTextLink}>reach out directly</Link>.</p>
+          </div>
+          <div className={styles.faqGrid}>
+            {FAQ.map((item) => (
+              <div key={item.q} className={styles.faqItem}>
+                <p className={styles.faqQ}>{item.q}</p>
+                <p className={styles.faqA}>{item.a}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className={styles.newsletterSection} aria-labelledby="newsletter-heading">
         <div className="container">
           <NewsletterSignup />
@@ -450,9 +495,10 @@ export default function Home() {
               Install the SDK, instrument an AI action, and get a signed evidence bundle — before you involve procurement.
             </p>
             <div className={styles.ctaActions}>
-              <Link href="/spanforgecore/sdk" className="btn-primary">Open the quickstart</Link>
+              <Link href="/spanforgecore/sdk" className="btn-primary">Get Started Free</Link>
               <Link href="/contact" className={styles.ctaSecondaryLink}>Regulated rollout? Talk to the team &rarr;</Link>
             </div>
+            <p className={styles.ctaSupportLine}>Questions? <a href="mailto:hello@getspanforge.com" className={styles.ctaSupportLink}>hello@getspanforge.com</a> &middot; <Link href="/docs" className={styles.ctaSupportLink}>Docs</Link> &middot; <Link href="/pricing" className={styles.ctaSupportLink}>View pricing</Link></p>
           </div>
         </div>
       </section>

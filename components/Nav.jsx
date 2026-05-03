@@ -6,8 +6,10 @@ import { usePathname } from 'next/navigation'
 import styles from './Nav.module.css'
 
 const NAV_PRIMARY = [
-  { label: 'Product', href: '/spanforgecore' },
+  { label: 'SDK', href: '/spanforgecore' },
   { label: 'Compliance', href: '/advisory' },
+  { label: 'Pricing', href: '/pricing' },
+  { label: 'About', href: '/about' },
 ]
 
 const DEV_LINKS = [
@@ -16,7 +18,6 @@ const DEV_LINKS = [
   { label: 'Learn', href: '/learn' },
   { label: 'Tools', href: '/tools' },
   { label: 'Standards', href: '/standards' },
-  { label: 'About', href: '/about' },
 ]
 
 export default function Nav() {
@@ -144,7 +145,7 @@ export default function Nav() {
           </div>
 
           <div className={styles.right}>
-            <Link href="/spanforgecore/sdk" className={styles.installBtn}>Explore the SDK</Link>
+            <Link href="/spanforgecore/sdk" className={styles.installBtn}>Get Started Free</Link>
             <button
               className={styles.hamburger}
               onClick={() => setMobileOpen(true)}
@@ -210,7 +211,7 @@ export default function Nav() {
             })}
             <div className={styles.mobileActions}>
               <Link href="/spanforgecore/sdk" className={styles.mobileInstallBtn} onClick={() => setMobileOpen(false)}>
-                Explore the SDK
+                Get Started Free
               </Link>
               <Link href="/contact" className={styles.mobileGhostBtn} onClick={() => setMobileOpen(false)}>
                 Schedule Advisory Call

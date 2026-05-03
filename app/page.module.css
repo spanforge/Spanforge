@@ -1373,3 +1373,71 @@
     font-size: 2.5rem;
   }
 }
+
+/* ── Hero trust line ─────────────────────────────────────────── */
+.heroTrustLine {
+  margin-top: 0.75rem;
+  color: rgba(148, 163, 184, 0.55);
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+/* ── CTA support line ────────────────────────────────────────── */
+.ctaSupportLine {
+  margin-top: 1.25rem;
+  color: rgba(148, 163, 184, 0.6);
+  font-size: 0.82rem;
+}
+
+.ctaSupportLink {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
+  transition: color 0.15s;
+}
+
+.ctaSupportLink:hover {
+  color: #0ea472;
+}
+
+/* ── FAQ section ─────────────────────────────────────────────── */
+.faqSection {
+  padding: 5rem 0;
+  background: #fff;
+  border-top: 1px solid rgba(148, 163, 184, 0.14);
+}
+
+.faqGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.faqItem {
+  padding: 1.5rem;
+  border-radius: 1.25rem;
+  background: linear-gradient(180deg, #f7fbff 0%, #eef5fb 100%);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+}
+
+.faqQ {
+  margin-bottom: 0.65rem;
+  color: var(--white);
+  font-size: 0.97rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.faqA {
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.75;
+  margin: 0;
+}
+
+@media (max-width: 720px) {
+  .faqGrid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -69,7 +69,7 @@
 
 .columns {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.6rem;
 }
 
@@ -95,6 +95,19 @@
 }
 
 .colLink:hover {
+  color: #fff;
+}
+
+.socialLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: #c2cfdf;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+}
+
+.socialLink:hover {
   color: #fff;
 }
 
