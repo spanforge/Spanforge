@@ -127,16 +127,15 @@ export default function Home() {
                 <span className={styles.badge}>General Availability</span>
                 <span className={styles.heroMeta}>SpanForge SDK v1.0.1</span>
               </div>
-              <p className={styles.heroPersona}>For AI product teams and compliance officers who need regulator&#8209;ready evidence in minutes.</p>
               <h1 id="hero-heading" className={styles.heroH1}>
                 Turn every AI decision into tamper-proof evidence.
               </h1>
+              <p className={styles.heroPersona}>For AI product teams and compliance officers in regulated industries.</p>
               <p className={styles.heroSub}>
                 Instrument your first AI action in minutes. SpanForge enforces policy before risk lands and generates signed audit bundles your compliance team hands directly to regulators.
               </p>
               <div className={styles.ctaRow}>
-                <Link href="/contact" className="btn-primary">Schedule Advisory Call</Link>
-                <Link href="/spanforgecore/sdk" className={styles.ctaTextLink}>Explore the SDK →</Link>
+                <Link href="/spanforgecore/sdk" className="btn-primary">Explore the SDK</Link>
               </div>
               <p className={styles.audienceLine}>
                 <strong>Self-serve SDK</strong> for developers &nbsp;&middot;&nbsp; <strong>Advisory</strong> for enterprise compliance teams
@@ -455,7 +454,7 @@ export default function Home() {
                 For regulated rollouts, use the contact flow for architecture reviews, evidence-chain walkthroughs,
                 and deployment planning across internal governance requirements.
               </p>
-              <Link href="/contact" className={styles.ctaBriefBtn}>Schedule Advisory Call</Link>
+              <Link href="/contact" className={styles.ctaBriefBtn}>Request a briefing</Link>
             </div>
           </div>
         </div>
