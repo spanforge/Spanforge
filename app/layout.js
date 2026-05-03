@@ -15,7 +15,7 @@ const ORG_JSONLD = {
   logo: 'https://www.getspanforge.com/logo.png',
   description:
     'SpanForge is an AI audit SDK. It gives compliance teams a signed, ready-to-submit evidence bundle for every AI decision — so your team passes audits without slowing engineers.',
-  sameAs: ['https://www.linkedin.com/company/spanforge', 'https://github.com/spanforge'],
+  sameAs: ['https://www.linkedin.com/in/spanforge/'],
   contactPoint: [
     {
       '@type': 'ContactPoint',
