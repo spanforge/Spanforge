@@ -44,20 +44,29 @@
 .hero {
   position: relative;
   overflow: hidden;
-  padding: 5.5rem 0 4rem;
-  background:
-    radial-gradient(circle at top left, rgba(64, 160, 255, 0.22), transparent 34%),
-    radial-gradient(circle at 85% 15%, rgba(16, 185, 129, 0.18), transparent 24%),
-    linear-gradient(180deg, #f7fbff 0%, #eef5fb 48%, #f9fcfe 100%);
+  padding: 5.5rem 0 4.5rem;
+  background: #070f1e;
 }
 
 .hero::before {
   content: '';
   position: absolute;
-  inset: auto -10% 6rem 45%;
-  height: 24rem;
-  background: linear-gradient(135deg, rgba(18, 102, 241, 0.08), rgba(15, 23, 42, 0));
-  filter: blur(12px);
+  inset: 0;
+  background:
+    radial-gradient(ellipse 90% 55% at 50% -10%, rgba(18, 102, 241, 0.28), transparent 60%),
+    radial-gradient(ellipse 40% 30% at 95% 80%, rgba(14, 164, 114, 0.10), transparent);
+  pointer-events: none;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(148, 163, 184, 0.04) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(148, 163, 184, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black, transparent);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black, transparent);
   pointer-events: none;
 }
 
@@ -88,10 +97,10 @@
   align-items: center;
   padding: 0.5rem 0.9rem;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.85);
-  border: 1px solid rgba(18, 102, 241, 0.15);
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.05);
-  color: var(--accent);
+  background: rgba(18, 102, 241, 0.12);
+  border: 1px solid rgba(18, 102, 241, 0.30);
+  box-shadow: 0 0 20px rgba(18, 102, 241, 0.12);
+  color: #7fb3ff;
   font-family: var(--font-dm-mono, monospace);
   font-size: 0.74rem;
   text-transform: uppercase;
@@ -99,14 +108,17 @@
 }
 
 .heroMeta {
-  color: var(--muted);
+  color: rgba(148, 163, 184, 0.6);
   font-size: 0.95rem;
 }
 
 .heroH1 {
   max-width: 12ch;
   margin-bottom: 1.2rem;
-  color: var(--white);
+  background: linear-gradient(135deg, #ffffff 0%, #b8d4ff 55%, #e2f0ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   font-size: clamp(3rem, 7vw, 5.6rem);
   line-height: 0.94;
   letter-spacing: -0.06em;
@@ -115,7 +127,7 @@
 .heroSub {
   max-width: 40rem;
   margin-bottom: 2rem;
-  color: var(--muted);
+  color: rgba(148, 163, 184, 0.75);
   font-size: 1.08rem;
   line-height: 1.75;
 }
@@ -165,9 +177,9 @@
   gap: 1.25rem;
   padding: 1.4rem;
   border-radius: 1.8rem;
-  background: rgba(255, 255, 255, 0.58);
-  border: 1px solid rgba(148, 163, 184, 0.2);
-  box-shadow: 0 28px 60px rgba(15, 23, 42, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(20px);
 }
 
@@ -187,16 +199,10 @@
 }
 
 .panelIntro h2 {
-  color: var(--white);
+  color: #e2e8f0;
   font-size: clamp(1.45rem, 2.2vw, 2rem);
   line-height: 1.08;
   letter-spacing: -0.04em;
-}
-
-.panelIntro p {
-  color: var(--muted);
-  font-size: 0.96rem;
-  line-height: 1.7;
 }
 
 /* ── Hero panel 5-step list ──────────────────────────────────── */
@@ -208,8 +214,8 @@
   flex-direction: column;
   gap: 0;
   border-radius: 1.35rem;
-  background: #f7fbff;
-  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(148, 163, 184, 0.10);
   overflow: hidden;
 }
 
@@ -218,7 +224,7 @@
   align-items: flex-start;
   gap: 1rem;
   padding: 1rem 1.25rem;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.07);
 }
 
 .panelStep:last-child {
@@ -534,8 +540,7 @@
 }
 
 .sdkCard,
-.catchCard,
-.ctaBox {
+.catchCard {
   border-radius: 1.3rem;
 }
 
@@ -786,88 +791,61 @@
   text-underline-offset: 0.2rem;
 }
 
-.dualCta {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+.ctaBlock {
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
 }
 
-.ctaBox {
-  padding: 1.6rem;
-  background: linear-gradient(180deg, #ffffff 0%, #f7fbfd 100%);
-  border: 1px solid rgba(148, 163, 184, 0.16);
-  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.045);
-}
-
-.ctaBoxDev {
-  border-top: 4px solid #1266f1;
-}
-
-.ctaBoxEnt {
-  border-top: 4px solid #14b8a6;
-}
-
-.ctaTrackLabel {
-  margin-bottom: 0.7rem;
-  color: var(--accent);
+.ctaEyebrow {
+  margin-bottom: 1rem;
+  color: rgba(148, 163, 184, 0.7);
   font-family: var(--font-dm-mono, monospace);
   font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
 
-.ctaBoxH3 {
-  margin-bottom: 0.75rem;
+.ctaBlockH2 {
+  margin-bottom: 0.9rem;
   color: var(--white);
-  font-size: 1.55rem;
+  font-size: clamp(1.8rem, 3.5vw, 2.4rem);
   line-height: 1.08;
   letter-spacing: -0.04em;
 }
 
-.ctaBoxP {
-  margin-bottom: 1.3rem;
+.ctaBlockSub {
+  margin-bottom: 2rem;
   color: var(--muted);
-  font-size: 0.98rem;
+  font-size: 1rem;
   line-height: 1.75;
 }
 
-.ctaInstallLink {
-  display: inline-flex;
+.ctaActions {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  color: var(--accent);
-  font-size: 0.9rem;
-  font-weight: 600;
-  text-decoration: underline;
-  text-decoration-color: rgba(18, 102, 241, 0.3);
-  text-underline-offset: 3px;
-  transition: text-decoration-color 0.18s;
+  gap: 1rem;
 }
 
-.ctaInstallLink:hover {
-  text-decoration-color: var(--accent);
-}
-
-.ctaBriefBtn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.7rem 1.35rem;
-  border-radius: 999px;
-  border: 1px solid rgba(148, 163, 184, 0.4);
-  background: transparent;
+.ctaSecondaryLink {
   color: var(--muted);
   font-size: 0.88rem;
   font-weight: 500;
-  transition: border-color 0.18s, color 0.18s;
+  text-decoration: underline;
+  text-decoration-color: rgba(148, 163, 184, 0.3);
+  text-underline-offset: 3px;
+  transition: color 0.18s, text-decoration-color 0.18s;
 }
 
-.ctaBriefBtn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+.ctaSecondaryLink:hover {
+  color: var(--white);
+  text-decoration-color: rgba(255, 255, 255, 0.4);
 }
 
 @media (max-width: 1080px) {
   .heroGrid,
-  .auditLayout,
-  .dualCta {
+  .auditLayout {
     grid-template-columns: 1fr;
   }
 
@@ -908,8 +886,7 @@
   .heroPanel,
   .pillarCard,
   .sdkCard,
-  .catchCard,
-  .ctaBox {
+  .catchCard {
     padding: 1.1rem;
   }
 
@@ -935,11 +912,12 @@
 /* ── Persona tag + audience line ─────────────────────────────── */
 .heroPersona {
   margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-  color: var(--accent);
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: 0.01em;
+  margin-bottom: 1rem;
+  color: rgba(226, 232, 240, 0.85);
+  font-size: 1.08rem;
+  font-weight: 400;
+  line-height: 1.65;
+  letter-spacing: 0;
 }
 
 .heroAudienceTag {
@@ -1086,8 +1064,11 @@
 }
 
 .logoChip {
-  padding: 0.55rem 1.25rem;
-  border-radius: 999px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.65rem 1.4rem;
+  border-radius: 0.75rem;
   background: rgba(255, 255, 255, 0.9);
   border: 1px solid rgba(148, 163, 184, 0.2);
   color: var(--white);
@@ -1096,6 +1077,20 @@
   letter-spacing: 0.02em;
   white-space: nowrap;
   box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+}
+
+.logoChipFact {
+  color: var(--accent);
+  font-family: var(--font-dm-mono, monospace);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.logoChipDetail {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 400;
+  margin-top: 0.1rem;
 }
 
 .heroTestimonial {

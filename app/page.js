@@ -25,12 +25,12 @@ const SOCIAL_PROOF = [
   },
 ]
 
-const CLIENT_LOGOS = [
-  { name: 'Global Financial Services Firm', abbr: 'GFS' },
-  { name: 'Digital Health Platform', abbr: 'DHP' },
-  { name: 'Enterprise InsurTech', abbr: 'EIT' },
-  { name: 'RegTech Provider', abbr: 'RTP' },
-  { name: 'AI Governance Team', abbr: 'AGT' },
+const VERIFIABLE_FACTS = [
+  { fact: 'Open source', detail: 'MIT licensed' },
+  { fact: 'pip install spanforge', detail: 'Available on PyPI' },
+  { fact: 'Zero runtime deps', detail: 'No heavy platform required' },
+  { fact: 'Python 3.9+', detail: 'Broad version support' },
+  { fact: 'v1.0.1 GA', detail: 'Generally Available release' },
 ]
 
 const TESTIMONIAL = {
@@ -70,14 +70,14 @@ const PLATFORM_PILLARS = [
 ]
 
 const SDK_SERVICES = [
-  { name: 'sf_identity', desc: 'Keys, JWT, magic links, SAML, SCIM, OIDC PKCE, session delegation, and brute-force lockout controls.', tags: [{ label: 'security', cls: 'tagSec' }], href: '/tools/sdk-sf-identity' },
+  { name: 'sf_audit', desc: 'Tamper-evident HMAC-SHA256 audit chains with WORM storage patterns, retention support, and chain verification.', tags: [{ label: 'compliance', cls: 'tagComp' }], href: '/tools/sdk-sf-audit' },
+  { name: 'sf_cec', desc: 'Evidence bundles with clause mapping, attestations, and exportable artifacts for audits and enterprise reviews.', tags: [{ label: 'compliance', cls: 'tagComp' }], href: '/tools/sdk-sf-cec' },
   { name: 'sf_pii', desc: 'Sensitive-data detection and redaction pipelines across GDPR, HIPAA, CCPA, DPDP, and PIPL-aligned policies.', tags: [{ label: 'compliance', cls: 'tagComp' }], href: '/tools/sdk-sf-pii' },
   { name: 'sf_secrets', desc: 'Pattern and entropy-based secret scanning with SARIF output, vault migration hints, and policy-driven blocking.', tags: [{ label: 'security', cls: 'tagSec' }], href: '/tools/sdk-sf-secrets' },
-  { name: 'sf_audit', desc: 'Tamper-evident HMAC-SHA256 audit chains with WORM storage patterns, retention support, and chain verification.', tags: [{ label: 'compliance', cls: 'tagComp' }], href: '/tools/sdk-sf-audit' },
+  { name: 'sf_identity', desc: 'Keys, JWT, magic links, SAML, SCIM, OIDC PKCE, session delegation, and brute-force lockout controls.', tags: [{ label: 'security', cls: 'tagSec' }], href: '/tools/sdk-sf-identity' },
   { name: 'sf_observe', desc: 'OpenTelemetry-aligned tracing with exporter support for Datadog, Grafana, Splunk, Elastic, and OTLP backends.', tags: [{ label: 'ops', cls: 'tagOps' }], href: '/tools/sdk-sf-observe' },
   { name: 'sf_alert', desc: 'Alert routing for Slack, Teams, PagerDuty, OpsGenie, and signed webhook automation with deduplication.', tags: [{ label: 'ops', cls: 'tagOps' }], href: '/tools/sdk-sf-alert' },
   { name: 'sf_gate', desc: 'A governance pipeline that turns policy into release criteria across code review, testing, provenance, and compliance checks.', tags: [{ label: 'devops', cls: 'tagDev' }], href: '/tools/sdk-sf-gate' },
-  { name: 'sf_cec', desc: 'Evidence bundles with clause mapping, attestations, and exportable artifacts for audits and enterprise reviews.', tags: [{ label: 'compliance', cls: 'tagComp' }], href: '/tools/sdk-sf-cec' },
   { name: 'sf_trust', desc: 'A configurable T.R.U.S.T. scorecard spanning transparency, reliability, user trust, security, and traceability.', tags: [{ label: 'governance', cls: 'tagGov' }], featured: true, href: '/tools/sdk-sf-trust' },
   { name: 'sf_rag', desc: 'RAG tracing with retrieval scoring, grounding metrics, and auto-instrumentation for LlamaIndex and LangChain.', tags: [{ label: 'ops', cls: 'tagOps' }], href: '/tools/sdk-sf-rag' },
   { name: 'sf_feedback', desc: 'Structured feedback collection — NPS, CSAT, thumbs, Likert — linked to T.R.U.S.T. dimensions and audit records.', tags: [{ label: 'governance', cls: 'tagGov' }], href: '/tools/sdk-sf-feedback' },
@@ -127,39 +127,22 @@ export default function Home() {
                 <span className={styles.badge}>General Availability</span>
                 <span className={styles.heroMeta}>SpanForge SDK v1.0.1</span>
               </div>
-              <p className={styles.heroAudienceTag}>For compliance officers &amp; AI engineering teams building regulated AI.</p>
               <h1 id="hero-heading" className={styles.heroH1}>
                 Turn every AI decision into tamper-proof evidence.
               </h1>
-              <p className={styles.heroPersona}>From first install to a signed audit bundle in under 5 minutes &mdash; no spreadsheets, no compliance sprint, no interrupting engineering.</p>
+              <p className={styles.heroPersona}>SpanForge is an AI audit SDK that gives compliance teams a signed, ready-to-submit evidence bundle for every AI decision &mdash; without slowing the engineers who build them.</p>
               <p className={styles.heroSub}>
-                Most teams spend weeks assembling evidence after an AI incident. SpanForge captures proof continuously at the SDK layer &mdash; so your compliance team always has a signed, ready-to-submit bundle without slowing a single sprint.
+                Most teams spend weeks assembling evidence after an AI incident. SpanForge captures proof continuously at the SDK layer &mdash; so your compliance team always has a signed bundle ready for auditors, from day one.
               </p>
               <div className={styles.ctaRow}>
                 <Link href="/spanforgecore/sdk" className="btn-primary">Start Your First Audit</Link>
               </div>
-              <div className={styles.trustGrid}>
-                {TRUST_SIGNALS.map((item) => (
-                  <div key={item.label} className={styles.trustCard}>
-                    <span className={styles.trustValue}>{item.value}</span>
-                    <span className={styles.trustLabel}>{item.label}</span>
-                  </div>
-                ))}
-              </div>
-              <blockquote className={styles.heroInlineTestimonial}>
-                <p className={styles.heroTestimonialQuote}>&ldquo;{TESTIMONIAL.quote}&rdquo;</p>
-                <footer className={styles.heroTestimonialAttrib}>{TESTIMONIAL.role} &middot; {TESTIMONIAL.org}</footer>
-              </blockquote>
             </div>
 
             <div className={styles.heroPanel}>
               <div className={styles.panelIntro}>
                 <span className={styles.panelKicker}>Launch path</span>
                 <h2>From install to regulator-ready evidence in five steps.</h2>
-                <p>
-                  Start locally, layer in policy enforcement, and graduate to production observability
-                  without replacing your model runtime or introducing a heavy platform dependency.
-                </p>
               </div>
 
               <ol className={styles.panelSteps}>
@@ -189,12 +172,15 @@ export default function Home() {
         </div>
       </section>
 
-      <section className={styles.clientLogoSection} aria-label="Trusted by leading AI teams">
+      <section className={styles.clientLogoSection} aria-label="Verifiable product facts">
         <div className="container">
-          <p className={styles.clientLogoLabel}>Trusted by leading AI teams</p>
+          <p className={styles.clientLogoLabel}>Independently verifiable</p>
           <div className={styles.logoStrip}>
-            {CLIENT_LOGOS.map((co) => (
-              <span key={co.abbr} className={styles.logoChip}>{co.name}</span>
+            {VERIFIABLE_FACTS.map((item) => (
+              <span key={item.fact} className={styles.logoChip}>
+                <span className={styles.logoChipFact}>{item.fact}</span>
+                <span className={styles.logoChipDetail}>{item.detail}</span>
+              </span>
             ))}
           </div>
         </div>
@@ -333,14 +319,13 @@ export default function Home() {
         <div className="container">
           <div className={styles.sectionIntro}>
             <span className={styles.sectionLabel}>SDK surface</span>
-            <h2 id="sdk-heading" className={styles.secH}>Core services designed to feel like one product, not a patchwork of utilities.</h2>
+            <h2 id="sdk-heading" className={styles.secH}>One core job: an unbroken, signed audit chain for every AI decision.</h2>
             <p className={styles.secSh}>
-              Eleven services covering observability, redaction, secrets, audit chains, compliance evidence,
-              identity, alerting, gate pipelines, and trust scoring — all from <code className={styles.inlineCode}>pip install spanforge</code>.
+              <code className={styles.inlineCode}>sf_audit</code> and <code className={styles.inlineCode}>sf_cec</code> are the foundation &mdash; instrument one action and your compliance team gets a signed, auditor-ready bundle. Nine supporting services extend from there.
             </p>
           </div>
           <div className={styles.sdkGridCompact}>
-            {SDK_SERVICES.slice(0, 4).map((service) => (
+            {SDK_SERVICES.slice(0, 2).map((service) => (
               <Link
                 key={service.name}
                 href={service.href}
@@ -360,9 +345,9 @@ export default function Home() {
             ))}
           </div>
           <details className={styles.sdkDisclosure}>
-            <summary className={styles.sdkDisclosureSummary}>View all {SDK_SERVICES.length} SDK services →</summary>
+            <summary className={styles.sdkDisclosureSummary}>Explore supporting services ({SDK_SERVICES.length - 2} more) →</summary>
             <div className={`${styles.sdkGridCompact} ${styles.sdkDisclosureGrid}`}>
-              {SDK_SERVICES.slice(4).map((service) => (
+              {SDK_SERVICES.slice(2).map((service) => (
                 <Link
                   key={service.name}
                   href={service.href}
@@ -459,23 +444,15 @@ export default function Home() {
 
       <section className={styles.dualCtaSection} aria-labelledby="cta-heading">
         <div className="container">
-          <div className={styles.dualCta}>
-            <div className={`${styles.ctaBox} ${styles.ctaBoxDev}`}>
-              <p className={styles.ctaTrackLabel}>For developers</p>
-              <h3 className={styles.ctaBoxH3}>Start with the product surface, not a sales process.</h3>
-              <p className={styles.ctaBoxP}>
-                Install the SDK, instrument your first AI action, and validate the compliance workflow on a real system — before you involve procurement.
-              </p>
-              <Link href="/spanforgecore/sdk" className={styles.ctaInstallLink}>Open the quickstart &rarr;</Link>
-            </div>
-            <div className={`${styles.ctaBox} ${styles.ctaBoxEnt}`}>
-              <p className={styles.ctaTrackLabel}>For enterprise teams</p>
-              <h3 className={styles.ctaBoxH3}>Bring security, platform, and compliance into the same conversation.</h3>
-              <p className={styles.ctaBoxP}>
-                For regulated rollouts, use the contact flow for architecture reviews, evidence-chain walkthroughs,
-                and deployment planning across internal governance requirements.
-              </p>
-              <Link href="/contact" className={styles.ctaBriefBtn}>Request a briefing</Link>
+          <div className={styles.ctaBlock}>
+            <p className={styles.ctaEyebrow}>Open source &middot; MIT licensed &middot; pip install spanforge</p>
+            <h2 id="cta-heading" className={styles.ctaBlockH2}>Start your first audit in under five minutes.</h2>
+            <p className={styles.ctaBlockSub}>
+              Install the SDK, instrument an AI action, and get a signed evidence bundle — before you involve procurement.
+            </p>
+            <div className={styles.ctaActions}>
+              <Link href="/spanforgecore/sdk" className="btn-primary">Open the quickstart</Link>
+              <Link href="/contact" className={styles.ctaSecondaryLink}>Regulated rollout? Talk to the team &rarr;</Link>
             </div>
           </div>
         </div>
