@@ -130,16 +130,13 @@ export default function Home() {
               <h1 id="hero-heading" className={styles.heroH1}>
                 Turn every AI decision into tamper-proof evidence.
               </h1>
-              <p className={styles.heroPersona}>For AI product teams and compliance officers in regulated industries.</p>
+              <p className={styles.heroPersona}>For AI product teams and compliance officers in regulated industries &mdash; regulator-ready evidence in minutes.</p>
               <p className={styles.heroSub}>
-                Instrument your first AI action in minutes. SpanForge enforces policy before risk lands and generates signed audit bundles your compliance team hands directly to regulators.
+                SpanForge instruments every AI action, enforces policy before risk lands, and generates signed audit bundles your compliance team hands directly to regulators.
               </p>
               <div className={styles.ctaRow}>
-                <Link href="/spanforgecore/sdk" className="btn-primary">Explore the SDK</Link>
+                <Link href="/spanforgecore/sdk" className="btn-primary">Start Your First Audit</Link>
               </div>
-              <p className={styles.audienceLine}>
-                <strong>Self-serve SDK</strong> for developers &nbsp;&middot;&nbsp; <strong>Advisory</strong> for enterprise compliance teams
-              </p>
               <div className={styles.trustGrid}>
                 {TRUST_SIGNALS.map((item) => (
                   <div key={item.label} className={styles.trustCard}>
@@ -148,6 +145,10 @@ export default function Home() {
                   </div>
                 ))}
               </div>
+              <blockquote className={styles.heroInlineTestimonial}>
+                <p className={styles.heroTestimonialQuote}>&ldquo;{TESTIMONIAL.quote}&rdquo;</p>
+                <footer className={styles.heroTestimonialAttrib}>{TESTIMONIAL.role} &middot; {TESTIMONIAL.org}</footer>
+              </blockquote>
             </div>
 
             <div className={styles.heroPanel}>
@@ -185,29 +186,28 @@ export default function Home() {
         </div>
       </section>
 
-      <section className={styles.clientLogoSection} aria-label="Trusted by AI teams in regulated industries">
+      <section className={styles.clientLogoSection} aria-label="Trusted by leading AI teams">
         <div className="container">
-          <p className={styles.clientLogoLabel}>Trusted by AI teams in regulated industries</p>
+          <p className={styles.clientLogoLabel}>Trusted by leading AI teams &mdash; <Link href="/resources" className={styles.clientLogoLink}>read their stories</Link></p>
           <div className={styles.logoStrip}>
             {CLIENT_LOGOS.map((co) => (
               <span key={co.abbr} className={styles.logoChip}>{co.name}</span>
             ))}
           </div>
-          <blockquote className={styles.heroTestimonial}>
-            <p className={styles.heroTestimonialQuote}>&ldquo;{TESTIMONIAL.quote}&rdquo;</p>
-            <footer className={styles.heroTestimonialAttrib}>{TESTIMONIAL.role} &middot; {TESTIMONIAL.org}</footer>
-          </blockquote>
         </div>
       </section>
 
       <section className={styles.socialProofSection} aria-label="Trusted by compliance-first teams">
         <div className="container">
-          <p className={styles.socialProofLabel}>Aligned to the standards your auditors trust</p>
+          <p className={styles.socialProofLabel}>Built to support the standards your auditors require</p>
           <div className={styles.frameworkLogos}>
             {TRUST_LOGOS.map((item) => (
               <span key={item.abbr} className={styles.frameworkBadge}>{item.label}</span>
             ))}
           </div>
+          <p className={styles.frameworkFootnote}>
+            <Link href="/docs/compliance" className={styles.frameworkFootnoteLink}>View evidence schema &amp; framework mappings →</Link>
+          </p>
         </div>
       </section>
 
@@ -344,12 +344,12 @@ export default function Home() {
               identity, alerting, gate pipelines, and trust scoring — all from <code className={styles.inlineCode}>pip install spanforge</code>.
             </p>
           </div>
-          <div className={styles.sdkGrid}>
+          <div className={styles.sdkGridCompact}>
             {SDK_SERVICES.map((service) => (
               <Link
                 key={service.name}
                 href={service.href}
-                className={`${styles.sdkCard} ${service.featured ? styles.sdkCardFeatured : ''}`}
+                className={`${styles.sdkCardCompact} ${service.featured ? styles.sdkCardFeatured : ''}`}
               >
                 <div className={styles.sdkCardTop}>
                   <p className={styles.sdkName}>{service.name}</p>
