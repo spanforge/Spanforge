@@ -1,4 +1,4 @@
-import Link from 'next/link'
+﻿import Link from 'next/link'
 import JourneyStrip from '@/components/JourneyStrip'
 import AuditTerminal from '@/components/AuditTerminal'
 import NewsletterSignup from '@/components/NewsletterSignup'
@@ -7,7 +7,7 @@ import styles from './page.module.css'
 export const metadata = {
   title: 'SpanForge — Audit-Ready AI, in Minutes',
   description:
-    'SpanForge is a Python SDK for teams shipping regulated AI. It automatically captures, signs, and packages every AI decision — replacing weeks of manual evidence collection with a ready-to-submit audit bundle from day one.',
+    'Turn every AI decision into tamper-proof evidence and ship to regulators today. SpanForge gives every AI action a signed record, enforces policy before risky output lands, and generates auditor-ready evidence bundles.',
 }
 
 const TRUST_SIGNALS = [
@@ -128,9 +128,12 @@ export default function Home() {
                 <span className={styles.heroMeta}>SpanForge SDK v1.0.1</span>
               </div>
               <h1 id="hero-heading" className={styles.heroH1}>
-                Automatic audit trails for every AI decision.
+                Turn every AI decision into tamper-proof evidence.
               </h1>
-              <p className={styles.heroPersona}>SpanForge is a Python SDK for teams shipping regulated AI. It replaces weeks of manual evidence collection by automatically capturing, signing, and packaging every AI decision &mdash; so your compliance team has a ready-to-submit bundle when auditors ask, not a scramble.</p>
+              <p className={styles.heroPersona}>SpanForge is an AI audit SDK that gives compliance teams a signed, ready-to-submit evidence bundle for every AI decision &mdash; without slowing the engineers who build them.</p>
+              <p className={styles.heroSub}>
+                Most teams spend weeks assembling evidence after an AI incident. SpanForge captures proof continuously at the SDK layer &mdash; so your compliance team always has a signed bundle ready for auditors, from day one.
+              </p>
               <div className={styles.ctaRow}>
                 <Link href="/spanforgecore/sdk" className="btn-primary">Start Your First Audit</Link>
               </div>
@@ -164,20 +167,6 @@ export default function Home() {
                   <div><strong>Export</strong><p>Hand your compliance team a signed evidence bundle they can give directly to auditors — no spreadsheets, no chasing engineers.</p></div>
                 </li>
               </ol>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.founderSection} aria-label="Founder credibility">
-        <div className="container">
-          <div className={styles.founderBanner}>
-            <div className={styles.founderQuoteMark} aria-hidden="true">&ldquo;</div>
-            <div className={styles.founderContent}>
-              <p className={styles.founderStatement}>
-                After years leading enterprise AI programs, I kept seeing the same gap: teams could build capable AI, but couldn&rsquo;t prove it was safe, compliant, or auditable. SpanForge closes that gap &mdash; at the SDK layer, before production.
-              </p>
-              <p className={styles.founderAttrib}>Founder, SpanForge &middot; Enterprise AI program leader</p>
             </div>
           </div>
         </div>
@@ -236,6 +225,20 @@ export default function Home() {
       </section>
 
 
+      <section className={styles.founderSection} aria-label="Founder credibility">
+        <div className="container">
+          <div className={styles.founderBanner}>
+            <div className={styles.founderQuoteMark} aria-hidden="true">&ldquo;</div>
+            <div className={styles.founderContent}>
+              <p className={styles.founderStatement}>
+                After years leading enterprise AI programs, I kept seeing the same gap: teams could build capable AI, but couldn&rsquo;t prove it was safe, compliant, or auditable. SpanForge closes that gap &mdash; at the SDK layer, before production.
+              </p>
+              <p className={styles.founderAttrib}>Founder, SpanForge &middot; Enterprise AI program leader</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className={styles.whoSection} aria-labelledby="who-heading">
         <div className="container">
           <h2 id="who-heading" className={styles.whoHeading}>Who is this for?</h2>
@@ -244,18 +247,18 @@ export default function Home() {
               <span className={styles.whoIcon} aria-hidden="true">&#x1F9F0;</span>
               <strong className={styles.whoTitle}>Developers</strong>
               <p className={styles.whoDesc}>Instrument, enforce, and audit AI actions from a single SDK surface. Zero required dependencies.</p>
-            </Link>
+                          <span className={styles.whoLink}>Explore the SDK &rarr;</span>`n            </Link>
             <Link href="/advisory" className={styles.whoCard}>
               <span className={styles.whoIcon} aria-hidden="true">&#x1F4CB;</span>
               <strong className={styles.whoTitle}>Compliance Teams</strong>
               <p className={styles.whoDesc}>Get auditor-ready evidence bundles mapped to EU AI Act, GDPR, HIPAA, SOC 2, and more.</p>
 
-            </Link>
+                          <span className={styles.whoLink}>Explore Advisory &rarr;</span>`n            </Link>
             <Link href="/contact" className={styles.whoCard}>
               <span className={styles.whoIcon} aria-hidden="true">&#x1F3DB;&#xFE0F;</span>
               <strong className={styles.whoTitle}>Enterprise Leaders</strong>
               <p className={styles.whoDesc}>Governed AI deployment with architecture reviews, evidence walkthroughs, and deployment planning.</p>
-            </Link>
+                          <span className={styles.whoLink}>Talk to us &rarr;</span>`n            </Link>
           </div>
         </div>
       </section>
