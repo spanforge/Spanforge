@@ -8,7 +8,6 @@ import styles from './Nav.module.css'
 const NAV_PRIMARY = [
   { label: 'Product', href: '/spanforgecore' },
   { label: 'Advisory', href: '/advisory' },
-  { label: 'Resources', href: '/blog' },
   { label: 'About', href: '/about' },
 ]
 
@@ -17,6 +16,7 @@ const DEV_LINKS = [
   { label: 'SDK Reference', href: '/spanforgecore/sdk' },
   { label: 'Standards', href: '/standards' },
   { label: 'Tools', href: '/tools' },
+  { label: 'Blog & Resources', href: '/blog' },
   { label: 'Learn', href: '/learn' },
 ]
 

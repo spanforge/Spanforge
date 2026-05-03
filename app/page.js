@@ -118,7 +118,7 @@ export default function Home() {
                 Turn every AI decision into tamper-proof evidence.
               </h1>
               <p className={styles.heroSub}>
-                Skip the custom compliance stack. SpanForge gives your AI system a verifiable record of every action, enforces policy before risk lands, and generates signed evidence bundles your auditors can hand off directly to regulators.
+                SpanForge instruments every AI action, enforces policy before risk lands, and generates signed audit bundles your compliance team hands directly to regulators.
               </p>
               <div className={styles.ctaRow}>
                 <Link href="/spanforgecore/sdk" className="btn-primary">Explore the SDK</Link>
@@ -140,7 +140,7 @@ export default function Home() {
             <div className={styles.heroPanel}>
               <div className={styles.panelIntro}>
                 <span className={styles.panelKicker}>Launch path</span>
-                <h2>From install to evidence without a custom compliance stack.</h2>
+                <h2>From install to regulator-ready evidence in five steps.</h2>
                 <p>
                   Start locally, layer in policy enforcement, and graduate to production observability
                   without replacing your model runtime or introducing a heavy platform dependency.
@@ -395,8 +395,7 @@ export default function Home() {
               <p className={styles.ctaTrackLabel}>For developers</p>
               <h3 className={styles.ctaBoxH3}>Start with the product surface, not a sales process.</h3>
               <p className={styles.ctaBoxP}>
-                The revised homepage makes the self-serve path clearer. Install the SDK, read the instrumentation docs,
-                and validate the workflow on a real system before you involve procurement.
+                Install the SDK, instrument your first AI action, and validate the compliance workflow on a real system — before you involve procurement.
               </p>
               <Link href="/spanforgecore/sdk" className={styles.ctaInstallBtn}>Open the quickstart</Link>
             </div>
