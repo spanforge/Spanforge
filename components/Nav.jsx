@@ -145,7 +145,6 @@ export default function Nav() {
           </div>
 
           <div className={styles.right}>
-            <Link href="/contact" className={styles.talkLink}>Schedule a call</Link>
             <Link href="/spanforgecore/sdk" className={styles.installBtn}>Explore the SDK</Link>
             <button
               className={styles.hamburger}

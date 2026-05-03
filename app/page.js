@@ -118,7 +118,7 @@ export default function Home() {
                 Turn every AI decision into tamper-proof evidence.
               </h1>
               <p className={styles.heroSub}>
-                SpanForge instruments your AI actions, enforces policy before risky output lands, and generates signed audit bundles your compliance team can verify.
+                Skip the custom compliance stack. SpanForge gives your AI system a verifiable record of every action, enforces policy before risk lands, and generates signed evidence bundles your auditors can hand off directly to regulators.
               </p>
               <div className={styles.ctaRow}>
                 <Link href="/spanforgecore/sdk" className="btn-primary">Explore the SDK</Link>
@@ -193,6 +193,32 @@ export default function Home() {
               </p>
               <p className={styles.founderAttrib}>Founder, SpanForge</p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.whoSection} aria-labelledby="who-heading">
+        <div className="container">
+          <h2 id="who-heading" className={styles.whoHeading}>Who is this for?</h2>
+          <div className={styles.whoGrid}>
+            <Link href="/spanforgecore/sdk" className={styles.whoCard}>
+              <span className={styles.whoIcon} aria-hidden="true">&#x1F9F0;</span>
+              <strong className={styles.whoTitle}>Developers</strong>
+              <p className={styles.whoDesc}>Instrument, enforce, and audit AI actions from a single SDK surface. Zero required dependencies.</p>
+              <span className={styles.whoLink}>Explore the SDK →</span>
+            </Link>
+            <Link href="/advisory" className={styles.whoCard}>
+              <span className={styles.whoIcon} aria-hidden="true">&#x1F4CB;</span>
+              <strong className={styles.whoTitle}>Compliance Teams</strong>
+              <p className={styles.whoDesc}>Get auditor-ready evidence bundles mapped to EU AI Act, GDPR, HIPAA, SOC 2, and more.</p>
+              <span className={styles.whoLink}>Explore Advisory →</span>
+            </Link>
+            <Link href="/contact" className={styles.whoCard}>
+              <span className={styles.whoIcon} aria-hidden="true">&#x1F3DB;&#xFE0F;</span>
+              <strong className={styles.whoTitle}>Enterprise Leaders</strong>
+              <p className={styles.whoDesc}>Governed AI deployment with architecture reviews, evidence walkthroughs, and deployment planning.</p>
+              <span className={styles.whoLink}>Talk to us →</span>
+            </Link>
           </div>
         </div>
       </section>
