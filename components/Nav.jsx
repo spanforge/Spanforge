@@ -13,9 +13,17 @@ const NAV_PRIMARY = [
   { label: 'About', href: '/about' },
 ]
 
+const RESOURCES_MENU = [
+  { label: 'Whitepapers', href: '/resources/whitepapers', desc: 'In-depth research on AI compliance' },
+  { label: 'Library', href: '/resources', desc: 'Guides, papers & reference material' },
+  { label: 'Blog', href: '/blog', desc: 'Updates, insights & announcements' },
+]
+
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [resourcesOpen, setResourcesOpen] = useState(false)
+  const resourcesRef = useRef(null)
   const pathname = usePathname()
 
   useEffect(() => {
@@ -26,11 +34,15 @@ export default function Nav() {
 
   useEffect(() => {
     setMobileOpen(false)
+    setResourcesOpen(false)
   }, [pathname])
 
   useEffect(() => {
     const handler = (event) => {
-      if (event.key === 'Escape') setMobileOpen(false)
+      if (event.key === 'Escape') {
+        setMobileOpen(false)
+        setResourcesOpen(false)
+      }
     }
     document.addEventListener('keydown', handler)
     return () => document.removeEventListener('keydown', handler)
@@ -65,6 +77,17 @@ export default function Nav() {
     return () => document.removeEventListener('keydown', trapFocus)
   }, [mobileOpen])
 
+  useEffect(() => {
+    if (!resourcesOpen) return
+    const handleClickOutside = (e) => {
+      if (resourcesRef.current && !resourcesRef.current.contains(e.target)) {
+        setResourcesOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [resourcesOpen])
+
   const isActive = (href) => pathname === href || pathname.startsWith(`${href}/`)
 
   return (
@@ -91,6 +114,37 @@ export default function Nav() {
                 </Link>
               )
             })}
+
+            {/* Resources dropdown */}
+            <div className={styles.resourcesDropdown} ref={resourcesRef}>
+              <button
+                className={`${styles.link} ${styles.resourcesToggle} ${isActive('/resources') || isActive('/blog') ? styles.active : ''} ${resourcesOpen ? styles.resourcesToggleOpen : ''}`}
+                onClick={() => setResourcesOpen((o) => !o)}
+                aria-haspopup="true"
+                aria-expanded={resourcesOpen}
+              >
+                Resources
+                <svg className={styles.resourcesChevron} width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+              {resourcesOpen && (
+                <div className={styles.resourcesMenu} role="menu">
+                  {RESOURCES_MENU.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className={styles.resourcesMenuItem}
+                      role="menuitem"
+                      onClick={() => setResourcesOpen(false)}
+                    >
+                      <span className={styles.resourcesMenuLabel}>{item.label}</span>
+                      <span className={styles.resourcesMenuDesc}>{item.desc}</span>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           <div className={styles.right}>
@@ -137,6 +191,21 @@ export default function Nav() {
                   href={link.href}
                   aria-current={active ? 'page' : undefined}
                   className={`${styles.mobileLink} ${active ? styles.mobileLinkActive : ''}`}
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              )
+            })}
+            <p className={styles.mobileSectionLabel}>Resources</p>
+            {RESOURCES_MENU.map((link) => {
+              const active = isActive(link.href)
+              return (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  aria-current={active ? 'page' : undefined}
+                  className={`${styles.mobileLink} ${styles.mobileLinkIndent} ${active ? styles.mobileLinkActive : ''}`}
                   onClick={() => setMobileOpen(false)}
                 >
                   {link.label}

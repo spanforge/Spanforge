@@ -306,3 +306,67 @@
     font-size: 1.32rem;
   }
 }
+
+/* Resources dropdown */
+.resourcesDropdown {
+  position: relative;
+}
+
+.resourcesToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: inherit;
+}
+
+.resourcesChevron {
+  transition: transform 0.18s ease;
+}
+
+.resourcesToggleOpen .resourcesChevron {
+  transform: rotate(180deg);
+}
+
+.resourcesMenu {
+  position: absolute;
+  top: calc(100% + 0.75rem);
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 220px;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.97);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.12);
+  backdrop-filter: blur(16px);
+  z-index: 200;
+}
+
+.resourcesMenuItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.65rem 0.9rem;
+  border-radius: 0.65rem;
+  transition: background 0.15s ease;
+}
+
+.resourcesMenuItem:hover {
+  background: rgba(18, 102, 241, 0.07);
+}
+
+.resourcesMenuLabel {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.resourcesMenuDesc {
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
