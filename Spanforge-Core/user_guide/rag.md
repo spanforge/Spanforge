@@ -1,5 +1,21 @@
 # RAG Tracing
 
+## Why this matters
+
+RAG pipelines fail in ways that are nearly impossible to debug without end-to-end tracing. Did the retrieval return the wrong chunks? Did the LLM ignore them? Did a reranker change the result silently? Without correlated traces across all three phases, you're guessing.
+
+A real scenario:
+
+> **Problem:** A legal AI assistant built on a RAG pipeline started producing citations that didn't match the retrieved documents. The team couldn't tell if the issue was in retrieval (wrong chunks) or generation (LLM hallucinating over correct chunks). There were no correlated traces — just separate logs for each step.
+>
+> **Risk:** Incorrect legal citations shipped to end users for two weeks. A manual audit of all outputs was required. No compliance evidence existed.
+>
+> **With SpanForge:** `sf_rag` ties `trace_query()`, `trace_retrieval()`, and `trace_generation()` under a single `session_id`. Every phase is signed, correlated, and exportable as a compliance record. The broken retrieval step was identified in one query.
+
+RAG pipelines involve three systems (retriever, reranker, LLM) and a shared failure surface. End-to-end tracing is the only way to see the full decision chain.
+
+---
+
 SpanForge `sf_rag` provides end-to-end observability for Retrieval-Augmented
 Generation (RAG) pipelines. Each pipeline run is grouped into a **session**
 that ties together the query, retrieval, and generation phases.

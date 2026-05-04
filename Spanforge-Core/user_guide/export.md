@@ -1,5 +1,21 @@
 ﻿# Export Backends & EventStream
 
+## Why this matters
+
+Where your events go determines how long you can prove what your AI system did. Ephemeral logs disappear. Unstructured exports can't be verified. Without durable, tamper-evident export, your audit trail ends at the edge of your process.
+
+A real scenario:
+
+> **Problem:** A healthcare AI system exported events to a standard logging service. When a HIPAA audit required evidence that AI outputs were logged immutably for 7 years, the team discovered the logging service had a 90-day retention policy and no WORM (write-once) guarantee.
+>
+> **Risk:** HIPAA retention non-compliance. Emergency migration to durable storage. Potential audit failure for historical events already rotated.
+>
+> **With SpanForge:** `worm-s3` and `worm-gcs` extras provide append-only WORM export backends with immutable retention. `JSONLExporter` enables local replay for air-gapped environments. `OTLPExporter` integrates with enterprise observability stacks. Every export path preserves chain signatures.
+
+Choosing the right export backend is a compliance decision, not just an infrastructure one.
+
+---
+
 spanforge ships six export backends and an `EventStream`
 routing layer that ties them together.
 

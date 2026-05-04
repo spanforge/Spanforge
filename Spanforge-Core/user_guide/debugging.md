@@ -1,5 +1,21 @@
 ﻿# Debugging & Visualization
 
+## Why this matters
+
+Debugging an AI agent without structured traces is guesswork. You see a bad output. You don't know which LLM call produced it, which tool ran before it, how long each step took, or what the cost was.
+
+A real scenario:
+
+> **Problem:** A customer-facing agent started producing off-topic responses. The team spent three days reading raw logs trying to pinpoint when the issue began. No span tree. No parent-child links. No token cost trail.
+>
+> **Risk:** Three days of engineer time, continued user impact, and no audit record to show the incident response team — or regulators — what happened.
+>
+> **With SpanForge:** `print_tree()` renders a full hierarchical span tree instantly. Each LLM call shows latency, token usage, and cost. Each tool call shows status. You identify the broken step in minutes, not days.
+
+Visibility into your AI pipeline isn't just a developer convenience — it's the foundation of a provable audit trail.
+
+---
+
 spanforge 2.0 ships a `debug` module with three tools for inspecting traces
 during development, plus production-safe sampling controls.
 

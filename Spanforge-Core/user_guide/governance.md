@@ -1,5 +1,21 @@
 ﻿# Governance, Consumer Registry & Deprecations
 
+## Why this matters
+
+Schema changes in an AI pipeline are invisible until something breaks downstream. A consumer reads `llm.cost.*` events. You deprecate a field. The consumer silently produces wrong cost reports for two months before anyone notices.
+
+A real scenario:
+
+> **Problem:** A billing agent in a multi-tenant AI platform depended on a cost event schema. A platform update changed a field name. No governance check caught it. The agent processed events silently — producing zero-cost records for 60 days, affecting invoicing for 340 enterprise accounts.
+>
+> **Risk:** Revenue leakage, broken trust, emergency engineering sprint, and a board-level incident.
+>
+> **With SpanForge:** `register_consumer()` declares schema dependencies at startup. `assert_compatible()` raises `IncompatibleSchemaError` before any events are processed. Schema changes are caught at deploy time, not in production invoices.
+
+Schema governance is the enforcement layer that turns AI infrastructure from fragile to production-safe.
+
+---
+
 spanforge v1.0 adds three complementary safety and lifecycle-management
 subsystems:
 

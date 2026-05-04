@@ -3,6 +3,22 @@
 > **Module:** `spanforge.lint`  
 > **Added in:** 1.0.7
 
+## Why this matters
+
+Most AI instrumentation bugs are invisible until they reach production. A missing field silently drops events. A bare string identity field bypasses redaction. An LLM call outside a trace span produces no audit telemetry — and no one knows.
+
+A real scenario:
+
+> **Problem:** A developer used a bare `str` for a user identity field instead of a `Redactable` wrapper (error AO002). The instrumentation worked, tests passed, and the code shipped. In production, the raw user email appeared verbatim in every audit log for three weeks.
+>
+> **Risk:** GDPR Article 5 data minimization violation. PII stored without consent records. Potential for regulatory fine and breach notification requirement.
+>
+> **With SpanForge:** `lint` catches AO002 at static analysis time — in CI, before the code reaches production. The error surfaces at `ruff check` or `spanforge lint`, not in a compliance audit.
+
+Static analysis on your AI instrumentation is the same as static analysis on your security code — it catches the mistakes that are invisible at runtime until they're catastrophic.
+
+---
+
 `spanforge.lint` catches instrumentation mistakes at *static analysis* time —
 before broken or incomplete events ever reach your export pipeline. It ships
 as a Python API, a flake8/ruff plugin, and a standalone CLI so it fits

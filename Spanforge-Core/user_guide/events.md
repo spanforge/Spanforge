@@ -1,5 +1,21 @@
 ﻿# Events
 
+## Why this matters
+
+Every interaction in your AI system — every LLM call, tool execution, policy decision, cost record — needs to be traceable. Without a structured event model, you have logs. With it, you have an audit chain.
+
+A real scenario:
+
+> **Problem:** An AI pipeline generated outputs from multiple LLM calls and tool invocations. When a compliance officer asked "which calls produced this decision, and can you prove they weren't altered?" — the team could produce timestamps in a log file, but not structured, signed, chained events.
+>
+> **Risk:** No tamper-evidence. No decision provenance. Unable to satisfy EU AI Act Article 13 transparency requirements for a high-risk system.
+>
+> **With SpanForge:** Every event carries a ULID, a chain signature, a parent span link, and a payload checksum. The complete decision chain is reconstructable from any event in the sequence.
+
+The `Event` object is where compliance evidence begins. Everything you instrument here becomes the foundation of your audit trail.
+
+---
+
 The `Event` class is the central object in spanforge.
 Every interaction between an LLM tool and the outside world — a trace span,
 a cost record, a prompt save, a guard block — is represented as an Event.

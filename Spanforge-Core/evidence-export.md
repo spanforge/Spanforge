@@ -1,5 +1,21 @@
 # Evidence Export Guide
 
+## Why this matters
+
+Generating logs is not the same as generating proof. Regulators, auditors, and enterprise procurement teams don't want raw event files — they want a signed, structured evidence package they can verify without trusting you.
+
+A real scenario:
+
+> **Problem:** A financial services firm deployed an AI document review system. Six months in, an enterprise client's legal team asked for evidence that the AI's decisions were auditable and tamper-evident. The team could produce logs — but not signed packages, not chain verification, and not a deploymen-level compliance record.
+>
+> **Risk:** The deal paused for 11 weeks while the team scrambled to manually produce something that looked like an evidence package. The client nearly churned.
+>
+> **With SpanForge:** `sf_enterprise.generate_evidence_package()` produces a signed, verifiable export in one command — with deployment profile, retention controls, and chain-verified audit records. Pass it to any auditor or enterprise security review board.
+
+If you ship AI systems to regulated industries or enterprise clients, evidence packages are your proof layer. Without them, every audit is a manual, high-risk effort.
+
+---
+
 Phase 4 through Phase 6 converge on one export story:
 
 `trace -> decision -> signed evidence -> package`

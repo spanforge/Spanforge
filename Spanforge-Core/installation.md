@@ -2,6 +2,33 @@
 
 [![PyPI](https://img.shields.io/pypi/v/spanforge?color=4c8cbf&logo=pypi&logoColor=white)](https://pypi.org/project/spanforge/)
 
+## Try in 30 seconds
+
+Install and produce your first signed audit trace:
+
+```bash
+pip install spanforge
+```
+
+```python
+import spanforge
+
+spanforge.configure(exporter="console", service_name="my-agent")
+
+with spanforge.start_trace("research-agent") as trace:
+    with trace.llm_call("gpt-4o") as span:
+        span.set_token_usage(input=512, output=200, total=712)
+        span.set_status("ok")
+
+trace.print_tree()
+# — Agent Run: research-agent  [0.8s]
+#  └─ LLM Call: gpt-4o  [0.8s]  in=512 out=200 tokens  $0.0034
+```
+
+You now have a traceable, exportable audit record. From here, see [Quickstart](/docs/quickstart) to add PII redaction, signing, and compliance evidence export.
+
+---
+
 ## Requirements
 
 - Python **3.9** or later

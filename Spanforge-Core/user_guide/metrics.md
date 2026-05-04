@@ -1,5 +1,21 @@
 ﻿# Metrics & Analytics
 
+## Why this matters
+
+AI pipeline costs and performance are invisible without aggregated metrics. You may be burning 3× your expected token budget on one model, have latency spikes you can't trace to a step, or be unable to show a cost-efficiency trend to your engineering leadership.
+
+A real scenario:
+
+> **Problem:** A startup's AI agent was running 40% over monthly LLM budget. No one knew which agent, which step, or which model was responsible. The team had individual event logs but no way to aggregate cost by agent or model.
+>
+> **Risk:** Budget overrun, difficulty forecasting, and no data to make model-switching decisions confidently.
+>
+> **With SpanForge:** `spanforge.metrics.aggregate(events)` computes cost, latency, and token breakdown by model, agent, and session in one call. Budget overrun traced to one agent's retrieval loop in minutes.
+
+Metrics turn raw trace events into engineering decisions. Without them, you're managing an AI system on gut feel.
+
+---
+
 spanforge 2.0 ships two complementary APIs for extracting insights from
 recorded traces:
 

@@ -1,5 +1,43 @@
 ﻿# Tracing API
 
+## Why this matters
+
+AI systems fail silently. An LLM call completes, a tool executes, a decision is made — and there is no record of what happened, in what order, or why.
+
+A real scenario:
+
+> **Problem:** An insurance AI system flagged thousands of claims over six months. When regulators asked for a decision audit trail, the engineering team had no trace of which LLM calls produced which outputs. Logs existed, but they weren't linked, signed, or structured.
+>
+> **Risk:** EU AI Act Article 13 (transparency), Article 14 (human oversight). No evidence = no defense. The audit stalled for four months.
+>
+> **With SpanForge:** Every LLM call, tool call, and agent handoff is wrapped in a `Trace` with signed, chained spans. One command exports a complete decision record — timestamped, tamper-evident, regulator-ready.
+
+If your AI system makes decisions and you cannot produce a signed trace of how those decisions were reached, **you have no audit trail — only logs**.
+
+---
+
+## Try in 30 seconds
+
+```bash
+pip install spanforge
+```
+
+```python
+import spanforge
+
+spanforge.configure(exporter="console", service_name="my-agent")
+
+with spanforge.start_trace("research-agent") as trace:
+    with trace.llm_call("gpt-4o") as span:
+        span.set_status("ok")
+
+trace.print_tree()
+```
+
+You now have a signed, exportable audit trace. See [Quickstart](/docs/quickstart) for compliance evidence export.
+
+---
+
 spanforge 2.0 ships a first-class `Trace` object and the `start_trace()` entry
 point that replaces the low-level implicit `trace_id` string. Everything in
 this guide builds on the async-safe `contextvars` context propagation also
