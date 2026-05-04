@@ -1,4 +1,4 @@
-# AI Compliance Checklist
+# AI Compliance Checklist: 7 Categories, CLI Commands, and Risk Levels
 
 Use this checklist to assess your AI system's compliance posture across the key regulatory frameworks that affect AI teams in 2025–2026.
 
@@ -176,9 +176,32 @@ SpanForge will assess your current setup against this checklist and generate a g
 
 ---
 
-## Next steps
+---
 
-→ [Start with PII detection →](/docs/learn/detect-pii-training-data)  
-→ [Build an audit trail →](/docs/learn/what-is-ai-audit-trail)  
-→ [Pass EU AI Act Article 10 →](/docs/learn/eu-ai-act-article-10)  
-→ [Generate your first CEC →](/docs/learn/what-is-compliance-evidence-chain)
+## Run your compliance check
+
+```bash
+pip install spanforge
+
+# Assess your current compliance posture
+spanforge compliance check --all
+
+# Fix the highest-risk gaps
+spanforge validate --dataset data.jsonl --pii-check --bias-check
+spanforge audit export --standard eu-ai-act --format pdf
+```
+
+**What you get:** A gap report scored across all 7 categories — training data, audit trail, PII, CEC, runtime governance, model documentation, and incident response. With specific CLI commands to close each gap.
+
+→ [Start with training data compliance →](/docs/learn/detect-pii-training-data)  
+→ [CLI reference →](/docs/cli)  
+→ [30-second quickstart →](/docs/quickstart)
+
+---
+
+### Continue in Learn
+
+→ [Detect PII in training data →](/docs/learn/detect-pii-training-data)  
+→ [AI audit trail: track & prove decisions →](/docs/learn/what-is-ai-audit-trail)  
+→ [EU AI Act Article 10 compliance guide →](/docs/learn/eu-ai-act-article-10)  
+→ [What is a Compliance Evidence Chain? →](/docs/learn/what-is-compliance-evidence-chain)

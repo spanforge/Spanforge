@@ -129,9 +129,30 @@ SpanForge generates all five.
 
 ---
 
-## Next steps
+---
 
-→ [Run your first PII scan →](/docs/learn/detect-pii-training-data)  
-→ [Build an audit trail →](/docs/learn/what-is-ai-audit-trail)  
-→ [Generate compliance evidence →](/docs/learn/what-is-compliance-evidence-chain)  
-→ [See the full compliance guide →](/docs/guide/compliance)
+## Run this with SpanForge
+
+```bash
+pip install spanforge
+
+# Full Article 10 compliance pipeline
+spanforge validate --dataset training.jsonl --pii-check --bias-check
+spanforge redact --dataset training.jsonl --output training.clean.jsonl
+spanforge audit export --standard eu-ai-act-art10 --format pdf --output evidence.pdf
+```
+
+**What you get:** A signed evidence package that maps directly to Article 10(2), (3), (5), and (6). Includes dataset scan results, redaction log, bias assessment, data provenance chain, and digital signature. **Deadline: August 2, 2026.**
+
+→ [Compliance & regulatory SDK guide →](/docs/guide/compliance)  
+→ [PII detection guide →](/docs/learn/detect-pii-training-data)  
+→ [CLI reference →](/docs/cli)  
+→ [30-second quickstart →](/docs/quickstart)
+
+---
+
+### Continue in Learn
+
+→ [What is a Compliance Evidence Chain? →](/docs/learn/what-is-compliance-evidence-chain)  
+→ [AI compliance checklist →](/docs/learn/ai-compliance-checklist)  
+→ [AI audit trail: track & prove decisions →](/docs/learn/what-is-ai-audit-trail)

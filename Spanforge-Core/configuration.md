@@ -4,11 +4,25 @@ spanforge can be configured at runtime via **environment variables**, a
 **`spanforge.toml` file** (loaded by `spanforge init`), or the
 **Python API** (`spanforge.configure(...)`).
 
-Use `spanforge.interpolate_env(template)` to expand `${VAR}` placeholders
-in configuration strings at runtime.
+## Try in 30 seconds
 
-Environment variables always take the highest precedence and override values
-set programmatically or in the TOML file.
+The most common configuration — export traces to console, then swap to a durable backend when ready:
+
+```bash
+pip install spanforge
+
+# Quickest setup — print traces to console
+SPANFORGE_EXPORTER=console SPANFORGE_SERVICE_NAME=my-agent python my_agent.py
+
+# Production setup — export to OTLP collector
+SPANFORGE_EXPORTER=otlp SPANFORGE_ENDPOINT=http://otel-collector:4318 python my_agent.py
+
+# Or configure in code
+import spanforge
+spanforge.configure(exporter="jsonl", service_name="my-agent", env="production")
+```
+
+See the full settings reference below.
 
 ---
 

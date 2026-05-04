@@ -156,9 +156,37 @@ SpanForge can export CECs to long-term storage backends: S3, Azure Blob, GCS, or
 
 ---
 
-## Next steps
+---
 
-→ [Generate your first CEC →](/docs/api/cec)  
-→ [See the audit trail guide →](/docs/learn/what-is-ai-audit-trail)  
-→ [Full compliance checklist →](/docs/learn/ai-compliance-checklist)  
-→ [EU AI Act Article 10 requirements →](/docs/learn/eu-ai-act-article-10)
+## Run this with SpanForge
+
+```bash
+pip install spanforge
+
+# Generate a Compliance Evidence Certificate
+spanforge cec generate --version 1.0.0 --output my-cec.pdf
+
+# Verify it (anyone can do this, including regulators and auditors)
+spanforge cec verify --file my-cec.pdf
+
+# Output:
+# ✓ Chain integrity verified
+# ✓ Signature valid
+# ✓ All artifacts present
+# ✓ Timestamps consistent
+```
+
+**What you get:** A cryptographically-signed, regulator-ready package linking every compliance artifact — dataset scan, PII report, redaction log, audit trail, policy record. One file. Independently verifiable. Accepted by auditors, enterprise buyers, and notified bodies.
+
+→ [CEC API reference →](/docs/api/cec)  
+→ [Audit trail guide →](/docs/guide/audit)  
+→ [CLI reference →](/docs/cli)  
+→ [30-second quickstart →](/docs/quickstart)
+
+---
+
+### Continue in Learn
+
+→ [AI compliance checklist →](/docs/learn/ai-compliance-checklist)  
+→ [EU AI Act Article 10 compliance guide →](/docs/learn/eu-ai-act-article-10)  
+→ [AI audit trail: track & prove decisions →](/docs/learn/what-is-ai-audit-trail)

@@ -1,4 +1,4 @@
-# What is an AI Audit Trail?
+# AI Audit Trail: How to Track and Prove AI Decisions (With Examples)
 
 ## The problem
 
@@ -86,6 +86,17 @@ with sf_observe.trace("loan-decision") as trace:
 
 ---
 
+## Input → SpanForge → Output → Impact
+
+| Stage | What happens |
+|-------|--------------|
+| **Input** | AI model receives `application_data`, runs inference, returns a loan decision |
+| **SpanForge** | Instruments every step — logs input hash, output hash, policy applied, and timestamp |
+| **Output** | Signed, chained event: `trace_id`, `input_hash`, `output_hash`, `signature`, `chain_link` |
+| **Impact** | Regulator asks "prove this decision." One command. Tamper-evident record, ready to submit. |
+
+---
+
 ## Try this in 30 seconds
 
 ```bash
@@ -123,9 +134,34 @@ spanforge audit export --format pdf --output audit-2025-q1.pdf
 
 ---
 
-## Next steps
+---
 
-→ [Build your first audit trail →](/docs/guide/audit)  
-→ [See the signing mechanism →](/docs/guide/signing)  
-→ [Export compliance evidence →](/docs/learn/what-is-compliance-evidence-chain)  
-→ [Pass EU AI Act Article 10 →](/docs/learn/eu-ai-act-article-10)
+## Run this with SpanForge
+
+```bash
+pip install spanforge
+
+# Start tracing your AI pipeline
+spanforge init
+
+# Build + view your audit trail
+spanforge audit trail --last 10
+
+# Export as regulator-ready evidence
+spanforge audit export --format pdf --output audit-q1.pdf
+```
+
+**What you get:** A tamper-evident, signed decision record — every inference, every policy check, every output hash. One command to package for a regulator, legal team, or enterprise buyer.
+
+→ [Audit trail SDK reference →](/docs/guide/audit)  
+→ [Signing & chain verification →](/docs/guide/signing)  
+→ [CLI reference →](/docs/cli)  
+→ [30-second quickstart →](/docs/quickstart)
+
+---
+
+### Continue in Learn
+
+→ [EU AI Act Article 10 compliance guide →](/docs/learn/eu-ai-act-article-10)  
+→ [What is a Compliance Evidence Chain? →](/docs/learn/what-is-compliance-evidence-chain)  
+→ [AI compliance checklist →](/docs/learn/ai-compliance-checklist)

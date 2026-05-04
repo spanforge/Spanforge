@@ -1,10 +1,29 @@
-# Learn — AI Compliance Explained
+# AI Compliance for AI Teams — Explained With Real Examples and CLI Commands
 
 Most AI compliance documentation assumes you already know what you need to prove, who you need to prove it to, and which regulations apply to your system.
 
 This section doesn't assume that.
 
 These pages explain the real problems, the real risks, and exactly what SpanForge does about each one — in language that works for engineers, CTOs, and compliance buyers.
+
+---
+
+## Start in 30 seconds
+
+```bash
+pip install spanforge
+
+# Scan your training data for PII
+spanforge validate --dataset data.jsonl --pii-check
+
+# Build and export an audit trail
+spanforge audit export --format pdf --output audit.pdf
+
+# Check your full compliance posture
+spanforge compliance check --all
+```
+
+Not sure which command to run first? Use the routing guide below.
 
 ---
 

@@ -1,4 +1,4 @@
-# How to Detect PII in Training Data
+# How to Detect PII in Training Data (With Examples and Commands)
 
 ## The problem
 
@@ -104,8 +104,33 @@ spanforge audit --dataset data.jsonl --format pdf
 
 ---
 
-## Next steps
+---
 
-→ [View the PII API reference →](/docs/api/pii)  
-→ [See the full compliance guide →](/docs/guide/compliance)  
-→ [Generate compliance evidence →](/docs/learn/what-is-compliance-evidence-chain)
+## Run this with SpanForge
+
+```bash
+pip install spanforge
+
+# Scan your dataset for PII
+spanforge validate --dataset data.jsonl --pii-check
+
+# Redact in place
+spanforge redact --dataset data.jsonl --output data.clean.jsonl
+
+# Generate a signed compliance report
+spanforge audit export --standard gdpr --format pdf
+```
+
+**What you get:** A PII-free dataset + a signed PDF showing every detection, confidence score, and regulation reference. Hand it directly to any auditor or enterprise procurement team.
+
+→ [PII redaction SDK reference →](/docs/guide/redaction)  
+→ [CLI reference →](/docs/cli)  
+→ [30-second quickstart →](/docs/quickstart)
+
+---
+
+### Continue in Learn
+
+→ [AI audit trail: track & prove decisions →](/docs/learn/what-is-ai-audit-trail)  
+→ [EU AI Act Article 10 compliance guide →](/docs/learn/eu-ai-act-article-10)  
+→ [What is a Compliance Evidence Chain? →](/docs/learn/what-is-compliance-evidence-chain)
