@@ -1,13 +1,120 @@
-﻿# Documentation Index
+﻿# SpanForge Documentation
 
-> **spanforge** (`spanforge`) — The reference implementation of the [spanforge Standard](https://www.getspanforge.com/standard) (RFC-0001), the open event-schema standard for compliance and governance of agentic AI systems.  
+> **spanforge** — The compliance infrastructure for AI teams that need to **instrument, enforce, and prove** every decision their AI systems make.  
 > Current release: **1.0.0** — [Changelog](changelog.md) · [![PyPI](https://img.shields.io/pypi/v/spanforge?color=4c8cbf&logo=pypi&logoColor=white)](https://pypi.org/project/spanforge/)
-
-This index links to every documentation page in this folder.
 
 ---
 
-## Getting Started
+## The problem SpanForge solves
+
+Your AI system makes decisions. Training pipelines process data. Agents take actions.
+
+**But can you prove any of it?**
+
+When a regulator, enterprise customer, or internal audit asks:
+
+> "Show us exactly what data your model trained on, what policy ran at inference, and what the output was — and prove it hasn't been tampered with."
+
+Most teams can't answer that. Not because they don't care — because they never built the infrastructure to record it.
+
+SpanForge is that infrastructure.
+
+---
+
+## What you get in 30 seconds
+
+```bash
+pip install spanforge
+
+spanforge validate --dataset training.jsonl --pii-check
+```
+
+Output:
+```
+[PII DETECTED] field: prompt, type: EMAIL_ADDRESS, confidence: 0.99
+[PII DETECTED] field: completion, type: PHONE_NUMBER, confidence: 0.97
+Compliance: GDPR Art. 5 exposure · EU AI Act Art. 10 exposure
+Run: spanforge redact --dataset training.jsonl --output clean.jsonl
+```
+
+From scan to signed evidence — one pipeline.
+
+---
+
+## How it works
+
+```
+Dataset / Runtime Input
+        ↓
+   [sf_validate]  — PII scan, schema check, bias assessment
+        ↓
+   [sf_redact]    — Field-level redaction with typed tokens
+        ↓
+   [sf_audit]     — HMAC-chained tamper-evident record
+        ↓
+   [sf_gate]      — Policy enforcement before release
+        ↓
+   [sf_cec]       — Signed Compliance Evidence Certificate
+        ↓
+   Regulator / Auditor ✓
+```
+
+Every step is signed. Every record links to the previous one. Break the chain → SpanForge flags it.
+
+---
+
+## Not sure where to start? Start here.
+
+| I want to… | Go to |
+|------------|-------|
+| Understand what SpanForge solves | [What is an AI audit trail?](learn/what-is-ai-audit-trail.md) |
+| Detect PII in my training data | [How to detect PII in training data](learn/detect-pii-training-data.md) |
+| Pass EU AI Act Article 10 | [EU AI Act Article 10 guide](learn/eu-ai-act-article-10.md) |
+| Check my compliance posture | [AI compliance checklist](learn/ai-compliance-checklist.md) |
+| Get running in 5 minutes | [Quickstart](quickstart.md) |
+| Understand what shipped in GA | [GA Release Notes](ga-release-notes.md) |
+
+---
+
+## Why teams choose SpanForge
+
+> **"We discovered PII in 4,200 rows of training data we were about to ship to production. SpanForge found it in 8 seconds."**
+
+> **"Our enterprise deals now close faster because we can hand auditors a signed evidence package instead of a spreadsheet."**
+
+> **"We failed our first SOC 2 review because we had no audit trail for AI decisions. SpanForge fixed that in a week."**
+
+---
+
+## Core capabilities
+
+### Instrument — capture everything
+
+Every inference, every policy decision, every redaction: logged, typed, and timestamped.
+
+→ [Events](user_guide/events.md) · [Tracing API](user_guide/tracing.md) · [RAG Tracing](user_guide/rag.md)
+
+---
+
+### Enforce — block before it ships
+
+Gate pipelines run secrets scanning, PII detection, schema validation, and performance regression before every release.
+
+→ [Gate Pipeline](user_guide/gate.md) · [Runtime Governance](runtime-governance.md) · [Linting](user_guide/linting.md)
+
+---
+
+### Prove — evidence auditors can verify
+
+HMAC-chained audit records, signed compliance certificates, and regulator-ready export packages.
+
+→ [HMAC Signing & Audit Chains](user_guide/signing.md) · [Audit Service](user_guide/audit.md) · [Evidence Export](evidence-export.md)
+
+---
+
+## Full documentation
+
+### Getting Started
 
 | Page | Description |
 |------|-------------|

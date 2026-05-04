@@ -1,5 +1,19 @@
 # Runtime Governance GA Guide
 
+## Why this matters
+
+Most AI teams build AI systems. Very few build the control plane that governs them.
+
+The difference becomes visible the first time something goes wrong at scale:
+
+> **Without runtime governance:** An agent exceeds its intended scope. It accesses a resource it shouldn't. The action is logged — but the log is just a line in a file. There's no policy record, no signed evidence, no proof of what rules were in force at the time of the incident.
+>
+> **With SpanForge runtime governance:** Every action is evaluated against a versioned policy bundle. Every decision — `allow`, `block`, `human_review` — is signed and appended to the audit chain. Replay tools let you re-run any incident against a new policy to prove your current rules would have caught it.
+
+Regulators under the EU AI Act (Article 9) require risk management systems that are *operational throughout the lifecycle of the high-risk AI system.* That means runtime, not just training-time.
+
+---
+
 SpanForge GA is centered on one operational story:
 
 `runtime request -> policy decision -> signed evidence -> operator review -> export package`

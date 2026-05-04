@@ -59,6 +59,26 @@ export default function DocsPage({ params }) {
       >
         {content}
       </ReactMarkdown>
+
+      <div className={styles.pageCTA}>
+        <p className={styles.pageCTAHeading}>Ready to instrument your AI pipeline?</p>
+        <div className={styles.pageCTAActions}>
+          <Link href="/docs/quickstart" className={styles.pageCTAPrimary}>
+            Try the 30-second quickstart
+          </Link>
+          <Link href="/docs/learn/ai-compliance-checklist" className={styles.pageCTASecondary}>
+            See the compliance checklist
+          </Link>
+          <a
+            href="https://github.com/spanforge/spanforge"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.pageCTASecondary}
+          >
+            View on GitHub
+          </a>
+        </div>
+      </div>
     </article>
   )
 }

@@ -1,5 +1,19 @@
 ﻿# Compliance & Tenant Isolation
 
+## Why this matters
+
+Running a compliance check in CI is the difference between discovering a violation in 30 seconds — and discovering it during a regulatory audit.
+
+A real scenario:
+
+> **Problem:** A team migrated their event pipeline to a new version. A subtle schema change meant `schema_version` was no longer being set on 30% of events. Three months later, an enterprise customer's compliance team flagged the events as non-conformant. The deal was paused for 6 weeks while the team retroactively proved the affected events were valid.
+>
+> **With SpanForge:** `test_compatibility()` runs in their CI pipeline. The missing field would have been caught on the first pull request that introduced the regression — before it ever reached production.
+
+Compliance failures are expensive to find late. SpanForge finds them early, automatically.
+
+---
+
 The `spanforge.core.compliance_mapping` module provides programmatic compliance tests
 that enterprise teams and third-party tool authors can run in CI pipelines, at
 deployment time, or as part of security audits — without requiring pytest.

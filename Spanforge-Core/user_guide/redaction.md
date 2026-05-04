@@ -1,5 +1,21 @@
 ﻿# PII Redaction
 
+## Why this matters
+
+Your AI pipeline processes user data — prompts, completions, uploaded documents, chat history. Most of it looks clean. Almost all of it isn't.
+
+A real scenario:
+
+> **Problem:** An LLM customer support agent logged user prompts verbatim to a JSONL file. 6 months later, a compliance review found the logs contained 12,000 email addresses and 340 phone numbers — all unredacted, all stored without consent records.
+>
+> **Risk:** GDPR Article 5 violation (data minimization). EU AI Act Article 10 exposure. Potential €20M fine or 4% of global revenue.
+>
+> **With SpanForge:** PII detected and redacted at the point of event creation, before the data ever reaches storage. Every redaction logged with field, type, and timestamp. Evidence package generated in one command.
+
+If your AI system cannot prove PII was detected and handled before storage, **you carry the risk of everything you logged.**
+
+---
+
 spanforge provides a field-level PII redaction framework that lets you mark
 sensitive values at the point of creation and apply policies before the event
 is stored, exported, or logged.

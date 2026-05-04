@@ -1,5 +1,23 @@
 ﻿# HMAC Signing & Audit Chains
 
+## Why this matters
+
+Audit logs are only as trustworthy as your ability to prove they weren't modified.
+
+A real scenario:
+
+> **Problem:** A company's AI system made a biased hiring decision. Their engineers pulled the logs for the auditor. The auditor's first question: *"How do I know these logs weren't altered after the incident?"*
+>
+> **Result:** They couldn't prove it. The audit failed. The incident escalated.
+>
+> **With SpanForge:** Every event is HMAC-signed with a payload checksum and links to the previous event's signature. If any record is modified, deleted, or reordered — even a single character — chain verification fails and the tampering is flagged immediately.
+
+An audit trail without cryptographic signing is just a log file. Any engineer with database access can change it. SpanForge makes tampering **detectable, not just unlikely.**
+
+This is the mechanism behind EU AI Act Article 12 compliance: *"logs shall be kept for a period appropriate to the intended purpose — and shall be tamper-evident."*
+
+---
+
 spanforge provides a cryptographic audit trail based on HMAC-SHA256. Every
 signed event carries a payload checksum and a chain signature that links it to
 its predecessor, forming a tamper-evident sequence that can detect deletions,

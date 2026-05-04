@@ -7,16 +7,39 @@ import styles from './DocsSidebar.module.css'
 
 const NAV = [
   {
-    group: 'Getting Started',
+    group: 'Start Here',
     items: [
       { label: 'Overview', href: '/docs' },
-      { label: 'Quickstart', href: '/docs/quickstart' },
+      { label: 'Quickstart — 30 seconds', href: '/docs/quickstart' },
       { label: 'Installation', href: '/docs/installation' },
       { label: 'Configuration', href: '/docs/configuration' },
     ],
   },
   {
+    group: 'Learn',
+    items: [
+      { label: 'Learn overview', href: '/docs/learn' },
+      { label: 'How to detect PII in training data', href: '/docs/learn/detect-pii-training-data' },
+      { label: 'What is an AI audit trail?', href: '/docs/learn/what-is-ai-audit-trail' },
+      { label: 'How to pass EU AI Act Article 10', href: '/docs/learn/eu-ai-act-article-10' },
+      { label: 'AI compliance checklist', href: '/docs/learn/ai-compliance-checklist' },
+      { label: 'What is a Compliance Evidence Chain?', href: '/docs/learn/what-is-compliance-evidence-chain' },
+    ],
+  },
+  {
+    group: 'Use Cases',
+    items: [
+      { label: 'Detect & redact PII', href: '/docs/guide/redaction' },
+      { label: 'Build an AI audit trail', href: '/docs/guide/audit' },
+      { label: 'Generate compliance evidence', href: '/docs/evidence-export' },
+      { label: 'Enforce governance policies', href: '/docs/guide/gate' },
+      { label: 'Trace RAG pipelines', href: '/docs/guide/rag' },
+      { label: 'Alert on violations', href: '/docs/guide/alert' },
+    ],
+  },
+  {
     group: 'User Guide',
+    collapsible: true,
     items: [
       { label: 'Events', href: '/docs/guide/events' },
       { label: 'Tracing API', href: '/docs/guide/tracing' },
@@ -214,13 +237,16 @@ export default function DocsSidebar() {
   const [openSections, setOpenSections] = useState(() => {
     const initial = {}
     NAV.forEach((s) => {
-      if (s.collapsible) initial[s.group] = pathname.startsWith('/docs/api') && s.group === 'API Reference'
-        || pathname.startsWith('/docs/namespaces') && s.group === 'Namespace Payloads'
+      if (s.collapsible) initial[s.group] =
+        (pathname.startsWith('/docs/api') && s.group === 'API Reference') ||
+        (pathname.startsWith('/docs/namespaces') && s.group === 'Namespace Payloads') ||
+        (pathname.startsWith('/docs/guide') && s.group === 'User Guide')
     })
     return initial
   })
   const apiSectionId = useId()
   const namespaceSectionId = useId()
+  const userGuideSectionId = useId()
 
   const toggleSection = (group) =>
     setOpenSections((prev) => ({ ...prev, [group]: !prev[group] }))
@@ -231,6 +257,7 @@ export default function DocsSidebar() {
   const getSectionId = (group) => {
     if (group === 'API Reference') return apiSectionId
     if (group === 'Namespace Payloads') return namespaceSectionId
+    if (group === 'User Guide') return userGuideSectionId
     return undefined
   }
 

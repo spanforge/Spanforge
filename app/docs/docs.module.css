@@ -186,3 +186,60 @@
     border-bottom: none;
   }
 }
+
+/* ── Page-end CTA ─────────────────────────────────────────────────────────── */
+
+.pageCTA {
+  margin-top: 3.5rem;
+  padding: 1.75rem 1.5rem;
+  border-radius: 1.25rem;
+  background: linear-gradient(135deg, rgba(18, 102, 241, 0.07) 0%, rgba(18, 102, 241, 0.03) 100%);
+  border: 1px solid rgba(18, 102, 241, 0.15);
+}
+
+.pageCTAHeading {
+  margin: 0 0 1.1rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--white);
+  letter-spacing: -0.02em;
+}
+
+.pageCTAActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.pageCTAPrimary {
+  display: inline-block;
+  padding: 0.5rem 1.1rem;
+  border-radius: 0.6rem;
+  background: var(--accent);
+  color: #fff !important;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none !important;
+  transition: opacity 0.15s;
+}
+
+.pageCTAPrimary:hover {
+  opacity: 0.88;
+}
+
+.pageCTASecondary {
+  display: inline-block;
+  padding: 0.5rem 1.1rem;
+  border-radius: 0.6rem;
+  background: rgba(18, 102, 241, 0.08);
+  border: 1px solid rgba(18, 102, 241, 0.2);
+  color: var(--accent) !important;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none !important;
+  transition: background 0.15s;
+}
+
+.pageCTASecondary:hover {
+  background: rgba(18, 102, 241, 0.14);
+}

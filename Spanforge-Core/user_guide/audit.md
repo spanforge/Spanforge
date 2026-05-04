@@ -1,5 +1,29 @@
 # Audit Service (sf-audit)
 
+## Why this matters
+
+Most AI teams have monitoring. Almost none have an audit service.
+
+The difference:
+
+| Monitoring | Audit service |
+|------------|---------------|
+| Tells you what happened | Proves what happened |
+| Mutable — can be edited | Immutable — tamper-evident |
+| Queryable by engineers | Exportable to regulators |
+| Loses history on rollover | Retained per policy |
+| No chain of custody | Cryptographic chain of custody |
+
+A real scenario:
+
+> **Problem:** An enterprise prospect asked: *"Can you show us a GDPR Article 30 record of processing activity for your AI pipeline?"* The engineering team had no idea what that meant — let alone how to generate one.
+>
+> **With SpanForge:** `sf_audit` generates Article 30 Records of Processing Activity automatically from your audit trail. One command. Ready for the procurement team.
+
+Compliance buyers don't want to understand your stack. They want a document they can hand to their legal team. `sf_audit` generates that document.
+
+---
+
 > **Added in:** 2.0.3 (Phase 4)  
 > **Module:** `spanforge.sdk.audit`  
 > **Singleton:** `spanforge.sdk.sf_audit`

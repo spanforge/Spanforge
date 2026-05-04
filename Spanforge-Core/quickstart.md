@@ -1,5 +1,28 @@
 ﻿# Quickstart
 
+## The problem this solves
+
+AI teams get caught in audits with no proof.
+
+A customer asks: *"Can you show us your training data governance?"*  
+A regulator asks: *"Prove this model output was policy-compliant."*  
+An enterprise procurement team asks: *"Where's your audit trail?"*
+
+Most teams have logs scattered across systems, no chain of custody, and no way to generate a verifiable evidence package in under an hour. SpanForge fixes this: from first install to signed audit trail in under 5 minutes.
+
+---
+
+## Why it matters
+
+If your AI system cannot prove its decisions:
+- You **fail compliance audits** — EU AI Act Article 12 requires tamper-evident logging for high-risk systems
+- You **lose enterprise deals** — procurement teams require SOC 2 / ISO 42001 evidence
+- You **carry hidden PII risk** — training data almost always contains personal data teams don't know about
+
+SpanForge makes every inference, redaction, and policy decision verifiable — before you ever talk to an auditor.
+
+---
+
 spanforge is the reference implementation of **RFC-0001 spanforge** — the open
 event-schema standard for compliance and governance of agentic AI systems. This page walks
 you through creating your first event, signing an audit chain, and exporting to
@@ -691,6 +714,15 @@ See the full [Testing Mocks API reference](api/testing.md#spanforgetesting_mocks
 ---
 
 ## Next steps
+
+### Understand the problem space
+
+- [What is an AI audit trail?](learn/what-is-ai-audit-trail.md) — why logs alone don't protect you
+- [How to detect PII in training data](learn/detect-pii-training-data.md) — your dataset probably has PII you don't know about
+- [How to pass EU AI Act Article 10](learn/eu-ai-act-article-10.md) — the August 2026 deadline explained
+- [AI compliance checklist](learn/ai-compliance-checklist.md) — assess your current posture
+
+### Go deeper into SpanForge
 
 - [Runtime Governance GA Guide](runtime-governance.md) — GA services, policy actions, replay/simulation, operator workflow, evidence export
 - [Runtime Governance Demo](demos/runtime-governance-demo.md) — runnable trace-to-evidence walkthrough
